@@ -5,13 +5,10 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class GridWorld : MonoBehaviour, IPointerDownHandler {
-    [SerializeField] Renderer planeRenderer = null;
+public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] Image image = null;
     [SerializeField] Texture2D tex = null;
-    [SerializeField] Vector2 cursor;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
-    Vector2Int cursorInt => new Vector2Int((int)cursor.x, (int)cursor.y);
     static readonly Color32 RED = new Color32(255, 0, 0, 255);
     static readonly Color32 BLUE = new Color32(0, 0, 255, 255);
     static readonly Color32 WHITE_TIK = new Color32(255, 255, 255, 0);
@@ -36,64 +33,22 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler {
     Vector2 maxCursor => new Vector2(maxCursorInt.x, maxCursorInt.y);
 
     void Start() {
-        //sprite.texture
-
-        //tex = new Texture2D(texSize, texSize, TextureFormat.RGB24, false);
-        //tex.SetPixels32(Enumerable.Repeat(WHITE_TOK, tex.width * tex.height).ToArray());
-        //tex.wrapMode = TextureWrapMode.Clamp;
-        //tex.alphaIsTransparency = false;
-        //planeRenderer.material.mainTexture = tex;
-        //tex = Instantiate(planeRenderer.material.mainTexture as Texture2D);
-
         tex = Instantiate(image.sprite.texture);
 
-        var bitmap = tex.GetPixels32(0);
-
-        FloodFill(bitmap, Vector2Int.zero, Color.white, Color.blue);
-        FloodFill(bitmap, new Vector2Int(tex.width-1,tex.height-1), Color.white, Color.yellow);
-        FloodFill(bitmap, new Vector2Int(tex.width/2,tex.height/2), Color.white, Color.magenta);
-
-        for (int i = 0; i < 1000; i++) {
-            bitmap[i] = Color.red;
-        }
-
-        tex.SetPixels32(bitmap);
-        tex.Apply();
-
-        //planeRenderer.material.mainTexture = tex;
-        image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
-
-
-
-        cursor = Vector2.one * texSize / 2;
-    }
-
-    bool tikTok = false;
-
-    void Update() {
-
-        
-        
         // var bitmap = tex.GetPixels32(0);
 
-        // var oldWhite = tikTok ? WHITE_TIK : WHITE_TOK;
-        // var newWhite = tikTok ? WHITE_TOK : WHITE_TIK;
-        // FloodFill(bitmap, Vector2Int.zero, oldWhite, newWhite);
+        // FloodFill(bitmap, Vector2Int.zero, Color.white, Color.blue);
+        // FloodFill(bitmap, new Vector2Int(tex.width-1,tex.height-1), Color.white, Color.yellow);
+        // FloodFill(bitmap, new Vector2Int(tex.width/2,tex.height/2), Color.white, Color.magenta);
 
-        // for (int i = 0; i < bitmap.Length; i++) {
-        //     if (ColorMatch(bitmap[i], oldWhite)) {
-        //         bitmap[i] = RED;
-        //     }
+        // for (int i = 0; i < 1000; i++) {
+        //     bitmap[i] = Color.red;
         // }
 
-        // tikTok = !tikTok;
-
-
         // tex.SetPixels32(bitmap);
-        // SetPixelsByPattern(cursorInt, crossPattern, BLUE);
         // tex.Apply();
 
-        // cursor = new Vector2(Mathf.Clamp(cursor.x - Input.GetAxis("Horizontal"), minCursor.x, maxCursor.x - 1), Mathf.Clamp(cursor.y - Input.GetAxis("Vertical"), minCursor.y, maxCursor.y - 1));
+        image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
     }
 
     void SetPixelsByPattern(Vector2Int cursorInt, Vector2Int[] pattern, Color32 color) {
@@ -145,21 +100,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler {
     }
 
     public void OnPointerDown(PointerEventData eventData) {
-        Debug.Log($"World position 1 = {eventData.pointerCurrentRaycast.worldPosition}");
-        var loc = transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
-        Debug.Log($"World position 2 = {eventData.pointerPressRaycast.worldPosition}");
-
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.GetComponent<RectTransform>(), eventData.position, Camera.main, out Vector2 localPoint)) {
-            Fill(localPoint);
-            Debug.Log($"Local position = {localPoint}");
-        }
-        //eventData.position
-
-        //Physics2D.Raycast(Camera.main.transform.position, )
-
-        //eventData.
-        
-        
     }
 
     void Fill(Vector2 p) {
@@ -178,6 +118,19 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler {
             FloodFill(bitmap, new Vector2Int(ix, iy), Color.white, paletteButtonGroup.CurrentPaletteColor);
             image.sprite.texture.SetPixels32(bitmap);
             image.sprite.texture.Apply();
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData) {
+        if (eventData.dragging == false) {
+            Debug.Log($"World position 1 = {eventData.pointerCurrentRaycast.worldPosition}");
+            var loc = transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
+            Debug.Log($"World position 2 = {eventData.pointerPressRaycast.worldPosition}");
+
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.GetComponent<RectTransform>(), eventData.position, Camera.main, out Vector2 localPoint)) {
+                Fill(localPoint);
+                Debug.Log($"Local position = {localPoint}");
+            }
         }
     }
 }
