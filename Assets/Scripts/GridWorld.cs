@@ -34,25 +34,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     // exclusive
     Vector2 maxCursor => new Vector2(maxCursorInt.x, maxCursorInt.y);
 
-    void Start() {
-        //tex = new Texture2D(2, 2, TextureFormat.RGBA32, false, false);
-        //tex.LoadImage(pngAsset.bytes);
-
-        tex = Instantiate(image.sprite.texture);
-
-        // var bitmap = tex.GetPixels32(0);
-
-        // FloodFill(bitmap, Vector2Int.zero, Color.white, Color.blue);
-        // FloodFill(bitmap, new Vector2Int(tex.width-1,tex.height-1), Color.white, Color.yellow);
-        // FloodFill(bitmap, new Vector2Int(tex.width/2,tex.height/2), Color.white, Color.magenta);
-
-        // for (int i = 0; i < 1000; i++) {
-        //     bitmap[i] = Color.red;
-        // }
-
-        // tex.SetPixels32(bitmap);
-        // tex.Apply();
-
+    public void LoadTexture(Texture2D inputTexture) {
+        tex = Instantiate(inputTexture);
         image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
     }
 
