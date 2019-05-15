@@ -9,6 +9,8 @@ public class PinchZoom : MonoBehaviour {
     [SerializeField] float maxScale = 5.0f;
     [SerializeField] Slider zoomSlider = null;
 
+    public static bool PinchZooming => Input.touchCount == 2;
+
     void Update() {
         // If there are two touches on the device...
         if (Input.touchCount == 2) {
@@ -28,7 +30,7 @@ public class PinchZoom : MonoBehaviour {
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             // Slider 콜백을 유도한다.
-            zoomSlider.value = Mathf.Clamp(zoomSlider.value + deltaMagnitudeDiff, minScale, maxScale);
+            zoomSlider.value = Mathf.Clamp(zoomSlider.value - deltaMagnitudeDiff / 200.0f, minScale, maxScale);
         }
     }
 

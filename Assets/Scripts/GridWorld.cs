@@ -9,6 +9,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] Image image = null;
     [SerializeField] Texture2D tex = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
+    //[SerializeField] TextAsset pngAsset = null;
+
     static readonly Color32 RED = new Color32(255, 0, 0, 255);
     static readonly Color32 BLUE = new Color32(0, 0, 255, 255);
     static readonly Color32 WHITE_TIK = new Color32(255, 255, 255, 0);
@@ -33,6 +35,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     Vector2 maxCursor => new Vector2(maxCursorInt.x, maxCursorInt.y);
 
     void Start() {
+        //tex = new Texture2D(2, 2, TextureFormat.RGBA32, false, false);
+        //tex.LoadImage(pngAsset.bytes);
+
         tex = Instantiate(image.sprite.texture);
 
         // var bitmap = tex.GetPixels32(0);
@@ -109,7 +114,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             var w = transform.GetComponent<RectTransform>().rect.width;
             var h = transform.GetComponent<RectTransform>().rect.height;
 
-            Debug.Log($"w={w} / h={h}");
+            //Debug.Log($"w={w} / h={h}");
 
             var ix = (int)((p.x + w/2) / w * image.sprite.texture.width);
             var iy = (int)((p.y + h/2) / h * image.sprite.texture.height);
@@ -123,13 +128,13 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
     public void OnPointerUp(PointerEventData eventData) {
         if (eventData.dragging == false) {
-            Debug.Log($"World position 1 = {eventData.pointerCurrentRaycast.worldPosition}");
+            //Debug.Log($"World position 1 = {eventData.pointerCurrentRaycast.worldPosition}");
             var loc = transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
-            Debug.Log($"World position 2 = {eventData.pointerPressRaycast.worldPosition}");
+            //Debug.Log($"World position 2 = {eventData.pointerPressRaycast.worldPosition}");
 
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.GetComponent<RectTransform>(), eventData.position, Camera.main, out Vector2 localPoint)) {
                 Fill(localPoint);
-                Debug.Log($"Local position = {localPoint}");
+                //Debug.Log($"Local position = {localPoint}");
             }
         }
     }

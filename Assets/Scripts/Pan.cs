@@ -11,7 +11,7 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
     static bool panningMutex = false;
 
     public void OnBeginDrag(PointerEventData eventData) {
-        if (panningMutex == false) {
+        if (PinchZoom.PinchZooming == false && panningMutex == false) {
             panningMutex = true;
             panning = true;
             RectTransformUtility.ScreenPointToWorldPointInRectangle(GetComponent<RectTransform>(), eventData.position, Camera.main, out beginDragWorldPosition);
