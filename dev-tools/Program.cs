@@ -8,18 +8,20 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace black_dev_tools {
     class Program {
         static void Main(string[] args) {
-            using (Image<Rgba32> image = Image.Load("/Users/kimgeoyeob/black/Art/190527_Colored.png")) {
+            var sourcePngFileName = "/Users/kimgeoyeob/black/Art/190527_Colored.png";
+            using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
                 var whiteCount = 0;
                 Dictionary<Rgba32, int> pixelCountByColor = new Dictionary<Rgba32, int>();
                 Dictionary<Vector2Int, Rgba32> islandColorByMinPoint = new Dictionary<Vector2Int, Rgba32>();
                 Dictionary<Vector2Int, int> islandPixelAreaByMinPoint = new Dictionary<Vector2Int, int>();
                 Dictionary<Rgba32, int> islandCountByColor = new Dictionary<Rgba32, int>();
                 Dictionary<int, int> islandCountByPixelArea = new Dictionary<int, int>();
-
+                
                 for (int h = 0; h < image.Height; h++) {
                     for (int w = 0; w < image.Width; w++) {
                         var pixelColor = image[w, h];
@@ -64,6 +66,20 @@ namespace black_dev_tools {
                 foreach (var kv in islandCountByPixelArea.OrderByDescending(kv => kv.Key)) {
                     Console.WriteLine($"Pixel Area #{pixelAreaCountIndex} {kv.Key}: islandCount={kv.Value}");
                     pixelAreaCountIndex++;
+                }
+
+                Dictionary<uint, uint> islandColorByMinPointPrimitive = new Dictionary<uint, uint>();
+                foreach (var kv in islandColorByMinPoint) {
+                    var p = ((uint)kv.Key.y << 16) + (uint)kv.Key.x;
+                    var c = ((uint)kv.Value.A << 24) + ((uint)kv.Value.B << 16) + ((uint)kv.Value.G << 8) + (uint)kv.Value.R;
+                    islandColorByMinPointPrimitive[p] = c;
+                }
+
+                var imageName = Path.GetFileNameWithoutExtension(sourcePngFileName);
+                using (var stream = File.Create("../Assets/Island Data/" + imageName + ".bytes")) {
+                    var formatter = new BinaryFormatter();
+                    formatter.Serialize(stream, islandColorByMinPointPrimitive);
+                    stream.Close();
                 }
             }
         }

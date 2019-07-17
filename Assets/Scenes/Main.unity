@@ -1941,6 +1941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultTexture: {fileID: 2800000, guid: cb436e7aef0c6f64fb2d8e90279c209c, type: 3}
   gridWorld: {fileID: 1643267984}
+  islandData: {fileID: 4900000, guid: 50a156d86a880488a873bbc2abb3443f, type: 3}
 --- !u!4 &1037197465
 Transform:
   m_ObjectHideFlags: 0
