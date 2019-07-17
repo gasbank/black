@@ -10,19 +10,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] Texture2D tex = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
     //[SerializeField] TextAsset pngAsset = null;
-
-    static readonly Color32 RED = new Color32(255, 0, 0, 255);
-    static readonly Color32 BLUE = new Color32(0, 0, 255, 255);
-    static readonly Color32 WHITE_TIK = new Color32(255, 255, 255, 0);
-    static readonly Color32 WHITE_TOK = new Color32(255, 255, 255, 255);
-    static readonly Vector2Int[] crossPattern = {
-        new Vector2Int(0, 0),
-        new Vector2Int(-1, 0),
-        new Vector2Int(+1, 0),
-        new Vector2Int(0, -1),
-        new Vector2Int(0, +1),
-    };
-
+    Dictionary<uint, uint> islandColorByMinPointPrimitive;
 
     int texSize => tex.width;
     // inclusive
@@ -34,9 +22,10 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     // exclusive
     Vector2 maxCursor => new Vector2(maxCursorInt.x, maxCursorInt.y);
 
-    public void LoadTexture(Texture2D inputTexture) {
+    public void LoadTexture(Texture2D inputTexture, Dictionary<uint, uint> islandColorByMinPointPrimitive) {
         tex = Instantiate(inputTexture);
         image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
+        this.islandColorByMinPointPrimitive = islandColorByMinPointPrimitive;
     }
 
     void SetPixelsByPattern(Vector2Int cursorInt, Vector2Int[] pattern, Color32 color) {
@@ -59,10 +48,28 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     void SetPixel(Color32[] bitmap, int x, int y, Color c) {
         bitmap[x + y * texSize] = c;
     }
-    
+
+    private void UpdateFillMinPoint(ref Vector2Int fillMinPoint, Vector2Int w) {
+        w.y = texSize - w.y - 1;
+        if (fillMinPoint.x > w.x || (fillMinPoint.x == w.x && fillMinPoint.y > w.y)) {
+            fillMinPoint.x = w.x;
+            fillMinPoint.y = w.y;
+        }
+    }
+
+    private static uint GetC(Color32 v) {
+        return ((uint)v.a << 24) + ((uint)v.b << 16) + ((uint)v.g << 8) + (uint)v.r;
+    }
+
+    private uint GetP(Vector2Int k) {
+        return ((uint)k.y << 16) + (uint)k.x;
+    }
+
     void FloodFill(Color32[] bitmap, Vector2Int pt, Color32 targetColor, Color32 replacementColor) {
         Queue<Vector2Int> q = new Queue<Vector2Int>();
         q.Enqueue(pt);
+        var fillMinPoint = new Vector2Int(texSize, texSize);
+        List<Vector2Int> pixelList = new List<Vector2Int>();
         while (q.Count > 0) {
             var n = q.Dequeue();
             if (!ColorMatch(GetPixel(bitmap, n.x, n.y), targetColor))
@@ -70,6 +77,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             Vector2Int w = n, e = new Vector2Int(n.x + 1, n.y);
             while ((w.x >= 0) && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor)) {
                 SetPixel(bitmap, w.x, w.y, replacementColor);
+                pixelList.Add(w);
+                UpdateFillMinPoint(ref fillMinPoint, w);
                 if ((w.y > 0) && ColorMatch(GetPixel(bitmap, w.x, w.y - 1), targetColor))
                     q.Enqueue(new Vector2Int(w.x, w.y - 1));
                 if ((w.y < texSize - 1) && ColorMatch(GetPixel(bitmap, w.x, w.y + 1), targetColor))
@@ -78,11 +87,31 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             }
             while ((e.x <= texSize - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor)) {
                 SetPixel(bitmap, e.x, e.y, replacementColor);
+                pixelList.Add(e);
+                UpdateFillMinPoint(ref fillMinPoint, e);
                 if ((e.y > 0) && ColorMatch(GetPixel(bitmap, e.x, e.y - 1), targetColor))
                     q.Enqueue(new Vector2Int(e.x, e.y - 1));
                 if ((e.y < texSize - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y + 1), targetColor))
                     q.Enqueue(new Vector2Int(e.x, e.y + 1));
                 e.x++;
+            }
+        }
+        if (pixelList.Count > 0) {
+            if (pixelList.Count <= 256) {
+                foreach (var pixel in pixelList) {
+                    Debug.Log($"Fill Pixel: {pixel.x}, {texSize - pixel.y - 1}");    
+                }
+            }
+            Debug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
+            var solutionColorUint = islandColorByMinPointPrimitive[GetP(fillMinPoint)];
+            Color32 solutionColor = new Color32(
+                (byte)(solutionColorUint & 0xff),
+                (byte)((solutionColorUint >> 8) & 0xff),
+                (byte)((solutionColorUint >> 16) & 0xff),
+                (byte)((solutionColorUint >> 24) & 0xff));
+            Debug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
+            foreach (var pixel in pixelList) {
+                SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
             }
         }
     }
@@ -99,8 +128,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
             //Debug.Log($"w={w} / h={h}");
 
-            var ix = (int)((p.x + w/2) / w * image.sprite.texture.width);
-            var iy = (int)((p.y + h/2) / h * image.sprite.texture.height);
+            var ix = (int)((p.x + w / 2) / w * image.sprite.texture.width);
+            var iy = (int)((p.y + h / 2) / h * image.sprite.texture.height);
 
             var bitmap = image.sprite.texture.GetPixels32();
             FloodFill(bitmap, new Vector2Int(ix, iy), Color.white, paletteButtonGroup.CurrentPaletteColor);

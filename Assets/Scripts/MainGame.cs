@@ -12,12 +12,6 @@ public class MainGame : MonoBehaviour {
     Dictionary<uint, uint> islandColorByMinPointPrimitive;
 
     void Awake() {
-        if (StageButton.currentStageTexture != null) {
-            gridWorld.LoadTexture(StageButton.currentStageTexture);
-        } else {
-            gridWorld.LoadTexture(defaultTexture);
-        }
-
         using (var stream = new MemoryStream(islandData.bytes)) {
             var formatter = new BinaryFormatter();
             islandColorByMinPointPrimitive = (Dictionary<uint, uint>)formatter.Deserialize(stream);
@@ -25,5 +19,11 @@ public class MainGame : MonoBehaviour {
         }
 
         Debug.Log($"{islandColorByMinPointPrimitive.Count} islands loaded.");
+
+        if (StageButton.currentStageTexture != null) {
+            gridWorld.LoadTexture(StageButton.currentStageTexture, islandColorByMinPointPrimitive);
+        } else {
+            gridWorld.LoadTexture(defaultTexture, islandColorByMinPointPrimitive);
+        }
     }
 }

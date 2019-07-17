@@ -14,6 +14,7 @@ namespace black_dev_tools {
     class Program {
         static void Main(string[] args) {
             var sourcePngFileName = "/Users/kimgeoyeob/black/Art/190527_Colored.png";
+            //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190717_8x8_Colored.png";
             using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
                 var whiteCount = 0;
                 Dictionary<Rgba32, int> pixelCountByColor = new Dictionary<Rgba32, int>();
@@ -70,8 +71,8 @@ namespace black_dev_tools {
 
                 Dictionary<uint, uint> islandColorByMinPointPrimitive = new Dictionary<uint, uint>();
                 foreach (var kv in islandColorByMinPoint) {
-                    var p = ((uint)kv.Key.y << 16) + (uint)kv.Key.x;
-                    var c = ((uint)kv.Value.A << 24) + ((uint)kv.Value.B << 16) + ((uint)kv.Value.G << 8) + (uint)kv.Value.R;
+                    var p = GetP(kv.Key);
+                    var c = GetC(kv.Value);
                     islandColorByMinPointPrimitive[p] = c;
                 }
 
@@ -82,6 +83,14 @@ namespace black_dev_tools {
                     stream.Close();
                 }
             }
+        }
+
+        private static uint GetC(Rgba32 v) {
+            return ((uint)v.A << 24) + ((uint)v.B << 16) + ((uint)v.G << 8) + (uint)v.R;
+        }
+
+        private static uint GetP(Vector2Int k) {
+            return ((uint)k.y << 16) + (uint)k.x;
         }
 
         private static void IncreaseCountOfDictionaryValue<T>(Dictionary<T, int> pixelCountByColor, T pixel) {
