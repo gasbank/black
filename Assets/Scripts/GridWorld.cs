@@ -10,7 +10,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] Texture2D tex = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
     //[SerializeField] TextAsset pngAsset = null;
-    Dictionary<uint, uint> islandColorByMinPointPrimitive;
+    StageData stageData;
 
     int texSize => tex.width;
     // inclusive
@@ -22,10 +22,10 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     // exclusive
     Vector2 maxCursor => new Vector2(maxCursorInt.x, maxCursorInt.y);
 
-    public void LoadTexture(Texture2D inputTexture, Dictionary<uint, uint> islandColorByMinPointPrimitive) {
+    public void LoadTexture(Texture2D inputTexture, StageData stageData) {
         tex = Instantiate(inputTexture);
         image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
-        this.islandColorByMinPointPrimitive = islandColorByMinPointPrimitive;
+        this.stageData = stageData;
     }
 
     void SetPixelsByPattern(Vector2Int cursorInt, Vector2Int[] pattern, Color32 color) {
@@ -103,7 +103,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 }
             }
             Debug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
-            var solutionColorUint = islandColorByMinPointPrimitive[GetP(fillMinPoint)];
+            var solutionColorUint = stageData.islandDataByMinPoint[GetP(fillMinPoint)].rgba;
             Color32 solutionColor = new Color32(
                 (byte)(solutionColorUint & 0xff),
                 (byte)((solutionColorUint >> 8) & 0xff),

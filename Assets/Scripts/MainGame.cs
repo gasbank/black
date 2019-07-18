@@ -9,21 +9,21 @@ public class MainGame : MonoBehaviour {
     [SerializeField] Texture2D defaultTexture = null;
     [SerializeField] GridWorld gridWorld = null;
     [SerializeField] TextAsset islandData = null;
-    Dictionary<uint, uint> islandColorByMinPointPrimitive;
+    StageData stageData;
 
     void Awake() {
         using (var stream = new MemoryStream(islandData.bytes)) {
             var formatter = new BinaryFormatter();
-            islandColorByMinPointPrimitive = (Dictionary<uint, uint>)formatter.Deserialize(stream);
+            stageData = (StageData)formatter.Deserialize(stream);
             stream.Close();
         }
 
-        Debug.Log($"{islandColorByMinPointPrimitive.Count} islands loaded.");
+        Debug.Log($"{stageData.islandDataByMinPoint.Count} islands loaded.");
 
         if (StageButton.currentStageTexture != null) {
-            gridWorld.LoadTexture(StageButton.currentStageTexture, islandColorByMinPointPrimitive);
+            gridWorld.LoadTexture(StageButton.currentStageTexture, stageData);
         } else {
-            gridWorld.LoadTexture(defaultTexture, islandColorByMinPointPrimitive);
+            gridWorld.LoadTexture(defaultTexture, stageData);
         }
     }
 }
