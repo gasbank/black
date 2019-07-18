@@ -77,9 +77,37 @@ namespace black_dev_tools {
                 }
 
                 var imageName = Path.GetFileNameWithoutExtension(sourcePngFileName);
-                using (var stream = File.Create("../Assets/Island Data/" + imageName + ".bytes")) {
+                using (var stream = File.Create("../Assets/Island Data/" + imageName + ".color.bytes")) {
                     var formatter = new BinaryFormatter();
                     formatter.Serialize(stream, islandColorByMinPointPrimitive);
+                    stream.Close();
+                }
+
+                Dictionary<uint, uint> islandPixelAreaByMinPointPrimitive = new Dictionary<uint, uint>();
+                foreach (var kv in islandPixelAreaByMinPoint) {
+                    var p = GetP(kv.Key);
+                    var c = (uint)kv.Value;
+                    islandPixelAreaByMinPointPrimitive[p] = c;
+                }
+
+                using (var stream = File.Create("../Assets/Island Data/" + imageName + ".area.bytes")) {
+                    var formatter = new BinaryFormatter();
+                    formatter.Serialize(stream, islandPixelAreaByMinPointPrimitive);
+                    stream.Close();
+                }
+
+                var stageData = new StageData();
+                foreach (var kv in islandPixelAreaByMinPoint) {
+                    var p = GetP(kv.Key);
+                    stageData.islandDataByMinPoint[p] = new IslandData {
+                        pixelArea = islandPixelAreaByMinPoint[kv.Key],
+                        rgba = GetC(islandColorByMinPoint[kv.Key])
+                    };
+                }
+
+                using (var stream = File.Create("../Assets/Island Data/" + imageName + ".bytes")) {
+                    var formatter = new BinaryFormatter();
+                    formatter.Serialize(stream, stageData);
                     stream.Close();
                 }
             }
