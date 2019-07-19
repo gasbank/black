@@ -8,6 +8,10 @@ namespace black_dev_tools {
             return a == b;
         }
 
+        static bool ColorIsNotBlack(Rgba32 a, Rgba32 b) {
+            return a != Rgba32.Black;
+        }
+
         static Rgba32 GetPixel(Image<Rgba32> bitmap, int x, int y) {
             return bitmap[x, y];
         }
@@ -23,28 +27,28 @@ namespace black_dev_tools {
             pixelArea = 0;
             while (q.Count > 0) {
                 var n = q.Dequeue();
-                if (!ColorMatch(GetPixel(bitmap, n.x, n.y), targetColor))
+                if (!ColorIsNotBlack(GetPixel(bitmap, n.x, n.y), targetColor))
                     continue;
                 Vector2Int w = n, e = new Vector2Int(n.x + 1, n.y);
-                while ((w.x >= 0) && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor)) {
+                while ((w.x >= 0) && ColorIsNotBlack(GetPixel(bitmap, w.x, w.y), targetColor)) {
                     SetPixel(bitmap, w.x, w.y, replacementColor);
                     UpdateFillMinPoint(ref fillMinPoint, w);
                     points.Add(w);
                     pixelArea++;
-                    if ((w.y > 0) && ColorMatch(GetPixel(bitmap, w.x, w.y - 1), targetColor))
+                    if ((w.y > 0) && ColorIsNotBlack(GetPixel(bitmap, w.x, w.y - 1), targetColor))
                         q.Enqueue(new Vector2Int(w.x, w.y - 1));
-                    if ((w.y < bitmap.Height - 1) && ColorMatch(GetPixel(bitmap, w.x, w.y + 1), targetColor))
+                    if ((w.y < bitmap.Height - 1) && ColorIsNotBlack(GetPixel(bitmap, w.x, w.y + 1), targetColor))
                         q.Enqueue(new Vector2Int(w.x, w.y + 1));
                     w.x--;
                 }
-                while ((e.x <= bitmap.Width - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor)) {
+                while ((e.x <= bitmap.Width - 1) && ColorIsNotBlack(GetPixel(bitmap, e.x, e.y), targetColor)) {
                     SetPixel(bitmap, e.x, e.y, replacementColor);
                     points.Add(e);
                     UpdateFillMinPoint(ref fillMinPoint, e);
                     pixelArea++;
-                    if ((e.y > 0) && ColorMatch(GetPixel(bitmap, e.x, e.y - 1), targetColor))
+                    if ((e.y > 0) && ColorIsNotBlack(GetPixel(bitmap, e.x, e.y - 1), targetColor))
                         q.Enqueue(new Vector2Int(e.x, e.y - 1));
-                    if ((e.y < bitmap.Height - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y + 1), targetColor))
+                    if ((e.y < bitmap.Height - 1) && ColorIsNotBlack(GetPixel(bitmap, e.x, e.y + 1), targetColor))
                         q.Enqueue(new Vector2Int(e.x, e.y + 1));
                     e.x++;
                 }

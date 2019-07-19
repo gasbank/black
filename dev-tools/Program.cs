@@ -20,8 +20,8 @@ namespace black_dev_tools {
         }
 
         static void Main(string[] args) {
-            //var sourcePngFileName = "/Users/kimgeoyeob/black/Art/190527_Colored.png";
-            var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190719_128x128_Colored.png";
+            var sourcePngFileName = "/Users/kimgeoyeob/black/Art/190527_Colored.png";
+            //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190719_128x128_Colored.png";
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190717_8x8_Colored.png";
             using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
                 var whiteCount = 0;
@@ -73,7 +73,7 @@ namespace black_dev_tools {
                         }
                     }
                 }
-                image.Save("bar.jpg"); // Automatic encoder selected based on extension.
+                //image.Save("bar.jpg"); // Automatic encoder selected based on extension.
                 Console.WriteLine($"Total Pixel Count: {image.Width * image.Height}");
                 Console.WriteLine($"White Count: {whiteCount}");
 
@@ -120,6 +120,8 @@ namespace black_dev_tools {
                     formatter.Serialize(stream, stageData);
                     stream.Close();
                 }
+
+                Console.WriteLine($"{stageData.islandDataByMinPoint.Count} islands loaded.");
             }
         }
 
