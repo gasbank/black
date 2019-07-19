@@ -14,12 +14,12 @@ using System.Diagnostics;
 namespace black_dev_tools {
     class Program {
 
-        static void Main(string[] args) {
+        static void Main2(string[] args) {
             MaxSubRect.TestMaxHist();
             MaxSubRect.TestMaxRectangle();
         }
 
-        static void Main2(string[] args) {
+        static void Main(string[] args) {
             var sourcePngFileName = "/Users/kimgeoyeob/black/Art/190527_Colored.png";
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190717_8x8_Colored.png";
             using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
@@ -29,6 +29,7 @@ namespace black_dev_tools {
                 Dictionary<Vector2Int, int> islandPixelAreaByMinPoint = new Dictionary<Vector2Int, int>();
                 Dictionary<Rgba32, int> islandCountByColor = new Dictionary<Rgba32, int>();
                 Dictionary<int, int> islandCountByPixelArea = new Dictionary<int, int>();
+                Dictionary<uint, ulong> maxRectByMinPoint = new Dictionary<uint, ulong>();
 
                 for (int h = 0; h < image.Height; h++) {
                     for (int w = 0; w < image.Width; w++) {
@@ -41,12 +42,30 @@ namespace black_dev_tools {
                         if (pixelColor == Rgba32.Black) {
 
                         } else {
-                            var fillMinPoint = FloodFill.Execute(image, new Vector2Int(w, h), pixelColor, Rgba32.Black, out var pixelArea);
+                            List<Vector2Int> points = new List<Vector2Int>();
+                            var fillMinPoint = FloodFill.Execute(image, new Vector2Int(w, h), pixelColor, Rgba32.Black, out var pixelArea, points);
                             if (fillMinPoint != new Vector2Int(image.Width, image.Height)) {
                                 islandColorByMinPoint[fillMinPoint] = pixelColor;
                                 islandPixelAreaByMinPoint[fillMinPoint] = pixelArea;
                                 IncreaseCountOfDictionaryValue(islandCountByPixelArea, pixelArea);
                                 IncreaseCountOfDictionaryValue(islandCountByColor, pixelColor);
+                                var xMax = points.Max(e => e.x);
+                                var xMin = points.Min(e => e.x);
+                                var yMax = points.Max(e => e.y);
+                                var yMin = points.Min(e => e.y);
+                                var subRectW = xMax - xMin + 1;
+                                var subRectH = yMax - yMin + 1;
+                                var A = Enumerable.Range(0, subRectH).Select(e => new int[subRectW]).ToArray();
+                                foreach (var point in points) {
+                                    A[point.y - yMin][point.x - xMin] = 1;
+                                }
+                                var area = MaxSubRect.MaxRectangle(subRectH, subRectW, A, out var beginIndexR, out var endIndexR, out var beginIndexC, out var endIndexC);
+                                Console.WriteLine($"Sub Rect: area:{area} [({yMin + beginIndexR},{xMin + beginIndexC})-({yMin + endIndexR},{xMin + endIndexC})]");
+                                maxRectByMinPoint[GetP(fillMinPoint)] = GetRectRange(
+                                    xMin + beginIndexC,
+                                    yMin + beginIndexR,
+                                    xMin + endIndexC,
+                                    yMin + endIndexR);
                             } else {
                                 throw new Exception("Invalid fill min point!");
                             }
@@ -90,7 +109,8 @@ namespace black_dev_tools {
                     var p = GetP(kv.Key);
                     stageData.islandDataByMinPoint[p] = new IslandData {
                         pixelArea = islandPixelAreaByMinPoint[kv.Key],
-                        rgba = GetC(islandColorByMinPoint[kv.Key])
+                        rgba = GetC(islandColorByMinPoint[kv.Key]),
+                        maxRect = maxRectByMinPoint[p],
                     };
                 }
 
@@ -100,6 +120,10 @@ namespace black_dev_tools {
                     stream.Close();
                 }
             }
+        }
+
+        private static ulong GetRectRange(int v1, int v2, int v3, int v4) {
+            return (ulong)((ushort)(v1) + (ushort)(v2 << 16) + (ushort)(v3 << 32) + (ushort)(v4 << 48));
         }
 
         private static uint GetC(Rgba32 v) {

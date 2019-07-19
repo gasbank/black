@@ -16,7 +16,7 @@ namespace black_dev_tools {
             bitmap[x, y] = c;
         }
 
-        public static Vector2Int Execute(Image<Rgba32> bitmap, Vector2Int pt, Rgba32 targetColor, Rgba32 replacementColor, out int pixelArea) {
+        public static Vector2Int Execute(Image<Rgba32> bitmap, Vector2Int pt, Rgba32 targetColor, Rgba32 replacementColor, out int pixelArea, List<Vector2Int> points) {
             Queue<Vector2Int> q = new Queue<Vector2Int>();
             q.Enqueue(pt);
             var fillMinPoint = new Vector2Int(bitmap.Width, bitmap.Height);
@@ -29,6 +29,7 @@ namespace black_dev_tools {
                 while ((w.x >= 0) && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor)) {
                     SetPixel(bitmap, w.x, w.y, replacementColor);
                     UpdateFillMinPoint(ref fillMinPoint, w);
+                    points.Add(w);
                     pixelArea++;
                     if ((w.y > 0) && ColorMatch(GetPixel(bitmap, w.x, w.y - 1), targetColor))
                         q.Enqueue(new Vector2Int(w.x, w.y - 1));
@@ -38,6 +39,7 @@ namespace black_dev_tools {
                 }
                 while ((e.x <= bitmap.Width - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor)) {
                     SetPixel(bitmap, e.x, e.y, replacementColor);
+                    points.Add(e);
                     UpdateFillMinPoint(ref fillMinPoint, e);
                     pixelArea++;
                     if ((e.y > 0) && ColorMatch(GetPixel(bitmap, e.x, e.y - 1), targetColor))
