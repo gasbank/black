@@ -9,6 +9,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] Image image = null;
     [SerializeField] Texture2D tex = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
+    [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
     //[SerializeField] TextAsset pngAsset = null;
     StageData stageData;
 
@@ -57,14 +58,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         }
     }
 
-    private static uint GetC(Color32 v) {
-        return ((uint)v.a << 24) + ((uint)v.b << 16) + ((uint)v.g << 8) + (uint)v.r;
-    }
-
-    private uint GetP(Vector2Int k) {
-        return ((uint)k.y << 16) + (uint)k.x;
-    }
-
     void FloodFill(Color32[] bitmap, Vector2Int pt, Color32 targetColor, Color32 replacementColor) {
         Queue<Vector2Int> q = new Queue<Vector2Int>();
         q.Enqueue(pt);
@@ -111,7 +104,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             }
 
             Debug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
-            var solutionColorUint = stageData.islandDataByMinPoint[GetP(fillMinPoint)].rgba;
+            var solutionColorUint = stageData.islandDataByMinPoint[BlackConvert.GetP(fillMinPoint)].rgba;
             Debug.Log($"Solution Color (uint): {solutionColorUint}");
             if (solutionColorUint == paletteButtonGroup.CurrentPaletteColorUint) {
                 Color32 solutionColor = new Color32(
@@ -123,6 +116,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 foreach (var pixel in pixelList) {
                     SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
                 }
+
+                islandLabelSpawner.DestroyLabelByMinPoint(BlackConvert.GetP(fillMinPoint));
             } else {
                 // 틀리면 다시 흰색으로 칠해야 한다.
                 foreach (var pixel in pixelList) {

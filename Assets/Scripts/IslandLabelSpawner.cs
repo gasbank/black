@@ -9,6 +9,8 @@ public class IslandLabelSpawner : MonoBehaviour {
     [SerializeField] RectTransform rt = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
 
+    Dictionary<uint, GameObject> labelByMinPoint = new Dictionary<uint, GameObject>();
+
     void OnValidate() {
         rt = GetComponent<RectTransform>();
     }
@@ -37,7 +39,17 @@ public class IslandLabelSpawner : MonoBehaviour {
                 var labelText = label.GetComponent<TMPro.TextMeshProUGUI>();
                 var paletteIndex = paletteButtonGroup.GetPaletteIndexByColor(stageData.islandDataByMinPoint[kv.Key].rgba);
                 labelText.text = (paletteIndex + 1).ToString();
+                labelByMinPoint[kv.Key] = label;
             //}
+        }
+    }
+
+    public void DestroyLabelByMinPoint(uint minPointUint) {
+        if (labelByMinPoint.TryGetValue(minPointUint, out var label)) {
+            Destroy(label);
+            labelByMinPoint.Remove(minPointUint);
+        } else {
+            Debug.LogError($"DestroyLabelByMinPoint: could not find minPointUint {minPointUint}!");
         }
     }
 }

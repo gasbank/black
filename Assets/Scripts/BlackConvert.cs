@@ -13,4 +13,8 @@ public class BlackConvert {
             a = ((v >> 24) & 0xff) / 255.0f,
         };
     }
+
+    public static uint GetP(Vector2Int k) {
+        return ((uint)k.y << 16) + (uint)k.x;
+    }
 }
