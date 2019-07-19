@@ -13,6 +13,10 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace black_dev_tools {
     class Program {
         static void Main(string[] args) {
+            MaxSubRect.TestCode();
+        }
+
+        static void Main2(string[] args) {
             var sourcePngFileName = "/Users/kimgeoyeob/black/Art/190527_Colored.png";
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190717_8x8_Colored.png";
             using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
