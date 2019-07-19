@@ -10,6 +10,7 @@ public class MainGame : MonoBehaviour {
     [SerializeField] GridWorld gridWorld = null;
     [SerializeField] TextAsset islandData = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
+    [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
     StageData stageData;
 
     void Awake() {
@@ -28,5 +29,7 @@ public class MainGame : MonoBehaviour {
         }
 
         paletteButtonGroup.CreatePalette(stageData);
+
+        islandLabelSpawner.CreateAllLabels(stageData);
     }
 }

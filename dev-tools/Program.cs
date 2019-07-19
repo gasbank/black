@@ -20,7 +20,8 @@ namespace black_dev_tools {
         }
 
         static void Main(string[] args) {
-            var sourcePngFileName = "/Users/kimgeoyeob/black/Art/190527_Colored.png";
+            //var sourcePngFileName = "/Users/kimgeoyeob/black/Art/190527_Colored.png";
+            var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190719_128x128_Colored.png";
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190717_8x8_Colored.png";
             using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
                 var whiteCount = 0;
@@ -123,7 +124,7 @@ namespace black_dev_tools {
         }
 
         private static ulong GetRectRange(int v1, int v2, int v3, int v4) {
-            return (ulong)((ushort)(v1) + (ushort)(v2 << 16) + (ushort)(v3 << 32) + (ushort)(v4 << 48));
+            return (ulong)((ulong)v1 + ((ulong)v2 << 16) + ((ulong)v3 << 32) + ((ulong)v4 << 48));
         }
 
         private static uint GetC(Rgba32 v) {

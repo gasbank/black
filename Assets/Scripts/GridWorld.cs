@@ -12,7 +12,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     //[SerializeField] TextAsset pngAsset = null;
     StageData stageData;
 
-    int texSize => tex.width;
+    public int texSize => tex.width;
     // inclusive
     Vector2Int minCursorInt => new Vector2Int(1, 1);
     // exclusive

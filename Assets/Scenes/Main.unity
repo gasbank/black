@@ -1130,6 +1130,7 @@ MonoBehaviour:
   gridWorld: {fileID: 1643267984}
   islandData: {fileID: 4900000, guid: 50a156d86a880488a873bbc2abb3443f, type: 3}
   paletteButtonGroup: {fileID: 404005233}
+  islandLabelSpawner: {fileID: 1643267988}
 --- !u!4 &1037197465
 Transform:
   m_ObjectHideFlags: 0
@@ -1255,7 +1256,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -1370,6 +1371,7 @@ GameObject:
   - component: {fileID: 1643267985}
   - component: {fileID: 1643267984}
   - component: {fileID: 1643267987}
+  - component: {fileID: 1643267988}
   m_Layer: 5
   m_Name: Target Image
   m_TagString: Untagged
@@ -1464,6 +1466,22 @@ MonoBehaviour:
   beginDragWorldPosition: {x: 0, y: 0, z: 0}
   beginDragTargetPosition: {x: 0, y: 0, z: 0}
   panning: 0
+--- !u!114 &1643267988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643267982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e77eb5769129e493f8fe502f032a1a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  islandLabelNumberPrefab: {fileID: 280789763751277776, guid: f406442b330c54036bfba20c9bba10e0,
+    type: 3}
+  gridWorld: {fileID: 1643267984}
+  rt: {fileID: 1643267983}
 --- !u!1001 &1675705455
 PrefabInstance:
   m_ObjectHideFlags: 0
