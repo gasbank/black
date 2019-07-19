@@ -9,6 +9,7 @@ public class MainGame : MonoBehaviour {
     [SerializeField] Texture2D defaultTexture = null;
     [SerializeField] GridWorld gridWorld = null;
     [SerializeField] TextAsset islandData = null;
+    [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
     StageData stageData;
 
     void Awake() {
@@ -25,5 +26,7 @@ public class MainGame : MonoBehaviour {
         } else {
             gridWorld.LoadTexture(defaultTexture, stageData);
         }
+
+        paletteButtonGroup.CreatePalette(stageData);
     }
 }

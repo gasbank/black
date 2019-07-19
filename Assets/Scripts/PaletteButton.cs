@@ -19,5 +19,8 @@ public class PaletteButton : MonoBehaviour {
         }
     }
 
-    public Color PaletteColor => image.color;
+    public Color PaletteColor {
+        get => image.color;
+        set => image.color = value;
+    }
 }
