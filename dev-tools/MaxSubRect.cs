@@ -6,7 +6,7 @@ public class MaxSubRect {
     // histogram represented by histogram. 
     // See below article for details.  
     // https://www.geeksforgeeks.org/largest-rectangle-under-histogram/  
-    public static int MaxHist(int C, int[] row) {
+    public static int MaxHist(int[] row, out int beginIndex, out int endIndex) {
         // Create an empty stack. The stack 
         // holds indexes of hist[] array.  
         // The bars stored in stack are always  
@@ -21,31 +21,38 @@ public class MaxSubRect {
         int area = 0; // Initialize area with  
                       // current top 
 
+        beginIndex = 0;
+        endIndex = 0;
+
         // Run through all bars of  
         // given histogram (or row)  
         int i = 0;
-        while (i < C) {
+        while (i < row.Length) {
             // If this bar is higher than the  
             // bar on top stack, push it to stack  
-            if (result.Count == 0 ||
-                row[result.Peek()] <= row[i]) {
+            if (result.Count == 0 || row[result.Peek()] <= row[i]) {
                 result.Push(i++);
             } else {
-                // If this bar is lower than top  
-                // of stack, then calculate area of  
-                // rectangle with stack top as  
-                // the smallest (or minimum height) 
-                //  bar. 'i' is 'right index' for 
-                // the top and element before  
-                // top in stack is 'left index'  
+                // If this bar is lower than top of stack,
+                // then calculate area of rectangle with stack top as  the smallest (or minimum height) bar.
+                // 'i' is 'right index' for the top and
+                // element before top in stack is 'left index' 
                 top_val = row[result.Peek()];
                 result.Pop();
                 area = top_val * i;
+                var newBeginIndex = 0;   
 
                 if (result.Count > 0) {
                     area = top_val * (i - result.Peek() - 1);
+                    newBeginIndex = result.Peek() + 1;
                 }
-                max_area = Math.Max(area, max_area);
+
+                if (max_area < area) {
+                    max_area = area;
+                    beginIndex = newBeginIndex;
+                    endIndex = i;
+                }
+                
             }
         }
 
@@ -56,22 +63,29 @@ public class MaxSubRect {
             top_val = row[result.Peek()];
             result.Pop();
             area = top_val * i;
+            var newBeginIndex = 0;
+
             if (result.Count > 0) {
                 area = top_val * (i - result.Peek() - 1);
+                newBeginIndex = result.Peek() + 1;
             }
 
-            max_area = Math.Max(area, max_area);
+            if (max_area < area) {
+                max_area = area;
+                beginIndex = newBeginIndex;
+                endIndex = i;
+            }
         }
+
         return max_area;
     }
 
     // Returns area of the largest  
     // rectangle with all 1s in A[][]  
-    public static int MaxRectangle(int R, int C,
-                                   int[][] A) {
+    public static int MaxRectangle(int R, int C, int[][] A) {
         // Calculate area for first row  
         // and initialize it as result  
-        int result = MaxHist(C, A[0]);
+        int result = MaxHist(A[0], out var beginIndex, out var endIndex);
 
         // iterate over row to find 
         // maximum rectangular area  
@@ -88,7 +102,7 @@ public class MaxSubRect {
 
             // Update result if area with current  
             // row (as last row of rectangle) is more  
-            result = Math.Max(result, MaxHist(C, A[i]));
+            result = Math.Max(result, MaxHist(A[i], out beginIndex, out endIndex));
         }
 
         return result;
@@ -101,7 +115,7 @@ public class MaxSubRect {
 
         var A = new int[][] {
             new int[] {0, 1, 1, 0},
-            new int[] {1, 1, 0, 1},
+            new int[] {0, 1, 0, 1},
             new int[] {1, 1, 1, 1},
             new int[] {1, 1, 0, 0}
         };
