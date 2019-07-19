@@ -13,59 +13,10 @@ using System.Diagnostics;
 
 namespace black_dev_tools {
     class Program {
-        static void AreEqual(int actual, int expected) {
-            Debug.Assert(actual == expected, $"Expected: {expected}, Actual: {actual}");
-        }
 
         static void Main(string[] args) {
-            //MaxSubRect.TestCode();
-            var beginIndex = 0;
-            var endIndex = 0;
-            var area = 0;
-            area = MaxSubRect.MaxHist(new int[] { 100, 0, 6, 2, 5, 4, 5, 1, 6 }, out beginIndex, out endIndex);
-            AreEqual(area, 100);
-            AreEqual(beginIndex, 0);
-            AreEqual(endIndex, 1);
-            area = MaxSubRect.MaxHist(new int[] { 6, 2, 5, 4, 5, 1, 6 }, out beginIndex, out endIndex);
-            AreEqual(area, 12);
-            AreEqual(beginIndex, 2);
-            AreEqual(endIndex, 5);
-            area = MaxSubRect.MaxHist(new int[] { 6, 2, 5, 4, 5, 1, 6, 100 }, out beginIndex, out endIndex);
-            AreEqual(area, 100);
-            AreEqual(beginIndex, 7);
-            AreEqual(endIndex, 8);
-            area = MaxSubRect.MaxHist(new int[] { 100, 100, 6, 2, 5, 4, 5, 1, 6 }, out beginIndex, out endIndex);
-            AreEqual(area, 200);
-            AreEqual(beginIndex, 0);
-            AreEqual(endIndex, 2);
-            area = MaxSubRect.MaxHist(new int[] { 100, 100, 100, 100, 200, 200, 5, 1, 6 }, out beginIndex, out endIndex);
-            AreEqual(area, 600);
-            AreEqual(beginIndex, 0);
-            AreEqual(endIndex, 6);
-            area = MaxSubRect.MaxHist(new int[] { 1 }, out beginIndex, out endIndex);
-            AreEqual(area, 1);
-            AreEqual(beginIndex, 0);
-            AreEqual(endIndex, 1);
-            area = MaxSubRect.MaxHist(new int[] { 5, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, out beginIndex, out endIndex);
-            AreEqual(area, 10);
-            AreEqual(beginIndex, 0);
-            AreEqual(endIndex, 10);
-            area = MaxSubRect.MaxHist(new int[] { 1, 1, 1, 1, 1, 5, 1, 1, 1, 1 }, out beginIndex, out endIndex);
-            AreEqual(area, 10);
-            AreEqual(beginIndex, 0);
-            AreEqual(endIndex, 10);
-            area = MaxSubRect.MaxHist(new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 5, 1 }, out beginIndex, out endIndex);
-            AreEqual(area, 10);
-            AreEqual(beginIndex, 0);
-            AreEqual(endIndex, 10);
-            area = MaxSubRect.MaxHist(new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 5 }, out beginIndex, out endIndex);
-            AreEqual(area, 10);
-            AreEqual(beginIndex, 0);
-            AreEqual(endIndex, 10);
-            area = MaxSubRect.MaxHist(new int[] { 1, 1, 5 }, out beginIndex, out endIndex);
-            AreEqual(area, 5);
-            AreEqual(beginIndex, 2);
-            AreEqual(endIndex, 3);
+            MaxSubRect.TestMaxHist();
+            MaxSubRect.TestMaxRectangle();
         }
 
         static void Main2(string[] args) {
@@ -78,7 +29,7 @@ namespace black_dev_tools {
                 Dictionary<Vector2Int, int> islandPixelAreaByMinPoint = new Dictionary<Vector2Int, int>();
                 Dictionary<Rgba32, int> islandCountByColor = new Dictionary<Rgba32, int>();
                 Dictionary<int, int> islandCountByPixelArea = new Dictionary<int, int>();
-                
+
                 for (int h = 0; h < image.Height; h++) {
                     for (int w = 0; w < image.Width; w++) {
                         var pixelColor = image[w, h];
@@ -133,7 +84,7 @@ namespace black_dev_tools {
                 }
 
                 var imageName = Path.GetFileNameWithoutExtension(sourcePngFileName);
-                
+
                 var stageData = new StageData();
                 foreach (var kv in islandPixelAreaByMinPoint) {
                     var p = GetP(kv.Key);
