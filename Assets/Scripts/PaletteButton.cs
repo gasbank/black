@@ -7,6 +7,7 @@ public class PaletteButton : MonoBehaviour {
     [SerializeField] GameObject check = null;
     [SerializeField] Image image = null;
     [SerializeField] TMPro.TextMeshProUGUI colorNumberText = null;
+    [SerializeField] uint colorUint = 0;
 
     public bool Check {
         get => check.activeSelf;
@@ -20,10 +21,13 @@ public class PaletteButton : MonoBehaviour {
         }
     }
 
-    public Color PaletteColor {
-        get => image.color;
-        set => image.color = value;
+    public void SetColor(uint colorUint) {
+        this.colorUint = colorUint;
+        image.color = BlackConvert.GetColor(colorUint);
     }
+
+    public Color PaletteColor => image.color;
+    public uint ColorUint => colorUint;
 
     public int ColorIndex {
         get => int.Parse(colorNumberText.text);

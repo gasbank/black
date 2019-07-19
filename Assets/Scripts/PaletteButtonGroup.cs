@@ -20,6 +20,19 @@ public class PaletteButtonGroup : MonoBehaviour {
         }
     }
 
+    public uint CurrentPaletteColorUint {
+        get {
+            foreach (Transform t in transform) {
+                var pb = t.GetComponent<PaletteButton>();
+                if (pb.Check) {
+                    Debug.Log($"CurrentPaletteColorUint: {pb.ColorUint}");
+                    return pb.ColorUint;
+                }
+            }
+            return 0xffffffff;
+        }
+    }
+
     public void CreatePalette(StageData stageData) {
         DestroyAllPaletteButtons();
 
@@ -27,7 +40,7 @@ public class PaletteButtonGroup : MonoBehaviour {
         int paletteIndex = 0;
         foreach (var colorUint in colorUintArray) {
             var paletteButton = Instantiate(paletteButtonPrefab, transform).GetComponent<PaletteButton>();
-            paletteButton.PaletteColor = BlackConvert.GetColor(colorUint);
+            paletteButton.SetColor(colorUint);
             paletteIndexbyColor[colorUint] = paletteIndex;
             paletteButton.ColorIndex = paletteIndex + 1;
             paletteIndex++;

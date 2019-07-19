@@ -76,6 +76,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 continue;
             Vector2Int w = n, e = new Vector2Int(n.x + 1, n.y);
             while ((w.x >= 0) && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor)) {
+                // 일단 여기서 replacementColor로 변경 해 둬야 이 알고리즘이 작동한다.
+                // 진짜 색깔로 칠하는 건 나중에 pixelList에 모아둔 값으로 제대로 한다.
                 SetPixel(bitmap, w.x, w.y, replacementColor);
                 pixelList.Add(w);
                 UpdateFillMinPoint(ref fillMinPoint, w);
@@ -86,6 +88,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 w.x--;
             }
             while ((e.x <= texSize - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor)) {
+                // 일단 여기서 replacementColor로 변경 해 둬야 이 알고리즘이 작동한다.
+                // 진짜 색깔로 칠하는 건 나중에 pixelList에 모아둔 값으로 제대로 한다.
                 SetPixel(bitmap, e.x, e.y, replacementColor);
                 pixelList.Add(e);
                 UpdateFillMinPoint(ref fillMinPoint, e);
@@ -97,21 +101,33 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             }
         }
         if (pixelList.Count > 0) {
-            if (pixelList.Count <= 256) {
+            // 이 지점부터 fillMinPoint는 유효한 값을 가진다.
+
+            // 디버그 출력
+            if (pixelList.Count <= 128) {
                 foreach (var pixel in pixelList) {
-                    //Debug.Log($"Fill Pixel: {pixel.x}, {texSize - pixel.y - 1}");    
+                    Debug.Log($"Fill Pixel: {pixel.x}, {texSize - pixel.y - 1}");    
                 }
             }
+
             Debug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
             var solutionColorUint = stageData.islandDataByMinPoint[GetP(fillMinPoint)].rgba;
-            Color32 solutionColor = new Color32(
-                (byte)(solutionColorUint & 0xff),
-                (byte)((solutionColorUint >> 8) & 0xff),
-                (byte)((solutionColorUint >> 16) & 0xff),
-                (byte)((solutionColorUint >> 24) & 0xff));
-            Debug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
-            foreach (var pixel in pixelList) {
-                SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
+            Debug.Log($"Solution Color (uint): {solutionColorUint}");
+            if (solutionColorUint == paletteButtonGroup.CurrentPaletteColorUint) {
+                Color32 solutionColor = new Color32(
+                    (byte)(solutionColorUint & 0xff),
+                    (byte)((solutionColorUint >> 8) & 0xff),
+                    (byte)((solutionColorUint >> 16) & 0xff),
+                    (byte)((solutionColorUint >> 24) & 0xff));
+                Debug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
+                foreach (var pixel in pixelList) {
+                    SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
+                }
+            } else {
+                // 틀리면 다시 흰색으로 칠해야 한다.
+                foreach (var pixel in pixelList) {
+                    SetPixel(bitmap, pixel.x, pixel.y, Color.white);
+                }
             }
         }
     }
