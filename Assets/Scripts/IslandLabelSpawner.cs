@@ -7,6 +7,7 @@ public class IslandLabelSpawner : MonoBehaviour {
     [SerializeField] GameObject islandLabelNumberPrefab = null;
     [SerializeField] GridWorld gridWorld = null;
     [SerializeField] RectTransform rt = null;
+    [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
 
     void OnValidate() {
         rt = GetComponent<RectTransform>();
@@ -26,13 +27,17 @@ public class IslandLabelSpawner : MonoBehaviour {
         var maxRectDict = stageData.islandDataByMinPoint.ToDictionary(e => e.Key, e => GetRectRange(e.Value.maxRect));
         var area = maxRectDict.Select(e => e.Value.size.x * e.Value.size.y).OrderByDescending(e => e).Take(20).LastOrDefault();
         foreach (var kv in maxRectDict) {
-            if (kv.Value.size.x * kv.Value.size.y >= area) {
-                Debug.Log($"Big sub rect island: ({kv.Value.xMin},{kv.Value.yMin})-({kv.Value.xMax},{kv.Value.yMax}) area={kv.Value.size.x * kv.Value.size.y}");
+            //if (kv.Value.size.x * kv.Value.size.y >= area) {
+                //Debug.Log($"Big sub rect island: ({kv.Value.xMin},{kv.Value.yMin})-({kv.Value.xMax},{kv.Value.yMax}) area={kv.Value.size.x * kv.Value.size.y}");
                 var label = Instantiate(islandLabelNumberPrefab, transform);
                 var labelRt = label.GetComponent<RectTransform>();
                 var texSizeFloat = (float)gridWorld.texSize;
                 labelRt.anchoredPosition = new Vector2(kv.Value.center.x / texSizeFloat * rt.sizeDelta.x - rt.sizeDelta.x / 2, kv.Value.center.y / texSizeFloat * rt.sizeDelta.y - rt.sizeDelta.y / 2);
-            }
+                labelRt.sizeDelta = new Vector2(kv.Value.size.x / texSizeFloat * rt.sizeDelta.x, kv.Value.size.y / texSizeFloat * rt.sizeDelta.y);
+                var labelText = label.GetComponent<TMPro.TextMeshProUGUI>();
+                var paletteIndex = paletteButtonGroup.GetPaletteIndexByColor(stageData.islandDataByMinPoint[kv.Key].rgba);
+                labelText.text = (paletteIndex + 1).ToString();
+            //}
         }
     }
 }

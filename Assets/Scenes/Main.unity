@@ -1482,6 +1482,7 @@ MonoBehaviour:
     type: 3}
   gridWorld: {fileID: 1643267984}
   rt: {fileID: 1643267983}
+  paletteButtonGroup: {fileID: 404005233}
 --- !u!1001 &1675705455
 PrefabInstance:
   m_ObjectHideFlags: 0

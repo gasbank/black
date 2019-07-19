@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PaletteButton : MonoBehaviour {
     [SerializeField] GameObject check = null;
     [SerializeField] Image image = null;
+    [SerializeField] TMPro.TextMeshProUGUI colorNumberText = null;
 
     public bool Check {
         get => check.activeSelf;
@@ -22,5 +23,10 @@ public class PaletteButton : MonoBehaviour {
     public Color PaletteColor {
         get => image.color;
         set => image.color = value;
+    }
+
+    public int ColorIndex {
+        get => int.Parse(colorNumberText.text);
+        set => colorNumberText.text = value.ToString();
     }
 }
