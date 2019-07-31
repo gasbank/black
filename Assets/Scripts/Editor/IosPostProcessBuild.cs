@@ -46,7 +46,7 @@ public static class IosPostProcessBuild {
             plist.WriteToFile (plistPath);
 
             // Copy entitlements file
-            System.IO.File.Copy("flying.entitlements", path + "/flying.entitlements", true);
+            System.IO.File.Copy("black.entitlements", path + "/black.entitlements", true);
 #endif
         }
     }
