@@ -4,12 +4,15 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] Image image = null;
     [SerializeField] Texture2D tex = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
     [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
+    [SerializeField] StageSaveManager stageSaveManager = null;
+    HashSet<uint> coloredMinPoints = new HashSet<uint>();
     //[SerializeField] TextAsset pngAsset = null;
     StageData stageData;
 
@@ -23,10 +26,17 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     // exclusive
     Vector2 maxCursor => new Vector2(maxCursorInt.x, maxCursorInt.y);
 
+    string StageName => "teststage";
+
     public void LoadTexture(Texture2D inputTexture, StageData stageData) {
         tex = Instantiate(inputTexture);
         image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
         this.stageData = stageData;
+    }
+
+    internal void ResumeGame() {
+        var stageSaveData = stageSaveManager.Load(StageName);
+        coloredMinPoints = stageSaveData.coloredMinPoints;
     }
 
     void SetPixelsByPattern(Vector2Int cursorInt, Vector2Int[] pattern, Color32 color) {
@@ -118,6 +128,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 }
 
                 islandLabelSpawner.DestroyLabelByMinPoint(BlackConvert.GetP(fillMinPoint));
+
+                coloredMinPoints.Add(BlackConvert.GetP(fillMinPoint));
             } else {
                 // 틀리면 다시 흰색으로 칠해야 한다.
                 foreach (var pixel in pixelList) {
@@ -160,5 +172,19 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 //Debug.Log($"Local position = {localPoint}");
             }
         }
+    }
+
+    void OnApplicationPause(bool pause) {
+        if (pause) {
+            WriteStageSaveData();
+        }
+    }
+
+    private void WriteStageSaveData() {
+        stageSaveManager.Save(StageName, coloredMinPoints);
+    }
+
+    void OnApplicationQuit() {
+        WriteStageSaveData();
     }
 }

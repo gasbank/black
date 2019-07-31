@@ -8,20 +8,25 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
     [SerializeField] Vector3 beginDragWorldPosition;
     [SerializeField] Vector3 beginDragTargetPosition;
     [SerializeField] bool panning = false;
+    [SerializeField] RectTransform rt = null;
     static bool panningMutex = false;
+
+    void OnValidate() {
+        rt = GetComponent<RectTransform>();
+    }
 
     public void OnBeginDrag(PointerEventData eventData) {
         if (PinchZoom.PinchZooming == false && panningMutex == false) {
             panningMutex = true;
             panning = true;
-            RectTransformUtility.ScreenPointToWorldPointInRectangle(GetComponent<RectTransform>(), eventData.position, Camera.main, out beginDragWorldPosition);
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main, out beginDragWorldPosition);
             beginDragTargetPosition = targetImage.position;
         }
     }
 
     public void OnDrag(PointerEventData eventData) {
         if (panning) {
-            RectTransformUtility.ScreenPointToWorldPointInRectangle(GetComponent<RectTransform>(), eventData.position, Camera.main, out Vector3 dragWorldPosition);
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main, out var dragWorldPosition);
             targetImage.position = beginDragTargetPosition + (dragWorldPosition - beginDragWorldPosition);
         }
     }

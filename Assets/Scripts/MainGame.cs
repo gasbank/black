@@ -11,6 +11,9 @@ public class MainGame : MonoBehaviour {
     [SerializeField] TextAsset islandData = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
     [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
+    [SerializeField] Image targetImage = null;
+    [SerializeField] PinchZoom pinchZoom = null;
+
     StageData stageData;
 
     void Awake() {
@@ -31,5 +34,14 @@ public class MainGame : MonoBehaviour {
         paletteButtonGroup.CreatePalette(stageData);
 
         islandLabelSpawner.CreateAllLabels(stageData);
+
+        gridWorld.ResumeGame();
+
+        Application.runInBackground = false;
+    }
+
+    public void ResetCamera() {
+        targetImage.transform.localPosition = new Vector3(0, 0, targetImage.transform.localPosition.z);
+        pinchZoom.ResetZoom(); 
     }
 }
