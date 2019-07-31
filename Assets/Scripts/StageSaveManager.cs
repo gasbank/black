@@ -9,11 +9,13 @@ public class StageSaveManager : MonoBehaviour {
     [SerializeField] PinchZoom pinchZoom = null;
     [SerializeField] Image targetImage = null;
 
-    void Awake() {
+    private static void InitializeMessagePackConditional() {
         if (MessagePack.MessagePackSerializer.IsInitialized == false) {
             // 두 번 호출하면 오류난다.
             MessagePack.Resolvers.CompositeResolver.RegisterAndSetAsDefault(
                 MessagePack.Resolvers.GeneratedResolver.Instance,
+                //MessagePack.Resolvers.DynamicGenericResolver.Instance,
+                //MessagePack.Unity.UnityResolver.Instance,
                 MessagePack.Resolvers.BuiltinResolver.Instance
             );
         }
@@ -21,6 +23,7 @@ public class StageSaveManager : MonoBehaviour {
 
     public void Save(string stageName, HashSet<uint> coloredMinPoints) {
         SushiDebug.Log($"Saving save data for '{stageName}'...");
+        InitializeMessagePackConditional();
         File.WriteAllBytes(GetStageSaveDataPath(stageName), MessagePack.LZ4MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints)));
         SushiDebug.Log($"Good.");
     }
@@ -32,6 +35,7 @@ public class StageSaveManager : MonoBehaviour {
     public StageSaveData Load(string stageName) {
         try {
             SushiDebug.Log($"Loading save data for '{stageName}'...");
+            InitializeMessagePackConditional();
             var bytes = File.ReadAllBytes(GetStageSaveDataPath(stageName));
             SushiDebug.Log($"{bytes.Length} bytes loaded.");
             var stageSaveData = MessagePack.LZ4MessagePackSerializer.Deserialize<StageSaveData>(bytes);
