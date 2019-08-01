@@ -42,8 +42,6 @@ public class StageSaveManager : MonoBehaviour {
             var stageSaveData = MessagePack.LZ4MessagePackSerializer.Deserialize<StageSaveData>(bytes);
             targetImage.transform.localPosition = new Vector3(stageSaveData.targetImageCenterX, stageSaveData.targetImageCenterY, targetImage.transform.localPosition.z);
             pinchZoom.ZoomValue = stageSaveData.zoomValue;
-            gridWorld.LoadBatchFill(stageSaveData.coloredMinPoints);
-
             return stageSaveData;
         } catch (FileNotFoundException) {
             SushiDebug.Log($"No save data exist.");

@@ -17,7 +17,7 @@ public class MainGame : MonoBehaviour {
 
     StageData stageData;
 
-    IEnumerator Start() {
+    void Start() {
         Application.runInBackground = false;
 
         using (var stream = new MemoryStream(islandData.bytes)) {
@@ -41,15 +41,16 @@ public class MainGame : MonoBehaviour {
         islandLabelSpawner.CreateAllLabels(stageData);
 
         //gridWorld.FloodFillVec2IntAndApply(1208, 716, true);
-        //gridWorld.FloodFillVec2IntAndApply(922, 1202, true);
+        
+        var counts = gridWorld.CountWhiteAndBlackInBitmap();
+        SushiDebug.Log($"Tex size: {gridWorld.texSize}");
+        SushiDebug.Log($"Black count: {counts[0]}");
+        SushiDebug.Log($"White count: {counts[1]}");
+        SushiDebug.Log($"Other count: {counts[2]}");
 
-        yield return new WaitForEndOfFrame();
-        // yield return new WaitForEndOfFrame();
-        // yield return new WaitForEndOfFrame();
+        //gridWorld.FloodFillVec2IntAndApplyWithSolution(BlackConvert.GetInvertedY(new Vector2Int(922, 1202), gridWorld.texSize));
 
-        // gridWorld.ResumeGame();
-
-        //gridWorld.FloodFillVec2IntAndApply(922, 1202, true);
+         gridWorld.ResumeGame();
     }
 
     public void ResetCamera() {

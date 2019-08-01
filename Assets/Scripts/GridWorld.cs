@@ -40,7 +40,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     // 제대로 된 색깔로 채울 수 있다.
     internal void ResumeGame() {
         var stageSaveData = stageSaveManager.Load(StageName);
-        coloredMinPoints = stageSaveData.coloredMinPoints;
+        LoadBatchFill(stageSaveData.coloredMinPoints);
     }
 
     void SetPixelsByPattern(Vector2Int cursorInt, Vector2Int[] pattern, Color32 color) {
@@ -64,17 +64,19 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         bitmap[x + y * texSize] = c;
     }
 
-    private void UpdateFillMinPoint(ref Vector2Int fillMinPoint, Vector2Int w) {
-        w.y = texSize - w.y - 1;
-        if (fillMinPoint.x > w.x || (fillMinPoint.x == w.x && fillMinPoint.y > w.y)) {
-            fillMinPoint.x = w.x;
-            fillMinPoint.y = w.y;
+    private void UpdateFillMinPoint(ref Vector2Int fillMinPoint, Vector2Int bitmapPoint) {
+        // *** 주의 ***
+        // min point 값은 플레이어가 입력한 좌표에서 Y축이 반전된 좌표계이다.
+        var invertedBitmapPoint = BlackConvert.GetInvertedY(bitmapPoint, texSize);
+        if (fillMinPoint.x > invertedBitmapPoint.x || (fillMinPoint.x == invertedBitmapPoint.x && fillMinPoint.y > invertedBitmapPoint.y)) {
+            fillMinPoint.x = invertedBitmapPoint.x;
+            fillMinPoint.y = invertedBitmapPoint.y;
         }
     }
 
-    void FloodFill(Color32[] bitmap, Vector2Int pt, Color32 targetColor, uint replacementColorUint, bool forceSolutionColor) {
+    void FloodFill(Color32[] bitmap, Vector2Int bitmapPoint, Color32 targetColor, uint replacementColorUint, bool forceSolutionColor) {
         Queue<Vector2Int> q = new Queue<Vector2Int>();
-        q.Enqueue(pt);
+        q.Enqueue(bitmapPoint);
         var fillMinPoint = new Vector2Int(texSize, texSize);
         ICollection<Vector2Int> pixelList = new List<Vector2Int>();
         var replacementColor = BlackConvert.GetColor(replacementColorUint);
@@ -106,7 +108,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 e.x++;
             }
         }
-        SushiDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded. Starting from {pt} and found {fillMinPoint} as a min point.");
+        SushiDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded. Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
         if (pixelList.Count > 0) {
             // 이 지점부터 fillMinPoint는 유효한 값을 가진다.
 
@@ -139,23 +141,23 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         }
     }
 
-    private bool SetPixelAndUpdateMinPoint(Color32[] bitmap, ref Vector2Int fillMinPoint, ICollection<Vector2Int> pixelList, Color replacementColor, Vector2Int w) {
+    private bool SetPixelAndUpdateMinPoint(Color32[] bitmap, ref Vector2Int fillMinPoint, ICollection<Vector2Int> pixelList, Color replacementColor, Vector2Int bitmapPoint) {
         // 일단 여기서 replacementColor로 변경 해 둬야 이 알고리즘이 작동한다.
         // 진짜 색깔로 칠하는 건 나중에 pixelList에 모아둔 값으로 제대로 한다.
-        SetPixel(bitmap, w.x, w.y, replacementColor);
-        pixelList.Add(w);
+        SetPixel(bitmap, bitmapPoint.x, bitmapPoint.y, replacementColor);
+        pixelList.Add(bitmapPoint);
         if (pixelList.Count > maxIslandPixelArea) {
             Debug.LogError($"CRITICAL LOGIC ERROR: TOO BIG ISLAND. Allowed pixel area is {maxIslandPixelArea}!!! FloodFill() aborted.");
             return false;
         }
-        UpdateFillMinPoint(ref fillMinPoint, w);
+        UpdateFillMinPoint(ref fillMinPoint, bitmapPoint);
         return true;
     }
 
     public void OnPointerDown(PointerEventData eventData) {
     }
 
-    void Fill(Vector2 p) {
+    void Fill(Vector2 localPoint) {
         if (paletteButtonGroup.CurrentPaletteColor != Color.white) {
 
             var w = transform.GetComponent<RectTransform>().rect.width;
@@ -163,17 +165,41 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
             //Debug.Log($"w={w} / h={h}");
 
-            var ix = (int)((p.x + w / 2) / w * image.sprite.texture.width);
-            var iy = (int)((p.y + h / 2) / h * image.sprite.texture.height);
-            FloodFillVec2IntAndApply(ix, iy, false);
+            var ix = (int)((localPoint.x + w / 2) / w * image.sprite.texture.width);
+            var iy = (int)((localPoint.y + h / 2) / h * image.sprite.texture.height);
+            FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
         }
     }
 
-    public void FloodFillVec2IntAndApply(int ix, int iy, bool forceSolutionColor) {
+    public void FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint) {
         var bitmap = image.sprite.texture.GetPixels32();
-        FloodFill(bitmap, new Vector2Int(ix, iy), Color.white, paletteButtonGroup.CurrentPaletteColorUint, forceSolutionColor);
+        FloodFill(bitmap, bitmapPoint, Color.white, paletteButtonGroup.CurrentPaletteColorUint, false);
         image.sprite.texture.SetPixels32(bitmap);
         image.sprite.texture.Apply();
+    }
+
+    public void FloodFillVec2IntAndApplyWithSolution(Vector2Int bitmapPoint) {
+        var bitmap = image.sprite.texture.GetPixels32();
+        FloodFill(bitmap, bitmapPoint, Color.white, 0xff000000/*alpha=255 black*/, true);
+        image.sprite.texture.SetPixels32(bitmap);
+        image.sprite.texture.Apply();
+    }
+
+    public int[] CountWhiteAndBlackInBitmap() {
+        var bitmap = image.sprite.texture.GetPixels32();
+        var blackCount = 0;
+        var whiteCount = 0;
+        var otherCount = 0;
+        foreach (var b in bitmap) {
+            if (b == Color.white) {
+                whiteCount++;
+            } else if (b == Color.black) {
+                blackCount++;
+            } else {
+                otherCount++;
+            }
+        }
+        return new [] { blackCount, whiteCount, otherCount };
     }
 
     public void LoadBatchFill(HashSet<uint> coloredMinPoints) {
@@ -183,7 +209,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             foreach (var minPoint in coloredMinPoints) {
                 var minPointVec2 = BlackConvert.GetPInverse(minPoint);
                 Debug.Log($"... minPoint: {minPointVec2}");
-                FloodFill(bitmap, minPointVec2, Color.white, 0xff000000/* alpha=1.0 black */, true);
+                FloodFill(bitmap, BlackConvert.GetInvertedY(minPointVec2, texSize), Color.white, 0xff000000/* alpha=1.0 black */, true);
             }
             image.sprite.texture.SetPixels32(bitmap);
             image.sprite.texture.Apply();

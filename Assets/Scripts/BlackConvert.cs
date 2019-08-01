@@ -29,4 +29,8 @@ public class BlackConvert {
     public static Vector2Int GetPInverse(uint p) {
         return new Vector2Int { x = (int)(p & 0xffff), y = (int)((p >> 16) & 0xffff) };
     }
+
+    public static Vector2Int GetInvertedY(Vector2Int p, int texSize) {
+        return new Vector2Int(p.x, texSize - p.y - 1);
+    }
 }
