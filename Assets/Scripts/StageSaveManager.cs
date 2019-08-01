@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class StageSaveManager : MonoBehaviour {
     [SerializeField] PinchZoom pinchZoom = null;
     [SerializeField] Image targetImage = null;
+    [SerializeField] GridWorld gridWorld = null;
 
     private static void InitializeMessagePackConditional() {
         if (MessagePack.MessagePackSerializer.IsInitialized == false) {
@@ -41,6 +42,8 @@ public class StageSaveManager : MonoBehaviour {
             var stageSaveData = MessagePack.LZ4MessagePackSerializer.Deserialize<StageSaveData>(bytes);
             targetImage.transform.localPosition = new Vector3(stageSaveData.targetImageCenterX, stageSaveData.targetImageCenterY, targetImage.transform.localPosition.z);
             pinchZoom.ZoomValue = stageSaveData.zoomValue;
+            gridWorld.LoadBatchFill(stageSaveData.coloredMinPoints);
+
             return stageSaveData;
         } catch (FileNotFoundException) {
             SushiDebug.Log($"No save data exist.");

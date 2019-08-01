@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class MainGame : MonoBehaviour {
     [SerializeField] Texture2D defaultTexture = null;
@@ -16,7 +17,9 @@ public class MainGame : MonoBehaviour {
 
     StageData stageData;
 
-    void Awake() {
+    IEnumerator Start() {
+        Application.runInBackground = false;
+
         using (var stream = new MemoryStream(islandData.bytes)) {
             var formatter = new BinaryFormatter();
             stageData = (StageData)formatter.Deserialize(stream);
@@ -24,20 +27,29 @@ public class MainGame : MonoBehaviour {
         }
 
         Debug.Log($"{stageData.islandDataByMinPoint.Count} islands loaded.");
+        var maxIslandPixelArea = stageData.islandDataByMinPoint.Max(e => e.Value.pixelArea);
+        Debug.Log($"Max island pixel area: {maxIslandPixelArea}");
 
         if (StageButton.currentStageTexture != null) {
-            gridWorld.LoadTexture(StageButton.currentStageTexture, stageData);
+            gridWorld.LoadTexture(StageButton.currentStageTexture, stageData, maxIslandPixelArea);
         } else {
-            gridWorld.LoadTexture(defaultTexture, stageData);
+            gridWorld.LoadTexture(defaultTexture, stageData, maxIslandPixelArea);
         }
 
         paletteButtonGroup.CreatePalette(stageData);
 
         islandLabelSpawner.CreateAllLabels(stageData);
 
-        gridWorld.ResumeGame();
+        //gridWorld.FloodFillVec2IntAndApply(1208, 716, true);
+        //gridWorld.FloodFillVec2IntAndApply(922, 1202, true);
 
-        Application.runInBackground = false;
+        yield return new WaitForEndOfFrame();
+        // yield return new WaitForEndOfFrame();
+        // yield return new WaitForEndOfFrame();
+
+        // gridWorld.ResumeGame();
+
+        //gridWorld.FloodFillVec2IntAndApply(922, 1202, true);
     }
 
     public void ResetCamera() {

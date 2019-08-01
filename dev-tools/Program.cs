@@ -20,7 +20,7 @@ namespace black_dev_tools {
         }
 
         static void Main(string[] args) {
-            var sourcePngFileName = "/Users/kimgeoyeob/black/Art/190527_Colored.png";
+            var sourcePngFileName = "/Users/kimgeoyeob/black/Art/colored/190527_Flowers_Colored.png";
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190719_128x128_Colored.png";
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190717_8x8_Colored.png";
             using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
@@ -115,13 +115,15 @@ namespace black_dev_tools {
                     };
                 }
 
-                using (var stream = File.Create("../Assets/Island Data/" + imageName + ".bytes")) {
+                var outputPath = Path.Combine("..", "Assets", "Island Data", imageName + ".bytes");
+                using (var stream = File.Create(outputPath)) {
                     var formatter = new BinaryFormatter();
                     formatter.Serialize(stream, stageData);
                     stream.Close();
                 }
 
                 Console.WriteLine($"{stageData.islandDataByMinPoint.Count} islands loaded.");
+                Console.WriteLine($"Written to {outputPath}");
             }
         }
 

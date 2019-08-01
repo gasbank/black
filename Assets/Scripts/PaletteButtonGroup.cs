@@ -39,6 +39,9 @@ public class PaletteButtonGroup : MonoBehaviour {
         var colorUintArray = stageData.islandDataByMinPoint.Select(e => e.Value.rgba).Distinct().OrderBy(e => e).ToArray();
         int paletteIndex = 0;
         foreach (var colorUint in colorUintArray) {
+            if ((colorUint & 0x00ffffff) == 0x00ffffff) {
+                Debug.LogError("CRITICAL ERROR: Palette color cannot be WHITE!!!");
+            }
             var paletteButton = Instantiate(paletteButtonPrefab, transform).GetComponent<PaletteButton>();
             paletteButton.SetColor(colorUint);
             paletteIndexbyColor[colorUint] = paletteIndex;
