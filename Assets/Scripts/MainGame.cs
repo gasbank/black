@@ -12,7 +12,7 @@ public class MainGame : MonoBehaviour {
     [SerializeField] TextAsset islandData = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
     [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
-    [SerializeField] Image targetImage = null;
+    [SerializeField] TargetImage targetImage = null;
     [SerializeField] PinchZoom pinchZoom = null;
 
     StageData stageData;
@@ -33,7 +33,8 @@ public class MainGame : MonoBehaviour {
         if (StageButton.currentStageTexture != null) {
             gridWorld.LoadTexture(StageButton.currentStageTexture, stageData, maxIslandPixelArea);
         } else {
-            gridWorld.LoadTexture(defaultTexture, stageData, maxIslandPixelArea);
+            var copiedTex = gridWorld.LoadTexture(defaultTexture, stageData, maxIslandPixelArea);
+            targetImage.SetTargetImageMaterialTexture(copiedTex);
         }
 
         paletteButtonGroup.CreatePalette(stageData);

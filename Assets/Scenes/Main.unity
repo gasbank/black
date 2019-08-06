@@ -1708,7 +1708,7 @@ MonoBehaviour:
   islandData: {fileID: 4900000, guid: 97cda4fcd5df04862b5e3d8d8c012343, type: 3}
   paletteButtonGroup: {fileID: 955176418}
   islandLabelSpawner: {fileID: 1643267988}
-  targetImage: {fileID: 1643267985}
+  targetImage: {fileID: 1643267989}
   pinchZoom: {fileID: 519181981}
 --- !u!4 &1037197465
 Transform:
@@ -2404,7 +2404,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pinchZoom: {fileID: 519181981}
   targetImage: {fileID: 1643267985}
-  gridWorld: {fileID: 1643267984}
 --- !u!4 &1598385019
 Transform:
   m_ObjectHideFlags: 0
@@ -2433,6 +2432,7 @@ GameObject:
   - component: {fileID: 1643267984}
   - component: {fileID: 1643267987}
   - component: {fileID: 1643267988}
+  - component: {fileID: 1643267989}
   m_Layer: 5
   m_Name: Target Image
   m_TagString: Untagged
@@ -2490,7 +2490,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 268075361a2f7ce4d9eb0a6e3b960dd3, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -2549,6 +2549,19 @@ MonoBehaviour:
   gridWorld: {fileID: 1643267984}
   rt: {fileID: 1643267983}
   paletteButtonGroup: {fileID: 955176418}
+--- !u!114 &1643267989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643267982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7888b706f0bb3b047b47c60ed415c60d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetImage: {fileID: 1643267985}
 --- !u!1001 &1684810297
 PrefabInstance:
   m_ObjectHideFlags: 0

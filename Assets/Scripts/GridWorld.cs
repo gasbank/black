@@ -29,11 +29,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     string StageName => "teststage";
     [SerializeField] int maxIslandPixelArea = 0;
 
-    public void LoadTexture(Texture2D inputTexture, StageData stageData, int maxIslandPixelArea) {
+    public Texture2D LoadTexture(Texture2D inputTexture, StageData stageData, int maxIslandPixelArea) {
         tex = Instantiate(inputTexture);
         image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
         this.stageData = stageData;
         this.maxIslandPixelArea = maxIslandPixelArea;
+        return tex;
     }
 
     // 팔레트 정보 채워지고 난 뒤에 진행 상황 불러와야

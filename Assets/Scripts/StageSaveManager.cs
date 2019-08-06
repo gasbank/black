@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +6,6 @@ using UnityEngine.UI;
 public class StageSaveManager : MonoBehaviour {
     [SerializeField] PinchZoom pinchZoom = null;
     [SerializeField] Image targetImage = null;
-    [SerializeField] GridWorld gridWorld = null;
 
     private static void InitializeMessagePackConditional() {
         if (MessagePack.MessagePackSerializer.IsInitialized == false) {
