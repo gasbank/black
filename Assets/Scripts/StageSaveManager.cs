@@ -30,6 +30,12 @@ public class StageSaveManager : MonoBehaviour {
         return Path.Combine(Application.persistentDataPath, $"{stageName}.save");
     }
 
+    public void DeleteSaveFile(string stageName) {
+        var saveDataPath = GetStageSaveDataPath(stageName);
+        Debug.Log($"Deleting save file '{saveDataPath}'...");
+        File.Delete(saveDataPath);
+    }
+
     public StageSaveData Load(string stageName) {
         try {
             SushiDebug.Log($"Loading save data for '{stageName}'...");

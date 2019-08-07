@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] Image image = null;
@@ -40,8 +41,22 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     // 팔레트 정보 채워지고 난 뒤에 진행 상황 불러와야
     // 제대로 된 색깔로 채울 수 있다.
     internal void ResumeGame() {
-        var stageSaveData = stageSaveManager.Load(StageName);
-        LoadBatchFill(stageSaveData.coloredMinPoints);
+        try {
+            var stageSaveData = stageSaveManager.Load(StageName);
+            LoadBatchFill(stageSaveData.coloredMinPoints);
+        } catch (Exception e) {
+            Debug.LogException(e);
+            DeleteSaveFileAndReloadScene();
+        }
+    }
+
+    public void DeleteSaveFileAndReloadScene() {
+        DeleteSaveFile();
+        SceneManager.LoadScene("Main");
+    }
+
+    public void DeleteSaveFile() {
+        stageSaveManager.DeleteSaveFile(StageName);
     }
 
     void SetPixelsByPattern(Vector2Int cursorInt, Vector2Int[] pattern, Color32 color) {

@@ -42,7 +42,7 @@ public class MainGame : MonoBehaviour {
         islandLabelSpawner.CreateAllLabels(stageData);
 
         //gridWorld.FloodFillVec2IntAndApply(1208, 716, true);
-        
+
         var counts = gridWorld.CountWhiteAndBlackInBitmap();
         SushiDebug.Log($"Tex size: {gridWorld.texSize}");
         SushiDebug.Log($"Black count: {counts[0]}");
@@ -51,11 +51,15 @@ public class MainGame : MonoBehaviour {
 
         //gridWorld.FloodFillVec2IntAndApplyWithSolution(BlackConvert.GetInvertedY(new Vector2Int(922, 1202), gridWorld.texSize));
 
-         //gridWorld.ResumeGame();
+        gridWorld.ResumeGame();
     }
 
     public void ResetCamera() {
         targetImage.transform.localPosition = new Vector3(0, 0, targetImage.transform.localPosition.z);
-        pinchZoom.ResetZoom(); 
+        pinchZoom.ResetZoom();
+    }
+
+    public void ResetStage() {
+        gridWorld.DeleteSaveFileAndReloadScene();
     }
 }
