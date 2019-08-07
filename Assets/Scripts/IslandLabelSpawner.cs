@@ -8,6 +8,7 @@ public class IslandLabelSpawner : MonoBehaviour {
     [SerializeField] GridWorld gridWorld = null;
     [SerializeField] RectTransform rt = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
+    [SerializeField] Transform islandLabelNumberGroup = null;
 
     Dictionary<uint, GameObject> labelByMinPoint = new Dictionary<uint, GameObject>();
 
@@ -31,7 +32,7 @@ public class IslandLabelSpawner : MonoBehaviour {
         foreach (var kv in maxRectDict) {
             //if (kv.Value.size.x * kv.Value.size.y >= area) {
                 //Debug.Log($"Big sub rect island: ({kv.Value.xMin},{kv.Value.yMin})-({kv.Value.xMax},{kv.Value.yMax}) area={kv.Value.size.x * kv.Value.size.y}");
-                var label = Instantiate(islandLabelNumberPrefab, transform);
+                var label = Instantiate(islandLabelNumberPrefab, islandLabelNumberGroup);
                 var labelRt = label.GetComponent<RectTransform>();
                 var texSizeFloat = (float)gridWorld.texSize;
                 labelRt.anchoredPosition = new Vector2(kv.Value.center.x / texSizeFloat * rt.sizeDelta.x - rt.sizeDelta.x / 2, kv.Value.center.y / texSizeFloat * rt.sizeDelta.y - rt.sizeDelta.y / 2);
