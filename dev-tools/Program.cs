@@ -23,28 +23,34 @@ namespace black_dev_tools {
             var sourcePngFileName = "/Users/kimgeoyeob/black/Art/colored/190527_Flowers_Colored.png";
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190719_128x128_Colored.png";
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190717_8x8_Colored.png";
+
+            // 이미지 파일을 열어봅시다~
             using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
-                var whiteCount = 0;
+                // 색상 별 픽셀 수
                 Dictionary<Rgba32, int> pixelCountByColor = new Dictionary<Rgba32, int>();
+                // Min Point 별 섬 색상
                 Dictionary<Vector2Int, Rgba32> islandColorByMinPoint = new Dictionary<Vector2Int, Rgba32>();
+                // Min Point 별 섬 픽셀 수(면적)
                 Dictionary<Vector2Int, int> islandPixelAreaByMinPoint = new Dictionary<Vector2Int, int>();
+                // 색상 별 섬 수
                 Dictionary<Rgba32, int> islandCountByColor = new Dictionary<Rgba32, int>();
+                // 픽셀 수(면적) 별 섬 수
                 Dictionary<int, int> islandCountByPixelArea = new Dictionary<int, int>();
+                // Min Point 별 Max Rect
                 Dictionary<uint, ulong> maxRectByMinPoint = new Dictionary<uint, ulong>();
 
+                // 각 픽셀에 대해서 반복한다.
                 for (int h = 0; h < image.Height; h++) {
                     for (int w = 0; w < image.Width; w++) {
                         var pixelColor = image[w, h];
-                        if (pixelColor == Rgba32.White) {
-                            whiteCount++;
-                        }
                         IncreaseCountOfDictionaryValue(pixelCountByColor, pixelColor);
 
                         if (pixelColor == Rgba32.Black) {
-
+                            // 경계선 색상(검은색)이면 할 일이 없다.
                         } else {
-                            List<Vector2Int> points = new List<Vector2Int>();
-                            var fillMinPoint = FloodFill.Execute(image, new Vector2Int(w, h), pixelColor, Rgba32.Black, out var pixelArea, points);
+                            // (w, h) 좌표부터 검은색이 아닌 색을 검은색으로 채우면서 픽셀 수집한다.
+                            // 수집한 모든 픽셀은 points에, points의 min point는 반환값으로 받는다.
+                            var fillMinPoint = FloodFill.ExecuteFillIfNotBlack(image, new Vector2Int(w, h), Rgba32.Black, out var pixelArea, out var points, out var originalColors);
                             if (fillMinPoint != new Vector2Int(image.Width, image.Height)) {
                                 islandColorByMinPoint[fillMinPoint] = pixelColor;
                                 islandPixelAreaByMinPoint[fillMinPoint] = pixelArea;
@@ -73,8 +79,9 @@ namespace black_dev_tools {
                         }
                     }
                 }
-                //image.Save("bar.jpg"); // Automatic encoder selected based on extension.
+                
                 Console.WriteLine($"Total Pixel Count: {image.Width * image.Height}");
+                pixelCountByColor.TryGetValue(Rgba32.White, out var whiteCount);
                 Console.WriteLine($"White Count: {whiteCount}");
 
                 var islandIndex = 0;
