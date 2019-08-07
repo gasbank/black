@@ -51,7 +51,7 @@ public class MainGame : MonoBehaviour {
 
         //gridWorld.FloodFillVec2IntAndApplyWithSolution(BlackConvert.GetInvertedY(new Vector2Int(922, 1202), gridWorld.texSize));
 
-         gridWorld.ResumeGame();
+         //gridWorld.ResumeGame();
     }
 
     public void ResetCamera() {

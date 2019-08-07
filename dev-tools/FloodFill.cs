@@ -61,9 +61,9 @@ namespace black_dev_tools {
             return fillMinPoint;
         }
 
-        public static Vector2Int ExecuteFillIfNotBlack(Image<Rgba32> bitmap, Vector2Int pt, Rgba32 replacementColor, out int pixelArea, out List<Vector2Int> points, out HashSet<Rgba32> originalColors) {
+        public static Vector2Int ExecuteFillIfNotBlack(Image<Rgba32> bitmap, Vector2Int pt, Rgba32 replacementColor, out int pixelArea, out List<Vector2Int> points, out Dictionary<Rgba32, int> originalColors) {
             points = new List<Vector2Int>();
-            originalColors = new HashSet<Rgba32>();
+            originalColors = new Dictionary<Rgba32, int>();
             Queue<Vector2Int> q = new Queue<Vector2Int>();
             q.Enqueue(pt);
             var fillMinPoint = new Vector2Int(bitmap.Width, bitmap.Height);
@@ -76,7 +76,8 @@ namespace black_dev_tools {
                 }
                 Vector2Int w = n, e = new Vector2Int(n.x + 1, n.y);
                 while ((w.x >= 0) && ColorIsNotBlack(GetPixel(bitmap, w.x, w.y))) {
-                    originalColors.Add(SetPixel(bitmap, w.x, w.y, replacementColor));
+                    var oldColor = SetPixel(bitmap, w.x, w.y, replacementColor);
+                    Program.IncreaseCountOfDictionaryValue(originalColors, oldColor);
                     UpdateFillMinPoint(ref fillMinPoint, w);
                     points.Add(w);
                     pixelArea++;
@@ -87,9 +88,10 @@ namespace black_dev_tools {
                     w.x--;
                 }
                 while ((e.x <= bitmap.Width - 1) && ColorIsNotBlack(GetPixel(bitmap, e.x, e.y))) {
-                    originalColors.Add(SetPixel(bitmap, e.x, e.y, replacementColor));
-                    points.Add(e);
+                    var oldColor = SetPixel(bitmap, e.x, e.y, replacementColor);
+                    Program.IncreaseCountOfDictionaryValue(originalColors, oldColor);
                     UpdateFillMinPoint(ref fillMinPoint, e);
+                    points.Add(e);
                     pixelArea++;
                     if ((e.y > 0) && ColorIsNotBlack(GetPixel(bitmap, e.x, e.y - 1)))
                         q.Enqueue(new Vector2Int(e.x, e.y - 1));

@@ -20,7 +20,9 @@ namespace black_dev_tools {
         }
 
         static void Main(string[] args) {
-            var sourcePngFileName = "/Users/kimgeoyeob/black/Art/colored/190527_Flowers_Colored.png";
+            //var sourcePngFileName = "/Users/kimgeoyeob/black/Art/colored/190527_Flowers_Colored.png";
+            var sourcePngFileName = "/Users/kimgeoyeob/black/Art/colored/190527_Flowers_Colored_1px_Contract.png";
+            
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190719_128x128_Colored.png";
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190717_8x8_Colored.png";
 
@@ -50,8 +52,25 @@ namespace black_dev_tools {
                         } else {
                             // (w, h) 좌표부터 검은색이 아닌 색을 검은색으로 채우면서 픽셀 수집한다.
                             // 수집한 모든 픽셀은 points에, points의 min point는 반환값으로 받는다.
-                            var fillMinPoint = FloodFill.ExecuteFillIfNotBlack(image, new Vector2Int(w, h), Rgba32.Black, out var pixelArea, out var points, out var originalColors);
+                            var coord = new Vector2Int(w, h);
+                            var fillMinPoint = FloodFill.ExecuteFillIfNotBlack(image, coord, Rgba32.Black, out var pixelArea, out var points, out var originalColors);
                             if (fillMinPoint != new Vector2Int(image.Width, image.Height)) {
+                                if (originalColors.Count > 1) {
+                                    // 한 섬에 색상이 여러 가지라면 가장 많은 색상이 최종 색깔이 되도록 하자.
+                                    // 주로 경계선 주변에서 경계선과 섬 색깔이 블렌딩되면서 다른 색깔이 되는 패턴이다.
+                                    //var prominentColor = originalColors.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
+                                    var prominentColor = originalColors.OrderByDescending(e => e.Value).Where(e => e.Key != Rgba32.White).First().Key;
+
+                                    pixelColor = prominentColor;
+
+                                    // foreach (var originalColor in originalColors) {
+                                    //     Console.WriteLine($"{originalColor.Key} = {originalColor.Value}");
+                                    // }
+                                    // throw new Exception($"Island color is not uniform! It has {originalColors.Count} colors in it! coord={coord}");
+                                }
+                                if (originalColors.Count == 0) {
+                                    throw new Exception($"Island color is empty. Is this possible?");
+                                }
                                 islandColorByMinPoint[fillMinPoint] = pixelColor;
                                 islandPixelAreaByMinPoint[fillMinPoint] = pixelArea;
                                 IncreaseCountOfDictionaryValue(islandCountByPixelArea, pixelArea);
@@ -146,7 +165,7 @@ namespace black_dev_tools {
             return ((uint)k.y << 16) + (uint)k.x;
         }
 
-        private static void IncreaseCountOfDictionaryValue<T>(Dictionary<T, int> pixelCountByColor, T pixel) {
+        public static void IncreaseCountOfDictionaryValue<T>(Dictionary<T, int> pixelCountByColor, T pixel) {
             pixelCountByColor.TryGetValue(pixel, out var currentCount);
             pixelCountByColor[pixel] = currentCount + 1;
         }
