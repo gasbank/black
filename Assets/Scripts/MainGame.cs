@@ -25,6 +25,7 @@ public class MainGame : MonoBehaviour {
             stageData = (StageData)formatter.Deserialize(stream);
             stream.Close();
         }
+        stageData.islandCountByColor = stageData.islandDataByMinPoint.GroupBy(g => g.Value.rgba).ToDictionary(g => g.Key, g => g.Count());
 
         Debug.Log($"{stageData.islandDataByMinPoint.Count} islands loaded.");
         var maxIslandPixelArea = stageData.islandDataByMinPoint.Max(e => e.Value.pixelArea);

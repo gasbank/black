@@ -5,8 +5,11 @@ using System.Linq;
 
 public class PaletteButtonGroup : MonoBehaviour {
     [SerializeField] PaletteButton paletteButtonPrefab = null;
+    [SerializeField] List<PaletteButton> paletteButtonList = null;
 
     Dictionary<uint, int> paletteIndexbyColor = new Dictionary<uint, int>();
+
+    StageData stageData;
 
     public Color CurrentPaletteColor {
         get {
@@ -38,6 +41,7 @@ public class PaletteButtonGroup : MonoBehaviour {
 
         var colorUintArray = stageData.islandDataByMinPoint.Select(e => e.Value.rgba).Distinct().OrderBy(e => e).ToArray();
         int paletteIndex = 0;
+        paletteButtonList.Clear();
         foreach (var colorUint in colorUintArray) {
             if ((colorUint & 0x00ffffff) == 0x00ffffff) {
                 Debug.LogError("CRITICAL ERROR: Palette color cannot be WHITE!!!");
@@ -47,7 +51,10 @@ public class PaletteButtonGroup : MonoBehaviour {
             paletteIndexbyColor[colorUint] = paletteIndex;
             paletteButton.ColorIndex = paletteIndex + 1;
             paletteIndex++;
+            paletteButtonList.Add(paletteButton);
         }
+
+        this.stageData = stageData;
     }
 
     private void DestroyAllPaletteButtons() {
@@ -58,5 +65,9 @@ public class PaletteButtonGroup : MonoBehaviour {
 
     public int GetPaletteIndexByColor(uint color) {
         return paletteIndexbyColor[color];
+    }
+
+    public void UpdateColoredCount(uint color, int count) {
+        paletteButtonList[GetPaletteIndexByColor(color)].ColoredRatio = (float)count / stageData.islandCountByColor[color];
     }
 }

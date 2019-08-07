@@ -14,6 +14,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
     [SerializeField] StageSaveManager stageSaveManager = null;
     HashSet<uint> coloredMinPoints = new HashSet<uint>();
+    public Dictionary<uint, int> coloredIslandCountByColor = new Dictionary<uint, int>();
     //[SerializeField] TextAsset pngAsset = null;
     StageData stageData;
 
@@ -127,6 +128,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         SushiDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded. Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
         if (pixelList.Count > 0) {
             // 이 지점부터 fillMinPoint는 유효한 값을 가진다.
+            var fillMinPointUint = BlackConvert.GetP(fillMinPoint);
 
             // 디버그 출력
             if (pixelList.Count <= 128) {
@@ -136,7 +138,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             }
 
             Debug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
-            var solutionColorUint = stageData.islandDataByMinPoint[BlackConvert.GetP(fillMinPoint)].rgba;
+            var solutionColorUint = stageData.islandDataByMinPoint[fillMinPointUint].rgba;
             Debug.Log($"Solution Color (uint): {solutionColorUint}");
             if (forceSolutionColor || solutionColorUint == replacementColorUint) {
                 var solutionColor = BlackConvert.GetColor32(solutionColorUint);
@@ -145,9 +147,17 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                     SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
                 }
 
-                islandLabelSpawner.DestroyLabelByMinPoint(BlackConvert.GetP(fillMinPoint));
+                islandLabelSpawner.DestroyLabelByMinPoint(fillMinPointUint);
 
-                coloredMinPoints.Add(BlackConvert.GetP(fillMinPoint));
+                coloredMinPoints.Add(fillMinPointUint);
+                
+                if (coloredIslandCountByColor.TryGetValue(solutionColorUint, out var coloredIslandCount)) {
+                    coloredIslandCount++;
+                } else {
+                    coloredIslandCount = 1;
+                }
+                coloredIslandCountByColor[solutionColorUint] = coloredIslandCount;
+                paletteButtonGroup.UpdateColoredCount(solutionColorUint, coloredIslandCount);
             } else {
                 // 틀리면 다시 흰색으로 칠해야 한다.
                 foreach (var pixel in pixelList) {
