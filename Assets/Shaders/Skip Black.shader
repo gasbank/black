@@ -3,6 +3,7 @@
     Properties
     {
         ColorTexture ("ColorTexture", 2D) = "white" {}
+        AlphaOffset("DistanceOffset", Range(0,1) ) = 0
     }
     SubShader
     {
@@ -31,6 +32,7 @@
 
             sampler2D ColorTexture;
             float4 ColorTexture_ST;
+            float AlphaOffset;
 
             v2f vert (appdata v)
             {
@@ -43,10 +45,7 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 float4 Color = tex2D(ColorTexture,i.uv);
-                float checkZero = Color.r + Color.g + Color.b;
-                if (checkZero == 0) {
-                    Color = float4(1,1,1,1);
-                }
+                Color.a = AlphaOffset + ceil(Color.r + Color.g + Color.b);
                 return Color;
             }
             ENDCG

@@ -71,7 +71,7 @@
 
                 float Distance = tex2D(SdfTexture,i.uv).a;
                 if ( Distance >= EdgeDistance ) {
-                    return Color;
+                    //return Color;
                 }
 
                 Distance += DistanceOffset;
