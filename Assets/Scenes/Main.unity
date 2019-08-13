@@ -1225,7 +1225,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 1.25
+  m_padding: 0
   m_canvasRenderer: {fileID: 661341538}
   m_TextComponent: {fileID: 1670977104}
   m_materialReferenceIndex: 1
@@ -3233,6 +3233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetImage: {fileID: 1643267985}
   targetImageOutine: {fileID: 589030467}
+  islandLabelSpawner: {fileID: 1643267988}
 --- !u!1 &1670977102
 GameObject:
   m_ObjectHideFlags: 0

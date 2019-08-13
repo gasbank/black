@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TargetImage : MonoBehaviour {
     [SerializeField] Image targetImage = null;
     [SerializeField] Image targetImageOutine = null;
+    [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
 
     void OnEnable() {
         targetImage.material = Instantiate(targetImage.material);
@@ -35,5 +36,6 @@ public class TargetImage : MonoBehaviour {
         }
         targetImage.material.SetFloat("AlphaOffset", alphaOffset);
         targetImageOutine.gameObject.SetActive(activateOutline);
+        islandLabelSpawner.SetLabelBackgroundImageActive(activateOutline == false);
     }
 }

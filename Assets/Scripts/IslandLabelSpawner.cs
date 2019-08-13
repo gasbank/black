@@ -64,4 +64,10 @@ public class IslandLabelSpawner : MonoBehaviour {
             Debug.LogError($"DestroyLabelByMinPoint: could not find minPointUint {minPointUint}!");
         }
     }
+
+    public void SetLabelBackgroundImageActive(bool b) {
+        foreach (var kv in labelByMinPoint) {
+            kv.Value.BackgroundImageActive = b;
+        }
+    }
 }

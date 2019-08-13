@@ -18,4 +18,9 @@ public class IslandLabel : MonoBehaviour {
     void OnValidate() {
         rt = GetComponent<RectTransform>();
     }
+
+    public bool BackgroundImageActive {
+        get => backgroundImage.gameObject.activeSelf;
+        set => backgroundImage.gameObject.SetActive(value);
+    }
 }
