@@ -21,7 +21,8 @@ namespace black_dev_tools {
 
         static void Main(string[] args) {
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Art/colored/190527_Flowers_Colored.png";
-            var sourcePngFileName = "../Art/colored/190527_Flowers_Colored_1px_Contract.png";
+            //var sourcePngFileName = "../Art/colored/190527_Flowers_Colored_1px_Contract.png";
+            var sourcePngFileName = "../Art/colored/Necklace.png";
             
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190719_128x128_Colored.png";
             //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190717_8x8_Colored.png";
