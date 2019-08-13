@@ -15,7 +15,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] StageSaveManager stageSaveManager = null;
     HashSet<uint> coloredMinPoints = new HashSet<uint>();
     public Dictionary<uint, int> coloredIslandCountByColor = new Dictionary<uint, int>();
-    //[SerializeField] TextAsset pngAsset = null;
     StageData stageData;
 
     public int texSize => tex.width;
@@ -30,6 +29,19 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
     string StageName => "teststage";
     [SerializeField] int maxIslandPixelArea = 0;
+    [SerializeField] RectTransform rt = null;
+    [SerializeField] GameObject animatedCoinPrefab = null;
+    [SerializeField] RectTransform coinIconRt = null;
+
+    Canvas rootCanvas;
+
+    void OnValidate() {
+        rt = GetComponent<RectTransform>();
+    }
+
+    void Awake() {
+        rootCanvas = GetComponentInParent<Canvas>();
+    }
 
     public Texture2D LoadTexture(Texture2D inputTexture, StageData stageData, int maxIslandPixelArea) {
         tex = Instantiate(inputTexture);
@@ -91,7 +103,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         }
     }
 
-    void FloodFill(Color32[] bitmap, Vector2Int bitmapPoint, Color32 targetColor, uint replacementColorUint, bool forceSolutionColor) {
+    bool FloodFill(Color32[] bitmap, Vector2Int bitmapPoint, Color32 targetColor, uint replacementColorUint, bool forceSolutionColor) {
         Queue<Vector2Int> q = new Queue<Vector2Int>();
         q.Enqueue(bitmapPoint);
         var fillMinPoint = new Vector2Int(texSize, texSize);
@@ -105,7 +117,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             while ((w.x >= 0) && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor)) {
                 if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, w) == false) {
                     // ERROR
-                    return;
+                    return false;
                 }
                 if ((w.y > 0) && ColorMatch(GetPixel(bitmap, w.x, w.y - 1), targetColor))
                     q.Enqueue(new Vector2Int(w.x, w.y - 1));
@@ -116,7 +128,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             while ((e.x <= texSize - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor)) {
                 if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, e) == false) {
                     // ERROR
-                    return;
+                    return false;
                 }
                 if ((e.y > 0) && ColorMatch(GetPixel(bitmap, e.x, e.y - 1), targetColor))
                     q.Enqueue(new Vector2Int(e.x, e.y - 1));
@@ -158,6 +170,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 }
                 coloredIslandCountByColor[solutionColorUint] = coloredIslandCount;
                 paletteButtonGroup.UpdateColoredCount(solutionColorUint, coloredIslandCount);
+                return true;
             } else {
                 // 틀리면 다시 흰색으로 칠해야 한다.
                 foreach (var pixel in pixelList) {
@@ -165,6 +178,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 }
             }
         }
+        return false;
     }
 
     private bool SetPixelAndUpdateMinPoint(Color32[] bitmap, ref Vector2Int fillMinPoint, ICollection<Vector2Int> pixelList, Color replacementColor, Vector2Int bitmapPoint) {
@@ -183,25 +197,29 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     public void OnPointerDown(PointerEventData eventData) {
     }
 
-    void Fill(Vector2 localPoint) {
+    bool Fill(Vector2 localPoint) {
         if (paletteButtonGroup.CurrentPaletteColor != Color.white) {
 
-            var w = transform.GetComponent<RectTransform>().rect.width;
-            var h = transform.GetComponent<RectTransform>().rect.height;
+            var w = rt.rect.width;
+            var h = rt.rect.height;
 
             //Debug.Log($"w={w} / h={h}");
 
             var ix = (int)((localPoint.x + w / 2) / w * image.sprite.texture.width);
             var iy = (int)((localPoint.y + h / 2) / h * image.sprite.texture.height);
-            FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
+            return FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
         }
+        return false;
     }
 
-    public void FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint) {
+    public bool FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint) {
         var bitmap = image.sprite.texture.GetPixels32();
-        FloodFill(bitmap, bitmapPoint, Color.white, paletteButtonGroup.CurrentPaletteColorUint, false);
-        image.sprite.texture.SetPixels32(bitmap);
-        image.sprite.texture.Apply();
+        var result = FloodFill(bitmap, bitmapPoint, Color.white, paletteButtonGroup.CurrentPaletteColorUint, false);
+        if (result) {
+            image.sprite.texture.SetPixels32(bitmap);
+            image.sprite.texture.Apply();
+        }
+        return result;
     }
 
     public void FloodFillVec2IntAndApplyWithSolution(Vector2Int bitmapPoint) {
@@ -248,8 +266,14 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             var loc = transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
             //Debug.Log($"World position 2 = {eventData.pointerPressRaycast.worldPosition}");
 
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(transform.GetComponent<RectTransform>(), eventData.position, Camera.main, out Vector2 localPoint)) {
-                Fill(localPoint);
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, eventData.position, Camera.main, out Vector2 localPoint)) {
+                if (Fill(localPoint)) {
+                    var animatedCoin = Instantiate(animatedCoinPrefab, transform).GetComponent<AnimatedCoin>();
+                    animatedCoin.Rt.anchoredPosition = localPoint;
+                    animatedCoin.TargetRt = coinIconRt;
+                    animatedCoin.transform.SetParent(rootCanvas.transform, true);
+                    animatedCoin.transform.localScale = Vector3.one;
+                }
                 //Debug.Log($"Local position = {localPoint}");
             }
         }
