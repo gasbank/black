@@ -9,11 +9,16 @@ public class AnimatedCoin : MonoBehaviour {
     [SerializeField] float smoothTimePosition = 0.1f;
     [SerializeField] Vector2 currentVelocitySize;
     [SerializeField] float smoothTimeSize = 0.1f;
+    [SerializeField] GridWorld gridWorld = null;
 
     public RectTransform Rt => rt;
     public RectTransform TargetRt {
         get => targetRt;
         set => targetRt = value;
+    }
+    public GridWorld GridWorld {
+        get => gridWorld;
+        set => gridWorld = value;
     }
 
     void OnValidate() {
@@ -32,6 +37,7 @@ public class AnimatedCoin : MonoBehaviour {
 
         if (rt != targetRt && currentVelocityPosition.magnitude < 0.25f) {
             Destroy(gameObject);
+            GridWorld.Coin++;
         }
     }
 }

@@ -33,6 +33,17 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] GameObject animatedCoinPrefab = null;
     [SerializeField] RectTransform coinIconRt = null;
 
+    [SerializeField] int coin = 0;
+    [SerializeField] TMPro.TextMeshProUGUI coinText = null;
+
+    public int Coin {
+        get => coin;
+        set {
+            coin = value;
+            coinText.text = coin.ToString();
+        }
+    }
+
     Canvas rootCanvas;
 
     void OnValidate() {
@@ -41,6 +52,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
     void Awake() {
         rootCanvas = GetComponentInParent<Canvas>();
+        Coin = 0;
     }
 
     public Texture2D LoadTexture(Texture2D inputTexture, StageData stageData, int maxIslandPixelArea) {
@@ -273,6 +285,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                     animatedCoin.TargetRt = coinIconRt;
                     animatedCoin.transform.SetParent(rootCanvas.transform, true);
                     animatedCoin.transform.localScale = Vector3.one;
+                    animatedCoin.GridWorld = this;
                 }
                 //Debug.Log($"Local position = {localPoint}");
             }
