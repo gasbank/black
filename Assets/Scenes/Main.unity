@@ -983,7 +983,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 3cda1a6f15c5848f8ab686c9e9a3a92c, type: 2}
+  m_Material: {fileID: 2100000, guid: 70131d19d1fc1477b96291fb8fe6f554, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
@@ -991,7 +991,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: e13a32969b5cd4d0e97c2f5328177c65, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 692d5f5abacfb4e8a8371b9c217a96ea, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2229,9 +2229,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 516e2cdfc79a440e0b9b646b9f3c3fda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultTexture: {fileID: 2800000, guid: e13a32969b5cd4d0e97c2f5328177c65, type: 3}
+  defaultTexture: {fileID: 2800000, guid: 714ee5cdd9e8446a383f83aa8f4203ca, type: 3}
   gridWorld: {fileID: 1643267984}
-  islandData: {fileID: 4900000, guid: c7c3d47895e454cb1b98574a9bdf8704, type: 3}
+  islandData: {fileID: 4900000, guid: e215f9e7b08ba4317b86d30295b4b993, type: 3}
   paletteButtonGroup: {fileID: 955176418}
   islandLabelSpawner: {fileID: 1643267988}
   targetImage: {fileID: 1643267989}
@@ -3165,7 +3165,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 268075361a2f7ce4d9eb0a6e3b960dd3, type: 2}
+  m_Material: {fileID: 2100000, guid: 20a41f610ff90455dabacb3e88f38626, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -3173,7 +3173,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: e13a32969b5cd4d0e97c2f5328177c65, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 714ee5cdd9e8446a383f83aa8f4203ca, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

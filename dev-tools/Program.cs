@@ -115,6 +115,9 @@ namespace black_dev_tools {
                     islandCountByColor.TryGetValue(kv.Key, out var islandCount);
                     Console.WriteLine($"Color #{colorCountIndex} {kv.Key}: pixelCount={kv.Value}, islandCount={islandCount}");
                     colorCountIndex++;
+                    if (kv.Key == Rgba32.White) {
+                        throw new Exception("Palette color should not be white!");
+                    }
                 }
 
                 var pixelAreaCountIndex = 0;

@@ -157,7 +157,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             // 디버그 출력
             if (pixelList.Count <= 128) {
                 foreach (var pixel in pixelList) {
-                    Debug.Log($"Fill Pixel: {pixel.x}, {texSize - pixel.y - 1}");
+                    //Debug.Log($"Fill Pixel: {pixel.x}, {texSize - pixel.y - 1}");
                 }
             }
 
