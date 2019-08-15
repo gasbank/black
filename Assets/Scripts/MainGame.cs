@@ -1,26 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.UI;
 
 public class MainGame : MonoBehaviour {
-    [SerializeField] Texture2D defaultTexture = null;
     [SerializeField] GridWorld gridWorld = null;
-    [SerializeField] TextAsset islandData = null;
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
     [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
     [SerializeField] TargetImage targetImage = null;
+    [SerializeField] Image targetImageOutline = null;
     [SerializeField] PinchZoom pinchZoom = null;
+    [SerializeField] StageMetadata stageMetadata = null;
 
     StageData stageData;
 
     void Start() {
         Application.runInBackground = false;
 
-        using (var stream = new MemoryStream(islandData.bytes)) {
+        using (var stream = new MemoryStream(stageMetadata.RawStageData.bytes)) {
             var formatter = new BinaryFormatter();
             stageData = (StageData)formatter.Deserialize(stream);
             stream.Close();
@@ -34,8 +32,18 @@ public class MainGame : MonoBehaviour {
         if (StageButton.currentStageTexture != null) {
             gridWorld.LoadTexture(StageButton.currentStageTexture, stageData, maxIslandPixelArea);
         } else {
-            var copiedTex = gridWorld.LoadTexture(defaultTexture, stageData, maxIslandPixelArea);
-            targetImage.SetTargetImageMaterialTexture(copiedTex);
+            var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
+            var colorTexture = Instantiate((Texture2D)skipBlackMaterial.GetTexture("ColorTexture"));
+            skipBlackMaterial.SetTexture("ColorTexture", colorTexture);
+
+            //var copiedTex = gridWorld.LoadTexture(stageMetadata.GridWorldSprite.texture, stageData, maxIslandPixelArea);
+            //var copiedTex = gridWorld.LoadSprite(stageMetadata.GridWorldSprite, stageData, maxIslandPixelArea);
+            //targetImage.SetTargetImageMaterialTexture(copiedTex);
+            gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
+            gridWorld.StageName = stageMetadata.name;
+            targetImage.SetTargetImageMaterial(skipBlackMaterial);
+
+            targetImageOutline.material = stageMetadata.SdfMaterial;
         }
 
         paletteButtonGroup.CreatePalette(stageData);

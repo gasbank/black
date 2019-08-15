@@ -27,7 +27,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     // exclusive
     Vector2 maxCursor => new Vector2(maxCursorInt.x, maxCursorInt.y);
 
-    string StageName => "teststage";
+    public string StageName { get; set; } = "teststage";
+
     [SerializeField] int maxIslandPixelArea = 0;
     [SerializeField] RectTransform rt = null;
     [SerializeField] GameObject animatedCoinPrefab = null;
@@ -55,9 +56,25 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         Coin = 0;
     }
 
-    public Texture2D LoadTexture(Texture2D inputTexture, StageData stageData, int maxIslandPixelArea) {
+    public Texture2D LoadTextureWithInstantiate(Texture2D inputTexture, StageData stageData, int maxIslandPixelArea) {
         tex = Instantiate(inputTexture);
         image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
+        this.stageData = stageData;
+        this.maxIslandPixelArea = maxIslandPixelArea;
+        return tex;
+    }
+
+    public Texture2D LoadTexture(Texture2D inputTexture, StageData stageData, int maxIslandPixelArea) {
+        tex = inputTexture;
+        //image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
+        this.stageData = stageData;
+        this.maxIslandPixelArea = maxIslandPixelArea;
+        return tex;
+    }
+
+    public Texture2D LoadSprite(Sprite sprite, StageData stageData, int maxIslandPixelArea) {
+        tex = sprite.texture;
+        image.sprite = sprite;
         this.stageData = stageData;
         this.maxIslandPixelArea = maxIslandPixelArea;
         return tex;
@@ -217,32 +234,32 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
             //Debug.Log($"w={w} / h={h}");
 
-            var ix = (int)((localPoint.x + w / 2) / w * image.sprite.texture.width);
-            var iy = (int)((localPoint.y + h / 2) / h * image.sprite.texture.height);
+            var ix = (int)((localPoint.x + w / 2) / w * tex.width);
+            var iy = (int)((localPoint.y + h / 2) / h * tex.height);
             return FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
         }
         return false;
     }
 
     public bool FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint) {
-        var bitmap = image.sprite.texture.GetPixels32();
+        var bitmap = tex.GetPixels32();
         var result = FloodFill(bitmap, bitmapPoint, Color.white, paletteButtonGroup.CurrentPaletteColorUint, false);
         if (result) {
-            image.sprite.texture.SetPixels32(bitmap);
-            image.sprite.texture.Apply();
+            tex.SetPixels32(bitmap);
+            tex.Apply();
         }
         return result;
     }
 
     public void FloodFillVec2IntAndApplyWithSolution(Vector2Int bitmapPoint) {
-        var bitmap = image.sprite.texture.GetPixels32();
+        var bitmap = tex.GetPixels32();
         FloodFill(bitmap, bitmapPoint, Color.white, 0xff000000/*alpha=255 black*/, true);
         image.sprite.texture.SetPixels32(bitmap);
         image.sprite.texture.Apply();
     }
 
     public int[] CountWhiteAndBlackInBitmap() {
-        var bitmap = image.sprite.texture.GetPixels32();
+        var bitmap = tex.GetPixels32();
         var blackCount = 0;
         var whiteCount = 0;
         var otherCount = 0;
@@ -261,14 +278,14 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     public void LoadBatchFill(HashSet<uint> coloredMinPoints) {
         Debug.Log($"Starting batch fill of {coloredMinPoints.Count} points");
         if (coloredMinPoints.Count > 0) {
-            var bitmap = image.sprite.texture.GetPixels32();
+            var bitmap = tex.GetPixels32();
             foreach (var minPoint in coloredMinPoints) {
                 var minPointVec2 = BlackConvert.GetPInverse(minPoint);
                 Debug.Log($"... minPoint: {minPointVec2}");
                 FloodFill(bitmap, BlackConvert.GetInvertedY(minPointVec2, texSize), Color.white, 0xff000000/* alpha=1.0 black */, true);
             }
-            image.sprite.texture.SetPixels32(bitmap);
-            image.sprite.texture.Apply();
+            tex.SetPixels32(bitmap);
+            tex.Apply();
         }
     }
 

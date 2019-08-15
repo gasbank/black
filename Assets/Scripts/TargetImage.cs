@@ -20,6 +20,10 @@ public class TargetImage : MonoBehaviour {
         targetImage.material.SetTexture("ColorTexture", tex);
     }
 
+    public void SetTargetImageMaterial(Material material) {
+        targetImage.material = material;
+    }
+
     public void ToggleDebugView() {
         var alphaOffset = targetImage.material.GetFloat("AlphaOffset");
         var activateOutline = false;

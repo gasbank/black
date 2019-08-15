@@ -16,4 +16,4 @@ MonoBehaviour:
   skipBlackMaterial: {fileID: 2100000, guid: 268075361a2f7ce4d9eb0a6e3b960dd3, type: 2}
   sdfSprite: {fileID: 21300000, guid: 28f2f00d00dee4f278bbffbfef9a213f, type: 3}
   sdfMaterial: {fileID: 2100000, guid: 3cda1a6f15c5848f8ab686c9e9a3a92c, type: 2}
-  islandData: {fileID: 4900000, guid: c7c3d47895e454cb1b98574a9bdf8704, type: 3}
+  rawStageData: {fileID: 4900000, guid: c7c3d47895e454cb1b98574a9bdf8704, type: 3}

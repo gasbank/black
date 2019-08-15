@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 
 public class StageMetadata : ScriptableObject {
-    [SerializeField] Sprite gridWorldSprite = null;
     [SerializeField] Material skipBlackMaterial = null;
-    [SerializeField] Sprite sdfSprite = null;
     [SerializeField] Material sdfMaterial = null;
-    [SerializeField] TextAsset islandData = null;
+    [SerializeField] TextAsset rawStageData = null;
+
+    public Material SkipBlackMaterial => skipBlackMaterial;
+    public Material SdfMaterial => sdfMaterial;
+    public TextAsset RawStageData => rawStageData;
 }
