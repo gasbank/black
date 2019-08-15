@@ -3,6 +3,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainGame : MonoBehaviour {
     [SerializeField] GridWorld gridWorld = null;
@@ -17,6 +18,12 @@ public class MainGame : MonoBehaviour {
 
     void Start() {
         Application.runInBackground = false;
+        
+        // Stage Selection 신에서 넘어왔다면 이 조건문이 만족할 것이다.
+        if (StageButton.CurrentStageMetadata != null) {
+            stageMetadata = StageButton.CurrentStageMetadata;
+            SushiDebug.Log($"Stage metadata specified by StageButton: {stageMetadata.name}");
+        }
 
         using (var stream = new MemoryStream(stageMetadata.RawStageData.bytes)) {
             var formatter = new BinaryFormatter();
@@ -29,22 +36,20 @@ public class MainGame : MonoBehaviour {
         var maxIslandPixelArea = stageData.islandDataByMinPoint.Max(e => e.Value.pixelArea);
         Debug.Log($"Max island pixel area: {maxIslandPixelArea}");
 
-        if (StageButton.currentStageTexture != null) {
-            gridWorld.LoadTexture(StageButton.currentStageTexture, stageData, maxIslandPixelArea);
-        } else {
-            var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
-            var colorTexture = Instantiate((Texture2D)skipBlackMaterial.GetTexture("ColorTexture"));
-            skipBlackMaterial.SetTexture("ColorTexture", colorTexture);
 
-            //var copiedTex = gridWorld.LoadTexture(stageMetadata.GridWorldSprite.texture, stageData, maxIslandPixelArea);
-            //var copiedTex = gridWorld.LoadSprite(stageMetadata.GridWorldSprite, stageData, maxIslandPixelArea);
-            //targetImage.SetTargetImageMaterialTexture(copiedTex);
-            gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
-            gridWorld.StageName = stageMetadata.name;
-            targetImage.SetTargetImageMaterial(skipBlackMaterial);
 
-            targetImageOutline.material = stageMetadata.SdfMaterial;
-        }
+        var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
+        var colorTexture = Instantiate((Texture2D)skipBlackMaterial.GetTexture("ColorTexture"));
+        skipBlackMaterial.SetTexture("ColorTexture", colorTexture);
+
+        //var copiedTex = gridWorld.LoadTexture(stageMetadata.GridWorldSprite.texture, stageData, maxIslandPixelArea);
+        //var copiedTex = gridWorld.LoadSprite(stageMetadata.GridWorldSprite, stageData, maxIslandPixelArea);
+        //targetImage.SetTargetImageMaterialTexture(copiedTex);
+        gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
+        gridWorld.StageName = stageMetadata.name;
+        targetImage.SetTargetImageMaterial(skipBlackMaterial);
+
+        targetImageOutline.material = stageMetadata.SdfMaterial;
 
         paletteButtonGroup.CreatePalette(stageData);
 
@@ -70,5 +75,10 @@ public class MainGame : MonoBehaviour {
 
     public void ResetStage() {
         gridWorld.DeleteSaveFileAndReloadScene();
+    }
+
+    public void LoadStageSelectionScene() {
+        gridWorld.WriteStageSaveData();
+        SceneManager.LoadScene("Stage Selection");
     }
 }

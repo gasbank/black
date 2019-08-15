@@ -315,7 +315,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         }
     }
 
-    private void WriteStageSaveData() {
+    public void WriteStageSaveData() {
         stageSaveManager.Save(StageName, coloredMinPoints);
     }
 

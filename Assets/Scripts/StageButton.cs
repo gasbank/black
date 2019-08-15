@@ -1,15 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StageButton : MonoBehaviour {
-    [SerializeField] Image stageImage = null;
-    public static Texture2D currentStageTexture = null;
+    public static StageMetadata CurrentStageMetadata { get; private set; }
 
+    [SerializeField] Image stageImage = null;
+    [SerializeField] StageMetadata stageMetadata = null;
+    
     public void GoToMain() {
-        currentStageTexture = stageImage.mainTexture as Texture2D;
+        CurrentStageMetadata = stageMetadata;
         SceneManager.LoadScene("Main");
     }
 }
