@@ -9,11 +9,11 @@ public class TargetImage : MonoBehaviour {
     [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
 
     void OnEnable() {
-        targetImage.material = Instantiate(targetImage.material);
+        //targetImage.material = Instantiate(targetImage.material);
     }
 
     void OnDisable() {
-        Destroy(targetImage.material);
+        //Destroy(targetImage.material);
     }
 
     public void SetTargetImageMaterialTexture(Texture2D tex) {

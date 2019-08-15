@@ -18,7 +18,7 @@ public class MainGame : MonoBehaviour {
 
     void Start() {
         Application.runInBackground = false;
-        
+
         // Stage Selection 신에서 넘어왔다면 이 조건문이 만족할 것이다.
         if (StageButton.CurrentStageMetadata != null) {
             stageMetadata = StageButton.CurrentStageMetadata;
@@ -36,18 +36,24 @@ public class MainGame : MonoBehaviour {
         var maxIslandPixelArea = stageData.islandDataByMinPoint.Max(e => e.Value.pixelArea);
         Debug.Log($"Max island pixel area: {maxIslandPixelArea}");
 
+        var instantiateMaterials = true;
+        if (instantiateMaterials) {
+            var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
+            var colorTexture = Instantiate((Texture2D)skipBlackMaterial.GetTexture("ColorTexture"));
+            skipBlackMaterial.SetTexture("ColorTexture", colorTexture);
 
+            gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
+            gridWorld.StageName = stageMetadata.name;
+            targetImage.SetTargetImageMaterial(skipBlackMaterial);
+        } else {
+            var skipBlackMaterial = stageMetadata.SkipBlackMaterial;
+            var colorTexture = (Texture2D)skipBlackMaterial.GetTexture("ColorTexture");
+            
+            gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
+            gridWorld.StageName = stageMetadata.name;
+            targetImage.SetTargetImageMaterial(skipBlackMaterial);
+        }
 
-        var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
-        var colorTexture = Instantiate((Texture2D)skipBlackMaterial.GetTexture("ColorTexture"));
-        skipBlackMaterial.SetTexture("ColorTexture", colorTexture);
-
-        //var copiedTex = gridWorld.LoadTexture(stageMetadata.GridWorldSprite.texture, stageData, maxIslandPixelArea);
-        //var copiedTex = gridWorld.LoadSprite(stageMetadata.GridWorldSprite, stageData, maxIslandPixelArea);
-        //targetImage.SetTargetImageMaterialTexture(copiedTex);
-        gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
-        gridWorld.StageName = stageMetadata.name;
-        targetImage.SetTargetImageMaterial(skipBlackMaterial);
 
         targetImageOutline.material = stageMetadata.SdfMaterial;
 
