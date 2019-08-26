@@ -20,12 +20,32 @@ namespace black_dev_tools {
         }
 
         static void Main(string[] args) {
-            //var sourcePngFileName = "/Users/kimgeoyeob/black/Art/colored/190527_Flowers_Colored.png";
-            //var sourcePngFileName = "../Art/colored/190527_Flowers_Colored_1px_Contract.png";
-            var sourcePngFileName = "../Art/colored/Necklace.png";
-            
-            //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190719_128x128_Colored.png";
-            //var sourcePngFileName = "/Users/kimgeoyeob/black/Assets/Sprites/190717_8x8_Colored.png";
+            if (args.Length != 2) {
+                Console.Out.WriteLine("Provide only two arguments [Input.png] [Stage Name]");
+                return;
+            }
+
+            var sourcePngFileName = args[0]; //"../Art/colored/Necklace.png";
+            var stageName = args[1];// Path.GetFileNameWithoutExtension(sourcePngFileName);
+            var outputDir = Path.Combine("..", "Assets", "Stages", stageName);
+            Directory.CreateDirectory(outputDir);
+
+            using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
+                for (int h = 0; h < image.Height; h++) {
+                    for (int w = 0; w < image.Width; w++) {
+                        var pixelColor = image[w, h];
+                        if (pixelColor != Rgba32.Black) {
+                            image[w, h] = Rgba32.White;
+                        }
+                    }
+                }
+
+                var outputPath = Path.Combine(outputDir, stageName + "-Outline.png");
+                using (var stream = new FileStream(outputPath, FileMode.Create)) {
+                    image.SaveAsPng(stream);
+                    stream.Close();
+                }
+            }
 
             // 이미지 파일을 열어봅시다~
             using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
@@ -46,8 +66,7 @@ namespace black_dev_tools {
                 for (int h = 0; h < image.Height; h++) {
                     for (int w = 0; w < image.Width; w++) {
                         var pixelColor = image[w, h];
-                        IncreaseCountOfDictionaryValue(pixelCountByColor, pixelColor);
-
+                        
                         if (pixelColor == Rgba32.Black) {
                             // 경계선 색상(검은색)이면 할 일이 없다.
                         } else {
@@ -72,6 +91,13 @@ namespace black_dev_tools {
                                 if (originalColors.Count == 0) {
                                     throw new Exception($"Island color is empty. Is this possible?");
                                 }
+
+                                if (pixelColor == Rgba32.White) {
+                                    throw new Exception($"Island color is WHITE?! Fix it!");
+                                }
+                                
+                                IncreaseCountOfDictionaryValue(pixelCountByColor, pixelColor);
+
                                 islandColorByMinPoint[fillMinPoint] = pixelColor;
                                 islandPixelAreaByMinPoint[fillMinPoint] = pixelArea;
                                 IncreaseCountOfDictionaryValue(islandCountByPixelArea, pixelArea);
@@ -133,8 +159,6 @@ namespace black_dev_tools {
                     islandColorByMinPointPrimitive[p] = c;
                 }
 
-                var imageName = Path.GetFileNameWithoutExtension(sourcePngFileName);
-
                 var stageData = new StageData();
                 foreach (var kv in islandPixelAreaByMinPoint) {
                     var p = GetP(kv.Key);
@@ -145,7 +169,8 @@ namespace black_dev_tools {
                     };
                 }
 
-                var outputPath = Path.Combine("..", "Assets", "Island Data", imageName + ".bytes");
+                
+                var outputPath = Path.Combine(outputDir, stageName + ".bytes");
                 using (var stream = File.Create(outputPath)) {
                     var formatter = new BinaryFormatter();
                     formatter.Serialize(stream, stageData);

@@ -2235,7 +2235,7 @@ MonoBehaviour:
   targetImage: {fileID: 1643267989}
   targetImageOutline: {fileID: 589030467}
   pinchZoom: {fileID: 519181981}
-  stageMetadata: {fileID: 11400000, guid: 1a98c086a97cbdf47a1ed4dba61716b7, type: 2}
+  stageMetadata: {fileID: 11400000, guid: bde44b13211e94532bce583868bbff64, type: 2}
 --- !u!4 &1037197465
 Transform:
   m_ObjectHideFlags: 0

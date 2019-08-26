@@ -54,8 +54,9 @@ public class MainGame : MonoBehaviour {
             targetImage.SetTargetImageMaterial(skipBlackMaterial);
         }
 
-
         targetImageOutline.material = stageMetadata.SdfMaterial;
+        // SDF 머티리얼 없으면 아예 이 이미지는 안보이게 하자.
+        targetImageOutline.enabled = stageMetadata.SdfMaterial != null;
 
         paletteButtonGroup.CreatePalette(stageData);
 
