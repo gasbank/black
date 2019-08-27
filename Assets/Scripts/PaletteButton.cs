@@ -27,6 +27,7 @@ public class PaletteButton : MonoBehaviour {
     public void SetColor(uint colorUint) {
         this.colorUint = colorUint;
         image.color = BlackConvert.GetColor(colorUint);
+        colorNumberText.color = image.color.grayscale < 0.5f ? Color.white : Color.black;
     }
 
     public Color PaletteColor => image.color;
