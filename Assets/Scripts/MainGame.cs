@@ -19,6 +19,10 @@ public class MainGame : MonoBehaviour {
     void Start() {
         Application.runInBackground = false;
 
+        if (gridWorld == null) {
+            return;
+        }
+
         // Stage Selection 신에서 넘어왔다면 이 조건문이 만족할 것이다.
         if (StageButton.CurrentStageMetadata != null) {
             stageMetadata = StageButton.CurrentStageMetadata;
@@ -85,7 +89,16 @@ public class MainGame : MonoBehaviour {
     }
 
     public void LoadStageSelectionScene() {
-        gridWorld.WriteStageSaveData();
+        if (gridWorld != null) {
+            gridWorld.WriteStageSaveData();
+        }
         SceneManager.LoadScene("Stage Selection");
+    }
+
+    public void LoadMuseumScene() {
+        if (gridWorld != null) {
+            gridWorld.WriteStageSaveData();
+        }
+        SceneManager.LoadScene("Museum");
     }
 }
