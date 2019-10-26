@@ -26,15 +26,28 @@ SpriteAtlas:
       padding: 4
       blockOffset: 1
       allowAlphaSplitting: 0
-      enableRotation: 1
-      enableTightPacking: 1
+      enableRotation: 0
+      enableTightPacking: 0
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 84859c037f0784908b109bc6245e3f8b, type: 3}
-    totalSpriteSurfaceArea: 0
+    totalSpriteSurfaceArea: 21140
     bindAsDefault: 1
+    storedHash:
+      serializedVersion: 2
+      Hash: 00000000000000000000000000000000
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites: []
-  m_PackedSpriteNamesToIndex: []
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 1aeae0917b2aa49f0905f4bc767251e6, type: 3}
+  - {fileID: 21300000, guid: b2ffe8927f1db459f93b05003fa443a8, type: 3}
+  - {fileID: 21300000, guid: 3acf2f3882a0c423680ca99f6af9b36a, type: 3}
+  - {fileID: 21300000, guid: c4006f0aa207e49c3be42992423cc12f, type: 3}
+  - {fileID: 21300000, guid: 5062e3adfcee14f4a99e9e314c0d3354, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - medal
+  - mango
+  - star
+  - number_bg
+  - minime
   m_Tag: UI
   m_IsVariant: 0
