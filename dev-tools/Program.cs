@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Diagnostics;
 
 namespace black_dev_tools {
     class Program {
