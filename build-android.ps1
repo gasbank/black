@@ -67,7 +67,7 @@ if ($OK_COUNT -ne 0) {
 # 6. Deploy to d.yyt.life
 .\upload-to-yyt.ps1 black android-armeabi-v7a top.plusalpha.black "black.apk\Black.armeabi-v7a.apk"
 .\upload-to-yyt.ps1 black android-arm64-v8a top.plusalpha.black "black.apk\Black.arm64-v8a.apk"
-.\upload-to-yyt.ps1 black android-x86 top.plusalpha.black "black.apk\Black.x86.apk"
+#.\upload-to-yyt.ps1 black android-x86 top.plusalpha.black "black.apk\Black.x86.apk"
 
 # 7.  Notify Developers on Telegram
 .\notify-telegram-android-windows.ps1
