@@ -31,28 +31,34 @@ if (-not (Test-Path env:DUMMY_BUILD)) {
 }
 
 # 4. Check build.log
-$ERROR_LINES = (Get-Content build.log | Select-String "\): error CS")
-$ERROR_COUNT = $ERROR_LINES.length
-if ($ERROR_COUNT -ne 0) {
-    Write-Output "$ERROR_COUNT lines detected!"
-	Write-Output $ERROR_LINES
-    exit $ERROR_COUNT
-}
+$OK_LINES = (Get-Content build.log | Select-String "DisplayProgressNotification: Build Successful")
+$OK_COUNT = $OK_LINES.length
+if ($OK_COUNT -ne 0) {
+    # Build successful!
+} else {
+    $ERROR_LINES = (Get-Content build.log | Select-String "\): error CS")
+    $ERROR_COUNT = $ERROR_LINES.length
+    if ($ERROR_COUNT -ne 0) {
+        Write-Output "$ERROR_COUNT lines detected!"
+        Write-Output $ERROR_LINES
+        exit $ERROR_COUNT
+    }
 
-$ERROR_LINES = (Get-Content build.log | Select-String " Error: ")
-$ERROR_COUNT = $ERROR_LINES.length
-if ($ERROR_COUNT -ne 0) {
-    Write-Output "$ERROR_COUNT lines detected!"
-	Write-Output $ERROR_LINES
-    exit $ERROR_COUNT
-}
+    $ERROR_LINES = (Get-Content build.log | Select-String " Error: ")
+    $ERROR_COUNT = $ERROR_LINES.length
+    if ($ERROR_COUNT -ne 0) {
+        Write-Output "$ERROR_COUNT lines detected!"
+        Write-Output $ERROR_LINES
+        exit $ERROR_COUNT
+    }
 
-$ERROR_LINES = (Get-Content build.log | Select-String ": Build Failed")
-$ERROR_COUNT = $ERROR_LINES.length
-if ($ERROR_COUNT -ne 0) {
-    Write-Output "$ERROR_COUNT lines detected!"
-	Write-Output $ERROR_LINES
-    exit $ERROR_COUNT
+    $ERROR_LINES = (Get-Content build.log | Select-String ": Build Failed")
+    $ERROR_COUNT = $ERROR_LINES.length
+    if ($ERROR_COUNT -ne 0) {
+        Write-Output "$ERROR_COUNT lines detected!"
+        Write-Output $ERROR_LINES
+        exit $ERROR_COUNT
+    }
 }
 
 # 5. Upload APK (disabled)
