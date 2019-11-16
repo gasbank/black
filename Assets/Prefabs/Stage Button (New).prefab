@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6033163226383434578}
   - component: {fileID: 6033163226383434579}
   - component: {fileID: 1895337653961597071}
+  - component: {fileID: 5791779156956960447}
   m_Layer: 5
   m_Name: Stage Button (New)
   m_TagString: Untagged
@@ -119,6 +120,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5791779156956960447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6033163226383434589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca35fe571738460f8cb3d2aa22be221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageMetadata: {fileID: 0}
+  stageNumber: {fileID: 6033163226958299836}
 --- !u!1 &6033163226958299838
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,7 +168,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -10}
+  m_AnchoredPosition: {x: 15, y: -10}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6033163226958299827
@@ -184,7 +199,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 6206d59ae9606e0479040157b55654fc, type: 3}
-    m_FontSize: 26
+    m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -195,7 +210,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 1
+  m_Text: 0
 --- !u!1 &6033163227332639379
 GameObject:
   m_ObjectHideFlags: 0
