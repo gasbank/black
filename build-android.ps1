@@ -12,7 +12,7 @@ if (-not (Test-Path env:DUMMY_BUILD)) {
         $env:BUILD_NUMBER = '<NO ENV>'
     }
 
-    & "C:\Program Files\Unity\Hub\Editor\2019.2.11f1\Editor\Unity.exe" `
+    & "C:\Program Files\Unity\Hub\Editor\2019.2.12f1\Editor\Unity.exe" `
         -quit `
         -batchmode `
         -executeMethod BlackBuild.PerformAndroidBuild `
