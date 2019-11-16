@@ -2,9 +2,9 @@ $BOT_TOKEN=$env:BOT_TOKEN
 
 $BUILD_TYPE='AndroidWindows'
 
-$DOWNLOAD_URL_RESULT_ARMEABI_V7A=$(Invoke-WebRequest -s -XGET https://api.yyt.life/d/black/android-armeabi-v7a?count=1)
-$DOWNLOAD_URL_RESULT_ARM64_V8A=$(Invoke-WebRequest -s -XGET https://api.yyt.life/d/black/android-arm64-v8a?count=1)
-$DOWNLOAD_URL_RESULT_X86=$(Invoke-WebRequest -s -XGET https://api.yyt.life/d/black/android-x86?count=1)
+$DOWNLOAD_URL_RESULT_ARMEABI_V7A=$(Invoke-WebRequest -UseBasicParsing -s -XGET https://api.yyt.life/d/black/android-armeabi-v7a?count=1)
+$DOWNLOAD_URL_RESULT_ARM64_V8A=$(Invoke-WebRequest -UseBasicParsing -s -XGET https://api.yyt.life/d/black/android-arm64-v8a?count=1)
+$DOWNLOAD_URL_RESULT_X86=$(Invoke-WebRequest -UseBasicParsing -s -XGET https://api.yyt.life/d/black/android-x86?count=1)
 
 # *****************
 $DOWNLOAD_URL_ARMEABI_V7A=$(Write-Output $DOWNLOAD_URL_RESULT_ARMEABI_V7A.content | ConvertFrom-Json).versions[0]
