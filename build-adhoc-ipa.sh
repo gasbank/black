@@ -10,7 +10,7 @@ xcodebuild \
     -archivePath build \
     CODE_SIGN_STYLE="Manual" \
     PROVISIONING_PROFILE_SPECIFIER="Black Ad Hoc" \
-    CODE_SIGN_IDENTITY="iPhone Distribution: GEOYEOB KIM (TG9MHV97AH)"
+    CODE_SIGN_IDENTITY="Apple Distribution: GEOYEOB KIM (TG9MHV97AH)"
 
 xcodebuild \
     -exportArchive \
