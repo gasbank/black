@@ -4,7 +4,7 @@ if [ -z "${BUILD_NUMBER}" ]; then
   BUILD_NUMBER="<NO ENV>"
 fi
 
-/Applications/Unity/Hub/Editor/2019.2.11f1/Unity.app/Contents/MacOS/Unity \
+/Applications/Unity/Hub/Editor/2019.2.12f1/Unity.app/Contents/MacOS/Unity \
     -quit \
     -batchmode \
     -executeMethod BlackBuild.PerformIosBuild \
