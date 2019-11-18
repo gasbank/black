@@ -7,6 +7,8 @@ public class StageSaveManager : MonoBehaviour {
     [SerializeField] PinchZoom pinchZoom = null;
     [SerializeField] Image targetImage = null;
 
+    static readonly string GameName = "game";
+
     private static void InitializeMessagePackConditional() {
         if (MessagePack.MessagePackSerializer.IsInitialized == false) {
             // 두 번 호출하면 오류난다.
@@ -19,19 +21,25 @@ public class StageSaveManager : MonoBehaviour {
         }
     }
 
-    public void Save(string stageName, HashSet<uint> coloredMinPoints) {
-        SushiDebug.Log($"Saving save data for '{stageName}'...");
-        InitializeMessagePackConditional();
-        File.WriteAllBytes(GetStageSaveDataPath(stageName), MessagePack.LZ4MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints)));
-        SushiDebug.Log($"Good.");
+    public void Save(string stageName, HashSet<uint> coloredMinPoints, GridWorld gridWorld) {
+        SaveStageData(stageName, coloredMinPoints);
+        SaveGameData(gridWorld);
     }
 
-    private static string GetStageSaveDataPath(string stageName) {
-        return Path.Combine(Application.persistentDataPath, $"{stageName}.save");
+    private void SaveStageData(string stageName, HashSet<uint> coloredMinPoints) {
+        SushiDebug.Log($"Saving save data for '{stageName}'...");
+        InitializeMessagePackConditional();
+        FileUtil.SaveAtomically(stageName, MessagePack.LZ4MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints)));
+    }
+
+    private void SaveGameData(GridWorld gridWorld) {
+        SushiDebug.Log($"Saving game data...");
+        InitializeMessagePackConditional();
+        FileUtil.SaveAtomically(GameName, MessagePack.LZ4MessagePackSerializer.Serialize(CreateGameSaveData(gridWorld)));
     }
 
     public void DeleteSaveFile(string stageName) {
-        var saveDataPath = GetStageSaveDataPath(stageName);
+        var saveDataPath = FileUtil.GetPath(stageName);
         Debug.Log($"Deleting save file '{saveDataPath}'...");
         File.Delete(saveDataPath);
     }
@@ -40,7 +48,7 @@ public class StageSaveManager : MonoBehaviour {
         try {
             SushiDebug.Log($"Loading save data for '{stageName}'...");
             InitializeMessagePackConditional();
-            var bytes = File.ReadAllBytes(GetStageSaveDataPath(stageName));
+            var bytes = File.ReadAllBytes(FileUtil.GetPath(stageName));
             SushiDebug.Log($"{bytes.Length} bytes loaded.");
             var stageSaveData = MessagePack.LZ4MessagePackSerializer.Deserialize<StageSaveData>(bytes);
             targetImage.transform.localPosition = new Vector3(stageSaveData.targetImageCenterX, stageSaveData.targetImageCenterY, targetImage.transform.localPosition.z);
@@ -64,5 +72,12 @@ public class StageSaveManager : MonoBehaviour {
             targetImageCenterY = targetImage.transform.localPosition.y,
         };
         return stageSaveData;
+    }
+
+    private GameSaveData CreateGameSaveData(GridWorld gridWorld) {
+        var gameSaveData = new GameSaveData {
+            gold = gridWorld.Gold,
+        };
+        return gameSaveData;
     }
 }

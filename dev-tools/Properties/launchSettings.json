@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Assembly-CSharp": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\black\\dev-tools\\Sprites\\Easy.png\" Easy"
+    }
+  }
+}

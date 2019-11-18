@@ -13,6 +13,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
     [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
     [SerializeField] StageSaveManager stageSaveManager = null;
+    [SerializeField] ScInt gold = 0;
     HashSet<uint> coloredMinPoints = new HashSet<uint>();
     public Dictionary<uint, int> coloredIslandCountByColor = new Dictionary<uint, int>();
     StageData stageData;
@@ -297,16 +298,21 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, eventData.position, Camera.main, out Vector2 localPoint)) {
                 if (Fill(localPoint)) {
-                    var animatedCoin = Instantiate(animatedCoinPrefab, transform).GetComponent<AnimatedCoin>();
-                    animatedCoin.Rt.anchoredPosition = localPoint;
-                    animatedCoin.TargetRt = coinIconRt;
-                    animatedCoin.transform.SetParent(rootCanvas.transform, true);
-                    animatedCoin.transform.localScale = Vector3.one;
-                    animatedCoin.GridWorld = this;
+                    StartAnimateFillCoin(localPoint);
                 }
                 //Debug.Log($"Local position = {localPoint}");
             }
         }
+    }
+
+    private void StartAnimateFillCoin(Vector2 localPoint) {
+        var animatedCoin = Instantiate(animatedCoinPrefab, transform).GetComponent<AnimatedCoin>();
+        animatedCoin.Rt.anchoredPosition = localPoint;
+        animatedCoin.TargetRt = coinIconRt;
+        animatedCoin.transform.SetParent(rootCanvas.transform, true);
+        animatedCoin.transform.localScale = Vector3.one;
+        animatedCoin.GridWorld = this;
+        gold++;
     }
 
     void OnApplicationPause(bool pause) {
@@ -316,10 +322,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     }
 
     public void WriteStageSaveData() {
-        stageSaveManager.Save(StageName, coloredMinPoints);
+        stageSaveManager.Save(StageName, coloredMinPoints, this);
     }
 
     void OnApplicationQuit() {
         WriteStageSaveData();
     }
+
+    public int Gold => gold;
 }

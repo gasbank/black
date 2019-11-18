@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Diagnostics;
 
 namespace black_dev_tools {
     class Program {
@@ -30,43 +25,30 @@ namespace black_dev_tools {
             var outputDir = Path.Combine("..", "Assets", "Stages", stageName);
             Directory.CreateDirectory(outputDir);
 
-            using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
-                for (int h = 0; h < image.Height; h++) {
-                    for (int w = 0; w < image.Width; w++) {
-                        var pixelColor = image[w, h];
-                        if (pixelColor != Rgba32.Black) {
-                            image[w, h] = Rgba32.White;
-                        }
-                    }
-                }
-
-                var outputPath = Path.Combine(outputDir, stageName + "-Outline.png");
-                using (var stream = new FileStream(outputPath, FileMode.Create)) {
-                    image.SaveAsPng(stream);
-                    stream.Close();
-                }
-            }
+            // 완벽한 검은색은 Outline, 그 이외의 모든 색은 흰색으로 칠해진
+            // 파일을 만든다.
+            WriteOutlineImageFile(sourcePngFileName, stageName, outputDir);
 
             // 이미지 파일을 열어봅시다~
             using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
                 // 색상 별 픽셀 수
                 Dictionary<Rgba32, int> pixelCountByColor = new Dictionary<Rgba32, int>();
-                // Min Point 별 섬 색상
+                // Min Point 별 (섬 별) 섬 색상
                 Dictionary<Vector2Int, Rgba32> islandColorByMinPoint = new Dictionary<Vector2Int, Rgba32>();
-                // Min Point 별 섬 픽셀 수(면적)
+                // Min Point 별 (섬 별) 섬 픽셀 수(면적)
                 Dictionary<Vector2Int, int> islandPixelAreaByMinPoint = new Dictionary<Vector2Int, int>();
                 // 색상 별 섬 수
                 Dictionary<Rgba32, int> islandCountByColor = new Dictionary<Rgba32, int>();
                 // 픽셀 수(면적) 별 섬 수
                 Dictionary<int, int> islandCountByPixelArea = new Dictionary<int, int>();
-                // Min Point 별 Max Rect
+                // Min Point 별 (섬 별) Max Rect
                 Dictionary<uint, ulong> maxRectByMinPoint = new Dictionary<uint, ulong>();
 
                 // 각 픽셀에 대해서 반복한다.
                 for (int h = 0; h < image.Height; h++) {
                     for (int w = 0; w < image.Width; w++) {
                         var pixelColor = image[w, h];
-                        
+
                         if (pixelColor == Rgba32.Black) {
                             // 경계선 색상(검은색)이면 할 일이 없다.
                         } else {
@@ -95,7 +77,7 @@ namespace black_dev_tools {
                                 if (pixelColor == Rgba32.White) {
                                     throw new Exception($"Island color is WHITE?! Fix it!");
                                 }
-                                
+
                                 IncreaseCountOfDictionaryValue(pixelCountByColor, pixelColor);
 
                                 islandColorByMinPoint[fillMinPoint] = pixelColor;
@@ -125,7 +107,7 @@ namespace black_dev_tools {
                         }
                     }
                 }
-                
+
                 Console.WriteLine($"Total Pixel Count: {image.Width * image.Height}");
                 pixelCountByColor.TryGetValue(Rgba32.White, out var whiteCount);
                 Console.WriteLine($"White Count: {whiteCount}");
@@ -159,6 +141,37 @@ namespace black_dev_tools {
                     islandColorByMinPointPrimitive[p] = c;
                 }
 
+                // 너무 작은 섬이 있다면 원본 파일(sourcePngFileName)에다가
+                // 작은 섬을 제거한(검은색으로 칠한) 상태를 만들어 원본 위치와 같은 곳에 쓴다.
+                // 그리고 프로그램 종료시킨다.
+                bool smallIslandRemoved = false;
+                using (Image<Rgba32> outlineImage = Image.Load(sourcePngFileName)) {
+                    
+                    foreach (var island in islandPixelAreaByMinPoint) {
+                        if (island.Value < 4 * 4) {
+
+                            var fillMinPoint = FloodFill.ExecuteFillIfNotBlack(outlineImage, island.Key, Rgba32.Black, out var pixelArea, out var points, out var originalColors);
+                            if (fillMinPoint != new Vector2Int(outlineImage.Width, outlineImage.Height) && pixelArea == island.Value) {
+                                smallIslandRemoved = true;
+                            } else {
+                                Console.WriteLine("Logic Error!");
+                            }
+                        }
+                    }
+
+                    if (smallIslandRemoved) {
+                        // 원래 파일에 덮어 쓴다!
+                        using (var stream = new FileStream(sourcePngFileName + "-SmallIslandRemoved.png", FileMode.Create)) {
+                            outlineImage.SaveAsPng(stream);
+                            stream.Close();
+                        }
+
+                        Console.WriteLine("TOO SMALL ISLANDS DETECTED. Small Island Removed file created.");
+                        Console.WriteLine("Abort...");
+                        return;
+                    }
+                }
+
                 var stageData = new StageData();
                 foreach (var kv in islandPixelAreaByMinPoint) {
                     var p = GetP(kv.Key);
@@ -169,7 +182,7 @@ namespace black_dev_tools {
                     };
                 }
 
-                
+
                 var outputPath = Path.Combine(outputDir, stageName + ".bytes");
                 using (var stream = File.Create(outputPath)) {
                     var formatter = new BinaryFormatter();
@@ -179,6 +192,27 @@ namespace black_dev_tools {
 
                 Console.WriteLine($"{stageData.islandDataByMinPoint.Count} islands loaded.");
                 Console.WriteLine($"Written to {outputPath}");
+
+                
+            }
+        }
+
+        private static void WriteOutlineImageFile(string sourcePngFileName, string stageName, string outputDir) {
+            using (Image<Rgba32> image = Image.Load(sourcePngFileName)) {
+                for (int h = 0; h < image.Height; h++) {
+                    for (int w = 0; w < image.Width; w++) {
+                        var pixelColor = image[w, h];
+                        if (pixelColor != Rgba32.Black) {
+                            image[w, h] = Rgba32.White;
+                        }
+                    }
+                }
+
+                var outputPath = Path.Combine(outputDir, stageName + "-Outline.png");
+                using (var stream = new FileStream(outputPath, FileMode.Create)) {
+                    image.SaveAsPng(stream);
+                    stream.Close();
+                }
             }
         }
 
