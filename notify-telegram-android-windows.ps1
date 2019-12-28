@@ -38,5 +38,5 @@ Invoke-WebRequest -UseBasicParsing -Method POST -Uri $SEND_MESSAGE_URL -ContentT
 
 
 $DEV_DEVICE_FCM_TOKEN="cYNTYuvuQmE:APA91bEycsmgL4FBW5ggbiHe28XbpkVYD13MAr3JqyOtH3k-zWDQTN4BJPfzj0GgtdBldTnvZ4NPcsr57qUclU8fRv7FzuSo8YvGyMjOnIItcSKxEMhtMTvRp_DSFIVDAc0Y3ftczCtM"
-
-node C:\sushi-dev-tools\sulchi-server\index.js $BUILD_NUMBER $DOWNLOAD_URL_ARM64_V8A $DEV_DEVICE_FCM_TOKEN
+$PACKAGE_NAME="top.plusalpha.black"
+node C:\sushi-dev-tools\sulchi-server\index.js $BUILD_NUMBER $DOWNLOAD_URL_ARM64_V8A $DEV_DEVICE_FCM_TOKEN $PACKAGE_NAME
