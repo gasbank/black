@@ -1,6 +1,6 @@
 #!/bin/bash
 
-UNITY_VERSION=2019.2.11f1
+UNITY_VERSION=2019.2.17f1
 UNAME_OUT="$(uname -s)"
 case "${UNAME_OUT}" in
     Linux*)     UNITY_EDITOR="/home/gb/Unity/Hub/Editor/${UNITY_VERSION}/Editor/Unity";;
