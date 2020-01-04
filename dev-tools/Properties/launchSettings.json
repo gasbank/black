@@ -2,7 +2,7 @@
   "profiles": {
     "Assembly-CSharp": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\black\\dev-tools\\Sprites\\Easy.png\" Easy"
+      "commandLineArgs": "batch \"C:\\Users\\gb\\Google Drive\\2020_컬러뮤지엄\" \"\\02. Stage\" \"\\03. Stage Data\""
     }
   }
 }

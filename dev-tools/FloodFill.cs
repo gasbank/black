@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -10,6 +11,10 @@ namespace black_dev_tools {
 
         static bool ColorIsNotBlack(Rgba32 a) {
             return a != Rgba32.Black;
+        }
+
+        static bool ColorIsNotAndNotBlack(Rgba32 a, Rgba32 thisColor) {
+            return ColorIsNotBlack(a) && a != thisColor;
         }
 
         static Rgba32 GetPixel(Image<Rgba32> bitmap, int x, int y) {
@@ -99,7 +104,60 @@ namespace black_dev_tools {
                         q.Enqueue(new Vector2Int(e.x, e.y + 1));
                     e.x++;
                 }
+
+                //using (var stream = new FileStream(@"C:\black\dev-tools\bin\Debug\Assets\Stages\test.png", FileMode.Create)) {
+                //    bitmap.SaveAsPng(stream);
+                //    stream.Close();
+                //}
             }
+            return fillMinPoint;
+        }
+
+        public static Vector2Int ExecuteFillIf(Image<Rgba32> bitmap, Vector2Int pt, Rgba32 beforeColor, Rgba32 replacementColor, out int pixelArea, out List<Vector2Int> points, out Dictionary<Rgba32, int> originalColors) {
+            points = new List<Vector2Int>();
+            originalColors = new Dictionary<Rgba32, int>();
+            Queue<Vector2Int> q = new Queue<Vector2Int>();
+            q.Enqueue(pt);
+            var fillMinPoint = new Vector2Int(bitmap.Width, bitmap.Height);
+            pixelArea = 0;
+            while (q.Count > 0) {
+                var n = q.Dequeue();
+                var nc = GetPixel(bitmap, n.x, n.y);
+                if (ColorIsNotAndNotBlack(nc, replacementColor) == false) {
+                    continue;
+                }
+                Vector2Int w = n, e = new Vector2Int(n.x + 1, n.y);
+                while ((w.x >= 0) && ColorIsNotAndNotBlack(GetPixel(bitmap, w.x, w.y), replacementColor)) {
+                    var oldColor = SetPixel(bitmap, w.x, w.y, replacementColor);
+                    Program.IncreaseCountOfDictionaryValue(originalColors, oldColor);
+                    UpdateFillMinPoint(ref fillMinPoint, w);
+                    points.Add(w);
+                    pixelArea++;
+                    if ((w.y > 0) && ColorIsNotAndNotBlack(GetPixel(bitmap, w.x, w.y - 1), replacementColor))
+                        q.Enqueue(new Vector2Int(w.x, w.y - 1));
+                    if ((w.y < bitmap.Height - 1) && ColorIsNotAndNotBlack(GetPixel(bitmap, w.x, w.y + 1), replacementColor))
+                        q.Enqueue(new Vector2Int(w.x, w.y + 1));
+                    w.x--;
+                }
+                while ((e.x <= bitmap.Width - 1) && ColorIsNotAndNotBlack(GetPixel(bitmap, e.x, e.y), replacementColor)) {
+                    var oldColor = SetPixel(bitmap, e.x, e.y, replacementColor);
+                    Program.IncreaseCountOfDictionaryValue(originalColors, oldColor);
+                    UpdateFillMinPoint(ref fillMinPoint, e);
+                    points.Add(e);
+                    pixelArea++;
+                    if ((e.y > 0) && ColorIsNotAndNotBlack(GetPixel(bitmap, e.x, e.y - 1), replacementColor))
+                        q.Enqueue(new Vector2Int(e.x, e.y - 1));
+                    if ((e.y < bitmap.Height - 1) && ColorIsNotAndNotBlack(GetPixel(bitmap, e.x, e.y + 1), replacementColor))
+                        q.Enqueue(new Vector2Int(e.x, e.y + 1));
+                    e.x++;
+                }
+            }
+
+            //using (var stream = new FileStream(@"C:\black\dev-tools\bin\Debug\Assets\Stages\test.png", FileMode.Create)) {
+            //    bitmap.SaveAsPng(stream);
+            //    stream.Close();
+            //}
+
             return fillMinPoint;
         }
 

@@ -1,0 +1,7 @@
+"C:\Users\gb\Google Drive\2020_컬러뮤지엄\02. Stage\10~20\마틴존슨히드_블루벨벳천과목련.jpg"
+
+dit "C:\black\dev-tools\bin\Debug\Assets\Stages\귀에-붕대를-감은-자화상.png" 30 "\Stages" "\Stage Data"
+
+batch "C:\black\dev-tools\bin\Debug\Assets\Stages" "\Stages" "\ProcessedStages"
+
+batch "C:\Users\gb\Google Drive\2020_컬러뮤지엄" "\02. Stage" "\03. Stage Data"
