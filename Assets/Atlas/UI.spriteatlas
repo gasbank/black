@@ -31,23 +31,41 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 84859c037f0784908b109bc6245e3f8b, type: 3}
-    totalSpriteSurfaceArea: 21140
+    totalSpriteSurfaceArea: 166163
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 00000000000000000000000000000000
+      Hash: 25b9c622f377db6f25a8c878bc7c62c1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 1aeae0917b2aa49f0905f4bc767251e6, type: 3}
+  - {fileID: 21300000, guid: db654902386abdd4ca6f81f40bab89dd, type: 3}
   - {fileID: 21300000, guid: b2ffe8927f1db459f93b05003fa443a8, type: 3}
+  - {fileID: 21300000, guid: 423f2764e2e4a9c45b9266b35fbf4126, type: 3}
+  - {fileID: 21300000, guid: 92137ea46e6f3de4c8b66745168f8009, type: 3}
   - {fileID: 21300000, guid: 3acf2f3882a0c423680ca99f6af9b36a, type: 3}
+  - {fileID: 21300000, guid: 692dbe0a87911114887b0121301e239c, type: 3}
   - {fileID: 21300000, guid: c4006f0aa207e49c3be42992423cc12f, type: 3}
+  - {fileID: 21300000, guid: 26cba6ea3f17e724286b41a9241e7638, type: 3}
+  - {fileID: 21300000, guid: a7ec3a4d8390bd64d92fd5d60ef4a673, type: 3}
+  - {fileID: 21300000, guid: 04d06e7dca5c2e74589306b53c1112e3, type: 3}
   - {fileID: 21300000, guid: 5062e3adfcee14f4a99e9e314c0d3354, type: 3}
+  - {fileID: 21300000, guid: 058a6d6e5bc59424c848def4c110fe3c, type: 3}
+  - {fileID: 21300000, guid: 83e4dd9fc591fc5438b5a640a532593f, type: 3}
   m_PackedSpriteNamesToIndex:
   - medal
+  - SideMenu_UI_slot_bg
   - mango
+  - bg_01_06
+  - SideMenu_ui_ScrollBar
   - star
+  - SideMenu_in_bg
   - number_bg
+  - SideMenu_Tile_bg02
+  - SideMenu_UI_slot_ Lock
+  - SideMenu_Btn_play_Normal
   - minime
+  - SideMenu_Btn_REplay_Normal
+  - SideMenu_Tile_bg
   m_Tag: UI
   m_IsVariant: 0
