@@ -6,7 +6,7 @@ class BlackBuild {
     static string[] Scenes {
         get {
             return new string[] {
-                "Assets/Scenes/Museum.unity",
+                //"Assets/Scenes/Museum.unity",
                 "Assets/Scenes/Stage Selection.unity",
                 "Assets/Scenes/Main.unity",
             };

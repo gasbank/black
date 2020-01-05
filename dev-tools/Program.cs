@@ -11,6 +11,9 @@ using System.Text.RegularExpressions;
 using System.Numerics;
 
 namespace black_dev_tools {
+
+    class IslandCountException : Exception {}
+
     class Program {
         static private string outputPathReplaceFrom = "";
         static private string outputPathReplaceTo = "";
@@ -28,7 +31,15 @@ namespace black_dev_tools {
             } else if (mode == "sdf") {
                 ProcessSdf(args);
             } else {
-                ProcessSingleFile(args);
+                ProcessSingleFileAdaptiveOutlineThreshold(args);
+            }
+        }
+
+        private static void ProcessSingleFileAdaptiveOutlineThreshold(string[] args) {
+            try {
+                ProcessSingleFile(args, 20);
+            } catch (IslandCountException) {
+                ProcessSingleFile(args, 30);
             }
         }
 
@@ -134,7 +145,7 @@ namespace black_dev_tools {
                 if (Regex.IsMatch(inputFileName, @"\\[0-9][0-9]~[0-9][0-9]\\")) {
                     Console.Out.WriteLine(inputFileName);
 
-                    ProcessSingleFile(new string[] {
+                    ProcessSingleFileAdaptiveOutlineThreshold(new string[] {
                         "dit",
                         inputFileName,
                         30.ToString(),
@@ -145,7 +156,7 @@ namespace black_dev_tools {
             }
         }
 
-        private static void ProcessSingleFile(string[] args) {
+        private static void ProcessSingleFile(string[] args, int outlineThreshold) {
             if (args.Length < 3) {
                 Console.Out.WriteLine("Provide three arguments: [mode] [Input.png/jpg] [max colors] <output path replace from> <output path replace to>");
             }
@@ -164,26 +175,26 @@ namespace black_dev_tools {
             }
 
             if (mode == "otb") {
-                ExecuteOutlineToBlack(startFileName);
+                ExecuteOutlineToBlack(startFileName, outlineThreshold);
             } else if (mode == "fsnb") {
-                var otbFileName = ExecuteOutlineToBlack(startFileName);
+                var otbFileName = ExecuteOutlineToBlack(startFileName, outlineThreshold);
                 ExecuteFillSmallNotBlack(otbFileName);
             } else if (mode == "q") {
-                var otbFileName = ExecuteOutlineToBlack(startFileName);
+                var otbFileName = ExecuteOutlineToBlack(startFileName, outlineThreshold);
                 ExecuteQuantize(startFileName, maxColor);
             } else if (mode == "fots") {
-                var otbFileName = ExecuteOutlineToBlack(startFileName);
+                var otbFileName = ExecuteOutlineToBlack(startFileName, outlineThreshold);
                 var fsnbFileName = ExecuteFillSmallNotBlack(otbFileName);
                 var qFileName = ExecuteQuantize(startFileName, maxColor);
                 ExecuteFlattenedOutlineToSource(qFileName, fsnbFileName);
             } else if (mode == "di") {
-                var otbFileName = ExecuteOutlineToBlack(startFileName);
+                var otbFileName = ExecuteOutlineToBlack(startFileName, outlineThreshold);
                 var fsnbFileName = ExecuteFillSmallNotBlack(otbFileName);
                 var qFileName = ExecuteQuantize(startFileName, maxColor);
                 var fotsFileName = ExecuteFlattenedOutlineToSource(qFileName, fsnbFileName);
                 ExecuteDetermineIsland(fotsFileName, startFileName);
             } else if (mode == "dit") {
-                var otbFileName = ExecuteOutlineToBlack(startFileName);
+                var otbFileName = ExecuteOutlineToBlack(startFileName, outlineThreshold);
                 var fsnbFileName = ExecuteFillSmallNotBlack(otbFileName);
                 var qFileName = ExecuteQuantize(startFileName, maxColor);
                 var fotsFileName = ExecuteFlattenedOutlineToSource(qFileName, fsnbFileName);
@@ -319,6 +330,10 @@ namespace black_dev_tools {
                 pixelCountByColor.TryGetValue(Rgba32.White, out var whiteCount);
                 Console.WriteLine($"White Count: {whiteCount}");
 
+                if (islandColorByMinPoint.Count < 2) {
+                    throw new IslandCountException();
+                }
+
                 var islandIndex = 0;
                 foreach (var kv in islandColorByMinPoint) {
                     Console.WriteLine($"Island #{islandIndex} fillMinPoint={kv.Key}, color={kv.Value}, area={islandPixelAreaByMinPoint[kv.Key]}");
@@ -428,7 +443,7 @@ namespace black_dev_tools {
         }
 
         // 애매한 검은색을 완전한 검은색으로 바꾼다.
-        private static string ExecuteOutlineToBlack(string sourceFileName, int threshold = 20) {
+        private static string ExecuteOutlineToBlack(string sourceFileName, int threshold) {
             var targetFileName = AppendToFileName(sourceFileName, "-OTB");
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
                 for (int h = 0; h < image.Height; h++) {

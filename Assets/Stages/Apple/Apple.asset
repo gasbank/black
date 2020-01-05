@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b23da9edfa09124e9e96153e459fd51, type: 3}
+  m_Name: Apple
+  m_EditorClassIdentifier: 
+  skipBlackMaterial: {fileID: 2100000, guid: 4dcef54c9cd53234ca66c1896b68a684, type: 2}
+  sdfMaterial: {fileID: 2100000, guid: d0d8e9f6594843c4bb5f0241db6899e8, type: 2}
+  rawStageData: {fileID: 4900000, guid: 161123e3c1222b840b25c1f43b2e2dac, type: 3}
