@@ -1,0 +1,49 @@
+service: black-transform-api
+
+provider:
+  name: aws
+  runtime: dotnetcore2.1
+  stage: dev
+  region: ap-northeast-2
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:GetBucketNotification"
+        - "s3:PutBucketNotification"
+      Resource:
+        - "arn:aws:s3:::${env:SOURCE_BUCKET}"
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+        - "s3:GetObject"
+        - "s3:DeleteObject"
+      Resource:
+        - "arn:aws:s3:::${env:SOURCE_BUCKET}/*"
+  environment:
+    SOURCE_BUCKET: ${env:SOURCE_BUCKET}
+    UPLOAD_KEY_PREFIX: ${env:UPLOAD_KEY_PREFIX}
+
+package:
+  individually: true
+
+functions:
+  transform:
+    handler: CsharpHandlers::Black.Handler::TransformImage
+    package:
+      artifact: bin/release/netcoreapp2.1/transform-image.zip
+    memorySize: 1024
+    timeout: 300
+    events:
+      - s3:
+        bucket: ${env:SOURCE_BUCKET}
+        event: s3:ObjectCreated:*
+        rules:
+          - prefix: uploads/
+          - suffix: .jpg
+        existing: true
+#resources:
+#  Resources:
+#    NewResource:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: ${env:SOURCE_BUCKET}
