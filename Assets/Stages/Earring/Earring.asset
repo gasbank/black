@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3b23da9edfa09124e9e96153e459fd51, type: 3}
-  m_Name: Napoleon
+  m_Name: Earring
   m_EditorClassIdentifier: 
-  skipBlackMaterial: {fileID: 2100000, guid: 281861c33297d674fbc34da01057d2c2, type: 2}
-  sdfMaterial: {fileID: 2100000, guid: 9f5d514cbc20591439a6d8a2dd262265, type: 2}
-  rawStageData: {fileID: 4900000, guid: 1e22e8db3a8252b4a831462aac78cafe, type: 3}
+  skipBlackMaterial: {fileID: 2100000, guid: 20a41f610ff90455dabacb3e88f38626, type: 2}
+  sdfMaterial: {fileID: 2100000, guid: 70131d19d1fc1477b96291fb8fe6f554, type: 2}
+  rawStageData: {fileID: 4900000, guid: f72cbba77a935a2468cabb6f0968b666, type: 3}

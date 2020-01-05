@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Vase
   m_EditorClassIdentifier: 
   skipBlackMaterial: {fileID: 2100000, guid: edd910446e3f24734a85e1cc2bc01343, type: 2}
-  sdfMaterial: {fileID: 0}
-  rawStageData: {fileID: 4900000, guid: 0f45f075645694173825bdc29197eed3, type: 3}
+  sdfMaterial: {fileID: 2100000, guid: d7e76c8a5e1bc23438b48c008f33ab9f, type: 2}
+  rawStageData: {fileID: 4900000, guid: d4cac20f8b09c9e41acee5f25afe3888, type: 3}

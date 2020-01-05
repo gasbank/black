@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Hay
   m_EditorClassIdentifier: 
   skipBlackMaterial: {fileID: 2100000, guid: 9e0d8cf53796a534da8adf4ffdb78f94, type: 2}
-  sdfMaterial: {fileID: 0}
+  sdfMaterial: {fileID: 2100000, guid: 16431a5ad14e2304a958bf83bf27d5e8, type: 2}
   rawStageData: {fileID: 4900000, guid: 5ebb051e2b1ed7146af46b3344c9c534, type: 3}

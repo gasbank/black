@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Waves
   m_EditorClassIdentifier: 
   skipBlackMaterial: {fileID: 2100000, guid: d73603c18e46aa346acaa4ff4a6f29ee, type: 2}
-  sdfMaterial: {fileID: 0}
+  sdfMaterial: {fileID: 2100000, guid: 99f63e84df0ff6649a0e4fbce505956d, type: 2}
   rawStageData: {fileID: 4900000, guid: b76878f8d3af45649a6f63a7cc93f063, type: 3}

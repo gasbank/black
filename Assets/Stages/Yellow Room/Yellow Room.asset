@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Yellow Room
   m_EditorClassIdentifier: 
   skipBlackMaterial: {fileID: 2100000, guid: 435e20b7fd174b240bcfed6a3fb915ef, type: 2}
-  sdfMaterial: {fileID: 0}
+  sdfMaterial: {fileID: 2100000, guid: c03074446a391404da1ae19551cb3fba, type: 2}
   rawStageData: {fileID: 4900000, guid: 60c1bb2f006842f4da6c62b68c520005, type: 3}

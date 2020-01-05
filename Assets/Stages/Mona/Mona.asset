@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Mona
   m_EditorClassIdentifier: 
   skipBlackMaterial: {fileID: 2100000, guid: f3bf5aa4722e54f0a90d647ace5d61a7, type: 2}
-  sdfMaterial: {fileID: 0}
-  rawStageData: {fileID: 4900000, guid: b617174d329ce4746af975e850a83000, type: 3}
+  sdfMaterial: {fileID: 2100000, guid: f0f168b39a4ff4f4f9baf83df9b2f8e9, type: 2}
+  rawStageData: {fileID: 4900000, guid: 65806a79782ec3147b573feffb15a172, type: 3}

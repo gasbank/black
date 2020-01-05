@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ear SDF
+  m_Name: Hay SDF
   m_Shader: {fileID: 4800000, guid: 66ea61084c31443eda5de9eb4804b6d0, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -24,7 +24,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - SdfTexture:
-        m_Texture: {fileID: 2800000, guid: 94dd98585996e1a4396788a5a5b2381f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 85e8836151d72564dbfad3c5b6df74a7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:

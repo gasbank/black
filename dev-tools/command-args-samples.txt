@@ -4,9 +4,9 @@ dit "C:\black\dev-tools\bin\Debug\Assets\Stages\귀에-붕대를-감은-자화�
 
 batch "C:\black\dev-tools\bin\Debug\Assets\Stages" "\Stages" "\ProcessedStages"
 
-batch "C:\Users\gb\Google Drive\2020_컬러뮤지엄" "\02. Stage" "\03. Stage Data"
+batch "C:\Users\gb\Google Drive\2020_컬러뮤지엄\02. Stage" "\02. Stage" "\03. Stage Data"
 
-sdf "C:\black\Assets\Stages\Ear\귀에-붕대를-감은-자화상-OTB-FSNB-Alpha.png"
+sdf "C:\black\Assets\Stages\Ear\귀에-붕대를-감은-자화상-OTB-FSNB.png"
 
 1. '-FSNB' 이미지의 외곽선만 알파 100% 검은색인 이미지 '-ALPHA' 생성
 2. '-ALPHA' 이미지 2픽셀 박스 블러

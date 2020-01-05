@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Piper
   m_EditorClassIdentifier: 
   skipBlackMaterial: {fileID: 2100000, guid: f7df7a712a35f45e0a66efb9eb28fa9d, type: 2}
-  sdfMaterial: {fileID: 0}
-  rawStageData: {fileID: 4900000, guid: 6d16b4a65ff8d43d1b6e3ee6740f8198, type: 3}
+  sdfMaterial: {fileID: 2100000, guid: 0d3d58b75f9a1426580f85d094966665, type: 2}
+  rawStageData: {fileID: 4900000, guid: 20361efc4d2e4f348bce32742b35c570, type: 3}
