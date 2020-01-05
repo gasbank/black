@@ -147,7 +147,7 @@ namespace black_dev_tools {
 			if (maxInside > 0f) {
 				for (y = 0; y < height; y++) {
 					for (x = 0; x < width; x++) {
-						pixels[x, y].alpha = 1f - source.GetPixel(x, y).A / 255f;
+						pixels[x, y].alpha = source.GetPixel(x, y).R / 255f;
 					}
 				}
 				ComputeEdgeGradients();
@@ -166,7 +166,7 @@ namespace black_dev_tools {
 			if (maxOutside > 0f) {
 				for (y = 0; y < height; y++) {
 					for (x = 0; x < width; x++) {
-						pixels[x, y].alpha = source.GetPixel(x, y).A / 255f;
+						pixels[x, y].alpha = 1f - source.GetPixel(x, y).R / 255f;
 					}
 				}
 				ComputeEdgeGradients();

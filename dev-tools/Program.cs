@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using SixLabors.ImageSharp.Processing.Processors.Quantization;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using System.Numerics;
 
 namespace black_dev_tools {
     class Program {
@@ -47,13 +48,58 @@ namespace black_dev_tools {
                 outputPathReplaceTo = args[3];
             }
 
+            var bbFileName = ProcessBoxBlur(sourceFileName, 2);
+            return ExecuteSdf(bbFileName);
+        }
+
+        private static string ExecuteSdf(string sourceFileName) {
             var targetFileName = AppendToFileName(sourceFileName, "-SDF");
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
 
-                var targetImage = image.Clone();
+                var targetImage = new Image<Rgba32>(image.Width, image.Height);
 
                 SDFTextureGenerator.Generate(image, targetImage, 0, 3, 0, RGBFillMode.White);
+
+                Directory.CreateDirectory(Path.GetDirectoryName(targetFileName));
+                using (var stream = new FileStream(targetFileName, FileMode.Create)) {
+                    targetImage.SaveAsPng(stream);
+                    stream.Close();
+                }
+            }
+            return targetFileName;
+        }
+
+        static Rgba32 GetPixelClamped(Image<Rgba32> image, int x, int y) {
+            return image[Math.Clamp(x, 0, image.Width - 1), Math.Clamp(y, 0, image.Height - 1)];
+        }
+
+        static Rgba32 Average(Image<Rgba32> image, int x, int y, int radius) {
+            Vector4 sum = Vector4.Zero;
+            for (int h = y - radius; h <= y + radius; h++) {
+                for (int w = x - radius; w <= x + radius; w++) {
+                    var c = GetPixelClamped(image, w, h);
+                    sum += c.ToVector4();
+                }
+            }
+            var d = (radius * 2 + 1) * (radius * 2 + 1);
+            var avg = new Rgba32(sum / d);
+            return avg;
+        }
+
+        private static string ProcessBoxBlur(string sourceFileName, int radius) {
+            var targetFileName = AppendToFileName(sourceFileName, "-BB");
+            using (var image = Image.Load<Rgba32>(sourceFileName)) {
                 
+                var targetImage = new Image<Rgba32>(image.Width, image.Height);
+
+                for (int y = 0; y < image.Height; y++) {
+                    for (int x = 0; x < image.Width; x++) {
+                        targetImage[x, y] = Average(image, x, y, radius);
+                    }
+                }
+
+                var p = targetImage[0, 0];
+
                 Directory.CreateDirectory(Path.GetDirectoryName(targetFileName));
                 using (var stream = new FileStream(targetFileName, FileMode.Create)) {
                     targetImage.SaveAsPng(stream);

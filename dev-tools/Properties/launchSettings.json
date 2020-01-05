@@ -2,7 +2,7 @@
   "profiles": {
     "Assembly-CSharp": {
       "commandName": "Project",
-      "commandLineArgs": "sdf \"C:\\black\\Assets\\Stages\\Ear\\귀에-붕대를-감은-자화상-OTB-FSNB-Alpha.png\""
+      "commandLineArgs": "sdf \"C:\\black\\Assets\\Stages\\Ear\\귀에-붕대를-감은-자화상-OTB-FSNB.png\""
     }
   }
 }

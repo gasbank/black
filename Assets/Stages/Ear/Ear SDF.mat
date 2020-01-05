@@ -65,9 +65,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - ColorCount: 2
-    - DistanceOffset: 0
+    - DistanceOffset: 0.05
     - EdgeDistance: 1
-    - StripeCount: 1.05
+    - StripeCount: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
