@@ -84,8 +84,13 @@ public class MainGame : MonoBehaviour {
         pinchZoom.ResetZoom();
     }
 
+    int resetCount;
+
     public void ResetStage() {
-        gridWorld.DeleteSaveFileAndReloadScene();
+        resetCount++;
+        if (resetCount > 5) {
+            gridWorld.DeleteSaveFileAndReloadScene();
+        }
     }
 
     public void LoadStageSelectionScene() {

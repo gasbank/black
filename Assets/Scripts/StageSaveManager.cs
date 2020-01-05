@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,12 +25,21 @@ public class StageSaveManager : MonoBehaviour {
     public void Save(string stageName, HashSet<uint> coloredMinPoints, GridWorld gridWorld) {
         SaveStageData(stageName, coloredMinPoints);
         SaveGameData(gridWorld);
+        SaveWipPngData(stageName, gridWorld);
+    }
+
+    string GetStageSaveFileName(string stageName) => stageName + ".save";
+    static string GetWipPngFileName(string stageName) => stageName + ".png";
+
+    private void SaveWipPngData(string stageName, GridWorld gridWorld) {
+        FileUtil.SaveAtomically(GetWipPngFileName(stageName), gridWorld.Tex.EncodeToPNG());
+        Debug.Log($"WIP PNG '{GetWipPngFileName(stageName)}' written.");
     }
 
     private void SaveStageData(string stageName, HashSet<uint> coloredMinPoints) {
         SushiDebug.Log($"Saving save data for '{stageName}'...");
         InitializeMessagePackConditional();
-        FileUtil.SaveAtomically(stageName, MessagePack.LZ4MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints)));
+        FileUtil.SaveAtomically(GetStageSaveFileName(stageName), MessagePack.LZ4MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints)));
     }
 
     private void SaveGameData(GridWorld gridWorld) {
@@ -39,16 +49,20 @@ public class StageSaveManager : MonoBehaviour {
     }
 
     public void DeleteSaveFile(string stageName) {
-        var saveDataPath = FileUtil.GetPath(stageName);
+        var saveDataPath = FileUtil.GetPath(GetStageSaveFileName(stageName));
         Debug.Log($"Deleting save file '{saveDataPath}'...");
         File.Delete(saveDataPath);
+
+        var wipPngPath = FileUtil.GetPath(GetWipPngFileName(stageName));
+        Debug.Log($"Deleting save file '{wipPngPath}'...");
+        File.Delete(wipPngPath);
     }
 
     public StageSaveData Load(string stageName) {
         try {
             SushiDebug.Log($"Loading save data for '{stageName}'...");
             InitializeMessagePackConditional();
-            var bytes = File.ReadAllBytes(FileUtil.GetPath(stageName));
+            var bytes = File.ReadAllBytes(FileUtil.GetPath(GetStageSaveFileName(stageName)));
             SushiDebug.Log($"{bytes.Length} bytes loaded.");
             var stageSaveData = MessagePack.LZ4MessagePackSerializer.Deserialize<StageSaveData>(bytes);
             targetImage.transform.localPosition = new Vector3(stageSaveData.targetImageCenterX, stageSaveData.targetImageCenterY, targetImage.transform.localPosition.z);
@@ -61,6 +75,16 @@ public class StageSaveManager : MonoBehaviour {
             SushiDebug.Log($"No save data exist.");
             return CreateStageSaveData(stageName, new HashSet<uint>());
         }
+    }
+
+    public static bool LoadWipPng(string stageName, Texture2D tex) {
+        try {
+            var bytesPng = File.ReadAllBytes(FileUtil.GetPath(GetWipPngFileName(stageName)));
+            tex.LoadImage(bytesPng);
+            return true;
+        } catch (FileNotFoundException) {
+        }
+        return false;
     }
 
     private StageSaveData CreateStageSaveData(string stageName, HashSet<uint> coloredMinPoints) {

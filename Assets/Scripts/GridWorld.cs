@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] Image image = null;
@@ -17,6 +18,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     HashSet<uint> coloredMinPoints = new HashSet<uint>();
     public Dictionary<uint, int> coloredIslandCountByColor = new Dictionary<uint, int>();
     StageData stageData;
+
+    public Texture2D Tex => tex;
 
     public int texSize => tex.width;
     // inclusive
@@ -86,7 +89,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     internal void ResumeGame() {
         try {
             var stageSaveData = stageSaveManager.Load(StageName);
-            LoadBatchFill(stageSaveData.coloredMinPoints);
+            LoadBatchFill(StageName, stageSaveData.coloredMinPoints);
         } catch (Exception e) {
             Debug.LogException(e);
             DeleteSaveFileAndReloadScene();
@@ -189,17 +192,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                     SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
                 }
 
-                islandLabelSpawner.DestroyLabelByMinPoint(fillMinPointUint);
-
-                coloredMinPoints.Add(fillMinPointUint);
-                
-                if (coloredIslandCountByColor.TryGetValue(solutionColorUint, out var coloredIslandCount)) {
-                    coloredIslandCount++;
-                } else {
-                    coloredIslandCount = 1;
-                }
-                coloredIslandCountByColor[solutionColorUint] = coloredIslandCount;
-                paletteButtonGroup.UpdateColoredCount(solutionColorUint, coloredIslandCount);
+                UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint);
                 return true;
             } else {
                 // 틀리면 다시 흰색으로 칠해야 한다.
@@ -209,6 +202,20 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             }
         }
         return false;
+    }
+
+    private void UpdatePaletteBySolutionColor(uint fillMinPointUint, uint solutionColorUint) {
+        islandLabelSpawner.DestroyLabelByMinPoint(fillMinPointUint);
+
+        coloredMinPoints.Add(fillMinPointUint);
+
+        if (coloredIslandCountByColor.TryGetValue(solutionColorUint, out var coloredIslandCount)) {
+            coloredIslandCount++;
+        } else {
+            coloredIslandCount = 1;
+        }
+        coloredIslandCountByColor[solutionColorUint] = coloredIslandCount;
+        paletteButtonGroup.UpdateColoredCount(solutionColorUint, coloredIslandCount);
     }
 
     private bool SetPixelAndUpdateMinPoint(Color32[] bitmap, ref Vector2Int fillMinPoint, ICollection<Vector2Int> pixelList, Color replacementColor, Vector2Int bitmapPoint) {
@@ -273,20 +280,26 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 otherCount++;
             }
         }
-        return new [] { blackCount, whiteCount, otherCount };
+        return new[] { blackCount, whiteCount, otherCount };
     }
 
-    public void LoadBatchFill(HashSet<uint> coloredMinPoints) {
+    public void LoadBatchFill(string stageName, HashSet<uint> coloredMinPoints) {
         Debug.Log($"Starting batch fill of {coloredMinPoints.Count} points");
+        // if (coloredMinPoints.Count > 0) {
+        //     var bitmap = tex.GetPixels32();
+        //     foreach (var minPoint in coloredMinPoints) {
+        //         var minPointVec2 = BlackConvert.GetPInverse(minPoint);
+        //         Debug.Log($"... minPoint: {minPointVec2}");
+        //         FloodFill(bitmap, BlackConvert.GetInvertedY(minPointVec2, texSize), Color.white, 0xff000000/* alpha=1.0 black */, true);
+        //     }
+        //     tex.SetPixels32(bitmap);
+        //     tex.Apply();
+        // }
+        StageSaveManager.LoadWipPng(stageName, tex);
         if (coloredMinPoints.Count > 0) {
-            var bitmap = tex.GetPixels32();
             foreach (var minPoint in coloredMinPoints) {
-                var minPointVec2 = BlackConvert.GetPInverse(minPoint);
-                Debug.Log($"... minPoint: {minPointVec2}");
-                FloodFill(bitmap, BlackConvert.GetInvertedY(minPointVec2, texSize), Color.white, 0xff000000/* alpha=1.0 black */, true);
+                UpdatePaletteBySolutionColor(minPoint, stageData.islandDataByMinPoint[minPoint].rgba);
             }
-            tex.SetPixels32(bitmap);
-            tex.Apply();
         }
     }
 
