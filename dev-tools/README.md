@@ -6,13 +6,13 @@
 
 출력 파일 예시:
 
-피리부는소년-OTB-FSNB-FOTS.png
-피리부는소년-Q.png
-피리부는소년.bytes <---
-피리부는소년-OTB.png
-피리부는소년-OTB-FSNB.png <---
-피리부는소년-OTB-FSNB-BB.png
-피리부는소년-OTB-FSNB-BB-SDF.png <---
-피리부는소년-OTB-FSNB-DIT.png
+* 피리부는소년-OTB-FSNB-FOTS.png
+* 피리부는소년-Q.png
+* 피리부는소년.bytes <---
+* 피리부는소년-OTB.png
+* 피리부는소년-OTB-FSNB.png <---
+* 피리부는소년-OTB-FSNB-BB.png
+* 피리부는소년-OTB-FSNB-BB-SDF.png <---
+* 피리부는소년-OTB-FSNB-DIT.png
 
 최종적으로 필요한 파일은 '<---' 표기가 된 세 개이며, 나머지는 삭제해도 무방!
