@@ -24,9 +24,43 @@ namespace black_dev_tools {
 
             if (mode == "batch") {
                 ProcessMultipleFiles(args);
+            } else if (mode == "sdf") {
+                ProcessSdf(args);
             } else {
                 ProcessSingleFile(args);
             }
+        }
+
+        private static string ProcessSdf(string[] args) {
+            if (args.Length != 2 && args.Length != 4) {
+                Console.Out.WriteLine("Provide three arguments: sdf [input path] <output path replace from> <output path replace to>");
+                throw new ArgumentException();
+            }
+
+            var sourceFileName = args[1];
+
+            if (args.Length >= 3) {
+                outputPathReplaceFrom = args[2];
+            }
+
+            if (args.Length >= 4) {
+                outputPathReplaceTo = args[3];
+            }
+
+            var targetFileName = AppendToFileName(sourceFileName, "-SDF");
+            using (var image = Image.Load<Rgba32>(sourceFileName)) {
+
+                var targetImage = image.Clone();
+
+                SDFTextureGenerator.Generate(image, targetImage, 0, 3, 0, RGBFillMode.White);
+                
+                Directory.CreateDirectory(Path.GetDirectoryName(targetFileName));
+                using (var stream = new FileStream(targetFileName, FileMode.Create)) {
+                    targetImage.SaveAsPng(stream);
+                    stream.Close();
+                }
+            }
+            return targetFileName;
         }
 
         private static void ProcessMultipleFiles(string[] args) {
