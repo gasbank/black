@@ -1,0 +1,57 @@
+service:
+  name: transform-s3-api
+
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-northeast-2
+  stage: dev
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:HeadObject"
+        - "s3:GetObject"
+        - "s3:PutObject"
+        - "s3:DeleteObject"
+      Resource:
+        - "arn:aws:s3:::${env:SOURCE_BUCKET}/*"
+    - Effect: "Allow"
+      Action:
+        - "s3:ListBucket"
+      Resource:
+        - "arn:aws:s3:::${env:SOURCE_BUCKET}"
+  environment:
+    SOURCE_BUCKET: ${env:SOURCE_BUCKET}
+    INPUT_KEY_PREFIX: ${env:INPUT_KEY_PREFIX}
+    TRANSFORM_KEY_PREFIX: ${env:TRANSFORM_KEY_PREFIX}
+    CDN_URL_PREFIX: ${env:CDN_URL_PREFIX}
+
+functions:
+  put:
+    handler: handler.put
+    events:
+      - http:
+          method: put
+          path: /{key}
+  get:
+    handler: handler.get
+    events:
+      - http:
+          method: get
+          path: /{key}
+  delete:
+    handler: handler.erase
+    events:
+      - http:
+          method: delete
+          path: /{key}
+
+resources:
+  Resources:
+    ConfigBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${env:SOURCE_BUCKET}

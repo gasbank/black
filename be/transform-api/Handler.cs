@@ -14,11 +14,11 @@ namespace Black
     {
         private readonly AmazonS3Client client = new AmazonS3Client();
         private readonly string bucketName = Environment.GetEnvironmentVariable("SOURCE_BUCKET");
-        private readonly string uploadKeyPrefix = Environment.GetEnvironmentVariable("UPLOAD_KEY_PREFIX");
+        private readonly string transformKeyPrefix = Environment.GetEnvironmentVariable("TRANSFORM_KEY_PREFIX");
 
         public void TransformImage(S3EventNotification request)
         {
-            Console.Out.WriteLine($"Env: bucketName={bucketName} uploadKeyPrefix={uploadKeyPrefix}");
+            Console.Out.WriteLine($"Env: bucketName={bucketName} transformKeyPrefix={transformKeyPrefix}");
             Console.Out.WriteLine("Start to transform");
             try
             {
@@ -66,7 +66,7 @@ namespace Black
             foreach (var postfix in new[] { ".bytes", "-OTB-FSNB.png", "-OTB-FSNB-BB-SDF.png" })
             {
                 var mimeType = postfix.EndsWith("png") ? "image/png" : "application/octet-stream";
-                await UploadFile(Path.Join(Path.GetDirectoryName(localTempFile), fileName + postfix), uploadKeyPrefix + fileName + postfix, mimeType);
+                await UploadFile(Path.Join(Path.GetDirectoryName(localTempFile), fileName + postfix), transformKeyPrefix + fileName + postfix, mimeType);
             }
         }
 
