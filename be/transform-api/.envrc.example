@@ -1,3 +1,0 @@
-export SOURCE_BUCKET="YOUR_BUCKET_NAME"
-export UPLOAD_KEY_PREFIX="result/"
-
