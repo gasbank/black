@@ -136,6 +136,92 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         }
     }
 
+    IEnumerator FloodFillCoro(Color32[] bitmap, Vector2Int bitmapPoint, Color32 targetColor, uint replacementColorUint, bool forceSolutionColor, List<int> result) {
+        Queue<Vector2Int> q = new Queue<Vector2Int>();
+        q.Enqueue(bitmapPoint);
+        var fillMinPoint = new Vector2Int(texSize, texSize);
+        ICollection<Vector2Int> pixelList = new List<Vector2Int>();
+        var replacementColor = BlackConvert.GetColor(replacementColorUint);
+        int iter = 0;
+        while (q.Count > 0) {
+            var n = q.Dequeue();
+            if (!ColorMatch(GetPixel(bitmap, n.x, n.y), targetColor))
+                continue;
+            Vector2Int w = n, e = new Vector2Int(n.x + 1, n.y);
+            while ((w.x >= 0) && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor)) {
+                if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, w) == false) {
+                    // ERROR
+                    yield break;
+                }
+                if ((w.y > 0) && ColorMatch(GetPixel(bitmap, w.x, w.y - 1), targetColor))
+                    q.Enqueue(new Vector2Int(w.x, w.y - 1));
+                if ((w.y < texSize - 1) && ColorMatch(GetPixel(bitmap, w.x, w.y + 1), targetColor))
+                    q.Enqueue(new Vector2Int(w.x, w.y + 1));
+                w.x--;
+            }
+            while ((e.x <= texSize - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor)) {
+                if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, e) == false) {
+                    // ERROR
+                    yield break;
+                }
+                if ((e.y > 0) && ColorMatch(GetPixel(bitmap, e.x, e.y - 1), targetColor))
+                    q.Enqueue(new Vector2Int(e.x, e.y - 1));
+                if ((e.y < texSize - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y + 1), targetColor))
+                    q.Enqueue(new Vector2Int(e.x, e.y + 1));
+                e.x++;
+            }
+            
+            yield return new WaitForEndOfFrame();
+            tex.Apply();
+
+            // iter++;
+            // if (iter % 500 == 0) {
+            //     yield return new WaitForEndOfFrame();
+            //     //tex.SetPixels32(bitmap);
+            //     //tex.Apply();
+            // }
+        }
+        yield return new WaitForEndOfFrame();
+        tex.SetPixels32(bitmap);
+        tex.Apply();
+
+        SushiDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded. Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
+        if (pixelList.Count > 0) {
+            // 이 지점부터 fillMinPoint는 유효한 값을 가진다.
+            var fillMinPointUint = BlackConvert.GetP(fillMinPoint);
+
+            // 디버그 출력
+            if (pixelList.Count <= 128) {
+                foreach (var pixel in pixelList) {
+                    //Debug.Log($"Fill Pixel: {pixel.x}, {texSize - pixel.y - 1}");
+                }
+            }
+
+            Debug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
+            var solutionColorUint = stageData.islandDataByMinPoint[fillMinPointUint].rgba;
+            Debug.Log($"Solution Color (uint): {solutionColorUint}");
+            if (forceSolutionColor || solutionColorUint == replacementColorUint) {
+                var solutionColor = BlackConvert.GetColor32(solutionColorUint);
+                Debug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
+                foreach (var pixel in pixelList) {
+                    SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
+                }
+
+                UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint);
+                result.Add(1);
+                yield break;
+            } else {
+                // 틀리면 다시 흰색으로 칠해야 한다.
+                foreach (var pixel in pixelList) {
+                    SetPixel(bitmap, pixel.x, pixel.y, Color.white);
+                }
+            }
+        }
+        yield return new WaitForEndOfFrame();
+        tex.SetPixels32(bitmap);
+        tex.Apply();
+    }
+
     bool FloodFill(Color32[] bitmap, Vector2Int bitmapPoint, Color32 targetColor, uint replacementColorUint, bool forceSolutionColor) {
         Queue<Vector2Int> q = new Queue<Vector2Int>();
         q.Enqueue(bitmapPoint);
@@ -223,6 +309,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         // 진짜 색깔로 칠하는 건 나중에 pixelList에 모아둔 값으로 제대로 한다.
         SetPixel(bitmap, bitmapPoint.x, bitmapPoint.y, replacementColor);
         pixelList.Add(bitmapPoint);
+        tex.SetPixel(bitmapPoint.x, bitmapPoint.y, replacementColor);
         if (pixelList.Count > maxIslandPixelArea) {
             Debug.LogError($"CRITICAL LOGIC ERROR: TOO BIG ISLAND. Allowed pixel area is {maxIslandPixelArea}!!! FloodFill() aborted.");
             return false;
@@ -247,6 +334,30 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             return FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
         }
         return false;
+    }
+
+    IEnumerator FillCoro(Vector2 localPoint) {
+        if (paletteButtonGroup.CurrentPaletteColor != Color.white) {
+
+            var w = rt.rect.width;
+            var h = rt.rect.height;
+
+            //Debug.Log($"w={w} / h={h}");
+
+            var ix = (int)((localPoint.x + w / 2) / w * tex.width);
+            var iy = (int)((localPoint.y + h / 2) / h * tex.height);
+            yield return FloodFillVec2IntAndApplyWithCurrentPaletteColorCoro(new Vector2Int(ix, iy));
+        }
+    }
+
+    public IEnumerator FloodFillVec2IntAndApplyWithCurrentPaletteColorCoro(Vector2Int bitmapPoint) {
+        var bitmap = tex.GetPixels32();
+        List<int> result = new List<int>();
+        yield return FloodFillCoro(bitmap, bitmapPoint, Color.white, paletteButtonGroup.CurrentPaletteColorUint, false, result);
+        if (result.Count > 0) {
+            tex.SetPixels32(bitmap);
+            tex.Apply();
+        }
     }
 
     public bool FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint) {
@@ -310,6 +421,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             //Debug.Log($"World position 2 = {eventData.pointerPressRaycast.worldPosition}");
 
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, eventData.position, Camera.main, out Vector2 localPoint)) {
+                //StartCoroutine(FillCoro(localPoint));
                 if (Fill(localPoint)) {
                     StartAnimateFillCoin(localPoint);
                 }

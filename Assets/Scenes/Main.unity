@@ -5179,6 +5179,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ring
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 3c804386c6c34d54e82fdae0f903a4d6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c804386c6c34d54e82fdae0f903a4d6, type: 3}
 --- !u!1 &1956076319
