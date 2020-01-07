@@ -35,12 +35,12 @@ functions:
     timeout: 300
     events:
       - s3:
-        bucket: ${env:SOURCE_BUCKET}
-        event: s3:ObjectCreated:*
-        rules:
-          - prefix: ${env:INPUT_KEY_PREFIX}
-          - suffix: .jpg
-        existing: true
+          bucket: ${env:SOURCE_BUCKET}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: ${env:INPUT_KEY_PREFIX}
+            - suffix: .png
+          existing: true
 #resources:
 #  Resources:
 #    NewResource:

@@ -55,3 +55,18 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${env:SOURCE_BUCKET}
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: index.html
+    ConfigBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: ConfigBucket
+        PolicyDocument:
+          Statement:
+            - Action:
+                - "s3:GetObject"
+              Effect: "Allow"
+              Resource: arn:aws:s3:::${env:SOURCE_BUCKET}/*
+              Principal: "*"

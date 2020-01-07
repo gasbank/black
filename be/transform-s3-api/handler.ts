@@ -20,7 +20,7 @@ export const put: APIGatewayProxyHandler = async event => {
     return { statusCode: 200, body: signedUrl };
   } catch (error) {
     console.error(`PutError`, key, error);
-    return { statusCode: 400, body: error.message };
+    return { statusCode: 500, body: error.message };
   }
 };
 
@@ -46,7 +46,7 @@ export const get: APIGatewayProxyHandler = async event => {
     return { statusCode: 200, body: JSON.stringify(files) };
   } catch (error) {
     console.error(`GetError`, key, error);
-    return { statusCode: 400, body: error.message };
+    return { statusCode: 404, body: error.message };
   }
 };
 
@@ -70,6 +70,6 @@ export const erase: APIGatewayProxyHandler = async event => {
     return { statusCode: 200, body: "true" };
   } catch (error) {
     console.error(`DeleteError`, key, error);
-    return { statusCode: 400, body: "false" };
+    return { statusCode: 500, body: "false" };
   }
 };
