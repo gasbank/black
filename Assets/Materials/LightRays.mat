@@ -58,7 +58,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _ColorMask: 15
-    - _Contrast: 6.7
+    - _Contrast: 50
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -71,11 +71,11 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Shear: 1
-    - _Size: 15.2
+    - _Size: 30
     - _Skew: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 1.9
+    - _Speed: 1.31
     - _SrcBlend: 1
     - _Stencil: 0
     - _StencilComp: 8
@@ -87,5 +87,5 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 1, g: 1, b: 1, a: 1}
-    - _Color2: {r: 0.9411764, g: 1, b: 0, a: 0}
+    - _Color2: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
