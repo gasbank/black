@@ -309,7 +309,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         // 진짜 색깔로 칠하는 건 나중에 pixelList에 모아둔 값으로 제대로 한다.
         SetPixel(bitmap, bitmapPoint.x, bitmapPoint.y, replacementColor);
         pixelList.Add(bitmapPoint);
-        tex.SetPixel(bitmapPoint.x, bitmapPoint.y, replacementColor);
+        //tex.SetPixel(bitmapPoint.x, bitmapPoint.y, replacementColor);
         if (pixelList.Count > maxIslandPixelArea) {
             Debug.LogError($"CRITICAL LOGIC ERROR: TOO BIG ISLAND. Allowed pixel area is {maxIslandPixelArea}!!! FloodFill() aborted.");
             return false;
