@@ -14,7 +14,7 @@ public class FrameThickness : MonoBehaviour
     [SerializeField] RectTransform m21 = null;
     [SerializeField] RectTransform m22 = null;
 
-#if UNITY_EDITOR    
+#if UNITY_EDITOR
     void OnValidate() {
         if (Application.isPlaying == false) {
             UnityEditor.EditorApplication.delayCall += () => {

@@ -726,6 +726,7 @@ GameObject:
   - component: {fileID: 158566599}
   - component: {fileID: 158566602}
   - component: {fileID: 158566600}
+  - component: {fileID: 158566601}
   m_Layer: 5
   m_Name: Pan Image
   m_TagString: Untagged
@@ -769,6 +770,21 @@ MonoBehaviour:
   beginDragTargetPosition: {x: 0, y: 0, z: 0}
   panning: 0
   rt: {fileID: 158566599}
+--- !u!114 &158566601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158566598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a1f0462ef7aae84995dd62cd277c442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
 --- !u!222 &158566602
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3486,11 +3502,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0afff6ffebf370e46bdfe451246b1d28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugGroup: {fileID: 0}
-  nameplateGroup: {fileID: 0}
-  coinGroup: {fileID: 0}
-  paletteGroup: {fileID: 0}
-  mode: 0
+  debugGroup: {fileID: 1799480002}
+  nameplateGroup: {fileID: 2090910699}
+  coinGroup: {fileID: 2022581366}
+  paletteGroup: {fileID: 897666723}
+  mode: 4
 --- !u!1 &1442160477
 GameObject:
   m_ObjectHideFlags: 0
@@ -5914,6 +5930,7 @@ GameObject:
   - component: {fileID: 2022581363}
   - component: {fileID: 2022581365}
   - component: {fileID: 2022581364}
+  - component: {fileID: 2022581366}
   m_Layer: 5
   m_Name: Coin Group
   m_TagString: Untagged
@@ -5977,6 +5994,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2022581362}
   m_CullTransparentMesh: 0
+--- !u!225 &2022581366
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022581362}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2090910695
 GameObject:
   m_ObjectHideFlags: 0
@@ -5988,6 +6017,7 @@ GameObject:
   - component: {fileID: 2090910696}
   - component: {fileID: 2090910698}
   - component: {fileID: 2090910697}
+  - component: {fileID: 2090910699}
   m_Layer: 5
   m_Name: Nameplate Group
   m_TagString: Untagged
@@ -6051,6 +6081,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2090910695}
   m_CullTransparentMesh: 0
+--- !u!225 &2090910699
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090910695}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &2972894473697718067
 PrefabInstance:
   m_ObjectHideFlags: 0
