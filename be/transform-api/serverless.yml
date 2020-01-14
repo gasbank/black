@@ -3,7 +3,7 @@ service: black-transform-api
 provider:
   name: aws
   runtime: dotnetcore2.1
-  stage: dev
+  stage: ${env:STAGE}
   region: ap-northeast-2
   iamRoleStatements:
     - Effect: "Allow"
