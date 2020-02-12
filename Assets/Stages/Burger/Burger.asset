@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b23da9edfa09124e9e96153e459fd51, type: 3}
+  m_Name: Burger
+  m_EditorClassIdentifier: 
+  skipBlackMaterial: {fileID: 2100000, guid: eca03ae1d52e8bb44b894b936c061228, type: 2}
+  sdfMaterial: {fileID: 2100000, guid: 269cbfb7d13ba204faf9b40aed4b506f, type: 2}
+  rawStageData: {fileID: 4900000, guid: be4f6378a8b82cc46b36e34a110f11b8, type: 3}

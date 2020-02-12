@@ -31,40 +31,62 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 84859c037f0784908b109bc6245e3f8b, type: 3}
-    totalSpriteSurfaceArea: 166163
+    totalSpriteSurfaceArea: 1690313
     bindAsDefault: 1
     storedHash:
       serializedVersion: 2
-      Hash: 25b9c622f377db6f25a8c878bc7c62c1
+      Hash: 911bf560f6361aa3e7072d3b89176d8b
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: 21300000, guid: ae028400f384763429f24b7c1e7e89e4, type: 3}
+  - {fileID: 21300000, guid: d78c05907e2593d4e9605dfb747ff29b, type: 3}
+  - {fileID: 21300000, guid: 3718871171e3cf344b2c28cd57fd59fc, type: 3}
   - {fileID: 21300000, guid: 1aeae0917b2aa49f0905f4bc767251e6, type: 3}
   - {fileID: 21300000, guid: db654902386abdd4ca6f81f40bab89dd, type: 3}
   - {fileID: 21300000, guid: b2ffe8927f1db459f93b05003fa443a8, type: 3}
+  - {fileID: 21300000, guid: 946f4983e0698e34bbca6c81f27551dc, type: 3}
   - {fileID: 21300000, guid: 423f2764e2e4a9c45b9266b35fbf4126, type: 3}
   - {fileID: 21300000, guid: 92137ea46e6f3de4c8b66745168f8009, type: 3}
+  - {fileID: 21300000, guid: 2d746a07ab86d4848b3cea96eb9c60ab, type: 3}
+  - {fileID: 21300000, guid: f96df1972d00ddd4c9edc2ea5bc5765b, type: 3}
   - {fileID: 21300000, guid: 3acf2f3882a0c423680ca99f6af9b36a, type: 3}
+  - {fileID: 21300000, guid: 53fbe5d8033643142aff170172ea4d4a, type: 3}
   - {fileID: 21300000, guid: 692dbe0a87911114887b0121301e239c, type: 3}
   - {fileID: 21300000, guid: c4006f0aa207e49c3be42992423cc12f, type: 3}
+  - {fileID: 21300000, guid: dd88347ab13926c43aff629e68c9f1dc, type: 3}
   - {fileID: 21300000, guid: 26cba6ea3f17e724286b41a9241e7638, type: 3}
+  - {fileID: 21300000, guid: 2f3f9c5c1586837479a645102d4c0d83, type: 3}
   - {fileID: 21300000, guid: a7ec3a4d8390bd64d92fd5d60ef4a673, type: 3}
   - {fileID: 21300000, guid: 04d06e7dca5c2e74589306b53c1112e3, type: 3}
+  - {fileID: 21300000, guid: a645ba8dc20b6ba4fa8b6ce0aff4911f, type: 3}
   - {fileID: 21300000, guid: 5062e3adfcee14f4a99e9e314c0d3354, type: 3}
+  - {fileID: 21300000, guid: efcfcb1ebb746f449a61e6255fb97bb5, type: 3}
   - {fileID: 21300000, guid: 058a6d6e5bc59424c848def4c110fe3c, type: 3}
   - {fileID: 21300000, guid: 83e4dd9fc591fc5438b5a640a532593f, type: 3}
   m_PackedSpriteNamesToIndex:
+  - main_trophy_gold
+  - main_ui_coin
+  - main_bottom_deco
   - medal
   - SideMenu_UI_slot_bg
   - mango
+  - main_ui_coin_bg
   - bg_01_06
   - SideMenu_ui_ScrollBar
+  - main_trophy_mold_check
+  - main_trophy_silver
   - star
+  - main_top_bg
   - SideMenu_in_bg
   - number_bg
+  - main_trophy_mold_checkBg
   - SideMenu_Tile_bg02
+  - main_trophy_bronze
   - SideMenu_UI_slot_ Lock
   - SideMenu_Btn_play_Normal
+  - main_bottom_bg
   - minime
+  - main_trophy_mold
   - SideMenu_Btn_REplay_Normal
   - SideMenu_Tile_bg
   m_Tag: UI

@@ -232,7 +232,7 @@ namespace black_dev_tools {
                     var fillMinPoint = FloodFill.ExecuteFillIf(image, minPoint, Rgba32.White, targetColor, out var pixelArea, out var points, out var originalColors);
                     if (fillMinPoint != new Vector2Int(image.Width, image.Height) && pixelArea == island.Value.pixelArea) {
                     } else {
-                        Console.WriteLine("Logic Error!");
+                        Console.WriteLine("Logic error in ExecuteDetermineIslandTest()!");
                     }
                 }
 
@@ -508,7 +508,7 @@ namespace black_dev_tools {
                         var fillMinPoint = FloodFill.ExecuteFillIfNotBlack(image, island.Key, Rgba32.Black, out var pixelArea, out var points, out var originalColors);
                         if (fillMinPoint != new Vector2Int(image.Width, image.Height) && pixelArea == island.Value) {
                         } else {
-                            Console.WriteLine("Logic Error!");
+                            Console.WriteLine("Logic error in ExecuteFillSmallNotBlack()!");
                         }
                     }
                 }
