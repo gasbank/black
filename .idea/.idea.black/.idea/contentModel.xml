@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\gb\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\gb\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_black.-2086509426.00" t="ExcludeRecursive" />
+    <e p="C:\Users\gb\black" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Editor" t="Include">
+          <e p="StageSpriteAssetPostprocessor.cs" t="Include" />
+        </e>
+        <e p="MainCanvasDirector.cs" t="Include" />
+        <e p="MessagePack" t="Include">
+          <e p="Attributes.cs" t="Include" />
+          <e p="FloatBits.cs" t="Include" />
+          <e p="Formatters" t="Include">
+            <e p="CollectionFormatter.cs" t="Include" />
+            <e p="DictionaryFormatter.cs" t="Include" />
+            <e p="DynamicObjectTypeFallbackFormatter.cs" t="Include" />
+            <e p="EnumAsStringFormatter.cs" t="Include" />
+            <e p="ForceSizePrimitiveFormatter.cs" t="Include" />
+            <e p="IgnoreFormatter.cs" t="Include" />
+            <e p="IMessagePackFormatter.cs" t="Include" />
+            <e p="MultiDimentionalArrayFormatter.cs" t="Include" />
+            <e p="NullableFormatter.cs" t="Include" />
+            <e p="OldSpecFormatter.cs" t="Include" />
+            <e p="PrimitiveFormatter.cs" t="Include" />
+            <e p="PrimitiveObjectFormatter.cs" t="Include" />
+            <e p="StandardClassLibraryFormatter.cs" t="Include" />
+            <e p="TupleFormatter.cs" t="Include" />
+            <e p="TypelessFormatter.cs" t="Include" />
+            <e p="UnsafeBinaryFormatters.cs" t="Include" />
+            <e p="ValueTupleFormatter.cs" t="Include" />
+          </e>
+          <e p="IFormatterResolver.cs" t="Include" />
+          <e p="IMessagePackSerializationCallbackReceiver.cs" t="Include" />
+          <e p="Internal" t="Include">
+            <e p="ArrayPool.cs" t="Include" />
+            <e p="AsymmetricKeyHashTable.cs" t="Include" />
+            <e p="AutomataDictionary.cs" t="Include" />
+            <e p="ByteArrayComparer.cs" t="Include" />
+            <e p="ByteArrayStringHashTable.cs" t="Include" />
+            <e p="DynamicAssembly.cs" t="Include" />
+            <e p="ExpressionUtility.cs" t="Include" />
+            <e p="FarmHash.cs" t="Include" />
+            <e p="GuidBits.cs" t="Include" />
+            <e p="ILGeneratorExtensions.cs" t="Include" />
+            <e p="ReflectionExtensions.cs" t="Include" />
+            <e p="ThreadsafeTypeKeyHashTable.cs" t="Include" />
+            <e p="TinyJsonReader.cs" t="Include" />
+            <e p="UnsafeMemory.cs" t="Include" />
+            <e p="UnsafeMemory.Low.cs" t="Include" />
+          </e>
+          <e p="LZ4" t="Include">
+            <e p="Codec" t="Include">
+              <e p="LZ4Codec.cs" t="Include" />
+              <e p="LZ4Codec.Helper.cs" t="Include" />
+              <e p="LZ4Codec.Safe.cs" t="Include" />
+              <e p="LZ4Codec.Safe32.Dirty.cs" t="Include" />
+              <e p="LZ4Codec.Safe64.Dirty.cs" t="Include" />
+              <e p="LZ4Codec.Unsafe.cs" t="Include" />
+              <e p="LZ4Codec.Unsafe32.Dirty.cs" t="Include" />
+              <e p="LZ4Codec.Unsafe64.Dirty.cs" t="Include" />
+            </e>
+            <e p="LZ4MessagePackSerializer.cs" t="Include" />
+            <e p="LZ4MessagePackSerializer.JSON.cs" t="Include" />
+            <e p="LZ4MessagePackSerializer.NonGeneric.cs" t="Include" />
+          </e>
+          <e p="MessagePackBinary.cs" t="Include" />
+          <e p="MessagePackCode.cs" t="Include" />
+          <e p="MessagePackSerializer.cs" t="Include" />
+          <e p="MessagePackSerializer.Json.cs" t="Include" />
+          <e p="MessagePackSerializer.NonGeneric.cs" t="Include" />
+          <e p="Nil.cs" t="Include" />
+          <e p="Resolvers" t="Include">
+            <e p="AttributeFormatterResolver.cs" t="Include" />
+            <e p="BuiltinResolver.cs" t="Include" />
+            <e p="CompositeResolver.cs" t="Include" />
+            <e p="ContractlessReflectionObjectResolver.cs" t="Include" />
+            <e p="DynamicEnumAsStringResolver.cs" t="Include" />
+            <e p="DynamicEnumResolver.cs" t="Include" />
+            <e p="DynamicGenericResolver.cs" t="Include" />
+            <e p="DynamicObjectResolver.cs" t="Include" />
+            <e p="DynamicUnionResolver.cs" t="Include" />
+            <e p="NativeDateTimeResolver.cs" t="Include" />
+            <e p="OldSpecResolver.cs" t="Include" />
+            <e p="PrimitiveObjectResolver.cs" t="Include" />
+            <e p="StandardResolver.cs" t="Include" />
+            <e p="TypelessContractlessStandardResolver.cs" t="Include" />
+            <e p="TypelessObjectResolver.cs" t="Include" />
+            <e p="UnsafeBinaryResolver.cs" t="Include" />
+          </e>
+          <e p="Shims" t="Include">
+            <e p="Reflection.cs" t="Include" />
+          </e>
+          <e p="StringEncoding.cs" t="Include" />
+          <e p="Unity" t="Include">
+            <e p="Formatters.cs" t="Include" />
+            <e p="UnityResolver.cs" t="Include" />
+          </e>
+          <e p="UnsafeExtensions" t="Include">
+            <e p="UnityBlitResolver.cs" t="Include" />
+            <e p="UnsafeBlitFormatter.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Plugins" t="Include">
+          <e p="Catlike Coding" t="Include">
+            <e p="Catlike Coding Readme.txt" t="Include" />
+            <e p="SDF Toolkit" t="Include">
+              <e p="Documentation" t="Include">
+                <e p="SDF Toolkit Readme.txt" t="Include" />
+              </e>
+              <e p="SDFTextureGenerator.cs" t="Include" />
+              <e p="UIMaterialLink.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Editor" t="Include">
+            <e p="Catlike Coding" t="Include">
+              <e p="SDF Toolkit" t="Include">
+                <e p="SDFTextureGeneratorWindow.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="AnimatedCoin.cs" t="Include" />
+          <e p="AppMetaInfo.cs" t="Include" />
+          <e p="BackButton.cs" t="Include" />
+          <e p="BlackConvert.cs" t="Include" />
+          <e p="BlackMsgPack.cs" t="Include" />
+          <e p="Data" t="Include">
+            <e p="GameSaveData.cs" t="Include" />
+            <e p="IslandData.cs" t="Include" />
+            <e p="StageData.cs" t="Include" />
+            <e p="StageSaveData.cs" t="Include" />
+          </e>
+          <e p="Editor" t="Include">
+            <e p="AppMetaInfoEditor.cs" t="Include" />
+            <e p="BlackBuild.cs" t="Include" />
+            <e p="IosPostProcessBuild.cs" t="Include" />
+            <e p="ScBigIntegerDrawer.cs" t="Include" />
+            <e p="ScIntDrawer.cs" t="Include" />
+            <e p="ScLongDrawer.cs" t="Include" />
+            <e p="StageMetadataEditor.cs" t="Include" />
+          </e>
+          <e p="FileUtil.cs" t="Include" />
+          <e p="FpsDisplay.cs" t="Include" />
+          <e p="FrameThickness.cs" t="Include" />
+          <e p="GridWorld.cs" t="Include" />
+          <e p="ImageAspectRatioHeightFitter.cs" t="Include" />
+          <e p="IslandLabel.cs" t="Include" />
+          <e p="IslandLabelSpawner.cs" t="Include" />
+          <e p="MainGame.cs" t="Include" />
+          <e p="Minime.cs" t="Include" />
+          <e p="PaletteButton.cs" t="Include" />
+          <e p="PaletteButtonGroup.cs" t="Include" />
+          <e p="Pan.cs" t="Include" />
+          <e p="PinchZoom.cs" t="Include" />
+          <e p="Screenshot.cs" t="Include" />
+          <e p="Security" t="Include">
+            <e p="ScBigInteger.cs" t="Include" />
+            <e p="ScFloat.cs" t="Include" />
+            <e p="ScInt.cs" t="Include" />
+            <e p="ScLong.cs" t="Include" />
+            <e p="ScString.cs" t="Include" />
+          </e>
+          <e p="ShopPopup.cs" t="Include" />
+          <e p="ShopPropEntry.cs" t="Include" />
+          <e p="SkipRenderGraphic.cs" t="Include" />
+          <e p="StageButton.cs" t="Include" />
+          <e p="StageMetadata.cs" t="Include" />
+          <e p="StageSaveManager.cs" t="Include" />
+          <e p="TargetImage.cs" t="Include" />
+          <e p="VirtualCurrency.cs" t="Include" />
+        </e>
+        <e p="Shaders" t="Include">
+          <e p="LightRays.shader" t="Include" />
+          <e p="SDF.shader" t="Include" />
+          <e p="Skip Black.shader" t="Include" />
+        </e>
+        <e p="TextMesh Pro" t="Include">
+          <e p="Fonts" t="Include">
+            <e p="LiberationSans - OFL.txt" t="Include" />
+          </e>
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
+            </e>
+          </e>
+          <e p="Sprites" t="Include">
+            <e p="EmojiOne Attribution.txt" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="black.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\Bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
