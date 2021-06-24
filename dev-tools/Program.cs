@@ -67,6 +67,8 @@ namespace black_dev_tools {
         }
 
         static void ExecuteSdf(string sourceFileName) {
+            Console.Out.WriteLine($"Running {nameof(ExecuteSdf)}");
+            
             var targetFileName = AppendToFileName(sourceFileName, "-SDF");
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
 
@@ -100,6 +102,8 @@ namespace black_dev_tools {
         }
 
         static string ExecuteBoxBlur(string sourceFileName, int radius) {
+            Console.Out.WriteLine($"Running {nameof(ExecuteBoxBlur)}");
+            
             var targetFileName = AppendToFileName(sourceFileName, "-BB");
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
                 
@@ -212,6 +216,8 @@ namespace black_dev_tools {
         // 섬 데이터와 외곽선 데이터를 이용해 색칠을 자동으로 해 본다.
         // 색칠 후 이미지에 문제가 없는지 확인하기 위한 테스트 과정이다.
         static void ExecuteDetermineIslandTest(string sourceFileName, string bytesFileName) {
+            Console.Out.WriteLine($"Running {nameof(ExecuteDetermineIslandTest)}");
+            
             var targetFileName = AppendToFileName(sourceFileName, "-DIT");
             StageData stageData;
             using (var bytesFileStream = new FileStream(bytesFileName, FileMode.Open)) {
@@ -246,6 +252,8 @@ namespace black_dev_tools {
         // 입력 이미지로 섬 데이터를 만든다.
         // 섬 데이터는 유니티에서 사용하게 된다.
         static string ExecuteDetermineIsland(string sourceFileName, string startFileName) {
+            Console.Out.WriteLine($"Running {nameof(ExecuteDetermineIsland)}");
+            
             // 이미지 파일을 열어봅시다~
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
                 // 색상 별 픽셀 수
@@ -365,7 +373,11 @@ namespace black_dev_tools {
                     };
                 }
 
-                var outputPath = Path.ChangeExtension(startFileName, "bytes").Replace(outputPathReplaceFrom, outputPathReplaceTo);
+                var outputPath = Path.ChangeExtension(startFileName, "bytes");
+                if (string.IsNullOrEmpty(outputPathReplaceFrom) == false
+                    && string.IsNullOrEmpty(outputPathReplaceTo) == false) {
+                    outputPath = outputPath.Replace(outputPathReplaceFrom, outputPathReplaceTo);
+                }
                 using (var stream = File.Create(outputPath)) {
                     var formatter = new BinaryFormatter();
                     formatter.Serialize(stream, stageData);
@@ -381,6 +393,8 @@ namespace black_dev_tools {
         // 이미지를 팔레트화시킨다.
         // 팔레트에는 반드시 검은색과 흰색은 빠지도록 한다.
         static string ExecuteQuantize(string sourceFileName, int maxColor = 30) {
+            Console.Out.WriteLine($"Running {nameof(ExecuteQuantize)}");
+                
             var targetFileName = AppendToFileName(sourceFileName, "-Q");
             var quantizer = new WuQuantizer(null, maxColor);
             var config = Configuration.Default;
@@ -411,6 +425,8 @@ namespace black_dev_tools {
 
         // sourceFileName 위에 outlineFileName을 얹는다. 얹을 때 완전 검은 색깔만 얹는다.
         static string ExecuteFlattenedOutlineToSource(string sourceFileName, string outlineFileName) {
+            Console.Out.WriteLine($"Running {nameof(ExecuteFlattenedOutlineToSource)}");
+            
             var targetFileName = AppendToFileName(outlineFileName, "-FOTS");
             using (var sourceImage = Image.Load<Rgba32>(sourceFileName))
             using (var outlineImage = Image.Load<Rgba32>(outlineFileName)) {
@@ -436,6 +452,8 @@ namespace black_dev_tools {
 
         // 애매한 검은색을 완전한 검은색으로 바꾼다.
         static string ExecuteOutlineToBlack(string sourceFileName, int threshold) {
+            Console.Out.WriteLine($"Running {nameof(ExecuteOutlineToBlack)}");
+            
             var targetFileName = AppendToFileName(sourceFileName, "-OTB");
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
                 for (int h = 0; h < image.Height; h++) {
@@ -470,6 +488,8 @@ namespace black_dev_tools {
 
         // 아주 작은 비검은색을 검은색으로 메운다.
         static string ExecuteFillSmallNotBlack(string sourceFileName, int threshold = 4 * 4 * 4) {
+            Console.Out.WriteLine($"Running {nameof(ExecuteFillSmallNotBlack)}");
+            
             var targetFileName = AppendToFileName(sourceFileName, "-FSNB");
             // Min Point 별 (섬 별) 섬 픽셀 수(면적)
             Dictionary<Vector2Int, int> islandPixelAreaByMinPoint = new Dictionary<Vector2Int, int>();

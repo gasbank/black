@@ -2,7 +2,7 @@
   "profiles": {
     "Assembly-CSharp": {
       "commandName": "Project",
-      "commandLineArgs": "dit ..\\..\\..\\Sprites\\Fish.png 20 ..\\..\\..\\02-Stage ..\\..\\..\\03-Stage-Data"
+      "commandLineArgs": "dit ..\\..\\..\\Sprites\\Fish\\Fish.png 20"
     }
   }
 }
