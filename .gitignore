@@ -56,3 +56,4 @@ Logs
 Admin/node_modules
 dev-tools/bin
 /*.png
+/UserSettings

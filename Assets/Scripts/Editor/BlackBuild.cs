@@ -6,10 +6,8 @@ using UnityEditor;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEditor.Build.Reporting;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 
-class BlackBuild {
+internal static class BlackBuild {
     static List<string> ListAllScenes()
     {
         var scenes = new List<string>();
