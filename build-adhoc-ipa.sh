@@ -8,9 +8,7 @@ xcodebuild \
     -scheme Unity-iPhone \
     archive \
     -archivePath build \
-    CODE_SIGN_STYLE="Manual" \
-    PROVISIONING_PROFILE_SPECIFIER="Black Ad Hoc" \
-    CODE_SIGN_IDENTITY="Apple Distribution: GEOYEOB KIM (TG9MHV97AH)"
+    ENABLE_BITCODE="NO"    
 
 xcodebuild \
     -exportArchive \
