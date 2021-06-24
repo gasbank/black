@@ -1,6 +1,6 @@
 #!/bin/bash
 
-UNITY_VERSION=2019.2.17f1
+UNITY_VERSION=`cat ProjectSettings/ProjectVersion.txt | head -n1 | awk '{print $2;}'`
 UNAME_OUT="$(uname -s)"
 case "${UNAME_OUT}" in
     Linux*)     UNITY_EDITOR="/home/gb/Unity/Hub/Editor/${UNITY_VERSION}/Editor/Unity";;
@@ -16,9 +16,11 @@ ${UNITY_EDITOR} \
     -quit \
     -batchmode \
     -executeMethod BlackBuild.PerformAndroidBuild \
-    -logfile >(tee build.log) \
+    -logfile build.log \
     -projectPath `pwd` \
     -buildTarget Android \
     -keystorePass ${KEYSTORE_PASS} \
     -buildNumber ${BUILD_NUMBER} \
-    -noGraphics
+    -noGraphics \
+    -username ${UNITY_USERNAME} \
+    -password ${UNITY_PASSWORD}
