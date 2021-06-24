@@ -1,10 +1,12 @@
 #!/bin/bash
 
+UNITY_VERSION=`cat ProjectSettings/ProjectVersion.txt | head -n1 | awk '{print $2;}'`
+
 if [ -z "${BUILD_NUMBER}" ]; then
   BUILD_NUMBER="<NO ENV>"
 fi
 
-/Applications/Unity/Hub/Editor/2019.2.17f1/Unity.app/Contents/MacOS/Unity \
+/Applications/Unity/Hub/Editor/${UNITY_VERSION}/Unity.app/Contents/MacOS/Unity \
     -quit \
     -batchmode \
     -executeMethod BlackBuild.PerformIosBuild \
@@ -12,4 +14,6 @@ fi
     -projectPath `pwd` \
     -buildTarget iOS \
     -buildNumber ${BUILD_NUMBER} \
-    -noGraphics
+    -noGraphics \
+    -username ${UNITY_USERNAME} \
+    -password ${UNITY_PASSWORD}
