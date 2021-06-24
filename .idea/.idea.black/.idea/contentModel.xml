@@ -170,6 +170,7 @@
           </e>
           <e p="ShopPopup.cs" t="Include" />
           <e p="ShopPropEntry.cs" t="Include" />
+          <e p="SixLaborsTester.cs" t="Include" />
           <e p="SkipRenderGraphic.cs" t="Include" />
           <e p="StageButton.cs" t="Include" />
           <e p="StageMetadata.cs" t="Include" />
