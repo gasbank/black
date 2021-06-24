@@ -61,7 +61,7 @@ namespace black_dev_tools {
 		Source
 	}
 
-	struct Vector2 {
+	internal struct Vector2 {
 		public float x, y;
 		public void Normalize() {
 			var len = (float)Math.Sqrt(x * x + y * y);
@@ -77,15 +77,14 @@ namespace black_dev_tools {
 	/// Although the generator can be used at run-time, the current version isn't convenient nor optimized for it.
 	/// </description>
 	public static class SDFTextureGenerator {
-
-		private class Pixel {
+		class Pixel {
 			public float alpha, distance;
 			public Vector2 gradient;
 			public int dX, dY;
 		}
 
-		private static int width, height;
-		private static Pixel[,] pixels;
+		static int width, height;
+		static Pixel[,] pixels;
 
 		public static Rgba32 GetPixel(this Image<Rgba32> image, int x, int y) {
 			return image[x, y];
@@ -215,7 +214,7 @@ namespace black_dev_tools {
 			pixels = null;
 		}
 
-		private static void ComputeEdgeGradients() {
+		static void ComputeEdgeGradients() {
 			float sqrt2 = (float)Math.Sqrt(2);
 			for (int y = 1; y < height - 1; y++) {
 				for (int x = 1; x < width - 1; x++) {
@@ -235,7 +234,7 @@ namespace black_dev_tools {
 			}
 		}
 
-		private static float ApproximateEdgeDelta(float gx, float gy, float a) {
+		static float ApproximateEdgeDelta(float gx, float gy, float a) {
 			// (gx, gy) can be either the local pixel gradient or the direction to the pixel
 
 			if (gx == 0f || gy == 0f) {
@@ -273,7 +272,7 @@ namespace black_dev_tools {
 			return -0.5f * (gx + gy) + (float)Math.Sqrt(2f * gx * gy * (1f - a));
 		}
 
-		private static void UpdateDistance(Pixel p, int x, int y, int oX, int oY) {
+		static void UpdateDistance(Pixel p, int x, int y, int oX, int oY) {
 			Pixel neighbor = pixels[x + oX, y + oY];
 			Pixel closest = pixels[x + oX - neighbor.dX, y + oY - neighbor.dY];
 
@@ -293,7 +292,7 @@ namespace black_dev_tools {
 			}
 		}
 
-		private static void GenerateDistanceTransform() {
+		static void GenerateDistanceTransform() {
 			// perform anti-aliased Euclidean distance transform
 			int x, y;
 			Pixel p;
@@ -395,7 +394,7 @@ namespace black_dev_tools {
 			}
 		}
 
-		private static void PostProcess(float maxDistance) {
+		static void PostProcess(float maxDistance) {
 			// adjust distances near edges based on the local edge gradient
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {

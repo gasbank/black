@@ -15,7 +15,7 @@ namespace black_dev_tools {
         }
         public override bool Equals(object obj) {
             //Check for null and compare run-time types.
-            if ((obj == null) || !this.GetType().Equals(obj.GetType())) {
+            if ((obj == null) || !GetType().Equals(obj.GetType())) {
                 return false;
             } else {
                 Vector2Int p = (Vector2Int)obj;

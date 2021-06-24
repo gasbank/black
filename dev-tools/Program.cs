@@ -11,12 +11,11 @@ using System.Text.RegularExpressions;
 using System.Numerics;
 
 namespace black_dev_tools {
+    internal class IslandCountException : Exception {}
 
-    class IslandCountException : Exception {}
-
-    class Program {
-        static private string outputPathReplaceFrom = "";
-        static private string outputPathReplaceTo = "";
+    internal static class Program {
+        static string outputPathReplaceFrom = "";
+        static string outputPathReplaceTo = "";
 
         static void Main(string[] args) {
             if (args.Length <= 0) {
@@ -35,15 +34,19 @@ namespace black_dev_tools {
             }
         }
 
-        private static void ProcessSingleFileAdaptiveOutlineThreshold(string[] args) {
+        static void ProcessSingleFileAdaptiveOutlineThreshold(string[] args) {
             try {
                 ProcessSingleFile(args, 20);
-            } catch (IslandCountException) {
+            }
+            catch (IslandCountException) {
                 ProcessSingleFile(args, 30);
+            }
+            catch (DirectoryNotFoundException e) {
+                Console.Out.WriteLine($"Exception: {e.Message}");
             }
         }
 
-        private static string ProcessSdf(string[] args) {
+        static void ProcessSdf(string[] args) {
             if (args.Length != 2 && args.Length != 4) {
                 Console.Out.WriteLine("Provide three arguments: sdf [input path] <output path replace from> <output path replace to>");
                 throw new ArgumentException();
@@ -60,10 +63,10 @@ namespace black_dev_tools {
             }
 
             var bbFileName = ExecuteBoxBlur(sourceFileName, 2);
-            return ExecuteSdf(bbFileName);
+            ExecuteSdf(bbFileName);
         }
 
-        private static string ExecuteSdf(string sourceFileName) {
+        static void ExecuteSdf(string sourceFileName) {
             var targetFileName = AppendToFileName(sourceFileName, "-SDF");
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
 
@@ -77,7 +80,6 @@ namespace black_dev_tools {
                     stream.Close();
                 }
             }
-            return targetFileName;
         }
 
         static Rgba32 GetPixelClamped(Image<Rgba32> image, int x, int y) {
@@ -97,7 +99,7 @@ namespace black_dev_tools {
             return avg;
         }
 
-        private static string ExecuteBoxBlur(string sourceFileName, int radius) {
+        static string ExecuteBoxBlur(string sourceFileName, int radius) {
             var targetFileName = AppendToFileName(sourceFileName, "-BB");
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
                 
@@ -109,8 +111,6 @@ namespace black_dev_tools {
                     }
                 }
 
-                var p = targetImage[0, 0];
-
                 Directory.CreateDirectory(Path.GetDirectoryName(targetFileName));
                 using (var stream = new FileStream(targetFileName, FileMode.Create)) {
                     targetImage.SaveAsPng(stream);
@@ -120,7 +120,7 @@ namespace black_dev_tools {
             return targetFileName;
         }
 
-        private static void ProcessMultipleFiles(string[] args) {
+        static void ProcessMultipleFiles(string[] args) {
             if (args.Length != 2 && args.Length != 4) {
                 Console.Out.WriteLine("Provide three arguments: batch [input path] <output path replace from> <output path replace to>");
                 return;
@@ -145,7 +145,7 @@ namespace black_dev_tools {
                 if (Regex.IsMatch(inputFileName, @"\\[0-9][0-9]~[0-9][0-9]\\")) {
                     Console.Out.WriteLine(inputFileName);
 
-                    ProcessSingleFileAdaptiveOutlineThreshold(new string[] {
+                    ProcessSingleFileAdaptiveOutlineThreshold(new[] {
                         "dit",
                         inputFileName,
                         30.ToString(),
@@ -156,7 +156,7 @@ namespace black_dev_tools {
             }
         }
 
-        private static void ProcessSingleFile(string[] args, int outlineThreshold) {
+        static void ProcessSingleFile(string[] args, int outlineThreshold) {
             if (args.Length < 3) {
                 Console.Out.WriteLine("Provide three arguments: [mode] [Input.png/jpg] [max colors] <output path replace from> <output path replace to>");
             }
@@ -180,7 +180,7 @@ namespace black_dev_tools {
                 var otbFileName = ExecuteOutlineToBlack(startFileName, outlineThreshold);
                 ExecuteFillSmallNotBlack(otbFileName);
             } else if (mode == "q") {
-                var otbFileName = ExecuteOutlineToBlack(startFileName, outlineThreshold);
+                ExecuteOutlineToBlack(startFileName, outlineThreshold);
                 ExecuteQuantize(startFileName, maxColor);
             } else if (mode == "fots") {
                 var otbFileName = ExecuteOutlineToBlack(startFileName, outlineThreshold);
@@ -211,9 +211,9 @@ namespace black_dev_tools {
 
         // 섬 데이터와 외곽선 데이터를 이용해 색칠을 자동으로 해 본다.
         // 색칠 후 이미지에 문제가 없는지 확인하기 위한 테스트 과정이다.
-        private static string ExecuteDetermineIslandTest(string sourceFileName, string bytesFileName) {
+        static void ExecuteDetermineIslandTest(string sourceFileName, string bytesFileName) {
             var targetFileName = AppendToFileName(sourceFileName, "-DIT");
-            StageData stageData = null;
+            StageData stageData;
             using (var bytesFileStream = new FileStream(bytesFileName, FileMode.Open)) {
                 var formatter = new BinaryFormatter();
                 try {
@@ -229,7 +229,7 @@ namespace black_dev_tools {
                 foreach (var island in stageData.islandDataByMinPoint) {
                     var minPoint = UInt32ToVector2Int(island.Key);
                     var targetColor = UInt32ToRgba32(island.Value.rgba);
-                    var fillMinPoint = FloodFill.ExecuteFillIf(image, minPoint, Rgba32.White, targetColor, out var pixelArea, out var points, out var originalColors);
+                    var fillMinPoint = FloodFill.ExecuteFillIf(image, minPoint, Rgba32.White, targetColor, out var pixelArea, out _, out _);
                     if (fillMinPoint != new Vector2Int(image.Width, image.Height) && pixelArea == island.Value.pixelArea) {
                     } else {
                         Console.WriteLine("Logic error in ExecuteDetermineIslandTest()!");
@@ -241,12 +241,11 @@ namespace black_dev_tools {
                     stream.Close();
                 }
             }
-            return targetFileName;
         }
 
         // 입력 이미지로 섬 데이터를 만든다.
         // 섬 데이터는 유니티에서 사용하게 된다.
-        private static string ExecuteDetermineIsland(string sourceFileName, string startFileName) {
+        static string ExecuteDetermineIsland(string sourceFileName, string startFileName) {
             // 이미지 파일을 열어봅시다~
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
                 // 색상 별 픽셀 수
@@ -279,7 +278,7 @@ namespace black_dev_tools {
                                     // 한 섬에 색상이 여러 가지라면 가장 많은 색상이 최종 색깔이 되도록 하자.
                                     // 주로 경계선 주변에서 경계선과 섬 색깔이 블렌딩되면서 다른 색깔이 되는 패턴이다.
                                     //var prominentColor = originalColors.Aggregate((l, r) => l.Value > r.Value ? l : r).Key;
-                                    var prominentColor = originalColors.OrderByDescending(e => e.Value).Where(e => e.Key != Rgba32.White).First().Key;
+                                    var prominentColor = originalColors.OrderByDescending(e => e.Value).First(e => e.Key != Rgba32.White).Key;
 
                                     pixelColor = prominentColor;
 
@@ -289,11 +288,11 @@ namespace black_dev_tools {
                                     // throw new Exception($"Island color is not uniform! It has {originalColors.Count} colors in it! coord={coord}");
                                 }
                                 if (originalColors.Count == 0) {
-                                    throw new Exception($"Island color is empty. Is this possible?");
+                                    throw new Exception("Island color is empty. Is this possible?");
                                 }
 
                                 if (pixelColor == Rgba32.White) {
-                                    throw new Exception($"Island color is WHITE?! Fix it!");
+                                    throw new Exception("Island color is WHITE?! Fix it!");
                                 }
 
                                 IncreaseCountOfDictionaryValue(pixelCountByColor, pixelColor);
@@ -356,13 +355,6 @@ namespace black_dev_tools {
                     pixelAreaCountIndex++;
                 }
 
-                Dictionary<uint, uint> islandColorByMinPointPrimitive = new Dictionary<uint, uint>();
-                foreach (var kv in islandColorByMinPoint) {
-                    var p = Vector2IntToUInt32(kv.Key);
-                    var c = Rgba32ToUInt32(kv.Value);
-                    islandColorByMinPointPrimitive[p] = c;
-                }
-
                 var stageData = new StageData();
                 foreach (var kv in islandPixelAreaByMinPoint) {
                     var p = Vector2IntToUInt32(kv.Key);
@@ -388,7 +380,7 @@ namespace black_dev_tools {
 
         // 이미지를 팔레트화시킨다.
         // 팔레트에는 반드시 검은색과 흰색은 빠지도록 한다.
-        private static string ExecuteQuantize(string sourceFileName, int maxColor = 30) {
+        static string ExecuteQuantize(string sourceFileName, int maxColor = 30) {
             var targetFileName = AppendToFileName(sourceFileName, "-Q");
             var quantizer = new WuQuantizer(null, maxColor);
             var config = Configuration.Default;
@@ -418,7 +410,7 @@ namespace black_dev_tools {
         }
 
         // sourceFileName 위에 outlineFileName을 얹는다. 얹을 때 완전 검은 색깔만 얹는다.
-        private static string ExecuteFlattenedOutlineToSource(string sourceFileName, string outlineFileName) {
+        static string ExecuteFlattenedOutlineToSource(string sourceFileName, string outlineFileName) {
             var targetFileName = AppendToFileName(outlineFileName, "-FOTS");
             using (var sourceImage = Image.Load<Rgba32>(sourceFileName))
             using (var outlineImage = Image.Load<Rgba32>(outlineFileName)) {
@@ -443,7 +435,7 @@ namespace black_dev_tools {
         }
 
         // 애매한 검은색을 완전한 검은색으로 바꾼다.
-        private static string ExecuteOutlineToBlack(string sourceFileName, int threshold) {
+        static string ExecuteOutlineToBlack(string sourceFileName, int threshold) {
             var targetFileName = AppendToFileName(sourceFileName, "-OTB");
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
                 for (int h = 0; h < image.Height; h++) {
@@ -451,19 +443,22 @@ namespace black_dev_tools {
                         var pixelColor = image[w, h];
                         if (pixelColor.R <= threshold && pixelColor.G <= threshold && pixelColor.B <= threshold) {
                             image[w, h] = Rgba32.Black;
-                        } else {
+                        }
+                        else {
                             image[w, h] = Rgba32.White;
                         }
                     }
                 }
+
                 Directory.CreateDirectory(Path.GetDirectoryName(targetFileName));
                 using (var stream = new FileStream(targetFileName, FileMode.Create)) {
                     image.SaveAsPng(stream);
                     stream.Close();
                 }
             }
+
             return targetFileName;
-        }
+            }
 
         static string AppendToFileName(string fileName, string append) {
             var r = Path.Combine(Path.GetDirectoryName(fileName), Path.GetFileNameWithoutExtension(fileName) + append + Path.GetExtension(fileName));
@@ -474,7 +469,7 @@ namespace black_dev_tools {
         }
 
         // 아주 작은 비검은색을 검은색으로 메운다.
-        private static string ExecuteFillSmallNotBlack(string sourceFileName, int threshold = 4 * 4 * 4) {
+        static string ExecuteFillSmallNotBlack(string sourceFileName, int threshold = 4 * 4 * 4) {
             var targetFileName = AppendToFileName(sourceFileName, "-FSNB");
             // Min Point 별 (섬 별) 섬 픽셀 수(면적)
             Dictionary<Vector2Int, int> islandPixelAreaByMinPoint = new Dictionary<Vector2Int, int>();
@@ -489,7 +484,7 @@ namespace black_dev_tools {
                             // (w, h) 좌표부터 검은색이 아닌 색을 검은색으로 채우면서 픽셀 수집한다.
                             // 수집한 모든 픽셀은 points에, points의 min point는 반환값으로 받는다.
                             var coord = new Vector2Int(w, h);
-                            var fillMinPoint = FloodFill.ExecuteFillIfNotBlack(image, coord, Rgba32.Black, out var pixelArea, out var points, out var originalColors);
+                            var fillMinPoint = FloodFill.ExecuteFillIfNotBlack(image, coord, Rgba32.Black, out var pixelArea, out _, out _);
                             if (fillMinPoint != new Vector2Int(image.Width, image.Height)) {
                                 islandPixelAreaByMinPoint[fillMinPoint] = pixelArea;
                             } else {
@@ -505,7 +500,7 @@ namespace black_dev_tools {
             using (var image = Image.Load<Rgba32>(sourceFileName)) {
                 foreach (var island in islandPixelAreaByMinPoint) {
                     if (island.Value < threshold) {
-                        var fillMinPoint = FloodFill.ExecuteFillIfNotBlack(image, island.Key, Rgba32.Black, out var pixelArea, out var points, out var originalColors);
+                        var fillMinPoint = FloodFill.ExecuteFillIfNotBlack(image, island.Key, Rgba32.Black, out var pixelArea, out _, out _);
                         if (fillMinPoint != new Vector2Int(image.Width, image.Height) && pixelArea == island.Value) {
                         } else {
                             Console.WriteLine("Logic error in ExecuteFillSmallNotBlack()!");
@@ -523,24 +518,24 @@ namespace black_dev_tools {
             return targetFileName;
         }
 
-        private static ulong GetRectRange(int v1, int v2, int v3, int v4) {
-            return (ulong)((ulong)v1 + ((ulong)v2 << 16) + ((ulong)v3 << 32) + ((ulong)v4 << 48));
+        static ulong GetRectRange(int v1, int v2, int v3, int v4) {
+            return (ulong)v1 + ((ulong)v2 << 16) + ((ulong)v3 << 32) + ((ulong)v4 << 48);
         }
 
-        private static uint Rgba32ToUInt32(Rgba32 v) {
+        static uint Rgba32ToUInt32(Rgba32 v) {
             return v.PackedValue;
             //return ((uint)v.A << 24) + ((uint)v.B << 16) + ((uint)v.G << 8) + (uint)v.R;
         }
 
-        private static Rgba32 UInt32ToRgba32(uint v) {
+        static Rgba32 UInt32ToRgba32(uint v) {
             return new Rgba32(v);
         }
 
-        private static uint Vector2IntToUInt32(Vector2Int k) {
+        static uint Vector2IntToUInt32(Vector2Int k) {
             return ((uint)k.y << 16) + (uint)k.x;
         }
 
-        private static Vector2Int UInt32ToVector2Int(uint v) {
+        static Vector2Int UInt32ToVector2Int(uint v) {
             return new Vector2Int((int)(v & 0xffff), (int)(v >> 16));
         }
 

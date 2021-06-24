@@ -4,7 +4,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace black_dev_tools {
-    partial class FloodFill {
+    internal partial class FloodFill {
         static bool ColorMatch(Rgba32 a, Rgba32 b) {
             return a == b;
         }
@@ -161,7 +161,7 @@ namespace black_dev_tools {
             return fillMinPoint;
         }
 
-        private static void UpdateFillMinPoint(ref Vector2Int fillMinPoint, Vector2Int w) {
+        static void UpdateFillMinPoint(ref Vector2Int fillMinPoint, Vector2Int w) {
             if (fillMinPoint.x > w.x || (fillMinPoint.x == w.x && fillMinPoint.y > w.y)) {
                 fillMinPoint = w;
             }
