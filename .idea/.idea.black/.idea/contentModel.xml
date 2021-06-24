@@ -12,7 +12,6 @@
         <e p="Editor" t="Include">
           <e p="StageSpriteAssetPostprocessor.cs" t="Include" />
         </e>
-        <e p="MainCanvasDirector.cs" t="Include" />
         <e p="MessagePack" t="Include">
           <e p="Attributes.cs" t="Include" />
           <e p="FloatBits.cs" t="Include" />
@@ -153,12 +152,14 @@
           <e p="ImageAspectRatioHeightFitter.cs" t="Include" />
           <e p="IslandLabel.cs" t="Include" />
           <e p="IslandLabelSpawner.cs" t="Include" />
+          <e p="MainCanvasDirector.cs" t="Include" />
           <e p="MainGame.cs" t="Include" />
           <e p="Minime.cs" t="Include" />
           <e p="PaletteButton.cs" t="Include" />
           <e p="PaletteButtonGroup.cs" t="Include" />
           <e p="Pan.cs" t="Include" />
           <e p="PinchZoom.cs" t="Include" />
+          <e p="RingEffect.cs" t="Include" />
           <e p="Screenshot.cs" t="Include" />
           <e p="Security" t="Include">
             <e p="ScBigInteger.cs" t="Include" />
