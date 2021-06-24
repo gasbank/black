@@ -9,7 +9,7 @@ fi
 /Applications/Unity/Hub/Editor/${UNITY_VERSION}/Unity.app/Contents/MacOS/Unity \
     -quit \
     -batchmode \
-    -executeMethod BlackBuild.PerformIosBuild \
+    -executeMethod BlackBuild.PerformIosAdHocBuild \
     -logfile build.log \
     -projectPath `pwd` \
     -buildTarget iOS \
