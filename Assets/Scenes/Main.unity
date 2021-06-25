@@ -454,13 +454,15 @@ GameObject:
   - component: {fileID: 103420706}
   - component: {fileID: 103420708}
   - component: {fileID: 103420707}
+  - component: {fileID: 103420710}
+  - component: {fileID: 103420709}
   m_Layer: 5
   m_Name: White Curtain Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &103420706
 RectTransform:
   m_ObjectHideFlags: 0
@@ -518,6 +520,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103420705}
   m_CullTransparentMesh: 1
+--- !u!114 &103420709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103420705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 103420710}
+  targetAlpha: 0
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
+--- !u!225 &103420710
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103420705}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &106254660
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class PaletteButtonGroup : MonoBehaviour {
             foreach (Transform t in transform) {
                 var pb = t.GetComponent<PaletteButton>();
                 if (pb.Check) {
-                    Debug.Log($"CurrentPaletteColorUint: {pb.ColorUint}");
+                    Debug.Log($"CurrentPaletteColorUint: {pb.ColorUint} (0x{pb.ColorUint:X8})");
                     return pb.ColorUint;
                 }
             }

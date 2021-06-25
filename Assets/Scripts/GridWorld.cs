@@ -271,7 +271,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
             Debug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
             var solutionColorUint = stageData.islandDataByMinPoint[fillMinPointUint].rgba;
-            Debug.Log($"Solution Color (uint): {solutionColorUint}");
+            Debug.Log($"Solution Color (uint): {solutionColorUint} (0x{solutionColorUint:X8})");
             if (forceSolutionColor || solutionColorUint == replacementColorUint) {
                 var solutionColor = BlackConvert.GetColor32(solutionColorUint);
                 Debug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
