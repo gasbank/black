@@ -11,7 +11,7 @@ public class StageSaveManager : MonoBehaviour {
 
     static readonly string GameName = "game";
 
-    private static void InitializeMessagePackConditional() {
+    static void InitializeMessagePackConditional() {
         if (MessagePack.MessagePackSerializer.IsInitialized == false) {
             // 두 번 호출하면 오류난다.
             MessagePack.Resolvers.CompositeResolver.RegisterAndSetAsDefault(
@@ -32,18 +32,18 @@ public class StageSaveManager : MonoBehaviour {
     string GetStageSaveFileName(string stageName) => stageName + ".save";
     static string GetWipPngFileName(string stageName) => stageName + ".png";
 
-    private void SaveWipPngData(string stageName, GridWorld gridWorld) {
+    void SaveWipPngData(string stageName, GridWorld gridWorld) {
         FileUtil.SaveAtomically(GetWipPngFileName(stageName), gridWorld.Tex.EncodeToPNG());
         Debug.Log($"WIP PNG '{GetWipPngFileName(stageName)}' written.");
     }
 
-    private void SaveStageData(string stageName, HashSet<uint> coloredMinPoints) {
+    void SaveStageData(string stageName, HashSet<uint> coloredMinPoints) {
         ConDebug.Log($"Saving save data for '{stageName}'...");
         InitializeMessagePackConditional();
         FileUtil.SaveAtomically(GetStageSaveFileName(stageName), MessagePack.LZ4MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints)));
     }
 
-    private void SaveGameData(GridWorld gridWorld) {
+    void SaveGameData(GridWorld gridWorld) {
         ConDebug.Log($"Saving game data...");
         InitializeMessagePackConditional();
         FileUtil.SaveAtomically(GameName, MessagePack.LZ4MessagePackSerializer.Serialize(CreateGameSaveData(gridWorld)));
@@ -88,7 +88,7 @@ public class StageSaveManager : MonoBehaviour {
         return false;
     }
 
-    private StageSaveData CreateStageSaveData(string stageName, HashSet<uint> coloredMinPoints) {
+    StageSaveData CreateStageSaveData(string stageName, HashSet<uint> coloredMinPoints) {
         var stageSaveData = new StageSaveData {
             stageName = stageName,
             coloredMinPoints = coloredMinPoints,
@@ -99,7 +99,7 @@ public class StageSaveManager : MonoBehaviour {
         return stageSaveData;
     }
 
-    private GameSaveData CreateGameSaveData(GridWorld gridWorld) {
+    GameSaveData CreateGameSaveData(GridWorld gridWorld) {
         var gameSaveData = new GameSaveData {
             gold = gridWorld.Gold,
         };

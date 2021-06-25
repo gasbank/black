@@ -38,7 +38,7 @@ public class Minime : MonoBehaviour {
 
     }
 
-    private void RefillRoamRetargetRemainTime() {
+    void RefillRoamRetargetRemainTime() {
         roamRetargetRemainTime = Random.Range(roamRetargetIntervalMin, roamRetargetIntervalMax);
     }
 }

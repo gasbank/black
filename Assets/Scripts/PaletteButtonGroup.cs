@@ -57,7 +57,7 @@ public class PaletteButtonGroup : MonoBehaviour {
         this.stageData = stageData;
     }
 
-    private void DestroyAllPaletteButtons() {
+    void DestroyAllPaletteButtons() {
         foreach (var t in transform.Cast<Transform>().ToArray()) {
             Destroy(t.gameObject);
         }

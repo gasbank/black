@@ -32,7 +32,7 @@ public class VirtualCurrency : MonoBehaviour {
         }
     }
 
-    private void UpdateCurrencyTypeDependents() {
+    void UpdateCurrencyTypeDependents() {
         image.sprite = currencySprites[(int)currencyType];
     }
 

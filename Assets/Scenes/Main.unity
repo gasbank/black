@@ -981,8 +981,11 @@ PlayableDirector:
     value: {fileID: 2090910700}
   - key: {fileID: 176971139300944219, guid: dd43e845979911a488d33447b0bea43c, type: 2}
     value: {fileID: 1799480003}
+  - key: {fileID: -7000401954638840479, guid: dd43e845979911a488d33447b0bea43c, type: 2}
+    value: {fileID: 1037197466}
   m_ExposedReferences:
-    m_References: []
+    m_References:
+    - f75ede53ff9664b49957104d48bc75bf: {fileID: 1037197463}
 --- !u!4 &289273184
 Transform:
   m_ObjectHideFlags: 0
@@ -2767,6 +2770,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1037197465}
   - component: {fileID: 1037197464}
+  - component: {fileID: 1037197466}
   m_Layer: 0
   m_Name: Main Game
   m_TagString: Untagged
@@ -2807,6 +2811,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1037197466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037197463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 53b2e47a65f2bb94791edb99b6e69914, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1037197464}
+          m_TargetAssemblyTypeName: MainGame, Assembly-CSharp
+          m_MethodName: ResetCamera
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1055476751
 GameObject:
   m_ObjectHideFlags: 0

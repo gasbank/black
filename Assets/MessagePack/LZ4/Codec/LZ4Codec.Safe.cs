@@ -41,7 +41,7 @@ namespace MessagePack.LZ4
         // ReSharper disable UnusedParameter.Local
 
         [Conditional("DEBUG")]
-        private static void Assert(bool condition, string errorMessage)
+        static void Assert(bool condition, string errorMessage)
         {
             if (!condition) throw new ArgumentException(errorMessage);
             Debug.Assert(condition, errorMessage);
@@ -77,7 +77,7 @@ namespace MessagePack.LZ4
                 ((uint)buffer[offset + 3] << 24);
         }
 
-        private static uint Xor4(byte[] buffer, int offset1, int offset2)
+        static uint Xor4(byte[] buffer, int offset1, int offset2)
         {
             // return Peek4(buffer, offset1) ^ Peek4(buffer, offset2);
             var value1 =
@@ -93,7 +93,7 @@ namespace MessagePack.LZ4
             return value1 ^ value2;
         }
 
-        private static ulong Xor8(byte[] buffer, int offset1, int offset2)
+        static ulong Xor8(byte[] buffer, int offset1, int offset2)
         {
             // return Peek8(buffer, offset1) ^ Peek8(buffer, offset2);
             var value1 =
@@ -117,14 +117,14 @@ namespace MessagePack.LZ4
             return value1 ^ value2;
         }
 
-        private static bool Equal2(byte[] buffer, int offset1, int offset2)
+        static bool Equal2(byte[] buffer, int offset1, int offset2)
         {
             // return Peek2(buffer, offset1) == Peek2(buffer, offset2);
             if (buffer[offset1] != buffer[offset2]) return false;
             return buffer[offset1 + 1] == buffer[offset2 + 1];
         }
 
-        private static bool Equal4(byte[] buffer, int offset1, int offset2)
+        static bool Equal4(byte[] buffer, int offset1, int offset2)
         {
             // return Peek4(buffer, offset1) == Peek4(buffer, offset2);
             if (buffer[offset1] != buffer[offset2]) return false;
@@ -139,7 +139,7 @@ namespace MessagePack.LZ4
 
         #region Byte block copy
 
-        private static void Copy4(byte[] buf, int src, int dst)
+        static void Copy4(byte[] buf, int src, int dst)
         {
             Assert(dst > src, "Copying backwards is not implemented");
             buf[dst + 3] = buf[src + 3];
@@ -148,7 +148,7 @@ namespace MessagePack.LZ4
             buf[dst] = buf[src];
         }
 
-        private static void Copy8(byte[] buf, int src, int dst)
+        static void Copy8(byte[] buf, int src, int dst)
         {
             Assert(dst > src, "Copying backwards is not implemented");
             buf[dst + 7] = buf[src + 7];
@@ -161,7 +161,7 @@ namespace MessagePack.LZ4
             buf[dst] = buf[src];
         }
 
-        private static void BlockCopy(byte[] src, int src_0, byte[] dst, int dst_0, int len)
+        static void BlockCopy(byte[] src, int src_0, byte[] dst, int dst_0, int len)
         {
             Assert(src != dst, "BlockCopy does not handle copying to the same buffer");
 
@@ -204,7 +204,7 @@ namespace MessagePack.LZ4
             }
         }
 
-        private static int WildCopy(byte[] src, int src_0, byte[] dst, int dst_0, int dst_end)
+        static int WildCopy(byte[] src, int src_0, byte[] dst, int dst_0, int dst_end)
         {
             var len = dst_end - dst_0;
 
@@ -252,7 +252,7 @@ namespace MessagePack.LZ4
             return len;
         }
 
-        private static int SecureCopy(byte[] buffer, int src, int dst, int dst_end)
+        static int SecureCopy(byte[] buffer, int src, int dst, int dst_end)
         {
             var diff = dst - src;
             var length = dst_end - dst;

@@ -74,7 +74,7 @@ namespace MessagePack.LZ4
     {
         #region LZ4_compressCtx
 
-        private static int LZ4_compressCtx_safe32(
+        static int LZ4_compressCtx_safe32(
             int[] hash_table,
             byte[] src,
             byte[] dst,
@@ -299,7 +299,7 @@ namespace MessagePack.LZ4
 
         #region LZ4_compress64kCtx
 
-        private static int LZ4_compress64kCtx_safe32(
+        static int LZ4_compress64kCtx_safe32(
             ushort[] hash_table,
             byte[] src,
             byte[] dst,
@@ -525,7 +525,7 @@ namespace MessagePack.LZ4
 
         #region LZ4_uncompress
 
-        private static int LZ4_uncompress_safe32(
+        static int LZ4_uncompress_safe32(
             byte[] src,
             byte[] dst,
             int src_0,

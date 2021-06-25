@@ -632,7 +632,7 @@ namespace MessagePack.Formatters
         }
     }
 
-    class Grouping<TKey, TElement> : IGrouping<TKey, TElement>
+    internal class Grouping<TKey, TElement> : IGrouping<TKey, TElement>
     {
         readonly TKey key;
         readonly IEnumerable<TElement> elements;
@@ -662,7 +662,7 @@ namespace MessagePack.Formatters
         }
     }
 
-    class Lookup<TKey, TElement> : ILookup<TKey, TElement>
+    internal class Lookup<TKey, TElement> : ILookup<TKey, TElement>
     {
         readonly Dictionary<TKey, IGrouping<TKey, TElement>> groupings;
 

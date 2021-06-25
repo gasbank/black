@@ -5,7 +5,7 @@ public class ShopPopup : MonoBehaviour {
     [SerializeField] Transform miniroom;
     [SerializeField] Transform shopPropEntryParent;
 
-    private void AddAllProps() {
+    void AddAllProps() {
         var transformList = miniroom.GetComponentsInChildren<Transform>(true);
         foreach (var t in transformList) {
             var entry = Instantiate(shopPropEntry, shopPropEntryParent).GetComponent<ShopPropEntry>();
@@ -14,7 +14,7 @@ public class ShopPopup : MonoBehaviour {
         }
     }
 
-    private void Awake() {
+    void Awake() {
         AddAllProps();
     }
 }
