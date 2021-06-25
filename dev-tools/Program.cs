@@ -208,7 +208,7 @@ namespace black_dev_tools {
                 var fotsFileName = ExecuteFlattenedOutlineToSource(qFileName, fsnbFileName);
                 var bytesFileName = ExecuteDetermineIsland(fotsFileName, startFileName);
                 ExecuteDetermineIslandTest(fsnbFileName, bytesFileName);
-                var bbFileName = ExecuteBoxBlur(fsnbFileName, 2);
+                var bbFileName = ExecuteBoxBlur(fsnbFileName, 1);
                 ExecuteSdf(bbFileName);
             } else {
                 Console.Out.WriteLine($"Unknown mode provided: {mode}");
