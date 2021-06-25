@@ -26,7 +26,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
     [SerializeField]
     PlayableDirector finaleDirector;
-    
 
     readonly HashSet<uint> coloredMinPoints = new HashSet<uint>();
     public Dictionary<uint, int> coloredIslandCountByColor = new Dictionary<uint, int>();

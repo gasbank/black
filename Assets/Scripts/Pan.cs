@@ -1,14 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
-    [SerializeField] Transform targetImage;
-    [SerializeField] Vector3 beginDragWorldPosition;
-    [SerializeField] Vector3 beginDragTargetPosition;
-    [SerializeField] bool panning;
-    [SerializeField] RectTransform rt;
+    [SerializeField]
+    Transform targetImage;
+
+    [SerializeField]
+    Vector3 beginDragWorldPosition;
+
+    [SerializeField]
+    Vector3 beginDragTargetPosition;
+
+    [SerializeField]
+    bool panning;
+
+    [SerializeField]
+    RectTransform rt;
+
     static bool panningMutex;
 
     void OnValidate() {
@@ -19,14 +27,16 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
         if (PinchZoom.PinchZooming == false && panningMutex == false) {
             panningMutex = true;
             panning = true;
-            RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main, out beginDragWorldPosition);
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main,
+                out beginDragWorldPosition);
             beginDragTargetPosition = targetImage.position;
         }
     }
 
     public void OnDrag(PointerEventData eventData) {
         if (panning) {
-            RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main, out var dragWorldPosition);
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main,
+                out var dragWorldPosition);
             targetImage.position = beginDragTargetPosition + (dragWorldPosition - beginDragWorldPosition);
         }
     }
