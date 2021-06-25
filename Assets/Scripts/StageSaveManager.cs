@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using ConditionalDebug;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,13 +38,13 @@ public class StageSaveManager : MonoBehaviour {
     }
 
     private void SaveStageData(string stageName, HashSet<uint> coloredMinPoints) {
-        SushiDebug.Log($"Saving save data for '{stageName}'...");
+        ConDebug.Log($"Saving save data for '{stageName}'...");
         InitializeMessagePackConditional();
         FileUtil.SaveAtomically(GetStageSaveFileName(stageName), MessagePack.LZ4MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints)));
     }
 
     private void SaveGameData(GridWorld gridWorld) {
-        SushiDebug.Log($"Saving game data...");
+        ConDebug.Log($"Saving game data...");
         InitializeMessagePackConditional();
         FileUtil.SaveAtomically(GameName, MessagePack.LZ4MessagePackSerializer.Serialize(CreateGameSaveData(gridWorld)));
     }
@@ -60,19 +61,19 @@ public class StageSaveManager : MonoBehaviour {
 
     public StageSaveData Load(string stageName) {
         try {
-            SushiDebug.Log($"Loading save data for '{stageName}'...");
+            ConDebug.Log($"Loading save data for '{stageName}'...");
             InitializeMessagePackConditional();
             var bytes = File.ReadAllBytes(FileUtil.GetPath(GetStageSaveFileName(stageName)));
-            SushiDebug.Log($"{bytes.Length} bytes loaded.");
+            ConDebug.Log($"{bytes.Length} bytes loaded.");
             var stageSaveData = MessagePack.LZ4MessagePackSerializer.Deserialize<StageSaveData>(bytes);
             targetImage.transform.localPosition = new Vector3(stageSaveData.targetImageCenterX, stageSaveData.targetImageCenterY, targetImage.transform.localPosition.z);
             pinchZoom.ZoomValue = stageSaveData.zoomValue;
             return stageSaveData;
         } catch (FileNotFoundException) {
-            SushiDebug.Log($"No save data exist.");
+            ConDebug.Log($"No save data exist.");
             return CreateStageSaveData(stageName, new HashSet<uint>());
         } catch (System.IO.IsolatedStorage.IsolatedStorageException) {
-            SushiDebug.Log($"No save data exist.");
+            ConDebug.Log($"No save data exist.");
             return CreateStageSaveData(stageName, new HashSet<uint>());
         }
     }

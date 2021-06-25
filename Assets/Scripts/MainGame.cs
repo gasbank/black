@@ -2,6 +2,7 @@
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using System.Linq;
+using ConditionalDebug;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -26,7 +27,7 @@ public class MainGame : MonoBehaviour {
         // Stage Selection 신에서 넘어왔다면 이 조건문이 만족할 것이다.
         if (StageButton.CurrentStageMetadata != null) {
             stageMetadata = StageButton.CurrentStageMetadata;
-            SushiDebug.Log($"Stage metadata specified by StageButton: {stageMetadata.name}");
+            ConDebug.Log($"Stage metadata specified by StageButton: {stageMetadata.name}");
         }
 
         using (var stream = new MemoryStream(stageMetadata.RawStageData.bytes)) {
@@ -69,10 +70,10 @@ public class MainGame : MonoBehaviour {
         //gridWorld.FloodFillVec2IntAndApply(1208, 716, true);
 
         var counts = gridWorld.CountWhiteAndBlackInBitmap();
-        SushiDebug.Log($"Tex size: {gridWorld.texSize}");
-        SushiDebug.Log($"Black count: {counts[0]}");
-        SushiDebug.Log($"White count: {counts[1]}");
-        SushiDebug.Log($"Other count: {counts[2]}");
+        ConDebug.Log($"Tex size: {gridWorld.texSize}");
+        ConDebug.Log($"Black count: {counts[0]}");
+        ConDebug.Log($"White count: {counts[1]}");
+        ConDebug.Log($"Other count: {counts[2]}");
 
         //gridWorld.FloodFillVec2IntAndApplyWithSolution(BlackConvert.GetInvertedY(new Vector2Int(922, 1202), gridWorld.texSize));
 

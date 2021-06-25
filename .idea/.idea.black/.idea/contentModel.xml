@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="$PROJECT_DIR$" t="IncludeRecursive">
+    <e p="C:\Users\gb\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\gb\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_black.-2086509426.00" t="ExcludeRecursive" />
+    <e p="C:\Users\gb\black" t="IncludeRecursive">
       <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
@@ -125,9 +127,11 @@
         <e p="Scripts" t="Include">
           <e p="AnimatedCoin.cs" t="Include" />
           <e p="AppMetaInfo.cs" t="Include" />
+          <e p="AutoBindAttribute.cs" t="Include" />
           <e p="BackButton.cs" t="Include" />
           <e p="BlackConvert.cs" t="Include" />
           <e p="BlackMsgPack.cs" t="Include" />
+          <e p="CanvasGroupAlpha.cs" t="Include" />
           <e p="Data" t="Include">
             <e p="GameSaveData.cs" t="Include" />
             <e p="IslandData.cs" t="Include" />
@@ -142,6 +146,14 @@
             <e p="ScIntDrawer.cs" t="Include" />
             <e p="ScLongDrawer.cs" t="Include" />
             <e p="StageMetadataEditor.cs" t="Include" />
+          </e>
+          <e p="Extension" t="Include">
+            <e p="ArrayExtension.cs" t="Include" />
+            <e p="CanvasGroupExtension.cs" t="Include" />
+            <e p="LayerMaskExtension.cs" t="Include" />
+            <e p="LinqExtension.cs" t="Include" />
+            <e p="TransformDeepChildExtension.cs" t="Include" />
+            <e p="TransformExtension.cs" t="Include" />
           </e>
           <e p="FileUtil.cs" t="Include" />
           <e p="FpsDisplay.cs" t="Include" />
@@ -213,9 +225,7 @@
       <e p="black.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
-      <e p="Temp/Bin" t="ExcludeRecursive" />
+      <e p="Temp\Bin" t="ExcludeRecursive" />
     </e>
-    <e p="$PROJECT_DIR$/../Library/Caches/Rider2019.2/extResources" t="IncludeRecursive" />
-    <e p="$PROJECT_DIR$/../Library/Caches/Rider2019.2/resharper-host/local/Transient/ReSharperHost/v192/SolutionCaches/_black.917248357.00" t="ExcludeRecursive" />
   </component>
 </project>

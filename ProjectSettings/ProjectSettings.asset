@@ -686,6 +686,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
+    1: CONDITIONAL_DEBUG
     7: SUSHI_DEBUG
   additionalCompilerArguments: {}
   platformArchitecture: {}

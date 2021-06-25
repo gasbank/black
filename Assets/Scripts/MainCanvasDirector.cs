@@ -1,24 +1,10 @@
 ﻿using UnityEngine;
 
-public static class CanvasGroupExtension {
-    public static void Show(this CanvasGroup cg) {
-        cg.alpha = 1.0f;
-        cg.blocksRaycasts = true;
-    }
-
-    public static void Hide(this CanvasGroup cg) {
-        cg.alpha = 0.0f;
-        cg.blocksRaycasts = false;
-    }
-}
-
 public class MainCanvasDirector : MonoBehaviour {
     [SerializeField] CanvasGroup debugGroup = null;
     [SerializeField] CanvasGroup nameplateGroup = null;
     [SerializeField] CanvasGroup coinGroup = null;
     [SerializeField] CanvasGroup paletteGroup = null;
-
-
 
     enum Mode {
         Entering,

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ConditionalDebug;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,12 +32,12 @@ public class TargetImage : MonoBehaviour {
             // 디버그 렌더링
             alphaOffset = 1;
             activateOutline = false;
-            SushiDebug.Log("Start debug view...");
+            ConDebug.Log("Start debug view...");
         } else {
             // 일반 렌더링
             alphaOffset = 0;
             activateOutline = true;
-            SushiDebug.Log("Start normal view...");
+            ConDebug.Log("Start normal view...");
         }
         targetImage.material.SetFloat("AlphaOffset", alphaOffset);
         targetImageOutine.gameObject.SetActive(activateOutline);

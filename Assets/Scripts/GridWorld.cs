@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEngine.SceneManagement;
 using System.IO;
+using ConditionalDebug;
 
 public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField] Image image = null;
@@ -174,18 +175,18 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             yield return new WaitForEndOfFrame();
             tex.Apply();
 
-            // iter++;
-            // if (iter % 500 == 0) {
-            //     yield return new WaitForEndOfFrame();
-            //     //tex.SetPixels32(bitmap);
-            //     //tex.Apply();
-            // }
+            iter++;
+            if (iter % 100 == 0) {
+                yield return new WaitForEndOfFrame();
+                tex.SetPixels32(bitmap);
+                tex.Apply();
+            }
         }
         yield return new WaitForEndOfFrame();
         tex.SetPixels32(bitmap);
         tex.Apply();
 
-        SushiDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded. Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
+        ConDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded. Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
         if (pixelList.Count > 0) {
             // 이 지점부터 fillMinPoint는 유효한 값을 가진다.
             var fillMinPointUint = BlackConvert.GetP(fillMinPoint);
@@ -256,7 +257,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 e.x++;
             }
         }
-        SushiDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded. Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
+        ConDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded. Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
         if (pixelList.Count > 0) {
             // 이 지점부터 fillMinPoint는 유효한 값을 가진다.
             var fillMinPointUint = BlackConvert.GetP(fillMinPoint);
