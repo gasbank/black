@@ -165,6 +165,7 @@
           <e p="MainCanvasDirector.cs" t="Include" />
           <e p="MainGame.cs" t="Include" />
           <e p="Minime.cs" t="Include" />
+          <e p="NameplateGroup.cs" t="Include" />
           <e p="PaletteButton.cs" t="Include" />
           <e p="PaletteButtonGroup.cs" t="Include" />
           <e p="Pan.cs" t="Include" />

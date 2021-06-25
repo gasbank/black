@@ -15,12 +15,14 @@ public class StageButton : MonoBehaviour {
         SceneManager.LoadScene("Main");
     }
 
+#if UNITY_EDITOR
     void OnValidate() {
         if (stageNumber != null) {
             stageNumber.text = (transform.GetSiblingIndex() + 1).ToString();
         }
     }
-
+#endif
+    
     void Start() {
         var tex2D = new Texture2D(512, 512, TextureFormat.RGB24, true, true);
         if (StageSaveManager.LoadWipPng(stageMetadata.name, tex2D)) {

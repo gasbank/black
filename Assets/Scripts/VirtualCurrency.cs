@@ -36,9 +36,11 @@ public class VirtualCurrency : MonoBehaviour {
         image.sprite = currencySprites[(int)currencyType];
     }
 
+#if UNITY_EDITOR
     void OnValidate() {
         UpdateCurrencyTypeDependents();
     }
+#endif
 
     void Awake() {
         CurrencyValue = 0;

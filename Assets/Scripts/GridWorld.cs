@@ -65,9 +65,11 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
     Canvas rootCanvas;
 
+#if UNITY_EDITOR
     void OnValidate() {
         rt = GetComponent<RectTransform>();
     }
+#endif
 
     void Awake() {
         rootCanvas = GetComponentInParent<Canvas>();

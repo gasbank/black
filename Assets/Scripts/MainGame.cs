@@ -28,6 +28,9 @@ public class MainGame : MonoBehaviour {
     [SerializeField]
     StageMetadata stageMetadata;
 
+    [SerializeField]
+    NameplateGroup nameplateGroup;
+
     StageData stageData;
 
     void Start() {
@@ -62,6 +65,8 @@ public class MainGame : MonoBehaviour {
 
         gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
         gridWorld.StageName = stageMetadata.name;
+        nameplateGroup.Text = stageMetadata.FriendlyStageName;
+        
         targetImage.SetTargetImageMaterial(skipBlackMaterial);
 
         targetImageOutline.material = stageMetadata.SdfMaterial;

@@ -21,10 +21,12 @@ public class AnimatedCoin : MonoBehaviour {
         set => gridWorld = value;
     }
 
+#if UNITY_EDITOR
     void OnValidate() {
         rt = GetComponent<RectTransform>();
     }
-
+#endif
+    
     void Awake() {
         if (targetRt == null) {
             targetRt = rt;

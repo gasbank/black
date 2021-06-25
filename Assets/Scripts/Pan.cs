@@ -19,9 +19,11 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
 
     static bool panningMutex;
 
+#if UNITY_EDITOR
     void OnValidate() {
         rt = GetComponent<RectTransform>();
     }
+#endif
 
     public void OnBeginDrag(PointerEventData eventData) {
         if (PinchZoom.PinchZooming == false && panningMutex == false) {

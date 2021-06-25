@@ -15,9 +15,11 @@ public class IslandLabel : MonoBehaviour {
         set => text.text = value;
     }
 
+#if UNITY_EDITOR
     void OnValidate() {
         rt = GetComponent<RectTransform>();
     }
+#endif
 
     public bool BackgroundImageActive {
         get => backgroundImage.gameObject.activeSelf;

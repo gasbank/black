@@ -2,7 +2,6 @@
 
 public class MainCanvasDirector : MonoBehaviour {
     [SerializeField] CanvasGroup debugGroup;
-    [SerializeField] CanvasGroup nameplateGroup;
     [SerializeField] CanvasGroup coinGroup;
     [SerializeField] CanvasGroup paletteGroup;
 
@@ -21,31 +20,26 @@ public class MainCanvasDirector : MonoBehaviour {
             switch (mode) {
                 case Mode.Entering:
                     debugGroup.Hide();
-                    nameplateGroup.Hide();
                     coinGroup.Hide();
                     paletteGroup.Hide();
                     break;
                 case Mode.Finished:
                     debugGroup.Hide();
-                    nameplateGroup.Show();
                     coinGroup.Hide();
                     paletteGroup.Hide();
                     break;
                 case Mode.Finishing:
                     debugGroup.Hide();
-                    nameplateGroup.Hide();
                     coinGroup.Hide();
                     paletteGroup.Hide();
                     break;
                 case Mode.Painting:
                     debugGroup.Hide();
-                    nameplateGroup.Hide();
                     coinGroup.Show();
                     paletteGroup.Show();
                     break;
                 case Mode.Debug:
                     debugGroup.Show();
-                    nameplateGroup.Show();
                     coinGroup.Show();
                     paletteGroup.Show();
                     break;

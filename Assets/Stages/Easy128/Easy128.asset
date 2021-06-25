@@ -15,3 +15,4 @@ MonoBehaviour:
   skipBlackMaterial: {fileID: 2100000, guid: 99473883d64904ba097a246eb9aa49da, type: 2}
   sdfMaterial: {fileID: 2100000, guid: fe6e7b6c327c14336913958358ecbaf0, type: 2}
   rawStageData: {fileID: 4900000, guid: f4572a63d86454bc3a146c0a9836ddc6, type: 3}
+  friendlyStageName: "\uCC2C\uB780\uD55C \uC2DC\uC791"

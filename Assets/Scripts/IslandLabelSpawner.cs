@@ -25,10 +25,12 @@ public class IslandLabelSpawner : MonoBehaviour {
 
     public bool IsLabelByMinPointEmpty => labelByMinPoint.Count == 0;
 
+#if UNITY_EDITOR
     void OnValidate() {
         rt = GetComponent<RectTransform>();
     }
-
+#endif
+    
     RectInt GetRectRange(ulong maxRectUlong) {
         var xMin = (int) (maxRectUlong & 0xffff);
         var yMax = gridWorld.texSize - (int) ((maxRectUlong >> 16) & 0xffff);

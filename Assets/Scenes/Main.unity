@@ -2799,6 +2799,7 @@ MonoBehaviour:
   targetImageOutline: {fileID: 589030467}
   pinchZoom: {fileID: 519181981}
   stageMetadata: {fileID: 11400000, guid: f194f547f137440e4850ce4921e474db, type: 2}
+  nameplateGroup: {fileID: 2090910701}
 --- !u!4 &1037197465
 Transform:
   m_ObjectHideFlags: 0
@@ -3807,7 +3808,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugGroup: {fileID: 1799480002}
-  nameplateGroup: {fileID: 2090910699}
   coinGroup: {fileID: 2022581366}
   paletteGroup: {fileID: 897666723}
   mode: 4
@@ -5686,7 +5686,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD53C\uB9AC\uBD80\uB294 \uC18C\uB144"
+  m_text: "\uCC2C\uB780\uD55C \uC2DC\uC791"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c447074a33374544f8ac27a233ec605b, type: 2}
   m_sharedMaterial: {fileID: -3562740253925006999, guid: c447074a33374544f8ac27a233ec605b,
@@ -6428,8 +6428,9 @@ GameObject:
   - component: {fileID: 2090910696}
   - component: {fileID: 2090910698}
   - component: {fileID: 2090910697}
-  - component: {fileID: 2090910699}
   - component: {fileID: 2090910700}
+  - component: {fileID: 2090910701}
+  - component: {fileID: 2090910699}
   m_Layer: 5
   m_Name: Nameplate Group
   m_TagString: Untagged
@@ -6526,6 +6527,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2090910701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090910695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22112f568dafedb49b487fae66df8a09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 1933340604}
+  canvasGroup: {fileID: 2090910699}
 --- !u!1001 &2972894473697718067
 PrefabInstance:
   m_ObjectHideFlags: 0
