@@ -167,7 +167,10 @@ namespace black_dev_tools {
             }
 
             var mode = args[0];
-            var startFileName = args[1];
+            var startFileName = args[1]
+                .Replace('/', Path.DirectorySeparatorChar)
+                .Replace('\\', Path.DirectorySeparatorChar);
+            
             int.TryParse(args[2], out var maxColor);
             maxColor = Math.Clamp(maxColor, 3, 100);
 

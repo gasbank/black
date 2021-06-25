@@ -19,7 +19,7 @@
       <Path>UserSettings</Path>
       <Path>be</Path>
       <Path>dev-tools</Path>
-      <Path>ios</Path>
+      <Path>ios-build</Path>
       <Path>obj</Path>
     </explicitExcludes>
   </component>
