@@ -17,7 +17,7 @@ namespace MessagePack.Internal
         public ThreadsafeTypeKeyHashTable(int capacity = 4, float loadFactor = 0.75f)
         {
             var tableSize = CalculateCapacity(capacity, loadFactor);
-            this.buckets = new Entry[tableSize];
+            buckets = new Entry[tableSize];
             this.loadFactor = loadFactor;
         }
 

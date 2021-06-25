@@ -19,7 +19,7 @@ public static class IosPostProcessBuild {
             pbxProject.ReadFromFile(projectPath);
 
             // Facebook SDK가 Bitcode 미지원하므로 이 플래그를 꺼야 빌드가 된다.
-            string target = pbxProject.TargetGuidByName("Unity-iPhone");            
+            string target = pbxProject.GetUnityMainTargetGuid();            
             pbxProject.SetBuildProperty(target, "ENABLE_BITCODE", "NO");
             // 로컬 알림 관련해서 아래 프레임워크가 추가 되어야 한다.
             pbxProject.AddFrameworkToProject(target, "UserNotifications.framework", false);
@@ -46,7 +46,7 @@ public static class IosPostProcessBuild {
             plist.WriteToFile (plistPath);
 
             // Copy entitlements file
-            System.IO.File.Copy("black.entitlements", path + "/black.entitlements", true);
+            File.Copy("black.entitlements", path + "/black.entitlements", true);
 #endif
         }
     }

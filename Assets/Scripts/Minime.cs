@@ -27,7 +27,7 @@ public class Minime : MonoBehaviour {
         SpriteRenderer.flipX = Mathf.Sign(roamVelocityInCamera.x) < 0;
         roamRetargetRemainTime -= Time.deltaTime;
         if (roamRetargetRemainTime <= 0) {
-            var randomDiff = UnityEngine.Random.insideUnitCircle;
+            var randomDiff = Random.insideUnitCircle;
             roamTargetPos = transform.localPosition + new Vector3(randomDiff.x, 0, randomDiff.y);
             roamTargetPos = new Vector3(
                 Mathf.Clamp(roamTargetPos.x, -roamExtent.x / 2, roamExtent.x / 2),
@@ -39,6 +39,6 @@ public class Minime : MonoBehaviour {
     }
 
     private void RefillRoamRetargetRemainTime() {
-        roamRetargetRemainTime = UnityEngine.Random.Range(roamRetargetIntervalMin, roamRetargetIntervalMax);
+        roamRetargetRemainTime = Random.Range(roamRetargetIntervalMin, roamRetargetIntervalMax);
     }
 }

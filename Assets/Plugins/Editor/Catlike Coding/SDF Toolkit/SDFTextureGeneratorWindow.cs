@@ -19,7 +19,7 @@ namespace CatlikeCoding.SDFToolkit.Editor {
 		/// </summary>
 		[MenuItem("Window/SDF Texture Generator")]
 		public static void OpenWindow () {
-			EditorWindow.GetWindow<SDFTextureGeneratorWindow>(true, "SDF Texture Generator");
+			GetWindow<SDFTextureGeneratorWindow>(true, "SDF Texture Generator");
 		}
 		
 		static string
@@ -140,7 +140,7 @@ namespace CatlikeCoding.SDFToolkit.Editor {
 				int relativeIndex = filePath.IndexOf("Assets/");
 				if (relativeIndex >= 0) {
 					filePath = filePath.Substring(relativeIndex);
-					TextureImporter importer = TextureImporter.GetAtPath(filePath) as TextureImporter;
+					TextureImporter importer = AssetImporter.GetAtPath(filePath) as TextureImporter;
 					if (importer != null) {
 						importer.textureType = TextureImporterType.SingleChannel;
 						importer.textureCompression = TextureImporterCompression.Uncompressed;
@@ -158,7 +158,7 @@ namespace CatlikeCoding.SDFToolkit.Editor {
 				destination.hideFlags = HideFlags.HideAndDontSave;
 			}
 			string path = AssetDatabase.GetAssetPath(source);
-			TextureImporter importer = TextureImporter.GetAtPath(path) as TextureImporter;
+			TextureImporter importer = AssetImporter.GetAtPath(path) as TextureImporter;
 			if (importer == null) {
 				Debug.LogError("Cannot work with built-in textures.");
 				return;

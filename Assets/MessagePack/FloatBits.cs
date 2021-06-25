@@ -27,7 +27,7 @@ namespace MessagePack
         public Float32Bits(float value)
         {
             this = default(Float32Bits);
-            this.Value = value;
+            Value = value;
         }
 
         public Float32Bits(byte[] bigEndianBytes, int offset)
@@ -36,17 +36,17 @@ namespace MessagePack
 
             if (BitConverter.IsLittleEndian)
             {
-                this.Byte0 = bigEndianBytes[offset + 3];
-                this.Byte1 = bigEndianBytes[offset + 2];
-                this.Byte2 = bigEndianBytes[offset + 1];
-                this.Byte3 = bigEndianBytes[offset];
+                Byte0 = bigEndianBytes[offset + 3];
+                Byte1 = bigEndianBytes[offset + 2];
+                Byte2 = bigEndianBytes[offset + 1];
+                Byte3 = bigEndianBytes[offset];
             }
             else
             {
-                this.Byte0 = bigEndianBytes[offset];
-                this.Byte1 = bigEndianBytes[offset + 1];
-                this.Byte2 = bigEndianBytes[offset + 2];
-                this.Byte3 = bigEndianBytes[offset + 3];
+                Byte0 = bigEndianBytes[offset];
+                Byte1 = bigEndianBytes[offset + 1];
+                Byte2 = bigEndianBytes[offset + 2];
+                Byte3 = bigEndianBytes[offset + 3];
             }
         }
     }
@@ -84,7 +84,7 @@ namespace MessagePack
         public Float64Bits(double value)
         {
             this = default(Float64Bits);
-            this.Value = value;
+            Value = value;
         }
 
         public Float64Bits(byte[] bigEndianBytes, int offset)
@@ -93,25 +93,25 @@ namespace MessagePack
 
             if (BitConverter.IsLittleEndian)
             {
-                this.Byte0 = bigEndianBytes[offset + 7];
-                this.Byte1 = bigEndianBytes[offset + 6];
-                this.Byte2 = bigEndianBytes[offset + 5];
-                this.Byte3 = bigEndianBytes[offset + 4];
-                this.Byte4 = bigEndianBytes[offset + 3];
-                this.Byte5 = bigEndianBytes[offset + 2];
-                this.Byte6 = bigEndianBytes[offset + 1];
-                this.Byte7 = bigEndianBytes[offset];
+                Byte0 = bigEndianBytes[offset + 7];
+                Byte1 = bigEndianBytes[offset + 6];
+                Byte2 = bigEndianBytes[offset + 5];
+                Byte3 = bigEndianBytes[offset + 4];
+                Byte4 = bigEndianBytes[offset + 3];
+                Byte5 = bigEndianBytes[offset + 2];
+                Byte6 = bigEndianBytes[offset + 1];
+                Byte7 = bigEndianBytes[offset];
             }
             else
             {
-                this.Byte0 = bigEndianBytes[offset];
-                this.Byte1 = bigEndianBytes[offset + 1];
-                this.Byte2 = bigEndianBytes[offset + 2];
-                this.Byte3 = bigEndianBytes[offset + 3];
-                this.Byte4 = bigEndianBytes[offset + 4];
-                this.Byte5 = bigEndianBytes[offset + 5];
-                this.Byte6 = bigEndianBytes[offset + 6];
-                this.Byte7 = bigEndianBytes[offset + 7];
+                Byte0 = bigEndianBytes[offset];
+                Byte1 = bigEndianBytes[offset + 1];
+                Byte2 = bigEndianBytes[offset + 2];
+                Byte3 = bigEndianBytes[offset + 3];
+                Byte4 = bigEndianBytes[offset + 4];
+                Byte5 = bigEndianBytes[offset + 5];
+                Byte6 = bigEndianBytes[offset + 6];
+                Byte7 = bigEndianBytes[offset + 7];
             }
         }
     }

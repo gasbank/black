@@ -9,7 +9,7 @@ namespace MessagePack
 
         public MessagePackObjectAttribute(bool keyAsPropertyName = false)
         {
-            this.KeyAsPropertyName = keyAsPropertyName;
+            KeyAsPropertyName = keyAsPropertyName;
         }
     }
 
@@ -21,12 +21,12 @@ namespace MessagePack
 
         public KeyAttribute(int x)
         {
-            this.IntKey = x;
+            IntKey = x;
         }
 
         public KeyAttribute(string x)
         {
-            this.StringKey = x;
+            StringKey = x;
         }
     }
 
@@ -43,8 +43,8 @@ namespace MessagePack
 
         public UnionAttribute(int key, Type subType)
         {
-            this.Key = key;
-            this.SubType = subType;
+            Key = key;
+            SubType = subType;
         }
     }
 
@@ -63,13 +63,13 @@ namespace MessagePack
 
         public MessagePackFormatterAttribute(Type formatterType)
         {
-            this.FormatterType = formatterType;
+            FormatterType = formatterType;
         }
 
         public MessagePackFormatterAttribute(Type formatterType, params object[] arguments)
         {
-            this.FormatterType = formatterType;
-            this.Arguments = arguments;
+            FormatterType = formatterType;
+            Arguments = arguments;
         }
     }
 }

@@ -23,8 +23,8 @@ namespace MessagePack.Internal
         public ByteArrayStringHashTable(int capacity, float loadFactor)
         {
             var tableSize = CalculateCapacity(capacity, loadFactor);
-            this.buckets = new Entry[tableSize][];
-            this.indexFor = (ulong)buckets.Length - 1;
+            buckets = new Entry[tableSize][];
+            indexFor = (ulong)buckets.Length - 1;
         }
 
         public void Add(string key, int value)
@@ -177,7 +177,7 @@ namespace MessagePack.Internal
         // only for Debug use
         public IEnumerator<KeyValuePair<string, int>> GetEnumerator()
         {
-            var b = this.buckets;
+            var b = buckets;
 
             foreach (var item in b)
             {

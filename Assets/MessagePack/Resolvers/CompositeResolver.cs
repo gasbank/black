@@ -50,20 +50,20 @@ namespace MessagePack.Resolvers
         public static void RegisterAndSetAsDefault(params IFormatterResolver[] resolvers)
         {
             Register(resolvers);
-            MessagePack.MessagePackSerializer.SetDefaultResolver(CompositeResolver.Instance);
+            MessagePackSerializer.SetDefaultResolver(Instance);
         }
 
         public static void RegisterAndSetAsDefault(params IMessagePackFormatter[] formatters)
         {
             Register(formatters);
-            MessagePack.MessagePackSerializer.SetDefaultResolver(CompositeResolver.Instance);
+            MessagePackSerializer.SetDefaultResolver(Instance);
         }
 
         public static void RegisterAndSetAsDefault(IMessagePackFormatter[] formatters, IFormatterResolver[] resolvers)
         {
             Register(formatters);
             Register(resolvers);
-            MessagePack.MessagePackSerializer.SetDefaultResolver(CompositeResolver.Instance);
+            MessagePackSerializer.SetDefaultResolver(Instance);
         }
 
         public IMessagePackFormatter<T> GetFormatter<T>()

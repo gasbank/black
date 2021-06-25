@@ -38,7 +38,7 @@ namespace MessagePack.Resolvers
                         return;
                     }
 
-                    var innerFormatter = DynamicEnumAsStringResolver.Instance.GetFormatterDynamic(ti.AsType());
+                    var innerFormatter = Instance.GetFormatterDynamic(ti.AsType());
                     if (innerFormatter == null)
                     {
                         return;

@@ -8,30 +8,30 @@ namespace MessagePack.Resolvers
     using System;
     using MessagePack;
 
-    public class GeneratedResolver : global::MessagePack.IFormatterResolver
+    public class GeneratedResolver : IFormatterResolver
     {
-        public static readonly global::MessagePack.IFormatterResolver Instance = new GeneratedResolver();
+        public static readonly IFormatterResolver Instance = new GeneratedResolver();
 
         GeneratedResolver()
         {
 
         }
 
-        public global::MessagePack.Formatters.IMessagePackFormatter<T> GetFormatter<T>()
+        public Formatters.IMessagePackFormatter<T> GetFormatter<T>()
         {
             return FormatterCache<T>.formatter;
         }
 
         static class FormatterCache<T>
         {
-            public static readonly global::MessagePack.Formatters.IMessagePackFormatter<T> formatter;
+            public static readonly Formatters.IMessagePackFormatter<T> formatter;
 
             static FormatterCache()
             {
                 var f = GeneratedResolverGetFormatterHelper.GetFormatter(typeof(T));
                 if (f != null)
                 {
-                    formatter = (global::MessagePack.Formatters.IMessagePackFormatter<T>)f;
+                    formatter = (Formatters.IMessagePackFormatter<T>)f;
                 }
             }
         }
@@ -39,20 +39,20 @@ namespace MessagePack.Resolvers
 
     internal static class GeneratedResolverGetFormatterHelper
     {
-        static readonly global::System.Collections.Generic.Dictionary<Type, int> lookup;
+        static readonly System.Collections.Generic.Dictionary<Type, int> lookup;
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(8)
+            lookup = new System.Collections.Generic.Dictionary<Type, int>(8)
             {
-                {typeof(global::System.Collections.Generic.HashSet<uint>), 0 },
-                {typeof(global::ScInt), 1 },
-                {typeof(global::GameSaveData), 2 },
-                {typeof(global::StageSaveData), 3 },
-                {typeof(global::ScBigInteger), 4 },
-                {typeof(global::ScFloat), 5 },
-                {typeof(global::ScLong), 6 },
-                {typeof(global::ScString), 7 },
+                {typeof(System.Collections.Generic.HashSet<uint>), 0 },
+                {typeof(ScInt), 1 },
+                {typeof(GameSaveData), 2 },
+                {typeof(StageSaveData), 3 },
+                {typeof(ScBigInteger), 4 },
+                {typeof(ScFloat), 5 },
+                {typeof(ScLong), 6 },
+                {typeof(ScString), 7 },
             };
         }
 
@@ -63,14 +63,14 @@ namespace MessagePack.Resolvers
 
             switch (key)
             {
-                case 0: return new global::MessagePack.Formatters.HashSetFormatter<uint>();
-                case 1: return new MessagePack.Formatters.ScIntFormatter();
-                case 2: return new MessagePack.Formatters.GameSaveDataFormatter();
-                case 3: return new MessagePack.Formatters.StageSaveDataFormatter();
-                case 4: return new MessagePack.Formatters.ScBigIntegerFormatter();
-                case 5: return new MessagePack.Formatters.ScFloatFormatter();
-                case 6: return new MessagePack.Formatters.ScLongFormatter();
-                case 7: return new MessagePack.Formatters.ScStringFormatter();
+                case 0: return new Formatters.HashSetFormatter<uint>();
+                case 1: return new Formatters.ScIntFormatter();
+                case 2: return new Formatters.GameSaveDataFormatter();
+                case 3: return new Formatters.StageSaveDataFormatter();
+                case 4: return new Formatters.ScBigIntegerFormatter();
+                case 5: return new Formatters.ScFloatFormatter();
+                case 6: return new Formatters.ScLongFormatter();
+                case 7: return new Formatters.ScStringFormatter();
                 default: return null;
             }
         }
@@ -95,27 +95,27 @@ namespace MessagePack.Formatters
     using MessagePack;
 
 
-    public sealed class ScIntFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::ScInt>
+    public sealed class ScIntFormatter : IMessagePackFormatter<ScInt>
     {
 
-        public int Serialize(ref byte[] bytes, int offset, global::ScInt value, global::MessagePack.IFormatterResolver formatterResolver)
+        public int Serialize(ref byte[] bytes, int offset, ScInt value, IFormatterResolver formatterResolver)
         {
             
             var startOffset = offset;
-            offset += global::MessagePack.MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
+            offset += MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
             offset += MessagePackBinary.WriteInt32(ref bytes, offset, value.value);
             return offset - startOffset;
         }
 
-        public global::ScInt Deserialize(byte[] bytes, int offset, global::MessagePack.IFormatterResolver formatterResolver, out int readSize)
+        public ScInt Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
-            if (global::MessagePack.MessagePackBinary.IsNil(bytes, offset))
+            if (MessagePackBinary.IsNil(bytes, offset))
             {
                 throw new InvalidOperationException("typecode is null, struct not supported");
             }
 
             var startOffset = offset;
-            var length = global::MessagePack.MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
+            var length = MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
             offset += readSize;
 
             var __value__ = default(int);
@@ -130,7 +130,7 @@ namespace MessagePack.Formatters
                         __value__ = MessagePackBinary.ReadInt32(bytes, offset, out readSize);
                         break;
                     default:
-                        readSize = global::MessagePack.MessagePackBinary.ReadNextBlock(bytes, offset);
+                        readSize = MessagePackBinary.ReadNextBlock(bytes, offset);
                         break;
                 }
                 offset += readSize;
@@ -138,42 +138,42 @@ namespace MessagePack.Formatters
 
             readSize = offset - startOffset;
 
-            var ____result = new global::ScInt(__value__);
+            var ____result = new ScInt(__value__);
             ____result.value = __value__;
             return ____result;
         }
     }
 
 
-    public sealed class GameSaveDataFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::GameSaveData>
+    public sealed class GameSaveDataFormatter : IMessagePackFormatter<GameSaveData>
     {
 
-        public int Serialize(ref byte[] bytes, int offset, global::GameSaveData value, global::MessagePack.IFormatterResolver formatterResolver)
+        public int Serialize(ref byte[] bytes, int offset, GameSaveData value, IFormatterResolver formatterResolver)
         {
             if (value == null)
             {
-                return global::MessagePack.MessagePackBinary.WriteNil(ref bytes, offset);
+                return MessagePackBinary.WriteNil(ref bytes, offset);
             }
             
             var startOffset = offset;
-            offset += global::MessagePack.MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
-            offset += formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref bytes, offset, value.gold, formatterResolver);
+            offset += MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
+            offset += formatterResolver.GetFormatterWithVerify<ScInt>().Serialize(ref bytes, offset, value.gold, formatterResolver);
             return offset - startOffset;
         }
 
-        public global::GameSaveData Deserialize(byte[] bytes, int offset, global::MessagePack.IFormatterResolver formatterResolver, out int readSize)
+        public GameSaveData Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
-            if (global::MessagePack.MessagePackBinary.IsNil(bytes, offset))
+            if (MessagePackBinary.IsNil(bytes, offset))
             {
                 readSize = 1;
                 return null;
             }
 
             var startOffset = offset;
-            var length = global::MessagePack.MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
+            var length = MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
             offset += readSize;
 
-            var __gold__ = default(global::ScInt);
+            var __gold__ = default(ScInt);
 
             for (int i = 0; i < length; i++)
             {
@@ -182,10 +182,10 @@ namespace MessagePack.Formatters
                 switch (key)
                 {
                     case 0:
-                        __gold__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(bytes, offset, formatterResolver, out readSize);
+                        __gold__ = formatterResolver.GetFormatterWithVerify<ScInt>().Deserialize(bytes, offset, formatterResolver, out readSize);
                         break;
                     default:
-                        readSize = global::MessagePack.MessagePackBinary.ReadNextBlock(bytes, offset);
+                        readSize = MessagePackBinary.ReadNextBlock(bytes, offset);
                         break;
                 }
                 offset += readSize;
@@ -193,47 +193,47 @@ namespace MessagePack.Formatters
 
             readSize = offset - startOffset;
 
-            var ____result = new global::GameSaveData();
+            var ____result = new GameSaveData();
             ____result.gold = __gold__;
             return ____result;
         }
     }
 
 
-    public sealed class StageSaveDataFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::StageSaveData>
+    public sealed class StageSaveDataFormatter : IMessagePackFormatter<StageSaveData>
     {
 
-        public int Serialize(ref byte[] bytes, int offset, global::StageSaveData value, global::MessagePack.IFormatterResolver formatterResolver)
+        public int Serialize(ref byte[] bytes, int offset, StageSaveData value, IFormatterResolver formatterResolver)
         {
             if (value == null)
             {
-                return global::MessagePack.MessagePackBinary.WriteNil(ref bytes, offset);
+                return MessagePackBinary.WriteNil(ref bytes, offset);
             }
             
             var startOffset = offset;
-            offset += global::MessagePack.MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 5);
+            offset += MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 5);
             offset += formatterResolver.GetFormatterWithVerify<string>().Serialize(ref bytes, offset, value.stageName, formatterResolver);
-            offset += formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.HashSet<uint>>().Serialize(ref bytes, offset, value.coloredMinPoints, formatterResolver);
+            offset += formatterResolver.GetFormatterWithVerify<System.Collections.Generic.HashSet<uint>>().Serialize(ref bytes, offset, value.coloredMinPoints, formatterResolver);
             offset += MessagePackBinary.WriteSingle(ref bytes, offset, value.zoomValue);
             offset += MessagePackBinary.WriteSingle(ref bytes, offset, value.targetImageCenterX);
             offset += MessagePackBinary.WriteSingle(ref bytes, offset, value.targetImageCenterY);
             return offset - startOffset;
         }
 
-        public global::StageSaveData Deserialize(byte[] bytes, int offset, global::MessagePack.IFormatterResolver formatterResolver, out int readSize)
+        public StageSaveData Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
-            if (global::MessagePack.MessagePackBinary.IsNil(bytes, offset))
+            if (MessagePackBinary.IsNil(bytes, offset))
             {
                 readSize = 1;
                 return null;
             }
 
             var startOffset = offset;
-            var length = global::MessagePack.MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
+            var length = MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
             offset += readSize;
 
             var __stageName__ = default(string);
-            var __coloredMinPoints__ = default(global::System.Collections.Generic.HashSet<uint>);
+            var __coloredMinPoints__ = default(System.Collections.Generic.HashSet<uint>);
             var __zoomValue__ = default(float);
             var __targetImageCenterX__ = default(float);
             var __targetImageCenterY__ = default(float);
@@ -248,7 +248,7 @@ namespace MessagePack.Formatters
                         __stageName__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(bytes, offset, formatterResolver, out readSize);
                         break;
                     case 1:
-                        __coloredMinPoints__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.HashSet<uint>>().Deserialize(bytes, offset, formatterResolver, out readSize);
+                        __coloredMinPoints__ = formatterResolver.GetFormatterWithVerify<System.Collections.Generic.HashSet<uint>>().Deserialize(bytes, offset, formatterResolver, out readSize);
                         break;
                     case 2:
                         __zoomValue__ = MessagePackBinary.ReadSingle(bytes, offset, out readSize);
@@ -260,7 +260,7 @@ namespace MessagePack.Formatters
                         __targetImageCenterY__ = MessagePackBinary.ReadSingle(bytes, offset, out readSize);
                         break;
                     default:
-                        readSize = global::MessagePack.MessagePackBinary.ReadNextBlock(bytes, offset);
+                        readSize = MessagePackBinary.ReadNextBlock(bytes, offset);
                         break;
                 }
                 offset += readSize;
@@ -268,7 +268,7 @@ namespace MessagePack.Formatters
 
             readSize = offset - startOffset;
 
-            var ____result = new global::StageSaveData();
+            var ____result = new StageSaveData();
             ____result.stageName = __stageName__;
             ____result.coloredMinPoints = __coloredMinPoints__;
             ____result.zoomValue = __zoomValue__;
@@ -279,30 +279,30 @@ namespace MessagePack.Formatters
     }
 
 
-    public sealed class ScBigIntegerFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::ScBigInteger>
+    public sealed class ScBigIntegerFormatter : IMessagePackFormatter<ScBigInteger>
     {
 
-        public int Serialize(ref byte[] bytes, int offset, global::ScBigInteger value, global::MessagePack.IFormatterResolver formatterResolver)
+        public int Serialize(ref byte[] bytes, int offset, ScBigInteger value, IFormatterResolver formatterResolver)
         {
             
             var startOffset = offset;
-            offset += global::MessagePack.MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
-            offset += formatterResolver.GetFormatterWithVerify<global::System.Numerics.BigInteger>().Serialize(ref bytes, offset, value.value, formatterResolver);
+            offset += MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
+            offset += formatterResolver.GetFormatterWithVerify<System.Numerics.BigInteger>().Serialize(ref bytes, offset, value.value, formatterResolver);
             return offset - startOffset;
         }
 
-        public global::ScBigInteger Deserialize(byte[] bytes, int offset, global::MessagePack.IFormatterResolver formatterResolver, out int readSize)
+        public ScBigInteger Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
-            if (global::MessagePack.MessagePackBinary.IsNil(bytes, offset))
+            if (MessagePackBinary.IsNil(bytes, offset))
             {
                 throw new InvalidOperationException("typecode is null, struct not supported");
             }
 
             var startOffset = offset;
-            var length = global::MessagePack.MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
+            var length = MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
             offset += readSize;
 
-            var __value__ = default(global::System.Numerics.BigInteger);
+            var __value__ = default(System.Numerics.BigInteger);
 
             for (int i = 0; i < length; i++)
             {
@@ -311,10 +311,10 @@ namespace MessagePack.Formatters
                 switch (key)
                 {
                     case 0:
-                        __value__ = formatterResolver.GetFormatterWithVerify<global::System.Numerics.BigInteger>().Deserialize(bytes, offset, formatterResolver, out readSize);
+                        __value__ = formatterResolver.GetFormatterWithVerify<System.Numerics.BigInteger>().Deserialize(bytes, offset, formatterResolver, out readSize);
                         break;
                     default:
-                        readSize = global::MessagePack.MessagePackBinary.ReadNextBlock(bytes, offset);
+                        readSize = MessagePackBinary.ReadNextBlock(bytes, offset);
                         break;
                 }
                 offset += readSize;
@@ -322,34 +322,34 @@ namespace MessagePack.Formatters
 
             readSize = offset - startOffset;
 
-            var ____result = new global::ScBigInteger(__value__);
+            var ____result = new ScBigInteger(__value__);
             ____result.value = __value__;
             return ____result;
         }
     }
 
 
-    public sealed class ScFloatFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::ScFloat>
+    public sealed class ScFloatFormatter : IMessagePackFormatter<ScFloat>
     {
 
-        public int Serialize(ref byte[] bytes, int offset, global::ScFloat value, global::MessagePack.IFormatterResolver formatterResolver)
+        public int Serialize(ref byte[] bytes, int offset, ScFloat value, IFormatterResolver formatterResolver)
         {
             
             var startOffset = offset;
-            offset += global::MessagePack.MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
+            offset += MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
             offset += MessagePackBinary.WriteInt32(ref bytes, offset, value.value);
             return offset - startOffset;
         }
 
-        public global::ScFloat Deserialize(byte[] bytes, int offset, global::MessagePack.IFormatterResolver formatterResolver, out int readSize)
+        public ScFloat Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
-            if (global::MessagePack.MessagePackBinary.IsNil(bytes, offset))
+            if (MessagePackBinary.IsNil(bytes, offset))
             {
                 throw new InvalidOperationException("typecode is null, struct not supported");
             }
 
             var startOffset = offset;
-            var length = global::MessagePack.MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
+            var length = MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
             offset += readSize;
 
             var __value__ = default(int);
@@ -364,7 +364,7 @@ namespace MessagePack.Formatters
                         __value__ = MessagePackBinary.ReadInt32(bytes, offset, out readSize);
                         break;
                     default:
-                        readSize = global::MessagePack.MessagePackBinary.ReadNextBlock(bytes, offset);
+                        readSize = MessagePackBinary.ReadNextBlock(bytes, offset);
                         break;
                 }
                 offset += readSize;
@@ -372,34 +372,34 @@ namespace MessagePack.Formatters
 
             readSize = offset - startOffset;
 
-            var ____result = new global::ScFloat();
+            var ____result = new ScFloat();
             ____result.value = __value__;
             return ____result;
         }
     }
 
 
-    public sealed class ScLongFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::ScLong>
+    public sealed class ScLongFormatter : IMessagePackFormatter<ScLong>
     {
 
-        public int Serialize(ref byte[] bytes, int offset, global::ScLong value, global::MessagePack.IFormatterResolver formatterResolver)
+        public int Serialize(ref byte[] bytes, int offset, ScLong value, IFormatterResolver formatterResolver)
         {
             
             var startOffset = offset;
-            offset += global::MessagePack.MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
+            offset += MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
             offset += MessagePackBinary.WriteInt64(ref bytes, offset, value.value);
             return offset - startOffset;
         }
 
-        public global::ScLong Deserialize(byte[] bytes, int offset, global::MessagePack.IFormatterResolver formatterResolver, out int readSize)
+        public ScLong Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
-            if (global::MessagePack.MessagePackBinary.IsNil(bytes, offset))
+            if (MessagePackBinary.IsNil(bytes, offset))
             {
                 throw new InvalidOperationException("typecode is null, struct not supported");
             }
 
             var startOffset = offset;
-            var length = global::MessagePack.MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
+            var length = MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
             offset += readSize;
 
             var __value__ = default(long);
@@ -414,7 +414,7 @@ namespace MessagePack.Formatters
                         __value__ = MessagePackBinary.ReadInt64(bytes, offset, out readSize);
                         break;
                     default:
-                        readSize = global::MessagePack.MessagePackBinary.ReadNextBlock(bytes, offset);
+                        readSize = MessagePackBinary.ReadNextBlock(bytes, offset);
                         break;
                 }
                 offset += readSize;
@@ -422,39 +422,39 @@ namespace MessagePack.Formatters
 
             readSize = offset - startOffset;
 
-            var ____result = new global::ScLong(__value__);
+            var ____result = new ScLong(__value__);
             ____result.value = __value__;
             return ____result;
         }
     }
 
 
-    public sealed class ScStringFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::ScString>
+    public sealed class ScStringFormatter : IMessagePackFormatter<ScString>
     {
 
-        public int Serialize(ref byte[] bytes, int offset, global::ScString value, global::MessagePack.IFormatterResolver formatterResolver)
+        public int Serialize(ref byte[] bytes, int offset, ScString value, IFormatterResolver formatterResolver)
         {
             if (value == null)
             {
-                return global::MessagePack.MessagePackBinary.WriteNil(ref bytes, offset);
+                return MessagePackBinary.WriteNil(ref bytes, offset);
             }
             
             var startOffset = offset;
-            offset += global::MessagePack.MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
+            offset += MessagePackBinary.WriteFixedArrayHeaderUnsafe(ref bytes, offset, 1);
             offset += formatterResolver.GetFormatterWithVerify<byte[]>().Serialize(ref bytes, offset, value.value, formatterResolver);
             return offset - startOffset;
         }
 
-        public global::ScString Deserialize(byte[] bytes, int offset, global::MessagePack.IFormatterResolver formatterResolver, out int readSize)
+        public ScString Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
-            if (global::MessagePack.MessagePackBinary.IsNil(bytes, offset))
+            if (MessagePackBinary.IsNil(bytes, offset))
             {
                 readSize = 1;
                 return null;
             }
 
             var startOffset = offset;
-            var length = global::MessagePack.MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
+            var length = MessagePackBinary.ReadArrayHeader(bytes, offset, out readSize);
             offset += readSize;
 
             var __value__ = default(byte[]);
@@ -469,7 +469,7 @@ namespace MessagePack.Formatters
                         __value__ = formatterResolver.GetFormatterWithVerify<byte[]>().Deserialize(bytes, offset, formatterResolver, out readSize);
                         break;
                     default:
-                        readSize = global::MessagePack.MessagePackBinary.ReadNextBlock(bytes, offset);
+                        readSize = MessagePackBinary.ReadNextBlock(bytes, offset);
                         break;
                 }
                 offset += readSize;
@@ -477,7 +477,7 @@ namespace MessagePack.Formatters
 
             readSize = offset - startOffset;
 
-            var ____result = new global::ScString(__value__);
+            var ____result = new ScString(__value__);
             ____result.value = __value__;
             return ____result;
         }

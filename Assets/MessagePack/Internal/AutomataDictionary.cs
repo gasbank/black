@@ -158,7 +158,7 @@ namespace MessagePack.Internal
 
         public IEnumerator<KeyValuePair<string, int>> GetEnumerator()
         {
-            return YieldCore(this.root.YieldChildren()).GetEnumerator();
+            return YieldCore(root.YieldChildren()).GetEnumerator();
         }
 
         static IEnumerable<KeyValuePair<string, int>> YieldCore(IEnumerable<AutomataNode> nexts)
@@ -198,12 +198,12 @@ namespace MessagePack.Internal
 
             public AutomataNode(ulong key)
             {
-                this.Key = key;
-                this.Value = -1;
-                this.nexts = emptyNodes;
-                this.nextKeys = emptyKeys;
-                this.count = 0;
-                this.originalKey = null;
+                Key = key;
+                Value = -1;
+                nexts = emptyNodes;
+                nextKeys = emptyKeys;
+                count = 0;
+                originalKey = null;
             }
 
             public AutomataNode Add(ulong key)
@@ -327,7 +327,7 @@ namespace MessagePack.Internal
 
             public int CompareTo(AutomataNode other)
             {
-                return this.Key.CompareTo(other.Key);
+                return Key.CompareTo(other.Key);
             }
 
             public IEnumerable<AutomataNode> YieldChildren()

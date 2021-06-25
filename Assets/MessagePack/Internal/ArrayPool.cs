@@ -22,8 +22,8 @@ namespace MessagePack.Internal
         public ArrayPool(int bufferLength)
         {
             this.bufferLength = bufferLength;
-            this.buffers = new T[4][];
-            this.gate = new object();
+            buffers = new T[4][];
+            gate = new object();
         }
 
         public T[] Rent()

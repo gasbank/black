@@ -25,7 +25,7 @@ namespace CatlikeCoding.SDFToolkit {
 	/// This component solves both problems. You have to add it to each affected graphic object and manually
 	/// connect the right material.
 	/// </description>
-	[ExecuteInEditMode, System.Obsolete("UIMaterialLink is no longer needed to make keyword materials work at run time. It will be removed in a future release.")]
+	[ExecuteInEditMode, Obsolete("UIMaterialLink is no longer needed to make keyword materials work at run time. It will be removed in a future release.")]
 	public class UIMaterialLink : MonoBehaviour {
 
 		/// <summary>

@@ -58,3 +58,4 @@ dev-tools/bin
 /*.png
 /UserSettings
 /dev-tools/.idea
+/*-build/

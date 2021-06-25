@@ -38,11 +38,11 @@ namespace MessagePack.LZ4
         {
             if (IntPtr.Size == 4)
             {
-                return LZ4Codec.Encode32Safe(input, inputOffset, inputLength, output, outputOffset, outputLength);
+                return Encode32Safe(input, inputOffset, inputLength, output, outputOffset, outputLength);
             }
             else
             {
-                return LZ4Codec.Encode64Safe(input, inputOffset, inputLength, output, outputOffset, outputLength);
+                return Encode64Safe(input, inputOffset, inputLength, output, outputOffset, outputLength);
             }
         }
 
@@ -50,11 +50,11 @@ namespace MessagePack.LZ4
         {
             if (IntPtr.Size == 4)
             {
-                return LZ4Codec.Decode32Safe(input, inputOffset, inputLength, output, outputOffset, outputLength);
+                return Decode32Safe(input, inputOffset, inputLength, output, outputOffset, outputLength);
             }
             else
             {
-                return LZ4Codec.Decode64Safe(input, inputOffset, inputLength, output, outputOffset, outputLength);
+                return Decode64Safe(input, inputOffset, inputLength, output, outputOffset, outputLength);
             }
         }
 

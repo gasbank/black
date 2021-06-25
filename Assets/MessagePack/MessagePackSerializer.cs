@@ -20,7 +20,7 @@ namespace MessagePack
             {
                 if (defaultResolver == null)
                 {
-                    defaultResolver = MessagePack.Resolvers.StandardResolver.Instance;
+                    defaultResolver = Resolvers.StandardResolver.Instance;
                 }
 
                 return defaultResolver;

@@ -170,7 +170,7 @@ namespace MessagePack
         {
             if (!readStrict)
             {
-                var buffer = MessagePack.Internal.InternalMemoryPool.GetBuffer(); // use MessagePackSerializer.Pool!
+                var buffer = InternalMemoryPool.GetBuffer(); // use MessagePackSerializer.Pool!
                 var len = FillFromStream(stream, ref buffer);
                 return DeserializeCore<T>(new ArraySegment<byte>(buffer, 0, len), resolver);
             }
@@ -186,7 +186,7 @@ namespace MessagePack
         {
             if (!readStrict)
             {
-                var buffer = MessagePack.Internal.InternalMemoryPool.GetBuffer(); // use MessagePackSerializer.Pool!
+                var buffer = InternalMemoryPool.GetBuffer(); // use MessagePackSerializer.Pool!
                 var len = FillFromStream(stream, ref buffer);
                 return Decode(new ArraySegment<byte>(buffer, 0, len));
             }
@@ -353,7 +353,7 @@ namespace MessagePack.Internal
         {
             if (lz4buffer == null)
             {
-                lz4buffer = new byte[LZ4.LZ4Codec.MaximumOutputLength(65536)];
+                lz4buffer = new byte[LZ4Codec.MaximumOutputLength(65536)];
             }
             return lz4buffer;
         }

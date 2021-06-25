@@ -179,7 +179,7 @@ namespace MessagePack.Internal
             AttributeFormatterResolver.Instance, // Try use [MessagePackFormatter]
 
 #if !NETSTANDARD
-            MessagePack.Unity.UnityResolver.Instance,
+            Unity.UnityResolver.Instance,
 #endif
 
 #if !ENABLE_IL2CPP && !UNITY_WSA && !NET_STANDARD_2_0

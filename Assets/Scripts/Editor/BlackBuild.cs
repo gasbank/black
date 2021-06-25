@@ -28,7 +28,7 @@ internal static class BlackBuild {
     [MenuItem("Black/Perform Android Build (Mono)")]
     [UsedImplicitly]
     public static void PerformAndroidBuildMono() {
-        System.Environment.SetEnvironmentVariable("BLACK_DEV_BUILD", "1");
+        Environment.SetEnvironmentVariable("BLACK_DEV_BUILD", "1");
         PerformAndroidBuildInternal(false);
         EditorUtility.RevealInFinder("./black.apk");
     }
@@ -39,8 +39,8 @@ internal static class BlackBuild {
     }
 
     static void PerformAndroidBuildInternal(bool il2cpp, bool run = false) {
-        var isReleaseBuild = System.Environment.GetEnvironmentVariable("BLACK_DEV_BUILD") != "1";
-        var skipArmV7 = System.Environment.GetEnvironmentVariable("BLACK_SKIP_ARMV7") == "1";
+        var isReleaseBuild = Environment.GetEnvironmentVariable("BLACK_DEV_BUILD") != "1";
+        var skipArmV7 = Environment.GetEnvironmentVariable("BLACK_SKIP_ARMV7") == "1";
         BuildPlayerOptions options = new BuildPlayerOptions {
             scenes = Scenes, target = BuildTarget.Android, locationPathName = "./black.apk"
         };
@@ -75,7 +75,7 @@ internal static class BlackBuild {
             RemovingBlackDebugDefine(BuildTargetGroup.Android);
         }
 
-        var cmdArgs = System.Environment.GetCommandLineArgs().ToList();
+        var cmdArgs = Environment.GetCommandLineArgs().ToList();
         if (ProcessAndroidKeystorePassArg(cmdArgs)) {
             ProcessBuildNumber(cmdArgs);
             var buildReport = BuildPipeline.BuildPlayer(options);
@@ -85,7 +85,7 @@ internal static class BlackBuild {
         }
     }
 
-    static bool ProcessAndroidKeystorePassArg(System.Collections.Generic.List<string> cmdArgs) {
+    static bool ProcessAndroidKeystorePassArg(List<string> cmdArgs) {
         // 이미 채워져있다면 더 할 게 없다.
         if (string.IsNullOrEmpty(PlayerSettings.Android.keystorePass) == false
             && string.IsNullOrEmpty(PlayerSettings.Android.keyaliasPass) == false) {
@@ -100,7 +100,7 @@ internal static class BlackBuild {
             PlayerSettings.Android.keyaliasPass = keystorePass;
             return true;
         } else {
-            keystorePass = System.Environment.GetEnvironmentVariable("BLACK_KEYSTORE_PASS");
+            keystorePass = Environment.GetEnvironmentVariable("BLACK_KEYSTORE_PASS");
             if (string.IsNullOrEmpty(keystorePass)) {
                 try {
                     keystorePass = File.ReadAllText(".black_keystore_pass").Trim();
@@ -121,7 +121,7 @@ internal static class BlackBuild {
         return false;
     }
 
-    public static AppMetaInfo ProcessBuildNumber(System.Collections.Generic.List<string> cmdArgs) {
+    public static AppMetaInfo ProcessBuildNumber(List<string> cmdArgs) {
         var buildNumberIdx = cmdArgs.FindIndex(e => e == "-buildNumber");
         var buildNumber = "<?>";
         if (buildNumberIdx >= 0) {
@@ -130,7 +130,7 @@ internal static class BlackBuild {
 
         var appMetaInfo = AppMetaInfoEditor.CreateAppMetaInfoAsset();
         appMetaInfo.buildNumber = buildNumber;
-        appMetaInfo.buildStartDateTime = System.DateTime.Now.ToShortDateString();
+        appMetaInfo.buildStartDateTime = DateTime.Now.ToShortDateString();
 #if UNITY_ANDROID
         appMetaInfo.androidBundleVersionCode = PlayerSettings.Android.bundleVersionCode;
 #else

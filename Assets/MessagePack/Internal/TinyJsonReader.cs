@@ -248,14 +248,14 @@ namespace MessagePack
             if (isDouble)
             {
                 double parsedDouble;
-                Double.TryParse(number, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands | NumberStyles.AllowExponent, System.Globalization.CultureInfo.InvariantCulture, out parsedDouble);
+                Double.TryParse(number, NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint | NumberStyles.AllowThousands | NumberStyles.AllowExponent, CultureInfo.InvariantCulture, out parsedDouble);
                 ValueType = ValueType.Double;
                 DoubleValue = parsedDouble;
             }
             else
             {
                 long parsedInt;
-                if (Int64.TryParse(number, NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out parsedInt))
+                if (Int64.TryParse(number, NumberStyles.Integer, CultureInfo.InvariantCulture, out parsedInt))
                 {
                     ValueType = ValueType.Long;
                     LongValue = parsedInt;
@@ -263,7 +263,7 @@ namespace MessagePack
                 }
 
                 ulong parsedULong;
-                if (ulong.TryParse(number, NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out parsedULong))
+                if (ulong.TryParse(number, NumberStyles.Integer, CultureInfo.InvariantCulture, out parsedULong))
                 {
                     ValueType = ValueType.ULong;
                     ULongValue = parsedULong;
@@ -271,7 +271,7 @@ namespace MessagePack
                 }
 
                 Decimal parsedDecimal;
-                if (decimal.TryParse(number, NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out parsedDecimal))
+                if (decimal.TryParse(number, NumberStyles.Number, CultureInfo.InvariantCulture, out parsedDecimal))
                 {
                     ValueType = ValueType.Decimal;
                     DecimalValue = parsedDecimal;

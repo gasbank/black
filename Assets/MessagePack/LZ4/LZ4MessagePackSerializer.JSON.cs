@@ -77,7 +77,7 @@ namespace MessagePack
         public static byte[] FromJson(TextReader reader)
         {
             var buffer = MessagePackSerializer.FromJsonUnsafe(reader); // offset is guranteed from 0
-            return LZ4MessagePackSerializer.ToLZ4Binary(buffer);
+            return ToLZ4Binary(buffer);
         }
 
         static int ToJsonCore(byte[] bytes, int offset, StringBuilder builder)
@@ -106,11 +106,11 @@ namespace MessagePack
                     var floatCode = bytes[offset];
                     if (floatCode == MessagePackCode.Float32)
                     {
-                        builder.Append(MessagePackBinary.ReadSingle(bytes, offset, out readSize).ToString(System.Globalization.CultureInfo.InvariantCulture));
+                        builder.Append(MessagePackBinary.ReadSingle(bytes, offset, out readSize).ToString(CultureInfo.InvariantCulture));
                     }
                     else
                     {
-                        builder.Append(MessagePackBinary.ReadDouble(bytes, offset, out readSize).ToString(System.Globalization.CultureInfo.InvariantCulture));
+                        builder.Append(MessagePackBinary.ReadDouble(bytes, offset, out readSize).ToString(CultureInfo.InvariantCulture));
                     }
                     break;
                 case MessagePackType.String:
