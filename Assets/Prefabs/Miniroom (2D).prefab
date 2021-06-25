@@ -11,13 +11,15 @@ GameObject:
   - component: {fileID: 4530435145692308512}
   - component: {fileID: 4530435145692308542}
   - component: {fileID: 4530435145692308543}
+  - component: {fileID: 5548593741515791313}
+  - component: {fileID: 8447428563425265821}
   m_Layer: 5
   m_Name: Room (Frame Tag 11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145692308512
 RectTransform:
   m_ObjectHideFlags: 0
@@ -60,6 +62,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -73,6 +77,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &5548593741515791313
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145692308513}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8447428563425265821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145692308513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 5548593741515791313}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435145803863609
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,13 +119,15 @@ GameObject:
   - component: {fileID: 4530435145803863608}
   - component: {fileID: 4530435145803863606}
   - component: {fileID: 4530435145803863607}
+  - component: {fileID: 6688560488779601285}
+  - component: {fileID: 848064511336551943}
   m_Layer: 5
   m_Name: Room Second Floor Foundation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145803863608
 RectTransform:
   m_ObjectHideFlags: 0
@@ -98,12 +135,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435145803863609}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 8
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -133,6 +170,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -146,6 +185,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6688560488779601285
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145803863609}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &848064511336551943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145803863609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 6688560488779601285}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435145810703564
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,13 +227,15 @@ GameObject:
   - component: {fileID: 4530435145810703563}
   - component: {fileID: 4530435145810703561}
   - component: {fileID: 4530435145810703562}
+  - component: {fileID: 1435002175002755011}
+  - component: {fileID: 7530407392379595138}
   m_Layer: 5
   m_Name: Room (Second Floor)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145810703563
 RectTransform:
   m_ObjectHideFlags: 0
@@ -206,6 +278,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -219,6 +293,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1435002175002755011
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145810703564}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &7530407392379595138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145810703564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1435002175002755011}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435145836152592
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,13 +335,15 @@ GameObject:
   - component: {fileID: 4530435145836152687}
   - component: {fileID: 4530435145836152685}
   - component: {fileID: 4530435145836152686}
+  - component: {fileID: 6521104596075735992}
+  - component: {fileID: 3831526616078229338}
   m_Layer: 5
   m_Name: Room Second Floor Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145836152687
 RectTransform:
   m_ObjectHideFlags: 0
@@ -247,18 +354,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4530435147674699969}
-  - {fileID: 4530435147585225035}
-  - {fileID: 4530435146849392917}
-  - {fileID: 4530435146196762555}
-  - {fileID: 4530435146352545423}
-  - {fileID: 4530435146414413392}
-  - {fileID: 4530435146279320178}
-  - {fileID: 4530435145873057046}
-  - {fileID: 4530435145803863608}
-  - {fileID: 4530435147727040972}
-  - {fileID: 4530435147207262836}
+  m_Children: []
   m_Father: {fileID: 4530435146876922562}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -290,6 +386,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -303,6 +401,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6521104596075735992
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145836152592}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3831526616078229338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145836152592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 6521104596075735992}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435145871478848
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,13 +443,15 @@ GameObject:
   - component: {fileID: 4530435145871478879}
   - component: {fileID: 4530435145871478877}
   - component: {fileID: 4530435145871478878}
+  - component: {fileID: 3023656344273960969}
+  - component: {fileID: 3863100264328485816}
   m_Layer: 5
   m_Name: Room (Glass Case 01)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145871478879
 RectTransform:
   m_ObjectHideFlags: 0
@@ -363,6 +494,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -376,6 +509,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &3023656344273960969
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145871478848}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3863100264328485816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145871478848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 3023656344273960969}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435145873057047
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,13 +551,15 @@ GameObject:
   - component: {fileID: 4530435145873057046}
   - component: {fileID: 4530435145873057044}
   - component: {fileID: 4530435145873057045}
+  - component: {fileID: 1170724972932575701}
+  - component: {fileID: 6024690499066438315}
   m_Layer: 5
   m_Name: Room Second Floor Wall Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145873057046
 RectTransform:
   m_ObjectHideFlags: 0
@@ -401,12 +567,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435145873057047}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 7
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -436,6 +602,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -449,6 +617,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1170724972932575701
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145873057047}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &6024690499066438315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145873057047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1170724972932575701}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435145928224038
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,13 +659,15 @@ GameObject:
   - component: {fileID: 4530435145928224037}
   - component: {fileID: 4530435145928224035}
   - component: {fileID: 4530435145928224036}
+  - component: {fileID: 8637093202062449788}
+  - component: {fileID: 5262585382387019473}
   m_Layer: 5
   m_Name: Room (Frame 08)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145928224037
 RectTransform:
   m_ObjectHideFlags: 0
@@ -509,6 +710,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -522,6 +725,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &8637093202062449788
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145928224038}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &5262585382387019473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145928224038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 8637093202062449788}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435145963088975
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,13 +767,15 @@ GameObject:
   - component: {fileID: 4530435145963088974}
   - component: {fileID: 4530435145963088972}
   - component: {fileID: 4530435145963088973}
+  - component: {fileID: 1311567438616123112}
+  - component: {fileID: 2128293308316345828}
   m_Layer: 5
   m_Name: Room (Lamp 01)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145963088974
 RectTransform:
   m_ObjectHideFlags: 0
@@ -582,6 +818,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -595,6 +833,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1311567438616123112
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145963088975}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2128293308316345828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145963088975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1311567438616123112}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435145971229129
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,13 +875,15 @@ GameObject:
   - component: {fileID: 4530435145971229128}
   - component: {fileID: 4530435145971229126}
   - component: {fileID: 4530435145971229127}
+  - component: {fileID: 5586267452273870714}
+  - component: {fileID: 8341875888542206836}
   m_Layer: 5
   m_Name: Room (Frame 10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145971229128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -655,6 +926,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -668,6 +941,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &5586267452273870714
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145971229129}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8341875888542206836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145971229129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 5586267452273870714}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435145986568230
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,13 +983,15 @@ GameObject:
   - component: {fileID: 4530435145986568229}
   - component: {fileID: 4530435145986568227}
   - component: {fileID: 4530435145986568228}
+  - component: {fileID: 5929339966265735807}
+  - component: {fileID: 2102414587098572521}
   m_Layer: 5
   m_Name: Room (Bar 01)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145986568229
 RectTransform:
   m_ObjectHideFlags: 0
@@ -728,6 +1034,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -741,6 +1049,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &5929339966265735807
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145986568230}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2102414587098572521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145986568230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 5929339966265735807}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435145998194812
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,13 +1091,15 @@ GameObject:
   - component: {fileID: 4530435145998194811}
   - component: {fileID: 4530435145998194809}
   - component: {fileID: 4530435145998194810}
+  - component: {fileID: 1350704423990236897}
+  - component: {fileID: 8040443512185334867}
   m_Layer: 5
   m_Name: Room (Frame 09)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435145998194811
 RectTransform:
   m_ObjectHideFlags: 0
@@ -801,6 +1142,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -814,6 +1157,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1350704423990236897
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145998194812}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8040443512185334867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435145998194812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1350704423990236897}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146105454199
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,13 +1199,15 @@ GameObject:
   - component: {fileID: 4530435146105454198}
   - component: {fileID: 4530435146105454196}
   - component: {fileID: 4530435146105454197}
+  - component: {fileID: 6011121128182416835}
+  - component: {fileID: 2260641212679211704}
   m_Layer: 5
   m_Name: Room (Frame 10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146105454198
 RectTransform:
   m_ObjectHideFlags: 0
@@ -874,6 +1250,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -887,6 +1265,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6011121128182416835
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146105454199}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2260641212679211704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146105454199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 6011121128182416835}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146196762556
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,13 +1307,15 @@ GameObject:
   - component: {fileID: 4530435146196762555}
   - component: {fileID: 4530435146196762553}
   - component: {fileID: 4530435146196762554}
+  - component: {fileID: 7202386786314310597}
+  - component: {fileID: 2015760677464713366}
   m_Layer: 5
   m_Name: Room Second Floor Wall Frame Tag 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146196762555
 RectTransform:
   m_ObjectHideFlags: 0
@@ -912,12 +1323,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435146196762556}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 3
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -947,6 +1358,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -960,6 +1373,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &7202386786314310597
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146196762556}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2015760677464713366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146196762556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 7202386786314310597}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146279320179
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,13 +1415,15 @@ GameObject:
   - component: {fileID: 4530435146279320178}
   - component: {fileID: 4530435146279320176}
   - component: {fileID: 4530435146279320177}
+  - component: {fileID: 961682574237082264}
+  - component: {fileID: 5268366754039959305}
   m_Layer: 5
   m_Name: Room Second Floor Wall Frame Tag 04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146279320178
 RectTransform:
   m_ObjectHideFlags: 0
@@ -985,12 +1431,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435146279320179}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 6
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1020,6 +1466,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1033,6 +1481,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &961682574237082264
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146279320179}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &5268366754039959305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146279320179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 961682574237082264}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146329866619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,13 +1523,15 @@ GameObject:
   - component: {fileID: 4530435146329866618}
   - component: {fileID: 4530435146329866616}
   - component: {fileID: 4530435146329866617}
+  - component: {fileID: 4819215454652924592}
+  - component: {fileID: 4325704956817456394}
   m_Layer: 5
   m_Name: Room (Lamp 02)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146329866618
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1093,6 +1574,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1106,6 +1589,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &4819215454652924592
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146329866619}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &4325704956817456394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146329866619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 4819215454652924592}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146352545456
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,13 +1631,15 @@ GameObject:
   - component: {fileID: 4530435146352545423}
   - component: {fileID: 4530435146352545421}
   - component: {fileID: 4530435146352545422}
+  - component: {fileID: 4606931155308892729}
+  - component: {fileID: 8658487863786901469}
   m_Layer: 5
   m_Name: Room Second Floor Wall Frame Tag 02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146352545423
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1131,12 +1647,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435146352545456}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 4
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1166,6 +1682,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1179,6 +1697,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &4606931155308892729
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146352545456}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8658487863786901469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146352545456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 4606931155308892729}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146414413393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,13 +1739,15 @@ GameObject:
   - component: {fileID: 4530435146414413392}
   - component: {fileID: 4530435146414413742}
   - component: {fileID: 4530435146414413743}
+  - component: {fileID: 2521871537946312369}
+  - component: {fileID: 6155168867973370478}
   m_Layer: 5
   m_Name: Room Second Floor Wall Frame Tag 03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146414413392
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1204,12 +1755,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435146414413393}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 5
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1239,6 +1790,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1252,6 +1805,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &2521871537946312369
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146414413393}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &6155168867973370478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146414413393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 2521871537946312369}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146490326694
 GameObject:
   m_ObjectHideFlags: 0
@@ -1261,13 +1845,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4530435146490326693}
+  - component: {fileID: 579987516086343038}
+  - component: {fileID: 250303550100179136}
   m_Layer: 5
   m_Name: Room Second Floor Right Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146490326693
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1289,6 +1875,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &579987516086343038
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146490326694}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &250303550100179136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146490326694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 579987516086343038}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146637015336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,13 +1917,15 @@ GameObject:
   - component: {fileID: 4530435146637015335}
   - component: {fileID: 4530435146637015333}
   - component: {fileID: 4530435146637015334}
+  - component: {fileID: 1239892380538680214}
+  - component: {fileID: 8274669295516339263}
   m_Layer: 5
   m_Name: Room (Frame 01)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146637015335
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1349,6 +1968,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1362,6 +1983,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1239892380538680214
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146637015336}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8274669295516339263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146637015336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1239892380538680214}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146670912102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1373,13 +2025,15 @@ GameObject:
   - component: {fileID: 4530435146670912101}
   - component: {fileID: 4530435146670912099}
   - component: {fileID: 4530435146670912100}
+  - component: {fileID: 4608059930425478430}
+  - component: {fileID: 5097892738957612305}
   m_Layer: 5
   m_Name: Room (Frame 06)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146670912101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1422,6 +2076,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1435,6 +2091,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &4608059930425478430
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146670912102}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &5097892738957612305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146670912102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 4608059930425478430}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146757416857
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,13 +2133,15 @@ GameObject:
   - component: {fileID: 4530435146757416856}
   - component: {fileID: 4530435146757416854}
   - component: {fileID: 4530435146757416855}
+  - component: {fileID: 1564570781714888193}
+  - component: {fileID: 5646149183438921297}
   m_Layer: 5
   m_Name: Room (Frame 04)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146757416856
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1495,6 +2184,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1508,6 +2199,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1564570781714888193
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146757416857}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &5646149183438921297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146757416857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1564570781714888193}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146801850850
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,13 +2241,15 @@ GameObject:
   - component: {fileID: 4530435146801850849}
   - component: {fileID: 4530435146801850879}
   - component: {fileID: 4530435146801850848}
+  - component: {fileID: 3272911007952809642}
+  - component: {fileID: 937969351899258432}
   m_Layer: 5
   m_Name: Room (Tag 01)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146801850849
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1568,6 +2292,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1581,6 +2307,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &3272911007952809642
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146801850850}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &937969351899258432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146801850850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 3272911007952809642}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146849392918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1592,13 +2349,15 @@ GameObject:
   - component: {fileID: 4530435146849392917}
   - component: {fileID: 4530435146849392915}
   - component: {fileID: 4530435146849392916}
+  - component: {fileID: 6552324235341158926}
+  - component: {fileID: 1097512581644767996}
   m_Layer: 5
   m_Name: Room Second Floor Wall Lamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146849392917
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1606,12 +2365,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435146849392918}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 2
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1641,6 +2400,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1654,6 +2415,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6552324235341158926
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146849392918}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1097512581644767996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146849392918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 6552324235341158926}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146856244086
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,13 +2455,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4530435146856244085}
+  - component: {fileID: 4145995988779860261}
+  - component: {fileID: 3426108513406208169}
   m_Layer: 5
   m_Name: Room Left Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146856244085
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1703,6 +2497,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &4145995988779860261
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146856244086}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3426108513406208169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146856244086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 4145995988779860261}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146870392691
 GameObject:
   m_ObjectHideFlags: 0
@@ -1714,13 +2539,15 @@ GameObject:
   - component: {fileID: 4530435146870392690}
   - component: {fileID: 4530435146870392688}
   - component: {fileID: 4530435146870392689}
+  - component: {fileID: 2080175654849291620}
+  - component: {fileID: 8553027424745620030}
   m_Layer: 5
   m_Name: Room (Base)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146870392690
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1763,6 +2590,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1776,6 +2605,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &2080175654849291620
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146870392691}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8553027424745620030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146870392691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 2080175654849291620}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146876922563
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,13 +2645,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4530435146876922562}
+  - component: {fileID: 7871844644523288858}
+  - component: {fileID: 8977687844111286248}
   m_Layer: 5
   m_Name: Room Second Floor Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146876922562
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1804,6 +2666,17 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4530435145836152687}
+  - {fileID: 4530435147674699969}
+  - {fileID: 4530435147585225035}
+  - {fileID: 4530435146849392917}
+  - {fileID: 4530435146196762555}
+  - {fileID: 4530435146352545423}
+  - {fileID: 4530435146414413392}
+  - {fileID: 4530435146279320178}
+  - {fileID: 4530435145873057046}
+  - {fileID: 4530435145803863608}
+  - {fileID: 4530435147727040972}
+  - {fileID: 4530435147207262836}
   m_Father: {fileID: 4530435146989630197}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1812,6 +2685,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &7871844644523288858
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146876922563}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8977687844111286248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146876922563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 7871844644523288858}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146883951952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1823,13 +2727,15 @@ GameObject:
   - component: {fileID: 4530435146883953327}
   - component: {fileID: 4530435146883953325}
   - component: {fileID: 4530435146883953326}
+  - component: {fileID: 5321938573494855454}
+  - component: {fileID: 6859008716341230246}
   m_Layer: 5
   m_Name: Room (Glass Case 02 Stand)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146883953327
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1872,6 +2778,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1885,6 +2793,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &5321938573494855454
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146883951952}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &6859008716341230246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146883951952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 5321938573494855454}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146899465251
 GameObject:
   m_ObjectHideFlags: 0
@@ -1896,13 +2835,15 @@ GameObject:
   - component: {fileID: 4530435146899465250}
   - component: {fileID: 4530435146899465248}
   - component: {fileID: 4530435146899465249}
+  - component: {fileID: 5937112020107810613}
+  - component: {fileID: 1889551327249583363}
   m_Layer: 5
   m_Name: Room (Glass Case 01 Stand)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146899465250
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1945,6 +2886,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1958,6 +2901,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &5937112020107810613
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146899465251}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1889551327249583363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146899465251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 5937112020107810613}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146989630198
 GameObject:
   m_ObjectHideFlags: 0
@@ -1967,13 +2941,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4530435146989630197}
+  - component: {fileID: 9186069082114142359}
+  - component: {fileID: 8756407581128330487}
+  - component: {fileID: 7707810598466658344}
   m_Layer: 5
   m_Name: Miniroom (2D)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146989630197
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2001,6 +2978,49 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 480, y: 480}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9186069082114142359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146989630198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3973e32fe1c9540823a8357ef609a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!225 &8756407581128330487
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146989630198}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &7707810598466658344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146989630198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 8756407581128330487}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435146996920390
 GameObject:
   m_ObjectHideFlags: 0
@@ -2012,13 +3032,15 @@ GameObject:
   - component: {fileID: 4530435146996920389}
   - component: {fileID: 4530435146996920387}
   - component: {fileID: 4530435146996920388}
+  - component: {fileID: 1374047565984484504}
+  - component: {fileID: 7231947897316398307}
   m_Layer: 5
   m_Name: Room (Glass Case 02)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435146996920389
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2061,6 +3083,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2074,6 +3098,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1374047565984484504
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146996920390}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &7231947897316398307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435146996920390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1374047565984484504}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147011036731
 GameObject:
   m_ObjectHideFlags: 0
@@ -2085,13 +3140,15 @@ GameObject:
   - component: {fileID: 4530435147011036730}
   - component: {fileID: 4530435147011036728}
   - component: {fileID: 4530435147011036729}
+  - component: {fileID: 1673129813045856631}
+  - component: {fileID: 8459605134954379692}
   m_Layer: 5
   m_Name: Room (Frame 07)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147011036730
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2134,6 +3191,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2147,6 +3206,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1673129813045856631
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147011036731}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8459605134954379692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147011036731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1673129813045856631}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147018917631
 GameObject:
   m_ObjectHideFlags: 0
@@ -2156,13 +3246,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4530435147018917630}
+  - component: {fileID: 5984391624242019793}
+  - component: {fileID: 6983942380696138406}
   m_Layer: 5
   m_Name: Room Second Floor Left Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147018917630
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2186,6 +3278,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &5984391624242019793
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147018917631}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &6983942380696138406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147018917631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 5984391624242019793}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147207262837
 GameObject:
   m_ObjectHideFlags: 0
@@ -2197,13 +3320,15 @@ GameObject:
   - component: {fileID: 4530435147207262836}
   - component: {fileID: 4530435147207262834}
   - component: {fileID: 4530435147207262835}
+  - component: {fileID: 466690842677055294}
+  - component: {fileID: 7205030224173252153}
   m_Layer: 5
   m_Name: Room Second Floor Foundation Dino
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147207262836
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2211,12 +3336,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435147207262837}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 10
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2246,6 +3371,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2259,6 +3386,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &466690842677055294
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147207262837}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &7205030224173252153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147207262837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 466690842677055294}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147254490457
 GameObject:
   m_ObjectHideFlags: 0
@@ -2270,13 +3428,15 @@ GameObject:
   - component: {fileID: 4530435147254490456}
   - component: {fileID: 4530435147254490454}
   - component: {fileID: 4530435147254490455}
+  - component: {fileID: 3443903531557262959}
+  - component: {fileID: 3538552772013895767}
   m_Layer: 5
   m_Name: Room (Frame 02)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147254490456
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2319,6 +3479,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2332,6 +3494,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &3443903531557262959
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147254490457}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3538552772013895767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147254490457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 3443903531557262959}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147259448802
 GameObject:
   m_ObjectHideFlags: 0
@@ -2343,13 +3536,15 @@ GameObject:
   - component: {fileID: 4530435147259448801}
   - component: {fileID: 4530435147259448831}
   - component: {fileID: 4530435147259448800}
+  - component: {fileID: 8413259718088854458}
+  - component: {fileID: 687966293520114396}
   m_Layer: 5
   m_Name: Room (Frame 03)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147259448801
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2392,6 +3587,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2405,6 +3602,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &8413259718088854458
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147259448802}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &687966293520114396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147259448802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 8413259718088854458}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147345507270
 GameObject:
   m_ObjectHideFlags: 0
@@ -2416,13 +3644,15 @@ GameObject:
   - component: {fileID: 4530435147345507269}
   - component: {fileID: 4530435147345507267}
   - component: {fileID: 4530435147345507268}
+  - component: {fileID: 2200614021074927823}
+  - component: {fileID: 6552883950308608699}
   m_Layer: 5
   m_Name: Room (Frame 05)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147345507269
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2465,6 +3695,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2478,6 +3710,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &2200614021074927823
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147345507270}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &6552883950308608699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147345507270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 2200614021074927823}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147350422697
 GameObject:
   m_ObjectHideFlags: 0
@@ -2489,13 +3752,15 @@ GameObject:
   - component: {fileID: 4530435147350422696}
   - component: {fileID: 4530435147350422694}
   - component: {fileID: 4530435147350422695}
+  - component: {fileID: 1642087171131539360}
+  - component: {fileID: 3229029083554419153}
   m_Layer: 5
   m_Name: Room (Frame Tag 09)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147350422696
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2538,6 +3803,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2551,6 +3818,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1642087171131539360
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147350422697}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3229029083554419153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147350422697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1642087171131539360}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147436015642
 GameObject:
   m_ObjectHideFlags: 0
@@ -2562,13 +3860,15 @@ GameObject:
   - component: {fileID: 4530435147436015641}
   - component: {fileID: 4530435147436015639}
   - component: {fileID: 4530435147436015640}
+  - component: {fileID: 588518433064929412}
+  - component: {fileID: 3304216105328909653}
   m_Layer: 5
   m_Name: Room (Frame 09)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147436015641
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2611,6 +3911,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2624,6 +3926,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &588518433064929412
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147436015642}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3304216105328909653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147436015642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 588518433064929412}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147513292993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2633,13 +3966,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4530435147513292992}
+  - component: {fileID: 7376076903008022643}
+  - component: {fileID: 1454173717605328564}
   m_Layer: 5
   m_Name: Room Left Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147513292992
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2663,6 +3998,37 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &7376076903008022643
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147513292993}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1454173717605328564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147513292993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 7376076903008022643}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147539217884
 GameObject:
   m_ObjectHideFlags: 0
@@ -2674,13 +4040,15 @@ GameObject:
   - component: {fileID: 4530435147539217883}
   - component: {fileID: 4530435147539217881}
   - component: {fileID: 4530435147539217882}
+  - component: {fileID: 4492294371118011896}
+  - component: {fileID: 4243210363244692428}
   m_Layer: 5
   m_Name: Room (Frame Tag 10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147539217883
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2723,6 +4091,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2736,6 +4106,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &4492294371118011896
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147539217884}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &4243210363244692428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147539217884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 4492294371118011896}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147585225036
 GameObject:
   m_ObjectHideFlags: 0
@@ -2747,13 +4148,15 @@ GameObject:
   - component: {fileID: 4530435147585225035}
   - component: {fileID: 4530435147585225033}
   - component: {fileID: 4530435147585225034}
+  - component: {fileID: 5698763803129661574}
+  - component: {fileID: 1005651414566629889}
   m_Layer: 5
   m_Name: Room Second Floor Wall Frame 02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147585225035
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2761,12 +4164,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435147585225036}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 1
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2796,6 +4199,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2809,6 +4214,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &5698763803129661574
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147585225036}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1005651414566629889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147585225036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 5698763803129661574}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147640748085
 GameObject:
   m_ObjectHideFlags: 0
@@ -2820,13 +4256,15 @@ GameObject:
   - component: {fileID: 4530435147640748084}
   - component: {fileID: 4530435147640748082}
   - component: {fileID: 4530435147640748083}
+  - component: {fileID: 1168212286525987717}
+  - component: {fileID: 9033841263749261731}
   m_Layer: 5
   m_Name: Room (Top)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147640748084
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2869,6 +4307,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2882,6 +4322,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1168212286525987717
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147640748085}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &9033841263749261731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147640748085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1168212286525987717}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147674699970
 GameObject:
   m_ObjectHideFlags: 0
@@ -2893,13 +4364,15 @@ GameObject:
   - component: {fileID: 4530435147674699969}
   - component: {fileID: 4530435147674699999}
   - component: {fileID: 4530435147674699968}
+  - component: {fileID: 1469765749384781366}
+  - component: {fileID: 2625357158183324020}
   m_Layer: 5
   m_Name: Room Second Floor Wall Frame 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147674699969
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2907,12 +4380,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435147674699970}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 0
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2942,6 +4415,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2955,6 +4430,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &1469765749384781366
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147674699970}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2625357158183324020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147674699970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 1469765749384781366}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147677344562
 GameObject:
   m_ObjectHideFlags: 0
@@ -2966,13 +4472,15 @@ GameObject:
   - component: {fileID: 4530435147677344561}
   - component: {fileID: 4530435147677344527}
   - component: {fileID: 4530435147677344560}
+  - component: {fileID: 4711252233918759045}
+  - component: {fileID: 4629831514404297851}
   m_Layer: 5
   m_Name: Room (Frame 11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147677344561
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3015,6 +4523,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3028,6 +4538,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &4711252233918759045
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147677344562}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &4629831514404297851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147677344562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 4711252233918759045}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []
 --- !u!1 &4530435147727040973
 GameObject:
   m_ObjectHideFlags: 0
@@ -3039,13 +4580,15 @@ GameObject:
   - component: {fileID: 4530435147727040972}
   - component: {fileID: 4530435147727040970}
   - component: {fileID: 4530435147727040971}
+  - component: {fileID: 4619573213259446055}
+  - component: {fileID: 730718182031803325}
   m_Layer: 5
   m_Name: Room Second Floor Foundation Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4530435147727040972
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3053,12 +4596,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4530435147727040973}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4530435145836152687}
-  m_RootOrder: 9
+  m_Father: {fileID: 4530435146876922562}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3088,6 +4631,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3101,3 +4646,34 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &4619573213259446055
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147727040973}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &730718182031803325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4530435147727040973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675315a8f6a9e1a4bb4551b3c1d6dd0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 4619573213259446055}
+  targetAlpha: 1
+  alphaSpeed: 0
+  useUnscaledTime: 0
+  alwaysInteractable: 0
+  disableRaycasts: 0
+  immediateCanvasList: []

@@ -1,0 +1,10 @@
+using UnityEngine;
+
+[DisallowMultipleComponent]
+public class #SCRIPTNAME# : MonoBehaviour {
+#if UNITY_EDITOR
+    void OnValidate() {
+        AutoBindUtil.BindAll(this);
+    }
+#endif
+}
