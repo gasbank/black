@@ -3,7 +3,7 @@ using System.Collections;
 
 // https://wiki.unity3d.com/index.php/FramesPerSecond
 public class FpsDisplay : MonoBehaviour {
-    float deltaTime = 0.0f;
+    float deltaTime;
 
     void Update() {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;

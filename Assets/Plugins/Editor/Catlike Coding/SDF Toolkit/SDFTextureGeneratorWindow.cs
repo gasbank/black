@@ -48,7 +48,7 @@ namespace CatlikeCoding.SDFToolkit.Editor {
 		Texture2D source, destination;
 		RGBFillMode rgbFillMode;
 		float insideDistance = 3f, outsideDistance = 3f;
-		float postProcessDistance = 0f;
+		float postProcessDistance;
 		bool allowSave;
 		Vector2 scrollPosition;
 		

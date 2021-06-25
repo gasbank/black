@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
-    [SerializeField] Transform targetImage = null;
+    [SerializeField] Transform targetImage;
     [SerializeField] Vector3 beginDragWorldPosition;
     [SerializeField] Vector3 beginDragTargetPosition;
-    [SerializeField] bool panning = false;
-    [SerializeField] RectTransform rt = null;
-    static bool panningMutex = false;
+    [SerializeField] bool panning;
+    [SerializeField] RectTransform rt;
+    static bool panningMutex;
 
     void OnValidate() {
         rt = GetComponent<RectTransform>();

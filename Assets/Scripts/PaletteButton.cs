@@ -2,11 +2,11 @@
 using UnityEngine.UI;
 
 public class PaletteButton : MonoBehaviour {
-    [SerializeField] GameObject check = null;
-    [SerializeField] Image gauge = null;
-    [SerializeField] Image image = null;
-    [SerializeField] TMPro.TextMeshProUGUI colorNumberText = null;
-    [SerializeField] uint colorUint = 0;
+    [SerializeField] GameObject check;
+    [SerializeField] Image gauge;
+    [SerializeField] Image image;
+    [SerializeField] TMPro.TextMeshProUGUI colorNumberText;
+    [SerializeField] uint colorUint;
 
     public bool Check {
         get => check.activeSelf;

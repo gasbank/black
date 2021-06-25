@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 public class ShopPopup : MonoBehaviour {
-    [SerializeField] GameObject shopPropEntry = null;
-    [SerializeField] Transform miniroom = null;
-    [SerializeField] Transform shopPropEntryParent = null;
+    [SerializeField] GameObject shopPropEntry;
+    [SerializeField] Transform miniroom;
+    [SerializeField] Transform shopPropEntryParent;
 
     private void AddAllProps() {
         var transformList = miniroom.GetComponentsInChildren<Transform>(true);

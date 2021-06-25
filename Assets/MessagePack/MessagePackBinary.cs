@@ -2290,7 +2290,7 @@ namespace MessagePack
         static class StreamDecodeMemoryPool
         {
             [ThreadStatic]
-            static byte[] buffer = null;
+            static byte[] buffer;
 
             public static byte[] GetBuffer()
             {

@@ -6,8 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class StageSaveManager : MonoBehaviour {
-    [SerializeField] PinchZoom pinchZoom = null;
-    [SerializeField] Image targetImage = null;
+    [SerializeField] PinchZoom pinchZoom;
+    [SerializeField] Image targetImage;
 
     static readonly string GameName = "game";
 

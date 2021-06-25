@@ -4,11 +4,11 @@ using UnityEngine;
 using System.Linq;
 
 public class IslandLabelSpawner : MonoBehaviour {
-    [SerializeField] GameObject islandLabelNumberPrefab = null;
-    [SerializeField] GridWorld gridWorld = null;
-    [SerializeField] RectTransform rt = null;
-    [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
-    [SerializeField] Transform islandLabelNumberGroup = null;
+    [SerializeField] GameObject islandLabelNumberPrefab;
+    [SerializeField] GridWorld gridWorld;
+    [SerializeField] RectTransform rt;
+    [SerializeField] PaletteButtonGroup paletteButtonGroup;
+    [SerializeField] Transform islandLabelNumberGroup;
 
     Dictionary<uint, IslandLabel> labelByMinPoint = new Dictionary<uint, IslandLabel>();
 

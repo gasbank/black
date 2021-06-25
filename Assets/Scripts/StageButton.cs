@@ -6,9 +6,9 @@ public class StageButton : MonoBehaviour {
     public static StageMetadata CurrentStageMetadata { get; private set; }
 
     //[SerializeField] Image stageImage = null;
-    [SerializeField] StageMetadata stageMetadata = null;
-    [SerializeField] Text stageNumber = null;
-    [SerializeField] Image image = null;
+    [SerializeField] StageMetadata stageMetadata;
+    [SerializeField] Text stageNumber;
+    [SerializeField] Image image;
 
     public void GoToMain() {
         CurrentStageMetadata = stageMetadata;

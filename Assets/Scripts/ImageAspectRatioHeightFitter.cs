@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 [ExecuteInEditMode]
 public class ImageAspectRatioHeightFitter : UIBehaviour {
-    [SerializeField] RectTransform rt = null;
-    [SerializeField] Image image = null;
+    [SerializeField] RectTransform rt;
+    [SerializeField] Image image;
 
     void Update() {
         if (rt != null && image != null) {

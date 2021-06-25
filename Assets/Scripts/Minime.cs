@@ -10,7 +10,7 @@ public class Minime : MonoBehaviour {
     [SerializeField] float roamRetargetIntervalMax = 5.0f;
     [SerializeField] float roamRetargetRemainTime = 3.0f;
     [SerializeField] Vector2 roamExtent = new Vector2(5.0f, 5.0f);
-    [SerializeField] SpriteRenderer SpriteRenderer = null;
+    [SerializeField] SpriteRenderer SpriteRenderer;
 
     Camera mainCamera;
 

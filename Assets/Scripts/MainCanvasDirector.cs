@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
 public class MainCanvasDirector : MonoBehaviour {
-    [SerializeField] CanvasGroup debugGroup = null;
-    [SerializeField] CanvasGroup nameplateGroup = null;
-    [SerializeField] CanvasGroup coinGroup = null;
-    [SerializeField] CanvasGroup paletteGroup = null;
+    [SerializeField] CanvasGroup debugGroup;
+    [SerializeField] CanvasGroup nameplateGroup;
+    [SerializeField] CanvasGroup coinGroup;
+    [SerializeField] CanvasGroup paletteGroup;
 
     enum Mode {
         Entering,

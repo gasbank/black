@@ -5,14 +5,14 @@ using UnityEngine;
 public class FrameThickness : MonoBehaviour
 {
     [SerializeField] float thickness = 20.0f;
-    [SerializeField] RectTransform m00 = null;
-    [SerializeField] RectTransform m01 = null;
-    [SerializeField] RectTransform m02 = null;
-    [SerializeField] RectTransform m10 = null;
-    [SerializeField] RectTransform m12 = null;
-    [SerializeField] RectTransform m20 = null;
-    [SerializeField] RectTransform m21 = null;
-    [SerializeField] RectTransform m22 = null;
+    [SerializeField] RectTransform m00;
+    [SerializeField] RectTransform m01;
+    [SerializeField] RectTransform m02;
+    [SerializeField] RectTransform m10;
+    [SerializeField] RectTransform m12;
+    [SerializeField] RectTransform m20;
+    [SerializeField] RectTransform m21;
+    [SerializeField] RectTransform m22;
 
 #if UNITY_EDITOR
     void OnValidate() {

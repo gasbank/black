@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PinchZoom : MonoBehaviour {
-    [SerializeField] Transform targetImage = null;
+    [SerializeField] Transform targetImage;
     [SerializeField] float minScale = 0.5f;
     [SerializeField] float maxScale = 5.0f;
-    [SerializeField] Slider zoomSlider = null;
+    [SerializeField] Slider zoomSlider;
     
     public static bool PinchZooming => Input.touchCount == 2;
     public float ZoomValue { get => zoomSlider.value; set => zoomSlider.value = value; }

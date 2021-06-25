@@ -4,8 +4,8 @@ using UnityEngine;
 using System.Linq;
 
 public class PaletteButtonGroup : MonoBehaviour {
-    [SerializeField] PaletteButton paletteButtonPrefab = null;
-    [SerializeField] List<PaletteButton> paletteButtonList = null;
+    [SerializeField] PaletteButton paletteButtonPrefab;
+    [SerializeField] List<PaletteButton> paletteButtonList;
 
     Dictionary<uint, int> paletteIndexbyColor = new Dictionary<uint, int>();
 

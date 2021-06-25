@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class IslandLabel : MonoBehaviour {
-    [SerializeField] Image backgroundImage = null;
-    [SerializeField] TMPro.TextMeshProUGUI text = null;
-    [SerializeField] RectTransform rt = null;
+    [SerializeField] Image backgroundImage;
+    [SerializeField] TMPro.TextMeshProUGUI text;
+    [SerializeField] RectTransform rt;
 
     public RectTransform Rt => rt;
 

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimatedCoin : MonoBehaviour {
-    [SerializeField] RectTransform targetRt = null;
-    [SerializeField] RectTransform rt = null;
+    [SerializeField] RectTransform targetRt;
+    [SerializeField] RectTransform rt;
     [SerializeField] Vector3 currentVelocityPosition;
     [SerializeField] float smoothTimePosition = 0.1f;
     [SerializeField] Vector2 currentVelocitySize;
     [SerializeField] float smoothTimeSize = 0.1f;
-    [SerializeField] GridWorld gridWorld = null;
+    [SerializeField] GridWorld gridWorld;
 
     public RectTransform Rt => rt;
     public RectTransform TargetRt {

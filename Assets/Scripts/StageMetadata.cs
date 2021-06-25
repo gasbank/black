@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 public class StageMetadata : ScriptableObject {
-    [SerializeField] Material skipBlackMaterial = null;
-    [SerializeField] Material sdfMaterial = null;
-    [SerializeField] TextAsset rawStageData = null;
+    [SerializeField] Material skipBlackMaterial;
+    [SerializeField] Material sdfMaterial;
+    [SerializeField] TextAsset rawStageData;
 
     public Material SkipBlackMaterial => skipBlackMaterial;
     public Material SdfMaterial => sdfMaterial;

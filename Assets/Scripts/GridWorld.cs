@@ -10,11 +10,11 @@ using System.IO;
 using ConditionalDebug;
 
 public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
-    [SerializeField] Image image = null;
-    [SerializeField] Texture2D tex = null;
-    [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
-    [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
-    [SerializeField] StageSaveManager stageSaveManager = null;
+    [SerializeField] Image image;
+    [SerializeField] Texture2D tex;
+    [SerializeField] PaletteButtonGroup paletteButtonGroup;
+    [SerializeField] IslandLabelSpawner islandLabelSpawner;
+    [SerializeField] StageSaveManager stageSaveManager;
     [SerializeField] ScInt gold = 0;
     HashSet<uint> coloredMinPoints = new HashSet<uint>();
     public Dictionary<uint, int> coloredIslandCountByColor = new Dictionary<uint, int>();
@@ -34,13 +34,13 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
     public string StageName { get; set; } = "teststage";
 
-    [SerializeField] int maxIslandPixelArea = 0;
-    [SerializeField] RectTransform rt = null;
-    [SerializeField] GameObject animatedCoinPrefab = null;
-    [SerializeField] RectTransform coinIconRt = null;
+    [SerializeField] int maxIslandPixelArea;
+    [SerializeField] RectTransform rt;
+    [SerializeField] GameObject animatedCoinPrefab;
+    [SerializeField] RectTransform coinIconRt;
 
-    [SerializeField] int coin = 0;
-    [SerializeField] TMPro.TextMeshProUGUI coinText = null;
+    [SerializeField] int coin;
+    [SerializeField] TMPro.TextMeshProUGUI coinText;
 
     public int Coin {
         get => coin;

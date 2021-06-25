@@ -313,7 +313,7 @@ namespace MessagePack.Internal
     internal static class InternalMemoryPool
     {
         [ThreadStatic]
-        static byte[] buffer = null;
+        static byte[] buffer;
 
         public static byte[] GetBuffer()
         {

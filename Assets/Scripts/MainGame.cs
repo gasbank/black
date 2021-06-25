@@ -7,13 +7,13 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MainGame : MonoBehaviour {
-    [SerializeField] GridWorld gridWorld = null;
-    [SerializeField] PaletteButtonGroup paletteButtonGroup = null;
-    [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
-    [SerializeField] TargetImage targetImage = null;
-    [SerializeField] Image targetImageOutline = null;
-    [SerializeField] PinchZoom pinchZoom = null;
-    [SerializeField] StageMetadata stageMetadata = null;
+    [SerializeField] GridWorld gridWorld;
+    [SerializeField] PaletteButtonGroup paletteButtonGroup;
+    [SerializeField] IslandLabelSpawner islandLabelSpawner;
+    [SerializeField] TargetImage targetImage;
+    [SerializeField] Image targetImageOutline;
+    [SerializeField] PinchZoom pinchZoom;
+    [SerializeField] StageMetadata stageMetadata;
 
     StageData stageData;
 

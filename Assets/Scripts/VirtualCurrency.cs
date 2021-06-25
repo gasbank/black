@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class VirtualCurrency : MonoBehaviour {
-    [SerializeField] TMPro.TextMeshProUGUI text = null;
-    [SerializeField] Image image = null;
-    [SerializeField] int currencyValue = 0;
+    [SerializeField] TMPro.TextMeshProUGUI text;
+    [SerializeField] Image image;
+    [SerializeField] int currencyValue;
     [SerializeField] Type currencyType = 0;
-    [SerializeField] Sprite[] currencySprites = null;
+    [SerializeField] Sprite[] currencySprites;
 
     public enum Type {
         Mango,

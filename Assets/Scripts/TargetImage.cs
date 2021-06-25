@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TargetImage : MonoBehaviour {
-    [SerializeField] Image targetImage = null;
-    [SerializeField] Image targetImageOutine = null;
-    [SerializeField] IslandLabelSpawner islandLabelSpawner = null;
+    [SerializeField] Image targetImage;
+    [SerializeField] Image targetImageOutine;
+    [SerializeField] IslandLabelSpawner islandLabelSpawner;
 
     void OnEnable() {
         //targetImage.material = Instantiate(targetImage.material);
