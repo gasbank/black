@@ -17,6 +17,9 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
     [SerializeField]
     RectTransform rt;
 
+    [SerializeField]
+    MainGame mainGame;
+
     static bool panningMutex;
 
 #if UNITY_EDITOR
@@ -36,7 +39,7 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
     }
 
     public void OnDrag(PointerEventData eventData) {
-        if (panning) {
+        if (panning && mainGame.CanInteractPanAndZoom) {
             RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main,
                 out var dragWorldPosition);
             targetImage.position = beginDragTargetPosition + (dragWorldPosition - beginDragWorldPosition);

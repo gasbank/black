@@ -32,6 +32,7 @@ public class MainGame : MonoBehaviour {
     NameplateGroup nameplateGroup;
 
     StageData stageData;
+    public bool CanInteractPanAndZoom => islandLabelSpawner.IsLabelByMinPointEmpty == false;
 
     void Start() {
         Application.runInBackground = false;

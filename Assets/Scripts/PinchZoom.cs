@@ -1,20 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PinchZoom : MonoBehaviour {
-    [SerializeField] Transform targetImage;
-    [SerializeField] float minScale = 0.5f;
-    [SerializeField] float maxScale = 5.0f;
-    [SerializeField] Slider zoomSlider;
-    
+    [SerializeField]
+    Transform targetImage;
+
+    [SerializeField]
+    float minScale = 0.5f;
+
+    [SerializeField]
+    float maxScale = 5.0f;
+
+    [SerializeField]
+    Slider zoomSlider;
+
+    [SerializeField]
+    MainGame mainGame;
+
     public static bool PinchZooming => Input.touchCount == 2;
-    public float ZoomValue { get => zoomSlider.value; set => zoomSlider.value = value; }
+
+    public float ZoomValue {
+        get => zoomSlider.value;
+        set => zoomSlider.value = value;
+    }
 
     void Update() {
         // If there are two touches on the device...
-        if (Input.touchCount == 2) {
+        if (Input.touchCount == 2 && mainGame.CanInteractPanAndZoom) {
             // Store both touches.
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
