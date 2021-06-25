@@ -4,8 +4,11 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEngine.SceneManagement;
 using ConditionalDebug;
+using UnityEngine.Playables;
 
 public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
+    static bool Verbose { get; } = true;
+
     [SerializeField]
     Texture2D tex;
 
@@ -20,6 +23,10 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
     [SerializeField]
     ScInt gold = 0;
+
+    [SerializeField]
+    PlayableDirector finaleDirector;
+    
 
     readonly HashSet<uint> coloredMinPoints = new HashSet<uint>();
     public Dictionary<uint, int> coloredIslandCountByColor = new Dictionary<uint, int>();
@@ -70,7 +77,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
     public void LoadTexture(Texture2D inputTexture, StageData inStageData, int inMaxIslandPixelArea) {
         tex = inputTexture;
-        //image.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.zero);
         stageData = inStageData;
         maxIslandPixelArea = inMaxIslandPixelArea;
     }
@@ -119,8 +125,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         }
     }
 
-    static bool Verbose { get; } = false;
-
     bool FloodFill(Color32[] bitmap, Vector2Int bitmapPoint, Color32 targetColor, uint replacementColorUint,
         bool forceSolutionColor) {
         Queue<Vector2Int> q = new Queue<Vector2Int>();
@@ -160,8 +164,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             }
         }
 
-        ConDebug.Log(
-            $"FloodFill algorithm found {pixelList.Count} pixels to be flooded. Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
+        ConDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded.");
+        ConDebug.Log($"Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
+        
         if (pixelList.Count > 0) {
             // 이 지점부터 fillMinPoint는 유효한 값을 가진다.
             var fillMinPointUint = BlackConvert.GetP(fillMinPoint);
@@ -239,7 +244,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             var w = rect.width;
             var h = rect.height;
 
-            //Debug.Log($"w={w} / h={h}");
+            if (Verbose) ConDebug.Log($"w={w} / h={h}");
 
             var ix = (int) ((localPoint.x + w / 2) / w * tex.width);
             var iy = (int) ((localPoint.y + h / 2) / h * tex.height);
@@ -299,6 +304,11 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 out Vector2 localPoint)) {
                 if (Fill(localPoint)) {
                     StartAnimateFillCoin(localPoint);
+
+                    // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
+                    if (islandLabelSpawner.IsLabelByMinPointEmpty) {
+                        finaleDirector.Play(finaleDirector.playableAsset);
+                    }
                 }
 
                 if (Verbose) ConDebug.Log($"Local position = {localPoint}");

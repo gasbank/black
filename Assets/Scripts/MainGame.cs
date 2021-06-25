@@ -7,13 +7,26 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MainGame : MonoBehaviour {
-    [SerializeField] GridWorld gridWorld;
-    [SerializeField] PaletteButtonGroup paletteButtonGroup;
-    [SerializeField] IslandLabelSpawner islandLabelSpawner;
-    [SerializeField] TargetImage targetImage;
-    [SerializeField] Image targetImageOutline;
-    [SerializeField] PinchZoom pinchZoom;
-    [SerializeField] StageMetadata stageMetadata;
+    [SerializeField]
+    GridWorld gridWorld;
+
+    [SerializeField]
+    PaletteButtonGroup paletteButtonGroup;
+
+    [SerializeField]
+    IslandLabelSpawner islandLabelSpawner;
+
+    [SerializeField]
+    TargetImage targetImage;
+
+    [SerializeField]
+    Image targetImageOutline;
+
+    [SerializeField]
+    PinchZoom pinchZoom;
+
+    [SerializeField]
+    StageMetadata stageMetadata;
 
     StageData stageData;
 
@@ -32,32 +45,24 @@ public class MainGame : MonoBehaviour {
 
         using (var stream = new MemoryStream(stageMetadata.RawStageData.bytes)) {
             var formatter = new BinaryFormatter();
-            stageData = (StageData)formatter.Deserialize(stream);
+            stageData = (StageData) formatter.Deserialize(stream);
             stream.Close();
         }
-        stageData.islandCountByColor = stageData.islandDataByMinPoint.GroupBy(g => g.Value.rgba).ToDictionary(g => g.Key, g => g.Count());
+
+        stageData.islandCountByColor = stageData.islandDataByMinPoint.GroupBy(g => g.Value.rgba)
+            .ToDictionary(g => g.Key, g => g.Count());
 
         Debug.Log($"{stageData.islandDataByMinPoint.Count} islands loaded.");
         var maxIslandPixelArea = stageData.islandDataByMinPoint.Max(e => e.Value.pixelArea);
         Debug.Log($"Max island pixel area: {maxIslandPixelArea}");
 
-        var instantiateMaterials = true;
-        if (instantiateMaterials) {
-            var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
-            var colorTexture = Instantiate((Texture2D)skipBlackMaterial.GetTexture("ColorTexture"));
-            skipBlackMaterial.SetTexture("ColorTexture", colorTexture);
+        var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
+        var colorTexture = Instantiate((Texture2D) skipBlackMaterial.GetTexture(ColorTexture));
+        skipBlackMaterial.SetTexture(ColorTexture, colorTexture);
 
-            gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
-            gridWorld.StageName = stageMetadata.name;
-            targetImage.SetTargetImageMaterial(skipBlackMaterial);
-        } else {
-            var skipBlackMaterial = stageMetadata.SkipBlackMaterial;
-            var colorTexture = (Texture2D)skipBlackMaterial.GetTexture("ColorTexture");
-            
-            gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
-            gridWorld.StageName = stageMetadata.name;
-            targetImage.SetTargetImageMaterial(skipBlackMaterial);
-        }
+        gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
+        gridWorld.StageName = stageMetadata.name;
+        targetImage.SetTargetImageMaterial(skipBlackMaterial);
 
         targetImageOutline.material = stageMetadata.SdfMaterial;
         // SDF 머티리얼 없으면 아예 이 이미지는 안보이게 하자.
@@ -67,25 +72,23 @@ public class MainGame : MonoBehaviour {
 
         islandLabelSpawner.CreateAllLabels(stageData);
 
-        //gridWorld.FloodFillVec2IntAndApply(1208, 716, true);
-
         var counts = gridWorld.CountWhiteAndBlackInBitmap();
         ConDebug.Log($"Tex size: {gridWorld.texSize}");
         ConDebug.Log($"Black count: {counts[0]}");
         ConDebug.Log($"White count: {counts[1]}");
         ConDebug.Log($"Other count: {counts[2]}");
 
-        //gridWorld.FloodFillVec2IntAndApplyWithSolution(BlackConvert.GetInvertedY(new Vector2Int(922, 1202), gridWorld.texSize));
-
         gridWorld.ResumeGame();
     }
 
     public void ResetCamera() {
-        targetImage.transform.localPosition = new Vector3(0, 0, targetImage.transform.localPosition.z);
+        var targetImageTransform = targetImage.transform;
+        targetImageTransform.localPosition = new Vector3(0, 0, targetImageTransform.localPosition.z);
         pinchZoom.ResetZoom();
     }
 
     int resetCount;
+    static readonly int ColorTexture = Shader.PropertyToID("ColorTexture");
 
     public void ResetStage() {
         resetCount++;
@@ -98,6 +101,7 @@ public class MainGame : MonoBehaviour {
         if (gridWorld != null) {
             gridWorld.WriteStageSaveData();
         }
+
         SceneManager.LoadScene("Stage Selection");
     }
 
@@ -105,6 +109,7 @@ public class MainGame : MonoBehaviour {
         if (gridWorld != null) {
             gridWorld.WriteStageSaveData();
         }
+
         SceneManager.LoadScene("Museum");
     }
 }

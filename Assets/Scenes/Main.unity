@@ -4210,13 +4210,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9fa7d9944d404664a0d7853dee81fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 1643267985}
   tex: {fileID: 0}
   paletteButtonGroup: {fileID: 955176418}
   islandLabelSpawner: {fileID: 1643267988}
   stageSaveManager: {fileID: 1598385018}
   gold:
     value: 43122945
+  finaleDirector: {fileID: 289273183}
   maxIslandPixelArea: 0
   rt: {fileID: 1643267983}
   animatedCoinPrefab: {fileID: 2398338009899632809, guid: a206adbecfac2428898592c1a7d1de0f,
