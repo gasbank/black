@@ -59,3 +59,4 @@ dev-tools/bin
 /UserSettings
 /dev-tools/.idea
 /*-build/
+/.idea/
