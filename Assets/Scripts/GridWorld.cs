@@ -5,6 +5,8 @@ using System;
 using UnityEngine.SceneManagement;
 using ConditionalDebug;
 using UnityEngine.Playables;
+using UnityEngine.UI;
+using System.Collections;
 
 public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     static bool Verbose { get; } = true;
@@ -63,6 +65,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         }
     }
 
+    [SerializeField]
+    public Image flickerImage;
+
     Canvas rootCanvas;
 
 #if UNITY_EDITOR
@@ -74,6 +79,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     void Awake() {
         rootCanvas = GetComponentInParent<Canvas>();
         Coin = 0;
+        flickerImage.enabled = false;
     }
 
     public void LoadTexture(Texture2D inputTexture, StageData inStageData, int inMaxIslandPixelArea) {
@@ -295,6 +301,11 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         }
     }
 
+    IEnumerator HideFlicker() {
+        yield return (new WaitForSeconds(0.0f));
+        flickerImage.enabled = false;
+    }
+
     public void OnPointerUp(PointerEventData eventData) {
         if (eventData.dragging == false) {
             if (Verbose) ConDebug.Log($"World position 1 = {eventData.pointerCurrentRaycast.worldPosition}");
@@ -310,6 +321,11 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                     if (islandLabelSpawner.IsLabelByMinPointEmpty) {
                         finaleDirector.Play(finaleDirector.playableAsset);
                     }
+                }
+                else {
+                    // 칠할 수 없는 경우에는 그에 대한 알림
+                    flickerImage.enabled = true;
+                    StartCoroutine("HideFlicker");
                 }
 
                 if (Verbose) ConDebug.Log($"Local position = {localPoint}");
