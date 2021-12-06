@@ -17,38 +17,79 @@ internal static class StageEditorUtil
             var metaFullPath = AssetDatabase.GetAssetPath(ta);
             var stageDir = Path.GetDirectoryName(metaFullPath);
             Debug.Log(stageDir);
-            if (stageDir == null)
+            if (string.IsNullOrEmpty(stageDir))
             {
+                Debug.LogError("Stage directory is empty.");
+                continue;
+            }
+            
+            var stageName = Path.GetFileNameWithoutExtension(stageDir);
+            if (string.IsNullOrEmpty(stageName))
+            {
+                Debug.LogError("Stage name cannot be determined.");
                 continue;
             }
 
-            var metaFileNameWithoutExt = Path.GetFileNameWithoutExtension(metaFullPath);
-
-            if (string.IsNullOrEmpty(metaFileNameWithoutExt))
+            var metadataName = Path.GetFileNameWithoutExtension(metaFullPath);
+            if (string.IsNullOrEmpty(metadataName))
             {
+                Debug.LogError("Metadata name cannot be determined.");
                 continue;
             }
 
-            var sdfTex = AssetDatabase.LoadAssetAtPath<Texture2D>(Path.Combine(metaFullPath, metaFileNameWithoutExt,
-                "-OTB-FSNB-BB-SDF.png"));
-            var fsnbTex = AssetDatabase.LoadAssetAtPath<Texture2D>(Path.Combine(metaFullPath,
-                metaFileNameWithoutExt,
-                "-OTB-FSNB.png"));
+            var sdfTexPath = Path.Combine(stageDir, $"{metadataName}-OTB-FSNB-BB-SDF.png");
+            var sdfTex = AssetDatabase.LoadAssetAtPath<Texture2D>(sdfTexPath);
 
-            var sdfPreset = AssetDatabase.LoadAssetAtPath<Preset>("Presets/TextureImporter-SDF");
-            var fsnbPreset = AssetDatabase.LoadAssetAtPath<Preset>("Presets/TextureImporter-FSNB");
+            var fsnbTexPath = Path.Combine(stageDir, $"{metadataName}-OTB-FSNB.png");
+            var fsnbTex = AssetDatabase.LoadAssetAtPath<Texture2D>(fsnbTexPath);
 
-            if (sdfPreset == null || fsnbPreset == null) continue;
+            var sdfPresetPath = "Assets/Presets/TextureImporter-SDF.preset";
 
-            if (sdfTex == null || fsnbTex == null) continue;
+            var sdfPreset = AssetDatabase.LoadAssetAtPath<Preset>(sdfPresetPath);
+
+            var fsnbPresetPath = "Assets/Presets/TextureImporter-FSNB.preset";
+            var fsnbPreset = AssetDatabase.LoadAssetAtPath<Preset>(fsnbPresetPath);
+
+            if (sdfPreset == null)
+            {
+                Debug.LogError($"SDF Preset not found on path '{sdfPresetPath}'");
+                continue;
+            }
+            
+            if (fsnbPreset == null)
+            {
+                Debug.LogError($"FSNB Preset not found on path '{fsnbPresetPath}'");
+                continue;
+            }
+
+            if (sdfTex == null)
+            {
+                Debug.LogError($"SDF Texture not found on path '{sdfTexPath}'");
+                continue;
+            }
+            
+            if (fsnbTex == null)
+            {
+                Debug.LogError($"FSNB Texture not found on path '{fsnbTexPath}'");
+                continue;
+            }
             
             Debug.Log(ta);
             
-            sdfPreset.ApplyTo(sdfTex);
-            EditorUtility.SetDirty(sdfTex);
+            var sdfImporter = AssetImporter.GetAtPath(sdfTexPath);
+            Debug.Log(sdfTex);
+            Debug.Log(sdfPreset.ApplyTo(sdfImporter));
+
+            var fsnbImporter = AssetImporter.GetAtPath(fsnbTexPath);
+            Debug.Log(fsnbTex);
+            Debug.Log(fsnbPreset.ApplyTo(fsnbImporter));
             
-            fsnbPreset.ApplyTo(fsnbTex);
-            EditorUtility.SetDirty(fsnbTex);
+            Debug.Log($"{metadataName} stage created.");
+
+            var stageMetadata = ScriptableObject.CreateInstance<StageMetadata>();
+            AssetDatabase.CreateAsset(stageMetadata, Path.Combine(stageDir, $"{stageName}.asset"));
+            
+            
         }
     }
 }
