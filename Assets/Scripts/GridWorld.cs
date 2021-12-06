@@ -8,7 +8,8 @@ using UnityEngine.Playables;
 using UnityEngine.UI;
 using System.Collections;
 
-public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
+public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+{
     static bool Verbose { get; } = true;
 
     [SerializeField]
@@ -57,9 +58,11 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField]
     TMPro.TextMeshProUGUI coinText;
 
-    public int Coin {
+    public int Coin
+    {
         get => coin;
-        set {
+        set
+        {
             coin = value;
             coinText.text = coin.ToString();
         }
@@ -71,18 +74,21 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     Canvas rootCanvas;
 
 #if UNITY_EDITOR
-    void OnValidate() {
+    void OnValidate()
+    {
         rt = GetComponent<RectTransform>();
     }
 #endif
 
-    void Awake() {
+    void Awake()
+    {
         rootCanvas = GetComponentInParent<Canvas>();
         Coin = 0;
         flickerImage.enabled = false;
     }
 
-    public void LoadTexture(Texture2D inputTexture, StageData inStageData, int inMaxIslandPixelArea) {
+    public void LoadTexture(Texture2D inputTexture, StageData inStageData, int inMaxIslandPixelArea)
+    {
         tex = inputTexture;
         stageData = inStageData;
         maxIslandPixelArea = inMaxIslandPixelArea;
@@ -90,62 +96,77 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
     // 팔레트 정보 채워지고 난 뒤에 진행 상황 불러와야
     // 제대로 된 색깔로 채울 수 있다.
-    internal void ResumeGame() {
-        try {
+    internal void ResumeGame()
+    {
+        try
+        {
             var stageSaveData = stageSaveManager.Load(StageName);
             LoadBatchFill(StageName, stageSaveData.coloredMinPoints);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Debug.LogException(e);
             DeleteSaveFileAndReloadScene();
         }
     }
 
-    public void DeleteSaveFileAndReloadScene() {
+    public void DeleteSaveFileAndReloadScene()
+    {
         DeleteSaveFile();
         SceneManager.LoadScene("Main");
     }
 
-    void DeleteSaveFile() {
+    void DeleteSaveFile()
+    {
         stageSaveManager.DeleteSaveFile(StageName);
     }
 
-    static bool ColorMatch(Color32 a, Color32 b) {
+    static bool ColorMatch(Color32 a, Color32 b)
+    {
         return a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a;
     }
 
-    Color32 GetPixel(Color32[] bitmap, int x, int y) {
+    Color32 GetPixel(Color32[] bitmap, int x, int y)
+    {
         return bitmap[x + y * texSize];
     }
 
-    void SetPixel(Color32[] bitmap, int x, int y, Color c) {
+    void SetPixel(Color32[] bitmap, int x, int y, Color c)
+    {
         bitmap[x + y * texSize] = c;
     }
 
-    void UpdateFillMinPoint(ref Vector2Int fillMinPoint, Vector2Int bitmapPoint) {
+    void UpdateFillMinPoint(ref Vector2Int fillMinPoint, Vector2Int bitmapPoint)
+    {
         // *** 주의 ***
         // min point 값은 플레이어가 입력한 좌표에서 Y축이 반전된 좌표계이다.
         var invertedBitmapPoint = BlackConvert.GetInvertedY(bitmapPoint, texSize);
         if (fillMinPoint.x > invertedBitmapPoint.x ||
-            (fillMinPoint.x == invertedBitmapPoint.x && fillMinPoint.y > invertedBitmapPoint.y)) {
+            (fillMinPoint.x == invertedBitmapPoint.x && fillMinPoint.y > invertedBitmapPoint.y))
+        {
             fillMinPoint.x = invertedBitmapPoint.x;
             fillMinPoint.y = invertedBitmapPoint.y;
         }
     }
 
     bool FloodFill(Color32[] bitmap, Vector2Int bitmapPoint, Color32 targetColor, uint replacementColorUint,
-        bool forceSolutionColor) {
+        bool forceSolutionColor)
+    {
         Queue<Vector2Int> q = new Queue<Vector2Int>();
         q.Enqueue(bitmapPoint);
         var fillMinPoint = new Vector2Int(texSize, texSize);
         ICollection<Vector2Int> pixelList = new List<Vector2Int>();
         var replacementColor = BlackConvert.GetColor(replacementColorUint);
-        while (q.Count > 0) {
+        while (q.Count > 0)
+        {
             var n = q.Dequeue();
             if (!ColorMatch(GetPixel(bitmap, n.x, n.y), targetColor))
                 continue;
             Vector2Int w = n, e = new Vector2Int(n.x + 1, n.y);
-            while ((w.x >= 0) && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor)) {
-                if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, w) == false) {
+            while ((w.x >= 0) && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor))
+            {
+                if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, w) == false)
+                {
                     // ERROR
                     return false;
                 }
@@ -157,8 +178,10 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
                 w.x--;
             }
 
-            while ((e.x <= texSize - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor)) {
-                if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, e) == false) {
+            while ((e.x <= texSize - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor))
+            {
+                if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, e) == false)
+                {
                     // ERROR
                     return false;
                 }
@@ -173,15 +196,19 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 
         ConDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded.");
         ConDebug.Log($"Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
-        
-        if (pixelList.Count > 0) {
+
+        if (pixelList.Count > 0)
+        {
             // 이 지점부터 fillMinPoint는 유효한 값을 가진다.
             var fillMinPointUint = BlackConvert.GetP(fillMinPoint);
 
             // 디버그 출력
-            if (Verbose) {
-                if (pixelList.Count <= 128) {
-                    foreach (var pixel in pixelList) {
+            if (Verbose)
+            {
+                if (pixelList.Count <= 128)
+                {
+                    foreach (var pixel in pixelList)
+                    {
                         ConDebug.Log($"Fill Pixel: {pixel.x}, {texSize - pixel.y - 1}");
                     }
                 }
@@ -190,18 +217,23 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
             Debug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
             var solutionColorUint = stageData.islandDataByMinPoint[fillMinPointUint].rgba;
             Debug.Log($"Solution Color (uint): {solutionColorUint} (0x{solutionColorUint:X8})");
-            if (forceSolutionColor || solutionColorUint == replacementColorUint) {
+            if (forceSolutionColor || solutionColorUint == replacementColorUint)
+            {
                 var solutionColor = BlackConvert.GetColor32(solutionColorUint);
                 Debug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
-                foreach (var pixel in pixelList) {
+                foreach (var pixel in pixelList)
+                {
                     SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
                 }
 
                 UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint);
                 return true;
-            } else {
+            }
+            else
+            {
                 // 틀리면 다시 흰색으로 칠해야 한다.
-                foreach (var pixel in pixelList) {
+                foreach (var pixel in pixelList)
+                {
                     SetPixel(bitmap, pixel.x, pixel.y, Color.white);
                 }
             }
@@ -210,14 +242,18 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         return false;
     }
 
-    void UpdatePaletteBySolutionColor(uint fillMinPointUint, uint solutionColorUint) {
+    void UpdatePaletteBySolutionColor(uint fillMinPointUint, uint solutionColorUint)
+    {
         islandLabelSpawner.DestroyLabelByMinPoint(fillMinPointUint);
 
         coloredMinPoints.Add(fillMinPointUint);
 
-        if (coloredIslandCountByColor.TryGetValue(solutionColorUint, out var coloredIslandCount)) {
+        if (coloredIslandCountByColor.TryGetValue(solutionColorUint, out var coloredIslandCount))
+        {
             coloredIslandCount++;
-        } else {
+        }
+        else
+        {
             coloredIslandCount = 1;
         }
 
@@ -226,13 +262,15 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     }
 
     bool SetPixelAndUpdateMinPoint(Color32[] bitmap, ref Vector2Int fillMinPoint,
-        ICollection<Vector2Int> pixelList, Color replacementColor, Vector2Int bitmapPoint) {
+        ICollection<Vector2Int> pixelList, Color replacementColor, Vector2Int bitmapPoint)
+    {
         // 일단 여기서 replacementColor로 변경 해 둬야 이 알고리즘이 작동한다.
         // 진짜 색깔로 칠하는 건 나중에 pixelList에 모아둔 값으로 제대로 한다.
         SetPixel(bitmap, bitmapPoint.x, bitmapPoint.y, replacementColor);
         pixelList.Add(bitmapPoint);
         //tex.SetPixel(bitmapPoint.x, bitmapPoint.y, replacementColor);
-        if (pixelList.Count > maxIslandPixelArea) {
+        if (pixelList.Count > maxIslandPixelArea)
+        {
             Debug.LogError(
                 $"CRITICAL LOGIC ERROR: TOO BIG ISLAND. Allowed pixel area is {maxIslandPixelArea}!!! FloodFill() aborted.");
             return false;
@@ -242,11 +280,14 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         return true;
     }
 
-    public void OnPointerDown(PointerEventData eventData) {
+    public void OnPointerDown(PointerEventData eventData)
+    {
     }
 
-    bool Fill(Vector2 localPoint) {
-        if (paletteButtonGroup.CurrentPaletteColor != Color.white) {
+    bool Fill(Vector2 localPoint)
+    {
+        if (paletteButtonGroup.CurrentPaletteColor != Color.white)
+        {
             var rect = rt.rect;
             var w = rect.width;
             var h = rect.height;
@@ -261,10 +302,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         return false;
     }
 
-    bool FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint) {
+    bool FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint)
+    {
         var bitmap = tex.GetPixels32();
         var result = FloodFill(bitmap, bitmapPoint, Color.white, paletteButtonGroup.CurrentPaletteColorUint, false);
-        if (result) {
+        if (result)
+        {
             tex.SetPixels32(bitmap);
             tex.Apply();
         }
@@ -272,17 +315,24 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         return result;
     }
 
-    public int[] CountWhiteAndBlackInBitmap() {
+    public int[] CountWhiteAndBlackInBitmap()
+    {
         var bitmap = tex.GetPixels32();
         var blackCount = 0;
         var whiteCount = 0;
         var otherCount = 0;
-        foreach (var b in bitmap) {
-            if (b == Color.white) {
+        foreach (var b in bitmap)
+        {
+            if (b == Color.white)
+            {
                 whiteCount++;
-            } else if (b == Color.black) {
+            }
+            else if (b == Color.black)
+            {
                 blackCount++;
-            } else {
+            }
+            else
+            {
                 otherCount++;
             }
         }
@@ -290,39 +340,49 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         return new[] {blackCount, whiteCount, otherCount};
     }
 
-    void LoadBatchFill(string stageName, HashSet<uint> inColoredMinPoints) {
+    void LoadBatchFill(string stageName, HashSet<uint> inColoredMinPoints)
+    {
         Debug.Log($"Starting batch fill of {inColoredMinPoints.Count} points");
 
         StageSaveManager.LoadWipPng(stageName, tex);
-        if (inColoredMinPoints.Count > 0) {
-            foreach (var minPoint in inColoredMinPoints) {
+        if (inColoredMinPoints.Count > 0)
+        {
+            foreach (var minPoint in inColoredMinPoints)
+            {
                 UpdatePaletteBySolutionColor(minPoint, stageData.islandDataByMinPoint[minPoint].rgba);
             }
         }
     }
 
-    IEnumerator HideFlicker() {
+    IEnumerator HideFlicker()
+    {
         yield return (new WaitForSeconds(0.0f));
         flickerImage.enabled = false;
     }
 
-    public void OnPointerUp(PointerEventData eventData) {
-        if (eventData.dragging == false) {
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (eventData.dragging == false)
+        {
             if (Verbose) ConDebug.Log($"World position 1 = {eventData.pointerCurrentRaycast.worldPosition}");
             transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
             if (Verbose) ConDebug.Log($"World position 2 = {eventData.pointerPressRaycast.worldPosition}");
 
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, eventData.position, Camera.main,
-                out Vector2 localPoint)) {
-                if (Fill(localPoint)) {
+                out Vector2 localPoint))
+            {
+                if (Fill(localPoint))
+                {
                     StartAnimateFillCoin(localPoint);
 
                     // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
-                    if (islandLabelSpawner.IsLabelByMinPointEmpty) {
+                    if (islandLabelSpawner.IsLabelByMinPointEmpty)
+                    {
                         finaleDirector.Play(finaleDirector.playableAsset);
                     }
                 }
-                else {
+                else
+                {
                     // 칠할 수 없는 경우에는 그에 대한 알림
                     flickerImage.enabled = true;
                     StartCoroutine("HideFlicker");
@@ -333,7 +393,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         }
     }
 
-    void StartAnimateFillCoin(Vector2 localPoint) {
+    void StartAnimateFillCoin(Vector2 localPoint)
+    {
         var animatedCoin = Instantiate(animatedCoinPrefab, transform).GetComponent<AnimatedCoin>();
         animatedCoin.Rt.anchoredPosition = localPoint;
         animatedCoin.TargetRt = coinIconRt;
@@ -344,17 +405,21 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
         gold++;
     }
 
-    void OnApplicationPause(bool pause) {
-        if (pause) {
+    void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
             WriteStageSaveData();
         }
     }
 
-    public void WriteStageSaveData() {
+    public void WriteStageSaveData()
+    {
         stageSaveManager.Save(StageName, coloredMinPoints, this);
     }
 
-    void OnApplicationQuit() {
+    void OnApplicationQuit()
+    {
         WriteStageSaveData();
     }
 
