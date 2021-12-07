@@ -5,12 +5,15 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace black_dev_tools {
     internal partial class FloodFill {
+        static readonly Rgba32 Black = Rgba32.ParseHex("000000ff");
+        static readonly Rgba32 White = Rgba32.ParseHex("ffffffff");
+        
         static bool ColorMatch(Rgba32 a, Rgba32 b) {
             return a == b;
         }
 
         static bool ColorIsNotBlack(Rgba32 a) {
-            return a != Rgba32.Black;
+            return a != Black;
         }
 
         static bool ColorIsNotAndNotBlack(Rgba32 a, Rgba32 thisColor) {
