@@ -1,19 +1,19 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class StageButtonGroup : MonoBehaviour
 {
     [SerializeField]
     GameObject stageButtonPrefab;
     
-    // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var stageAssetList = await Addressables.LoadAssetsAsync<StageMetadata>("Stage", null).Task;
+        foreach (var stageMetadata in stageAssetList)
+        {
+            var stageButton = Instantiate(stageButtonPrefab, transform).GetComponent<StageButton>();
+            stageButton.SetStageMetadata(stageMetadata);
+            stageButton.gameObject.name = stageMetadata.name;
+        }
     }
 }
