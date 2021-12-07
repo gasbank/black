@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using black_dev_tools;
 
 public class MaxSubRect {
     // Finds the maximum area under the  
@@ -115,7 +116,7 @@ public class MaxSubRect {
             // Update result if area with current  
             // row (as last row of rectangle) is more  
             var newResult = MaxHist(A[i], out beginIndex, out endIndex);
-            //Console.WriteLine($"result: {newResult} / {beginIndex} - {endIndex}");
+            //Logger.WriteLine($"result: {newResult} / {beginIndex} - {endIndex}");
             if (result < newResult) {
                 result = newResult;
 
@@ -145,8 +146,8 @@ public class MaxSubRect {
             new[] {1, 1, 1, 0},
         };
         var area = MaxRectangle(R, C, A, out var beginIndexR, out var endIndexR, out var beginIndexC, out var endIndexC);
-        Console.WriteLine($"Area of maximum rectangle is {area}");
-        Console.WriteLine($"Coordinates range is ({beginIndexR},{beginIndexC})-({endIndexR},{endIndexC})");
+        Logger.WriteLine($"Area of maximum rectangle is {area}");
+        Logger.WriteLine($"Coordinates range is ({beginIndexR},{beginIndexC})-({endIndexR},{endIndexC})");
     }
 
     static void AreEqual(int actual, int expected) {

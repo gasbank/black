@@ -131,7 +131,7 @@ namespace black_dev_tools {
 			RGBFillMode rgbMode) {
 
 			if (source.Height != destination.Height || source.Width != destination.Width) {
-				Console.Out.WriteLine("Source and destination textures must be the same size.");
+				Logger.WriteLine("Source and destination textures must be the same size.");
 				return;
 			}
 
