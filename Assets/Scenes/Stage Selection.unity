@@ -4886,6 +4886,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1078126517}
   - component: {fileID: 1078126518}
+  - component: {fileID: 1078126519}
   m_Layer: 5
   m_Name: Stage Button Group
   m_TagString: Untagged
@@ -4954,6 +4955,19 @@ MonoBehaviour:
   m_Spacing: {x: 20, y: 20}
   m_Constraint: 1
   m_ConstraintCount: 2
+--- !u!114 &1078126519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1078126516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7a5ba15700794600a0add90c6ff0c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageButtonPrefab: {fileID: 0}
 --- !u!1001 &1120767453
 PrefabInstance:
   m_ObjectHideFlags: 0
