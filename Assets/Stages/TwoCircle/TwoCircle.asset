@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b23da9edfa09124e9e96153e459fd51, type: 3}
   m_Name: TwoCircle
   m_EditorClassIdentifier: 
-  skipBlackMaterial: {fileID: 2100000, guid: 1e14ed46d95a64da692e48b123d29159, type: 2}
-  sdfMaterial: {fileID: 2100000, guid: 8aa247bd6b53146568248814b9a95c00, type: 2}
-  rawStageData: {fileID: 4900000, guid: 3f2a6af4d8fcc45429aa6cc393d40259, type: 3}
+  skipBlackMaterial: {fileID: 2100000, guid: 347a894b95cfc47328d660ebf7a87e6c, type: 2}
+  sdfMaterial: {fileID: 2100000, guid: 3ca143dd932654654a3664c4a7bd61b4, type: 2}
+  rawStageData: {fileID: 4900000, guid: b003bdd91cfd043c199850c3f9e03baa, type: 3}
   friendlyStageName: TwoCircle
