@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b23da9edfa09124e9e96153e459fd51, type: 3}
+  m_Name: TwoCircle
+  m_EditorClassIdentifier: 
+  skipBlackMaterial: {fileID: 2100000, guid: 1e14ed46d95a64da692e48b123d29159, type: 2}
+  sdfMaterial: {fileID: 2100000, guid: 8aa247bd6b53146568248814b9a95c00, type: 2}
+  rawStageData: {fileID: 4900000, guid: 3f2a6af4d8fcc45429aa6cc393d40259, type: 3}
+  friendlyStageName: TwoCircle
