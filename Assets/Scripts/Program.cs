@@ -34,7 +34,7 @@ namespace black_dev_tools
         }
     }
 
-    internal static class Program
+    public static class Program
     {
         static string outputPathReplaceFrom = "";
         static string outputPathReplaceTo = "";
