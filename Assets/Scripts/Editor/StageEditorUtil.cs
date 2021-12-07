@@ -27,12 +27,21 @@ internal static class StageEditorUtil
             return;
         }
 
-        if (!EditorUtility.DisplayDialog("Import New Stage",
-            "This takes 30-60 seconds to finish. Proceed?", "Proceed", "Cancel"))
+        var stageName = Path.GetFileNameWithoutExtension(assetPath);
+        var assetPathParent = Path.GetDirectoryName(assetPath);
+        if (string.IsNullOrEmpty(assetPathParent) || Path.GetFileNameWithoutExtension(assetPathParent) != stageName)
+        {
+            Debug.LogError(
+                $"PNG file name must match with its parent folder name. Consider creating a folder named '{stageName}' and move PNG file into it.");
+            return;
+        }
+
+        if (!EditorUtility.DisplayDialog($"Import New Stage: {stageName}",
+            "This takes about 30-60 seconds to finish. Proceed?", "Proceed", "Cancel"))
         {
             return;
         }
-        
+
         Program.Main(new[] {"dit", assetPath, "30"});
 
         AssetDatabase.Refresh();
@@ -44,7 +53,6 @@ internal static class StageEditorUtil
             return;
         }
 
-        var stageName = Path.GetFileNameWithoutExtension(assetPath);
         var rawStageDataPath = Path.Combine(assetDir, $"{stageName}.bytes");
         var rawStageData = AssetDatabase.LoadAssetAtPath<TextAsset>(rawStageDataPath);
         ImportStageFromRawStageData(rawStageData);
@@ -157,5 +165,7 @@ internal static class StageEditorUtil
         AssetDatabase.CreateAsset(stageMetadata, stageMetadataPath);
 
         Debug.Log($"{stageName} stage created.");
+        
+        AssetDatabase.ImportAsset(stageDir, ImportAssetOptions.ImportRecursive);
     }
 }
