@@ -19,5 +19,7 @@ public class StageImporter : MonoBehaviour
         {
             Program.Main(new[] {"dit", "/Users/gb/two-circle.png", "30"});
         }
+        
+        Debug.Log("Test");
     }
 }
