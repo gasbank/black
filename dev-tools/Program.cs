@@ -10,6 +10,9 @@ using SixLabors.ImageSharp.Processing.Processors.Quantization;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Numerics;
+#if UNITY_2020
+using Math = UnityEngine.Mathf;
+#endif
 
 namespace black_dev_tools {
     internal class IslandCountException : Exception {}
