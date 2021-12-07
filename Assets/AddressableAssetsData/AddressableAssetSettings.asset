@@ -82,6 +82,7 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - Stage
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 5e51e7d72bf3c4894aec852bb7cd3032, type: 2}
