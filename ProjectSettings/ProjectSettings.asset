@@ -686,8 +686,8 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: CONDITIONAL_DEBUG
-    7: SUSHI_DEBUG
+    1: CONDITIONAL_DEBUG;MESSAGE_PACK;NO_GPGS;BLACK_ADMIN
+    7: CONDITIONAL_DEBUG;MESSAGE_PACK
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -766,6 +766,7 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Game Performance: 1
     UNet: 1
   luminIcon:
     m_Name: 
@@ -780,11 +781,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 
+  cloudProjectId: 06c58011-5702-4afb-bfca-0fac06a1a6fe
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: "\uCEEC\uB7EC\uBBA4\uC9C0\uC5C4"
+  organizationId: pronetizen
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   virtualTexturingSupportEnabled: 0

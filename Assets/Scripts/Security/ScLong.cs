@@ -2,15 +2,12 @@
 using System;
 using System.ComponentModel;
 
-public class ScLongConverter : TypeConverter
-{
-    public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-    {
+public class ScLongConverter : TypeConverter {
+    public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) {
         return sourceType == typeof(string);
     }
 
-    public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-    {
+    public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) {
         var v = value as string;
         if (v.ToUpperInvariant().Contains("E+")) {
             var vd = double.Parse(v);
@@ -28,10 +25,9 @@ public class ScLongConverter : TypeConverter
 [TypeConverter(typeof(ScLongConverter))]
 [Serializable]
 [MessagePackObject]
-public struct ScLong : IFormattable
-{
+public struct ScLong : IFormattable, IEquatable<ScLong>, IComparable<ScLong> {
     // 10진수로는 8,432,152,544,025,910,249
-    [IgnoreMember] public static readonly long k = 0x2453922222283120;
+    [IgnoreMember] public static readonly long k = 0x7505061036921BE9;
     [Key(0)] public long value;
 
     public ScLong(long value) { this.value = value ^ k; }
@@ -72,14 +68,10 @@ public struct ScLong : IFormattable
     public static implicit operator string(ScLong x) { return ((long)x).ToString(); }
 
     // Override the Object.Equals(object o) method:
-    public override bool Equals(object o)
-    {
-        try
-        {
+    public override bool Equals(object o) {
+        try {
             return value == ((ScLong)o).value;
-        }
-        catch
-        {
+        } catch {
             return false;
         }
     }
@@ -101,4 +93,8 @@ public struct ScLong : IFormattable
     public string ToString(string format, IFormatProvider formatProvider) {
         return ToLong().ToString(format, formatProvider);
     }
+
+    // IEquatable<T>를 만들면 Dictionary에서 TryGetValue 등으로 쿼리할 때
+    // 가비지 생성을 생략할 수 있다. 굳...
+    public bool Equals(ScLong other) => value == other.value;
 }
