@@ -15,4 +15,5 @@ MonoBehaviour:
   skipBlackMaterial: {fileID: 2100000, guid: df310db9e9be84f81a344f682e2c729b, type: 2}
   sdfMaterial: {fileID: 2100000, guid: 7901395cc50c345ea9aebb03d5a1045c, type: 2}
   rawStageData: {fileID: 4900000, guid: d39ea0e89054a448b87ca384e0e161da, type: 3}
+  starCount: 0
   friendlyStageName: TestStage1
