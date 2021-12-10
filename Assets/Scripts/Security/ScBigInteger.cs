@@ -1,79 +1,69 @@
 ﻿using MessagePack;
 using System;
 using System.ComponentModel;
-using BigInteger = System.Numerics.BigInteger;
 
-public class ScBigIntegerConverter : TypeConverter
-{
-    public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-    {
+public class ScBigIntegerConverter : TypeConverter {
+    public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) {
         return sourceType == typeof(string);
     }
 
-    public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-    {
-        return (ScBigInteger)BigInteger.Parse(value as string);
+    public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) {
+        return (ScBigInteger)System.Numerics.BigInteger.Parse(value as string ?? throw new InvalidCastException());
     }
 }
 
 [TypeConverter(typeof(ScBigIntegerConverter))]
 [Serializable]
 [MessagePackObject]
-public struct ScBigInteger
-{
-    // 10진수로는 8,432,152,544,025,910,249
-    [IgnoreMember] public static readonly BigInteger k = 0x2384502349810203;
-    [Key(0)] public BigInteger value;
+public struct ScBigInteger {
+    [IgnoreMember] public static readonly System.Numerics.BigInteger k = 0x12344321ABCDDCBA;
+    [Key(0)] public System.Numerics.BigInteger value;
 
-    public ScBigInteger(BigInteger value) { this.value = value ^ k; }
-    public ScBigInteger(string value) { this.value = BigInteger.Parse(value) ^ k; }
+    public ScBigInteger(System.Numerics.BigInteger value) { this.value = value ^ k; }
+    public ScBigInteger(string value) { this.value = System.Numerics.BigInteger.Parse(value) ^ k; }
 
     // Implicit conversion from BigInteger to ScBigInteger.
-    public static implicit operator ScBigInteger(BigInteger x) { return new ScBigInteger(x); }
+    public static implicit operator ScBigInteger(System.Numerics.BigInteger x) { return new ScBigInteger(x); }
     // Implicit conversion from long to ScBigInteger.
     public static implicit operator ScBigInteger(long x) { return new ScBigInteger(x); }
 
     // Explicit conversion from ScBigInteger to BigInteger.
-    public static implicit operator BigInteger(ScBigInteger x) { return x.value ^ k; }
+    public static implicit operator System.Numerics.BigInteger(ScBigInteger x) { return x.value ^ k; }
 
-    public static ScBigInteger operator ++(ScBigInteger x) { x.value = ((ScBigInteger)((BigInteger)x + 1)).value; return x; }
+    public static ScBigInteger operator ++(ScBigInteger x) { x.value = ((ScBigInteger)((System.Numerics.BigInteger)x + 1)).value; return x; }
 
-    public static ScBigInteger operator --(ScBigInteger x) { x.value = ((ScBigInteger)((BigInteger)x - 1)).value; return x; }
+    public static ScBigInteger operator --(ScBigInteger x) { x.value = ((ScBigInteger)((System.Numerics.BigInteger)x - 1)).value; return x; }
 
     public static bool operator ==(ScBigInteger x, ScBigInteger y) { return x.value == y.value; }
 
-    public static ScBigInteger operator +(ScBigInteger x, ScBigInteger y) { return ((BigInteger)x + (BigInteger)y); }
+    public static ScBigInteger operator +(ScBigInteger x, ScBigInteger y) { return ((System.Numerics.BigInteger)x + (System.Numerics.BigInteger)y); }
 
-    public static ScBigInteger operator -(ScBigInteger x, ScBigInteger y) { return ((BigInteger)x - (BigInteger)y); }
+    public static ScBigInteger operator -(ScBigInteger x, ScBigInteger y) { return ((System.Numerics.BigInteger)x - (System.Numerics.BigInteger)y); }
 
-    public static ScBigInteger operator *(ScBigInteger x, ScBigInteger y) { return ((BigInteger)x * (BigInteger)y); }
+    public static ScBigInteger operator *(ScBigInteger x, ScBigInteger y) { return ((System.Numerics.BigInteger)x * (System.Numerics.BigInteger)y); }
 
-    public static ScBigInteger operator /(ScBigInteger x, ScBigInteger y) { return ((BigInteger)x / (BigInteger)y); }
+    public static ScBigInteger operator /(ScBigInteger x, ScBigInteger y) { return ((System.Numerics.BigInteger)x / (System.Numerics.BigInteger)y); }
 
-    public static ScBigInteger operator %(ScBigInteger x, ScBigInteger y) { return ((BigInteger)x % (BigInteger)y); }
+    public static ScBigInteger operator %(ScBigInteger x, ScBigInteger y) { return ((System.Numerics.BigInteger)x % (System.Numerics.BigInteger)y); }
 
     public static bool operator !=(ScBigInteger x, ScBigInteger y) { return x.value != y.value; }
 
-    public static bool operator <=(ScBigInteger x, ScBigInteger y) { return ((BigInteger)x <= (BigInteger)y); }
+    public static bool operator <=(ScBigInteger x, ScBigInteger y) { return ((System.Numerics.BigInteger)x <= (System.Numerics.BigInteger)y); }
 
-    public static bool operator >=(ScBigInteger x, ScBigInteger y) { return ((BigInteger)x >= (BigInteger)y); }
+    public static bool operator >=(ScBigInteger x, ScBigInteger y) { return ((System.Numerics.BigInteger)x >= (System.Numerics.BigInteger)y); }
 
-    public static bool operator <(ScBigInteger x, ScBigInteger y) { return ((BigInteger)x < (BigInteger)y); }
+    public static bool operator <(ScBigInteger x, ScBigInteger y) { return ((System.Numerics.BigInteger)x < (System.Numerics.BigInteger)y); }
 
-    public static bool operator >(ScBigInteger x, ScBigInteger y) { return ((BigInteger)x > (BigInteger)y); }
+    public static bool operator >(ScBigInteger x, ScBigInteger y) { return ((System.Numerics.BigInteger)x > (System.Numerics.BigInteger)y); }
 
     // Overload the conversion from ScBigInteger to string:
-    public static implicit operator string(ScBigInteger x) { return ((BigInteger)x).ToString(); }
+    public static implicit operator string(ScBigInteger x) { return ((System.Numerics.BigInteger)x).ToString(); }
 
     // Override the Object.Equals(object o) method:
-    public override bool Equals(object o)
-    {
-        try
-        {
+    public override bool Equals(object o) {
+        try {
             return value == ((ScBigInteger)o).value;
-        }
-        catch
-        {
+        } catch {
             return false;
         }
     }
@@ -84,8 +74,10 @@ public struct ScBigInteger
     // Override the ToString method to convert DBBool to a string:
     public override string ToString() { return this; }
 
-    public BigInteger ToBigInteger() { return this; }
+    public System.Numerics.BigInteger ToBigInteger() { return this; }
+
+    public Dirichlet.Numerics.UInt128 ToUInt128() { return UInt128BigInteger.FromBigInteger(ToBigInteger()); }
 
     // Make ScBigInteger as OrderBy-able using LINQ
-    public int CompareTo(ScBigInteger other) { return ((BigInteger)this).CompareTo(other); }
+    public int CompareTo(ScBigInteger other) { return ((System.Numerics.BigInteger)this).CompareTo(other); }
 }

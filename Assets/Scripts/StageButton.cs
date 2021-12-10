@@ -6,7 +6,9 @@ public class StageButton : MonoBehaviour
 {
     public static StageMetadata CurrentStageMetadata { get; private set; }
 
-    //[SerializeField] Image stageImage = null;
+    [SerializeField]
+    bool updateOnStart;
+
     [SerializeField]
     StageMetadata stageMetadata;
 
@@ -15,6 +17,9 @@ public class StageButton : MonoBehaviour
 
     [SerializeField]
     Image image;
+
+    [SerializeField]
+    StageStar stageStar;
 
     static readonly int ColorTexture = Shader.PropertyToID("ColorTexture");
 
@@ -34,8 +39,22 @@ public class StageButton : MonoBehaviour
     }
 #endif
 
+    void Start()
+    {
+        if (updateOnStart)
+        {
+            UpdateButtonImage();
+        }
+    }
+
     void UpdateButtonImage()
     {
+        if (stageMetadata == null)
+        {
+            Debug.LogError("Stage Metadata is null");
+            return;
+        }
+        
         var wipTex2D = new Texture2D(512, 512, TextureFormat.RGB24, true, true);
         if (StageSaveManager.LoadWipPng(stageMetadata.name, wipTex2D))
         {
@@ -46,7 +65,20 @@ public class StageButton : MonoBehaviour
         else
         {
             var blankTex2D = stageMetadata.SkipBlackMaterial.GetTexture(ColorTexture) as Texture2D;
-            image.sprite = Sprite.Create(blankTex2D, new Rect(0, 0, blankTex2D.width, blankTex2D.height), Vector2.one / 2);
+            if (blankTex2D != null)
+            {
+                image.sprite = Sprite.Create(blankTex2D, new Rect(0, 0, blankTex2D.width, blankTex2D.height),
+                    Vector2.one / 2);
+            }
+            else
+            {
+                Debug.LogError("Skip Black Material's Color Texture is null");
+            }
+        }
+
+        if (stageStar != null)
+        {
+            stageStar.StarCount = stageMetadata.StarCount;
         }
     }
 

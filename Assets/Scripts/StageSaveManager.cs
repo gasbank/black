@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using ConditionalDebug;
+using MessagePack;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,15 +13,6 @@ public class StageSaveManager : MonoBehaviour {
     static readonly string GameName = "game";
 
     static void InitializeMessagePackConditional() {
-        if (MessagePack.MessagePackSerializer.IsInitialized == false) {
-            // 두 번 호출하면 오류난다.
-            MessagePack.Resolvers.CompositeResolver.RegisterAndSetAsDefault(
-                MessagePack.Resolvers.GeneratedResolver.Instance,
-                //MessagePack.Resolvers.DynamicGenericResolver.Instance,
-                //MessagePack.Unity.UnityResolver.Instance,
-                MessagePack.Resolvers.BuiltinResolver.Instance
-            );
-        }
     }
 
     public void Save(string stageName, HashSet<uint> coloredMinPoints, GridWorld gridWorld) {
@@ -40,13 +32,13 @@ public class StageSaveManager : MonoBehaviour {
     void SaveStageData(string stageName, HashSet<uint> coloredMinPoints) {
         ConDebug.Log($"Saving save data for '{stageName}'...");
         InitializeMessagePackConditional();
-        FileUtil.SaveAtomically(GetStageSaveFileName(stageName), MessagePack.LZ4MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints)));
+        FileUtil.SaveAtomically(GetStageSaveFileName(stageName), MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints), Data.DefaultOptions));
     }
 
     void SaveGameData(GridWorld gridWorld) {
         ConDebug.Log($"Saving game data...");
         InitializeMessagePackConditional();
-        FileUtil.SaveAtomically(GameName, MessagePack.LZ4MessagePackSerializer.Serialize(CreateGameSaveData(gridWorld)));
+        FileUtil.SaveAtomically(GameName, MessagePackSerializer.Serialize(CreateGameSaveData(gridWorld), Data.DefaultOptions));
     }
 
     public void DeleteSaveFile(string stageName) {
@@ -65,7 +57,7 @@ public class StageSaveManager : MonoBehaviour {
             InitializeMessagePackConditional();
             var bytes = File.ReadAllBytes(FileUtil.GetPath(GetStageSaveFileName(stageName)));
             ConDebug.Log($"{bytes.Length} bytes loaded.");
-            var stageSaveData = MessagePack.LZ4MessagePackSerializer.Deserialize<StageSaveData>(bytes);
+            var stageSaveData = MessagePackSerializer.Deserialize<StageSaveData>(bytes, Data.DefaultOptions);
             targetImage.transform.localPosition = new Vector3(stageSaveData.targetImageCenterX, stageSaveData.targetImageCenterY, targetImage.transform.localPosition.z);
             pinchZoom.ZoomValue = stageSaveData.zoomValue;
             return stageSaveData;

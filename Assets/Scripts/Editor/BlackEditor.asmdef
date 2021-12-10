@@ -1,0 +1,18 @@
+{
+    "name": "BlackEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b54dba3a2fa414c4fba13c7ac1d6f93a",
+        "GUID:69448af7b92c7f342b298e06a37122aa",
+        "GUID:bbde805d927e795439d7a746d1749cab"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

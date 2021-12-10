@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 
-public class StageMetadata : ScriptableObject {
+public class StageMetadata : ScriptableObject
+{
     [SerializeField]
     Material skipBlackMaterial;
 
@@ -10,6 +11,9 @@ public class StageMetadata : ScriptableObject {
 
     [SerializeField]
     TextAsset rawStageData;
+
+    [SerializeField]
+    int starCount;
 
     [SerializeField]
     string friendlyStageName = "Stage Name";
@@ -28,4 +32,5 @@ public class StageMetadata : ScriptableObject {
     public Material SdfMaterial => sdfMaterial;
     public TextAsset RawStageData => rawStageData;
     public string FriendlyStageName => friendlyStageName;
+    public int StarCount => starCount;
 }
