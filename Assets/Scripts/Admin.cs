@@ -12,7 +12,8 @@ using ConditionalDebug;
 using JetBrains.Annotations;
 
 [DisallowMultipleComponent]
-public class Admin : MonoBehaviour {
+public class Admin : MonoBehaviour
+{
     public static Admin instance;
 
     [SerializeField]
@@ -27,26 +28,31 @@ public class Admin : MonoBehaviour {
     [SerializeField]
     SaveLoadManager saveLoadManager;
 
-    void OnEnable() {
-        if (BlackSpawner.instance != null) {
+    void OnEnable()
+    {
+        if (BlackSpawner.instance != null)
+        {
             BlackSpawner.instance.CheatMode = true;
             BlackLogManager.Add(BlackLogEntry.Type.GameCheatEnabled, 0, 0);
         }
     }
 
-    public void DeleteSaveFileAndReloadScene() {
+    public void DeleteSaveFileAndReloadScene()
+    {
 #if BLACK_ADMIN
         SaveLoadManager.DeleteSaveFileAndReloadScene();
 #endif
     }
 
-    public void RiceToZero() {
+    public void RiceToZero()
+    {
 #if BLACK_ADMIN
         BlackSpawner.instance.SetRice(0);
 #endif
     }
 
-    public void GemToZero() {
+    public void GemToZero()
+    {
 #if BLACK_ADMIN
         BlackSpawner.instance.SetGemZero();
         BlackLogManager.Add(BlackLogEntry.Type.GemToZero, 0, 0);
@@ -55,13 +61,15 @@ public class Admin : MonoBehaviour {
 
     // long is not supported on Unity Inspector's On Click() setting UI
     [UsedImplicitly]
-    public void Rice(int amount) {
+    public void Rice(int amount)
+    {
 #if BLACK_ADMIN
         BlackSpawner.instance.AddRiceSafe((uint)amount);
 #endif
     }
 
-    public void ManyRice() {
+    public void ManyRice()
+    {
 #if BLACK_ADMIN
         BlackSpawner.instance.SetRice(UInt128.MaxValue);
         BlackLogManager.Add(BlackLogEntry.Type.RiceAddAdmin, 1, UInt128.MaxValue.ToClampedLong());
@@ -70,7 +78,8 @@ public class Admin : MonoBehaviour {
 
     // long is not supported on Unity Inspector's On Click() setting UI
     [UsedImplicitly]
-    public void Gem(int amount) {
+    public void Gem(int amount)
+    {
 #if BLACK_ADMIN
         BlackSpawner.instance.AddFreeGem((uint)amount);
         BlackLogManager.Add(BlackLogEntry.Type.GemAddAdmin, 2, amount);
@@ -78,7 +87,8 @@ public class Admin : MonoBehaviour {
     }
 
     [UsedImplicitly]
-    public void TestVibrate() {
+    public void TestVibrate()
+    {
 #if BLACK_ADMIN && (UNITY_ANDROID || UNITY_IOS)
         // VIBRATE 속성을 AndroidManifest.xml에 들어가게 하도록 하기 위해...
         // (노티피케이션에서 필요한 권한임)
@@ -86,26 +96,30 @@ public class Admin : MonoBehaviour {
 #endif
     }
 
-    public void EnableLogging(bool b) {
+    public void EnableLogging(bool b)
+    {
 #if BLACK_ADMIN
         Debug.unityLogger.logEnabled = b;
 #endif
     }
 
-    public void GoToBlackMakeContest() {
+    public void GoToBlackMakeContest()
+    {
 #if BLACK_ADMIN
         SceneManager.LoadScene("Contest");
 #endif
     }
 
     [UsedImplicitly]
-    public void GoToMain() {
+    public void GoToMain()
+    {
 #if BLACK_ADMIN
         Splash.LoadSplashScene();
 #endif
     }
 
-    public void BackToYesterday() {
+    public void BackToYesterday()
+    {
 #if BLACK_ADMIN
         BlackSpawner.instance.LastDailyRewardRedeemedTicks = 0;
         BlackSpawner.instance.UpdateDailyRewardAllButtonStates();
@@ -113,19 +127,22 @@ public class Admin : MonoBehaviour {
 #endif
     }
 
-    public void Fastforward() {
+    public void Fastforward()
+    {
 #if BLACK_ADMIN
         Time.timeScale = 100;
 #endif
     }
 
-    public void NormalTimeScale() {
+    public void NormalTimeScale()
+    {
 #if BLACK_ADMIN
         Time.timeScale = 1;
 #endif
     }
 
-    public void CorruptSaveFileAndLoadSplash() {
+    public void CorruptSaveFileAndLoadSplash()
+    {
 #if BLACK_ADMIN
         for (int i = 0; i < SaveLoadManager.maxSaveDataSlot; i++) {
             System.IO.File.WriteAllBytes(SaveLoadManager.SaveFileName,
@@ -137,25 +154,29 @@ public class Admin : MonoBehaviour {
 #endif
     }
 
-    public void OpenMergeBlackShow() {
+    public void OpenMergeBlackShow()
+    {
 #if BLACK_ADMIN
         GameObject.Find("Canvas (Whac-A-Cat)").transform.Find("Merge Black Show").gameObject.SetActive(true);
         CloseAdminMenu();
 #endif
     }
 
-    public void ShowSavedGameSelectUI() {
+    public void ShowSavedGameSelectUI()
+    {
         // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
         GameObject.Find("Platform After Login").GetComponent<PlatformAfterLogin>().ShowSavedGameSelectUI();
     }
 
-    public void SpawnTest() {
+    public void SpawnTest()
+    {
 #if BLACK_ADMIN
         ExecuteEvents.Execute(spawnButton, new PointerEventData(eventSystem), ExecuteEvents.pointerClickHandler);
 #endif
     }
 
-    public void StartTest() {
+    public void StartTest()
+    {
 #if BLACK_ADMIN
         CloseAdminMenu();
 
@@ -177,7 +198,8 @@ public class Admin : MonoBehaviour {
 #endif
     }
 
-    public void LoadFromUserSaveCode(string domain) {
+    public void LoadFromUserSaveCode(string domain)
+    {
 #if BLACK_ADMIN
         if (Application.isEditor) {
             ConfirmPopup.instance.OpenInputFieldPopup($"Firestore Save Document Code (Domain:{domain})", () => {
@@ -194,7 +216,8 @@ public class Admin : MonoBehaviour {
 #endif
     }
 
-    public void ChangeLanguage() {
+    public void ChangeLanguage()
+    {
 #if BLACK_ADMIN
         //한국어 -> 일본어 -> 중국어 (간체) -> 중국어 (번체) -> 한국어 ... (반복)
 
@@ -221,7 +244,8 @@ public class Admin : MonoBehaviour {
     }
 
     // 일단 메인 플레이가 되는 상황에서 유저가 저장 데이터를 개발팀에게 제출하고 싶은 경우 쓰는 메뉴
-    public async void ReportSaveData() {
+    public async void ReportSaveData()
+    {
         // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
         // 저장 한번 하고
         saveLoadManager.Save(BlackSpawner.instance, ConfigPopup.instance, Sound.instance, Data.instance);
@@ -230,45 +254,58 @@ public class Admin : MonoBehaviour {
             true);
     }
 
-    public async void ReportPlayLog() {
+    public async void ReportPlayLog()
+    {
         // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
-        try {
+        try
+        {
             // 저장 한번 하고
             saveLoadManager.Save(BlackSpawner.instance, ConfigPopup.instance, Sound.instance, Data.instance);
             // 제출 시작한다.
             var reasonPhrase = await BlackLogManager.DumpAndUploadPlayLog("\\플레이 로그 업로드 중...".Localized(), "", "", "");
-            if (string.IsNullOrEmpty(reasonPhrase)) {
+            if (string.IsNullOrEmpty(reasonPhrase))
+            {
                 var errorDeviceId = ErrorReporter.instance.GetOrCreateErrorDeviceId();
                 var msg = "\\플레이 로그 업로드가 성공적으로 완료됐습니다.\\n\\n업로드 코드: {0}".Localized(errorDeviceId);
                 ConfirmPopup.instance.Open(msg);
-            } else {
+            }
+            else
+            {
                 throw new Exception(reasonPhrase);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             var msg = "\\플레이 로그 업로드 중 오류가 발생했습니다.\\n\\n{0}".Localized(e.Message);
             Debug.LogException(e);
             ConfirmPopup.instance.Open(msg);
-        } finally {
+        }
+        finally
+        {
             ProgressMessage.instance.Close();
         }
     }
 
     [UsedImplicitly]
-    public void ResetTimeServerListQueryStartIndex() {
+    public void ResetTimeServerListQueryStartIndex()
+    {
         // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
         NetworkTime.ResetTimeServerListQueryStartIndex();
     }
 
-    public void SetNoticeDbPostfix() {
+    public void SetNoticeDbPostfix()
+    {
         // 유저가 쓰더라도 해가 없다. BLACK_ADMIN으로 감싸지 말것.
         SetNoticeDbPostfixToDev();
     }
 
-    public static void SetNoticeDbPostfixToDev() {
+    public static void SetNoticeDbPostfixToDev()
+    {
         ConfigPopup.noticeDbPostfix = "Dev";
     }
 
-    public void SetOnSavedGameOpenedAndWriteAlwaysInternalError() {
+    public void SetOnSavedGameOpenedAndWriteAlwaysInternalError()
+    {
 #if BLACK_ADMIN
         PlatformAndroid.OnSavedGameOpenedAndWriteAlwaysInternalError = true;
 #endif
@@ -276,17 +313,20 @@ public class Admin : MonoBehaviour {
 
     // 업적 진행 상황은 그대로 두고, 보상 수령 현황만 리셋해서
     // 다시 보상을 처음부터 모두 받을 수 있도록 한다.
-    public void ClearAchievementRedeemHistory() {
+    public void ClearAchievementRedeemHistory()
+    {
 #if BLACK_ADMIN
         BlackSpawner.instance.AchievementRedeemed = new AchievementRecord5(false);
 #endif
     }
 
-    void CloseAdminMenu() {
+    void CloseAdminMenu()
+    {
         gameObject.SetActive(false);
     }
 
-    public async void ShowDummyProgressMessage() {
+    public async void ShowDummyProgressMessage()
+    {
         CloseAdminMenu();
         ShortMessage.instance.Show("5초 후 테스트용 Progress Message창이 열립니다.");
         await Task.Delay(TimeSpan.FromSeconds(5));
@@ -295,7 +335,8 @@ public class Admin : MonoBehaviour {
         ProgressMessage.instance.Close();
     }
 
-    public void GetAllDailyRewardsAtOnceAdminToDay() {
+    public void GetAllDailyRewardsAtOnceAdminToDay()
+    {
 #if BLACK_ADMIN
         ConfirmPopup.instance.OpenInputFieldPopup(
             $"Redeem Daily Rewards To Day ({BlackSpawner.instance.LastDailyRewardRedeemedIndex} ~ {Data.dataSet.DailyRewardData.Count})",
@@ -310,20 +351,23 @@ public class Admin : MonoBehaviour {
 #endif
     }
 
-    public void RefillAllMahjongCoins() {
+    public void RefillAllMahjongCoins()
+    {
 #if BLACK_ADMIN
         BlackSpawner.instance.MahjongCoinAmount = 5;
 #endif
     }
 
-    public void ToggleMahjongSlowMode() {
+    public void ToggleMahjongSlowMode()
+    {
 #if BLACK_ADMIN
         BlackSpawner.instance.MahjongSlowMode = !BlackSpawner.instance.MahjongSlowMode;
         ShortMessage.instance.Show($"MahjongSlowMode to {BlackSpawner.instance.MahjongSlowMode}");
 #endif
     }
 
-    public void CalculateRiceRate() {
+    public void CalculateRiceRate()
+    {
 #if BLACK_ADMIN
         ConfirmPopup.instance.OpenInputFieldPopup("Rice Rate", () => {
             PrintRiceRate(ConfirmPopup.instance.InputFieldText);
@@ -354,10 +398,21 @@ public class Admin : MonoBehaviour {
     }
 #endif
 
-    public void ToggleNoAdsCode() {
+    public void ToggleNoAdsCode()
+    {
 #if BLACK_ADMIN
         BlackSpawner.instance.NoAdsCode = BlackSpawner.instance.NoAdsCode == 0 ? 19850506 : 0;
         ShortMessage.instance.Show($"No Ads Code set to {BlackSpawner.instance.NoAdsCode}");
 #endif
     }
+
+#if BLACK_ADMIN
+    void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.F5))
+        {
+            ScreenCapture.CaptureScreenshot("Test");    
+        }
+    }
+#endif
 }
