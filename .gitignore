@@ -599,6 +599,7 @@ FodyWeavers.xsd
 /key
 
 google-services.xml
+google-services.xml.meta
 google-services*.json
 google-services*.json.meta
 GoogleService-Info.plist
