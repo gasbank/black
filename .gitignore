@@ -2,6 +2,7 @@
 Assets/AssetStoreTools*
 
 /Assets/Firebase/Plugins/x86_64/
+/Assets/Firebase/Plugins/x86_64.meta
 
 google-services.json
 GoogleService-Info.plist
