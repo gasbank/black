@@ -8,6 +8,9 @@
             url "https://maven.google.com"
         }
         maven {
+            url (unityProjectPath + "/Assets/GeneratedLocalRepo/Firebase/m2repository") // Assets/Firebase/Editor/AppDependencies.xml:22, Assets/Firebase/Editor/MessagingDependencies.xml:22
+        }
+        maven {
             url "https://repo.maven.apache.org/maven2/" // Assets/GoogleMobileAds/Editor/FacebookMediationDependencies.xml:8
         }
         maven {
@@ -44,6 +47,13 @@ dependencies {
     implementation 'com.facebook.android:facebook-share:[11.0, 12)' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:8
     implementation 'com.google.ads.mediation:facebook:6.5.1.1' // Assets/GoogleMobileAds/Editor/FacebookMediationDependencies.xml:8
     implementation 'com.google.android.gms:play-services-ads:20.2.0' // Assets/GoogleMobileAds/Editor/GoogleMobileAdsDependencies.xml:7
+    implementation 'com.google.android.gms:play-services-base:17.6.0' // Assets/Firebase/Editor/AppDependencies.xml:17
+    implementation 'com.google.firebase:firebase-analytics:19.0.0' // Assets/Firebase/Editor/MessagingDependencies.xml:15
+    implementation 'com.google.firebase:firebase-app-unity:8.3.0' // Assets/Firebase/Editor/AppDependencies.xml:22
+    implementation 'com.google.firebase:firebase-common:20.0.0' // Assets/Firebase/Editor/AppDependencies.xml:13
+    implementation 'com.google.firebase:firebase-iid:21.1.0' // Assets/Firebase/Editor/MessagingDependencies.xml:17
+    implementation 'com.google.firebase:firebase-messaging:22.0.0' // Assets/Firebase/Editor/MessagingDependencies.xml:13
+    implementation 'com.google.firebase:firebase-messaging-unity:8.3.0' // Assets/Firebase/Editor/MessagingDependencies.xml:22
     implementation 'com.google.games:gpgs-plugin-support:0.10.12' // Assets/GooglePlayGames/Editor/GooglePlayGamesPluginDependencies.xml:11
     implementation 'com.parse.bolts:bolts-android:1.4.0' // Assets/FacebookSDK/Plugins/Editor/Dependencies.xml:4
 // Android Resolver Dependencies End
