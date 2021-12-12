@@ -4,6 +4,8 @@ Assets/AssetStoreTools*
 /Assets/Firebase/Plugins/x86_64/
 /Assets/Firebase/Plugins/x86_64.meta
 
+/key
+
 google-services.json
 GoogleService-Info.plist
 
@@ -36,7 +38,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-popsongremix.keystore
+*.keystore
 /*.log
 s3/
 ios-build
