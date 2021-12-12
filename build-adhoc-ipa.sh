@@ -4,7 +4,10 @@
 
 cd build
 
+pod install
+
 xcodebuild \
+    -workspace Unity-iPhone.xcworkspace \
     -scheme Unity-iPhone \
     archive \
     -archivePath build \
