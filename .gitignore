@@ -1,6 +1,8 @@
 # origin ignore list
 Assets/AssetStoreTools*
 
+/Assets/Firebase/Plugins/x86_64/
+
 # Visual Studio cache directory
 .vs/
 
