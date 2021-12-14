@@ -36,7 +36,7 @@ public static class IosPostProcessBuild {
             pbxProject.AddCapability(target, PBXCapabilityType.GameCenter);
             pbxProject.AddCapability(target, PBXCapabilityType.InAppPurchase);
             // Facebook Audience Network에서 필요로 한다.
-            pbxProject.AddBuildProperty(target, "OTHER_LDFLAGS", "-lxml2 -ObjC");
+            pbxProject.AddBuildProperty(target, "OTHER_LDFLAGS", "-lxml2");
 
             pbxProject.AddFile(Path.Combine(Application.dataPath, "GoogleService-Info.plist"),
                 "GoogleService-Info.plist");
@@ -45,6 +45,11 @@ public static class IosPostProcessBuild {
             pbxProject.AddFileToBuild(target, googleServiceInfoPlistGuid);
 
             pbxProject.WriteToFile (projectPath);
+
+            // en.lproj의 InfoPlist.strings 파일과 겹쳐서 빌드 오류난다.
+            // 꼼수를...
+            File.WriteAllText($"{path}/Unity-iPhone Tests/en.lproj/InfoPlist.strings",
+                "\"CFBundleDisplayName\" = \"Color Museum\";");
 
             var plistPath = Path.Combine (path, "Info.plist");
             var plist = new PlistDocument ();
