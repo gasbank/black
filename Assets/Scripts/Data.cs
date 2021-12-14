@@ -12,7 +12,7 @@ public class Data : MonoBehaviour
     public static DataSet dataSet;
     
     // 업적(컨텐츠 상 퀘스트) 종류별로 정렬된 리스트 (데이터시트상에서 정렬되어 있어야 함)
-    public static Dictionary<ScString, List<AchievementData>> achievementOrderedGroup =
+    public static readonly Dictionary<ScString, List<AchievementData>> achievementOrderedGroup =
         new Dictionary<ScString, List<AchievementData>>();
 
     public static DataSet DeserializeDataSet(byte[] buffer, byte[] strBuffer)
@@ -31,15 +31,14 @@ public class Data : MonoBehaviour
         AssignSharedDataSetConditional();
     }
 
-    public static void AssignSharedDataSetConditional()
+    static void AssignSharedDataSetConditional()
     {
-        if (dataSet == null)
-        {
-            dataSet = LoadSharedDataSet();
-            Profiler.BeginSample("Prebuild Dependent DataSet");
-            PrebuildDependentDataSet(dataSet);
-            Profiler.EndSample();
-        }
+        if (dataSet != null) return;
+        
+        dataSet = LoadSharedDataSet();
+        Profiler.BeginSample("Prebuild Dependent DataSet");
+        PrebuildDependentDataSet(dataSet);
+        Profiler.EndSample();
     }
 
     static void PrebuildDependentDataSet(DataSet dataSet1)
