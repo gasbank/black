@@ -3123,7 +3123,7 @@ MonoBehaviour:
   targetImage: {fileID: 1643267989}
   targetImageOutline: {fileID: 589030467}
   pinchZoom: {fileID: 519181981}
-  stageMetadata: {fileID: 11400000, guid: f194f547f137440e4850ce4921e474db, type: 2}
+  stageMetadata: {fileID: 11400000, guid: b52f25a23746c4b25813eaf26c662ad3, type: 2}
   nameplateGroup: {fileID: 2090910701}
 --- !u!4 &1037197465
 Transform:
