@@ -48,16 +48,30 @@ public class Data : MonoBehaviour
     public static DataSet LoadSharedDataSet()
     {
         RegisterAllResolversOnce();
+        
         Profiler.BeginSample("Load Black-MsgPack");
         var blackMsgPackBytes = Resources.Load("Data/Black-MsgPack") as TextAsset;
         Profiler.EndSample();
+        if (blackMsgPackBytes == null)
+        {
+            Debug.LogError("Black-MsgPack not found");
+            return null;
+        }
+        
         Profiler.BeginSample("Load BlackStr-MsgPack");
         var blackStrMsgPackBytes = Resources.Load("Data/BlackStr-MsgPack") as TextAsset;
         Profiler.EndSample();
+        if (blackStrMsgPackBytes == null)
+        {
+            Debug.LogError("BlackStr-MsgPack not found");
+            return null;
+        }
+        
         Profiler.BeginSample("Deserialize DataSet");
-        var dataSet = DeserializeDataSet(blackMsgPackBytes.bytes, blackStrMsgPackBytes.bytes);
+        var newDataSet = DeserializeDataSet(blackMsgPackBytes.bytes, blackStrMsgPackBytes.bytes);
         Profiler.EndSample();
-        return dataSet;
+        
+        return newDataSet;
     }
 
     public static void RegisterAllResolversOnce()
