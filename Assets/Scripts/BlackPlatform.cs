@@ -73,8 +73,8 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     }
 
     public static PlatformNotificationRequest GetPlatformNotificationRequest() {
-        if (BlackSpawner.instance == null) {
-            Debug.LogError($"RegisterAllRepeatingNotifications(): {nameof(BlackSpawner)}.{nameof(BlackSpawner.instance)} is null. Abort.");
+        if (BlackContext.instance == null) {
+            Debug.LogError($"RegisterAllRepeatingNotifications(): {nameof(BlackContext)}.{nameof(BlackContext.instance)} is null. Abort.");
             return null;
         }
 
@@ -83,16 +83,16 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
             return null;
         }
 
-        if (BlackSpawner.instance.LastDailyRewardRedeemedIndex < Data.dataSet.DailyRewardData.Count) {
-            var data = Data.dataSet.DailyRewardData[(int)BlackSpawner.instance.LastDailyRewardRedeemedIndex.ToLong()];
-            var title = "\\{0}일차 이벤트".Localized(BlackSpawner.instance.LastDailyRewardRedeemedIndex + 1);
+        if (BlackContext.instance.LastDailyRewardRedeemedIndex < Data.dataSet.DailyRewardData.Count) {
+            var data = Data.dataSet.DailyRewardData[(int)BlackContext.instance.LastDailyRewardRedeemedIndex.ToLong()];
+            var title = "\\{0}일차 이벤트".Localized(BlackContext.instance.LastDailyRewardRedeemedIndex + 1);
             // iOS는 이모지 지원이 된다!
             if (Application.platform == RuntimePlatform.IPhonePlayer) {
                 title = $"{title}";
             }
 
             var desc = data.notificationDesc.Localized(data.amount.ToInt());
-            var largeIconIndex = Mathf.Max(0, BlackSpawner.instance.MahjongLastClearedStageId - 1);
+            var largeIconIndex = Mathf.Max(0, BlackContext.instance.MahjongLastClearedStageId - 1);
 
             var currentDate = DateTime.Now;
             var localZone = TimeZoneInfo.Local;
@@ -149,7 +149,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     }
 
     public void SaveBeforeCloudSave() {
-        saveLoadManager.Save(BlackSpawner.instance, ConfigPopup.instance, Sound.instance, Data.instance);
+        saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
     }
 
     public RemoteSaveDictionary DeserializeSaveData(byte[] bytes) {
@@ -234,7 +234,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     }
 
     public TimeSpan GetPlayed() =>
-        TimeSpan.FromSeconds(BlackSpawner.instance
+        TimeSpan.FromSeconds(BlackContext.instance
             .PlayTimeSec); // System.TimeSpan.Zero;//NetworkTime.GetNetworkTime() - NetworkTime.BaseDateTime;
 
     public string GetDesc(byte[] bytes) {

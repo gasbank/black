@@ -1,7 +1,7 @@
 1 sheet(s) availble.
 Sheet: 'Sheet1' (column count: 2)
 [StageSequenceData],,
-id,name,
+seq,stageName,
 1,Yellow Room,
 2,Apple,
 3,Ear,

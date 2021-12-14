@@ -12,4 +12,12 @@ public class DataSet
     public Dictionary<ScString, StrBaseData> StrJaData; // 일본어
     public Dictionary<ScString, StrBaseData> StrEnData; // 영어
     public List<DailyRewardData> DailyRewardData;
+
+    // 이하는 실행 시 생성되는 데이터
+
+    [IgnoreMember]
+    public List<StageMetadata> StageMetadataList;
+
+    [IgnoreMember]
+    public Dictionary<string, StageMetadata> StageMetadataDict;
 }

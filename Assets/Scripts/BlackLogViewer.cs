@@ -46,7 +46,7 @@ public class BlackLogViewer : MonoBehaviour
     {
         logSource = BlackLogManager.instance;
         UpdateToPage(0);
-        loadRemoteLogButton.SetActive(BlackSpawner.instance.CheatMode);
+        loadRemoteLogButton.SetActive(BlackContext.instance.CheatMode);
     }
 
     void UpdateToPage(int page)

@@ -1019,7 +1019,7 @@ namespace MessagePack.Formatters
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(2);
             writer.Write(value.seq);
-            writer.Write(value.stageName);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.stageName, options);
         }
 
         public global::StageSequenceData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -1033,7 +1033,7 @@ namespace MessagePack.Formatters
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __seq__ = default(int);
-            var __stageName__ = default(int);
+            var __stageName__ = default(string);
 
             for (int i = 0; i < length; i++)
             {
@@ -1045,7 +1045,7 @@ namespace MessagePack.Formatters
                         __seq__ = reader.ReadInt32();
                         break;
                     case 1:
-                        __stageName__ = reader.ReadInt32();
+                        __stageName__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();

@@ -93,7 +93,7 @@ public class Sound : MonoBehaviour {
         if (Verbose) ConDebug.Log(nameof(PlayButtonClick));
         
         // 게임 처음 로딩 중에 들어오는 건 재생하지 말자
-        if (BlackSpawner.instance != null && BlackSpawner.instance.LoadedAtLeastOnce == false) return;
+        if (BlackContext.instance != null && BlackContext.instance.LoadedAtLeastOnce == false) return;
         
         if (SfxAudioSourceActive) { instance.sfxAudioSource.PlayOneShot(instance.buttonClick); }
     }

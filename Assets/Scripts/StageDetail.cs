@@ -12,6 +12,9 @@ public class StageDetail : MonoBehaviour
     public void OpenPopup()
     {
         subcanvas.Open();
+
+        //SaveLoadManager.instance
+        //Data.dataSet
         
         //stageButton.SetStageMetadata();
     }

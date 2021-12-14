@@ -75,7 +75,7 @@ public class ConfigPopup : MonoBehaviour
     [FormerlySerializedAs("VibrationGroup")]
     GameObject vibrationGroup; //진동 옵션 그룹
 
-    [SerializeField, AutoBind]
+    [SerializeField]
     GameObject communityConfigTabNewImage;
 
     public bool IsNotchOn
@@ -114,7 +114,7 @@ public class ConfigPopup : MonoBehaviour
         get
         {
             return
-                $"{BlackSpawner.instance.UserPseudoId / 1000000:D3}-{(BlackSpawner.instance.UserPseudoId / 1000) % 1000:D3}-{BlackSpawner.instance.UserPseudoId % 1000:D3}";
+                $"{BlackContext.instance.UserPseudoId / 1000000:D3}-{(BlackContext.instance.UserPseudoId / 1000) % 1000:D3}-{BlackContext.instance.UserPseudoId % 1000:D3}";
         }
     }
 
@@ -135,7 +135,7 @@ public class ConfigPopup : MonoBehaviour
     GameObject noticeButtonNewImage;
 
     static bool EtcGroupVisible =>
-        Application.systemLanguage == SystemLanguage.Korean || BlackSpawner.instance.CheatMode;
+        Application.systemLanguage == SystemLanguage.Korean || BlackContext.instance.CheatMode;
 
     [SerializeField]
     Subcanvas subcanvas;
@@ -153,7 +153,7 @@ public class ConfigPopup : MonoBehaviour
     {
         topAnimator = GetComponentInParent<Animator>();
 
-        if (BlackSpawner.instance.LoadedAtLeastOnce == false)
+        if (BlackContext.instance.LoadedAtLeastOnce == false)
         {
             // 고성능 모드 기본값은 OFF다. 저장 데이터 복원 이전에 호출되어 있어야 저장 데이터가 우선순위를 가진다.
             SetPerformanceMode(false);
@@ -174,9 +174,12 @@ public class ConfigPopup : MonoBehaviour
     {
         if (IsOpen)
         {
-            if (logoutButton.gameObject.activeSelf)
+            if (logoutButton != null)
             {
-                logoutButton.interactable = PlatformLogin.IsAuthenticated;
+                if (logoutButton.gameObject.activeSelf)
+                {
+                    logoutButton.interactable = PlatformLogin.IsAuthenticated;
+                }
             }
         }
     }
@@ -220,23 +223,30 @@ public class ConfigPopup : MonoBehaviour
 
             return
                 $"v{Application.version}#{appMetaInfo.buildNumber} {appMetaInfo.buildStartDateTime} [{platformVersionCode}]" +
-                (BlackSpawner.instance.CheatMode ? "/ADM" : "");
+                (BlackContext.instance.CheatMode ? "/ADM" : "");
         }
         else
         {
-            return $"v{Application.version} [{platformVersionCode}]" + (BlackSpawner.instance.CheatMode ? "/ADM" : "");
+            return $"v{Application.version} [{platformVersionCode}]" + (BlackContext.instance.CheatMode ? "/ADM" : "");
         }
     }
 
     public static string GetUserId()
     {
-        return $"ID: {ServiceId}-{BlackSpawner.instance.LastConsumedServiceIndex.ToInt():D3}";
+        return $"ID: {ServiceId}-{BlackContext.instance.LastConsumedServiceIndex.ToInt():D3}";
     }
 
     void UpdateServiceText()
     {
-        userPseudoIdText.text = GetUserId();
-        appMetaInfoText.text = GetAppMetaInfo();
+        if (userPseudoIdText != null)
+        {
+            userPseudoIdText.text = GetUserId();
+        }
+
+        if (appMetaInfoText != null)
+        {
+            appMetaInfoText.text = GetAppMetaInfo();
+        }
     }
 
     public void UpdateSoundToggleStates()
@@ -305,7 +315,7 @@ public class ConfigPopup : MonoBehaviour
                     var serviceIndexParsed = int.TryParse(service.Key, out int serviceIndex);
                     // 이미 받았거나 이상한 항목은 스킵
                     if (serviceIndexParsed == false
-                        || serviceIndex <= BlackSpawner.instance.LastConsumedServiceIndex)
+                        || serviceIndex <= BlackContext.instance.LastConsumedServiceIndex)
                     {
                         continue;
                     }
@@ -328,7 +338,7 @@ public class ConfigPopup : MonoBehaviour
 
                 if (serviceIndexList.Count > 0)
                 {
-                    BlackSpawner.instance.LastConsumedServiceIndex = serviceIndexList.Max();
+                    BlackContext.instance.LastConsumedServiceIndex = serviceIndexList.Max();
                 }
 
                 if (received.Count > 0)
@@ -463,7 +473,10 @@ public class ConfigPopup : MonoBehaviour
 
     public void EnableLanguage(BlackLanguageCode languageCode)
     {
-        languageDropdown.value = GetLanguageIndex(languageCode);
+        if (languageDropdown != null)
+        {
+            languageDropdown.value = GetLanguageIndex(languageCode);
+        }
     }
 
     // Dropdown 콜백으로만 호출되어야 한다.
@@ -471,8 +484,8 @@ public class ConfigPopup : MonoBehaviour
     public void OnLanguageValueChanged(int languageIndex)
     {
         ConDebug.Log($"Language selected: {languageIndex}");
-        BlackSpawner.instance.RefreshRiceText();
-        BlackSpawner.instance.RefreshGemText();
+        BlackContext.instance.RefreshRiceText();
+        BlackContext.instance.RefreshGemText();
         languageDropdown.RefreshShownValue();
         ChangeLanguage(gameObject.scene, languageDropdownValueArray[languageIndex]);
     }
@@ -495,6 +508,11 @@ public class ConfigPopup : MonoBehaviour
 
     static void UpdateLanguageDropdownText()
     {
+        if (instance.languageDropdown == null)
+        {
+            return;
+        }
+        
         if (instance != null)
         {
             var languageOptions = new List<string>
@@ -545,10 +563,10 @@ public class ConfigPopup : MonoBehaviour
                 fitter.enabled = true;
             }
 
-            if (BlackSpawner.instance != null)
+            if (BlackContext.instance != null)
             {
-                BlackSpawner.instance.RefreshRiceText();
-                BlackSpawner.instance.RefreshGemText();
+                BlackContext.instance.RefreshRiceText();
+                BlackContext.instance.RefreshGemText();
             }
         }
     }

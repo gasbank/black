@@ -264,7 +264,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
 
         try
         {
-            saveFile.fields.gemStr.stringValue = BlackSpawner.instance.Gem.ToString("n0");
+            saveFile.fields.gemStr.stringValue = BlackContext.instance.Gem.ToString("n0");
         }
         catch
         {

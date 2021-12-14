@@ -2,7 +2,7 @@
 using UnityEngine;
 using UInt128 = Dirichlet.Numerics.UInt128;
 
-public interface IBlackSpawner
+public interface IBlackContext
 {
     bool CheatMode { get; set; }
     bool WaiveBan { get; set; }

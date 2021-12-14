@@ -2,9 +2,9 @@
 using Dirichlet.Numerics;
 using UnityEngine;
 
-public class BlackSpawner : IBlackSpawner
+public class BlackContext : MonoBehaviour, IBlackContext
 {
-    public static IBlackSpawner instance;
+    public static IBlackContext instance;
     public bool CheatMode { get; set; }
     public bool WaiveBan { get; set; }
     public UInt128 Rice { get; }

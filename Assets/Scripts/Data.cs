@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using MessagePack;
 using MessagePack.Resolvers;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Profiling;
 
 [DisallowMultipleComponent]
@@ -26,23 +29,45 @@ public class Data : MonoBehaviour
         return ret;
     }
 
-    void Start()
+    async void Start()
     {
-        AssignSharedDataSetConditional();
+        await AssignSharedDataSetConditionalAsync();
     }
 
-    static void AssignSharedDataSetConditional()
+    static async Task AssignSharedDataSetConditionalAsync()
     {
-        if (dataSet != null) return;
+        // 에디터 환경에서는 개발 과정 중이므로 반복해서 실행한다.
+        if (Application.isEditor == false && dataSet != null)
+        {
+            return;
+        }
         
         dataSet = LoadSharedDataSet();
         Profiler.BeginSample("Prebuild Dependent DataSet");
-        PrebuildDependentDataSet(dataSet);
+        await PrebuildDependentDataSetAsync(dataSet);
         Profiler.EndSample();
     }
 
-    static void PrebuildDependentDataSet(DataSet dataSet1)
+    static async Task PrebuildDependentDataSetAsync(DataSet newDataSet)
     {
+        var stageAssetLocList = await Addressables.LoadResourceLocationsAsync("Stage", typeof(StageMetadata)).Task;
+        
+        newDataSet.StageMetadataDict = stageAssetLocList.ToDictionary(e => e.PrimaryKey, e => e.Data as StageMetadata);
+        newDataSet.StageMetadataList = new List<StageMetadata>();
+        
+        foreach (var seq in newDataSet.StageSequenceData)
+        {
+            if (newDataSet.StageMetadataDict.TryGetValue(seq.stageName, out var stageMetadata))
+            {
+                Debug.Log($"Stage: {seq.stageName}");
+                newDataSet.StageMetadataList.Add(stageMetadata);
+            }
+            else
+            {
+                Debug.LogError($"Stage metadata with name {seq.stageName} not found.");
+                newDataSet.StageMetadataList.Add(null);
+            }
+        }
     }
 
     public static DataSet LoadSharedDataSet()

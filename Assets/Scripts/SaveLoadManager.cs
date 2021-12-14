@@ -16,6 +16,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     public static SaveLoadManager instance;
 
     [SerializeField]
+    BlackContext blackContext;
+
+    [SerializeField]
     NetworkTime networkTime;
 
     // 총 maxSaveDataSlot개의 저장 슬롯이 있고, 이를 돌려가며 쓴다.
@@ -49,6 +52,12 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     }
 
     static byte[] lastSaveDataArray;
+
+    void Start()
+    {
+        // 저장 데이터 로드 *** 다른 모든 초기화 이전에 완료되어 있어야 하는 작업 ***
+        Load(blackContext);
+    }
 
     static string GetSaveLoadFilePathName(int saveDataSlot)
     {
@@ -139,13 +148,13 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         ResetSaveDataSlotAndWrite();
     }
 
-    public bool Save(IBlackSpawner spawner, ConfigPopup configPopup, Sound sound, Data data)
+    public bool Save(IBlackContext context, ConfigPopup configPopup, Sound sound, Data data)
     {
         // 에디터에서 간혹 게임 플레이 시작할 때 Load도 호출되기도 전에 Save가 먼저 호출되기도 한다.
         // (OnApplicationPause 통해서)
         // 실제 기기에서도 이럴 수 있나? 이러면 망인데...
         // 그래서 플래그를 하나 추가한다. 이 플래그는 로드가 제대로 한번 됐을 때 true로 변경된다.
-        if (spawner == null || spawner.LoadedAtLeastOnce == false)
+        if (context == null || context.LoadedAtLeastOnce == false)
         {
             Debug.LogWarning(
                 "****** Save() called before first Load(). There might be an error during Load(). Save() will be skipped to prevent losing your save data.");
@@ -234,7 +243,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         else return val;
     }
 
-    public static void Load(IBlackSpawner spawner)
+    public static void Load(IBlackContext context)
     {
         // 모든 세이브 슬롯에 대해 로드를 성공 할 때까지 시도한다.
         List<Exception> exceptionList = new List<Exception>();
@@ -243,7 +252,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         {
             try
             {
-                if (LoadInternal(spawner))
+                if (LoadInternal(context))
                 {
                     // 저장 파일 중 하나는 제대로 읽히긴 했다.
                     if (i != 0)
@@ -309,7 +318,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         {
             // 세이브 파일이 하나도 없다.
             // 신규 유저다~~~ 풍악을 울려라~~~~~
-            ProcessNewUser(spawner, exceptionList[0]);
+            ProcessNewUser(context, exceptionList[0]);
         }
         else if (exceptionList.Any(e => e.GetType() == typeof(NotSupportedBlackSaveDataVersionException)))
         {
@@ -342,7 +351,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     }
 
     [SuppressMessage("ReSharper", "StringLiteralTypo")]
-    static bool LoadInternal(IBlackSpawner spawner)
+    static bool LoadInternal(IBlackContext context)
     {
         var blackSaveData2 = LoadBlackSaveData2();
 
@@ -381,9 +390,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         // 치트 모드 판별 여부에 따라 아래 코드의 작동이 달라진다.
         // 최대한 먼저 하자.
-        // (예를 들어 spawner.LastDailyRewardRedeemedIndex 대입 시 리더보드 등록을 할 것인지 말 것인지 등)
-        spawner.CheatMode = blackSaveData2.cheatMode;
-        spawner.WaiveBan = blackSaveData2.waiveBan;
+        // (예를 들어 context.LastDailyRewardRedeemedIndex 대입 시 리더보드 등록을 할 것인지 말 것인지 등)
+        context.CheatMode = blackSaveData2.cheatMode;
+        context.WaiveBan = blackSaveData2.waiveBan;
 
         // 부정 이용자 검출되기라도 한다면 이 정보가 먼저 필요하므로 먼저 로드하자.
         if (blackSaveData2.userPseudoId <= 0)
@@ -391,14 +400,14 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             blackSaveData2.userPseudoId = NewUserPseudoId();
         }
 
-        spawner.UserPseudoId = blackSaveData2.userPseudoId;
-        spawner.LastConsumedServiceIndex = blackSaveData2.lastConsumedServiceIndex;
+        context.UserPseudoId = blackSaveData2.userPseudoId;
+        context.LastConsumedServiceIndex = blackSaveData2.lastConsumedServiceIndex;
 
         // 부정 이용 사용자 걸러낸다.
         // 다만, 부정 이용 사용자가 아닌데 걸러진 경우 개발팀 문의를 통해 풀 수 있다.
-        // 그렇게 풀린 유저는 spawner.waiveBan이 true를 해 주기로 한다.
+        // 그렇게 풀린 유저는 context.waiveBan이 true를 해 주기로 한다.
         // 그렇다면 이 루틴은 아예 작동하지 않는다.
-        if (spawner.WaiveBan == false)
+        if (context.WaiveBan == false)
         {
             if (blackSaveData2.purchasedProductDict != null)
             {
@@ -440,12 +449,12 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             }
         }
 
-        spawner.SetRice(blackSaveData2.riceScUInt128);
-        spawner.SetGemZero();
+        context.SetRice(blackSaveData2.riceScUInt128);
+        context.SetGemZero();
         try
         {
-            spawner.AddFreeGem(blackSaveData2.freeGemScUInt128);
-            spawner.AddPaidGem(blackSaveData2.paidGemScUInt128);
+            context.AddFreeGem(blackSaveData2.freeGemScUInt128);
+            context.AddPaidGem(blackSaveData2.paidGemScUInt128);
         }
         catch (OverflowException)
         {
@@ -457,34 +466,34 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             var freeGemCopy = blackSaveData2.freeGemScUInt128.ToUInt128();
             var paidGemCopy = blackSaveData2.paidGemScUInt128.ToUInt128();
             UInt128.AddAllowOverflow(out var newGem, ref freeGemCopy, ref paidGemCopy);
-            spawner.SetGemZero();
-            spawner.AddFreeGem(newGem);
+            context.SetGemZero();
+            context.AddFreeGem(newGem);
             Debug.LogWarning("Gem underflow bug fixed.");
         }
 
         // 보석 변화 애니메이션 되돌린다.
-        var gemBigInt = spawner.Gem;
+        var gemBigInt = context.Gem;
         BlackLogManager.Add(BlackLogEntry.Type.GemToLoaded, 0,
             gemBigInt < long.MaxValue ? (long) gemBigInt : long.MaxValue);
 
         // 슬롯 용량 변화 애니메이션 잠시 끈다.
 
-        spawner.SetPendingRice(blackSaveData2.pendingRiceScUInt128);
-        spawner.PendingFreeGem = blackSaveData2.pendingFreeGemScUInt128;
+        context.SetPendingRice(blackSaveData2.pendingRiceScUInt128);
+        context.PendingFreeGem = blackSaveData2.pendingFreeGemScUInt128;
 
 
-        spawner.StashedRewardJsonList = blackSaveData2.stashedRewardJsonList;
+        context.StashedRewardJsonList = blackSaveData2.stashedRewardJsonList;
 
-        spawner.LastDailyRewardRedeemedTicksList =
+        context.LastDailyRewardRedeemedTicksList =
             blackSaveData2.lastDailyRewardRedeemedTicksList ??
             new List<ScLong> {blackSaveData2.lastDailyRewardRedeemedTicks};
-        spawner.NoAdsCode = blackSaveData2.noAdsCode;
+        context.NoAdsCode = blackSaveData2.noAdsCode;
 
         ConDebug.Log(
-            $"Last Daily Reward Redeemed Index {spawner.LastDailyRewardRedeemedIndex} / DateTime (UTC) {new DateTime(spawner.LastDailyRewardRedeemedTicks, DateTimeKind.Utc)}");
+            $"Last Daily Reward Redeemed Index {context.LastDailyRewardRedeemedIndex} / DateTime (UTC) {new DateTime(context.LastDailyRewardRedeemedTicks, DateTimeKind.Utc)}");
 
-        spawner.ApplyPendingRice();
-        spawner.ApplyPendingFreeGem();
+        context.ApplyPendingRice();
+        context.ApplyPendingFreeGem();
 
         // === Config ===
         Sound.instance.BgmAudioSourceActive = blackSaveData2.muteBgmAudioSource == false;
@@ -501,7 +510,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         ConfigPopup.instance.IsAlwaysOnOn = blackSaveData2.alwaysOn;
         ConfigPopup.instance.IsBigScreenOn = blackSaveData2.bigScreen;
 
-        if (spawner.CheatMode)
+        if (context.CheatMode)
         {
             BlackLogManager.Add(BlackLogEntry.Type.GameCheatEnabled, 0, 0);
         }
@@ -525,8 +534,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
                 break;
         }
 
-        spawner.NoticeData = blackSaveData2.noticeData ?? new NoticeData();
-        spawner.SaveFileLoaded = true;
+        context.NoticeData = blackSaveData2.noticeData ?? new NoticeData();
+        context.SaveFileLoaded = true;
 
         if (Application.isEditor)
         {
@@ -574,15 +583,15 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         ConDebug.Log("=== VERIFIED Receipt ID End ===");
 
-        spawner.LocalUserDict = blackSaveData2.localUserDict;
-        foreach (var kv in spawner.LocalUserDict)
+        context.LocalUserDict = blackSaveData2.localUserDict;
+        foreach (var kv in context.LocalUserDict)
         {
             ConDebug.Log(kv.Value);
         }
 
-        spawner.LoadedAtLeastOnce = true;
-        BlackLogManager.Add(BlackLogEntry.Type.GameLoaded, spawner.MahjongLastClearedStageId,
-            spawner.Gem < long.MaxValue ? (long) spawner.Gem : long.MaxValue);
+        context.LoadedAtLeastOnce = true;
+        BlackLogManager.Add(BlackLogEntry.Type.GameLoaded, context.MahjongLastClearedStageId,
+            context.Gem < long.MaxValue ? (long) context.Gem : long.MaxValue);
 
         return true;
     }
@@ -593,7 +602,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
     public static BlackSaveData2 LoadBlackSaveData2()
     {
-        return null;
+        return new BlackSaveData2();
     }
 
     static string ProcessCriticalLoadErrorPrelude(List<Exception> exceptionList)
@@ -602,9 +611,12 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         System.Diagnostics.StackTrace t = new System.Diagnostics.StackTrace();
         Debug.LogErrorFormat(t.ToString());
         // 메인 게임 UI 요소를 모두 숨긴다. (아주 심각한 상황. 이 상태로는 무조건 게임 진행은 불가하다.)
-        foreach (var canvas in BlackSpawner.instance.CriticalErrorHiddenCanvasList)
+        if (BlackContext.instance.CriticalErrorHiddenCanvasList != null)
         {
-            canvas.enabled = false;
+            foreach (var canvas in BlackContext.instance.CriticalErrorHiddenCanvasList)
+            {
+                canvas.enabled = false;
+            }
         }
 
         return t.ToString();
@@ -697,15 +709,15 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         await ErrorReporter.instance.UploadSaveFileIncidentAsync(exceptionList, st, notCriticalError);
     }
 
-    static void ProcessNewUser(IBlackSpawner spawner, Exception e)
+    static void ProcessNewUser(IBlackContext context, Exception e)
     {
         ConDebug.LogFormat("Load: Save file not found: {0}", e.ToString());
-        ResetData(spawner);
+        ResetData(context);
         ConDebug.Log("Your OS language is " + Application.systemLanguage);
         ChangeLanguageBySystemLanguage();
         ShowFirstInstallWelcomePopup();
         ConDebug.Log("loadedAtLeastOnce set to true");
-        spawner.LoadedAtLeastOnce = true;
+        context.LoadedAtLeastOnce = true;
     }
 
     static void CloseConfirmPopupAndCheckNoticeSilently()
@@ -723,32 +735,32 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         return BlackRandom.Range(100000000, 1000000000);
     }
 
-    static void ResetData(IBlackSpawner spawner)
+    static void ResetData(IBlackContext context)
     {
-        spawner.SetRice(0);
-        spawner.SetGemZero();
+        context.SetRice(0);
+        context.SetGemZero();
         BlackLogManager.Add(BlackLogEntry.Type.GemToZero, 0, 0);
-        spawner.AchievementGathered = new AchievementRecord5(true);
-        spawner.AchievementRedeemed = new AchievementRecord5(false);
-        spawner.UserPseudoId = NewUserPseudoId();
-        spawner.NoticeData = new NoticeData();
-        spawner.LastDailyRewardRedeemedIndex = 0;
-        //spawner.LastDailyRewardRedeemedTicks = 0;
-        spawner.LastConsumedServiceIndex = 0;
-        spawner.SaveFileLoaded = true;
+        context.AchievementGathered = new AchievementRecord5(true);
+        context.AchievementRedeemed = new AchievementRecord5(false);
+        context.UserPseudoId = NewUserPseudoId();
+        context.NoticeData = new NoticeData();
+        context.LastDailyRewardRedeemedIndex = 0;
+        //context.LastDailyRewardRedeemedTicks = 0;
+        context.LastConsumedServiceIndex = 0;
+        context.SaveFileLoaded = true;
 
-        spawner.MahjongLastClearedStageId = 0;
-        spawner.MahjongClearTimeList = new List<ScFloat>();
-        spawner.MahjongNextStagePurchased = false;
-        spawner.MahjongCoinAmount = 0;
-        spawner.LastFreeMahjongCoinRefilledTicks = 0;
-        spawner.MahjongSlowMode = false;
-        spawner.MahjongCoinUseCount = 0;
-        spawner.MahjongLastStageFailed = false;
+        context.MahjongLastClearedStageId = 0;
+        context.MahjongClearTimeList = new List<ScFloat>();
+        context.MahjongNextStagePurchased = false;
+        context.MahjongCoinAmount = 0;
+        context.LastFreeMahjongCoinRefilledTicks = 0;
+        context.MahjongSlowMode = false;
+        context.MahjongCoinUseCount = 0;
+        context.MahjongLastStageFailed = false;
 
-        spawner.StashedRewardJsonList = new List<ScString>();
-        spawner.LastDailyRewardRedeemedTicksList = new List<ScLong> {0};
-        spawner.NoAdsCode = 0;
+        context.StashedRewardJsonList = new List<ScString>();
+        context.LastDailyRewardRedeemedTicksList = new List<ScLong> {0};
+        context.NoAdsCode = 0;
 
         if (SystemInfo.deviceModel.IndexOf("iPhone", StringComparison.Ordinal) >= 0)
         {

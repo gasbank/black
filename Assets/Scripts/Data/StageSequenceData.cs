@@ -9,5 +9,5 @@ public class StageSequenceData
     public int seq;
 
     [Key(1)]
-    public int stageName;
+    public string stageName;
 }

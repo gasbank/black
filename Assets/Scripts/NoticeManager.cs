@@ -26,10 +26,10 @@ public class NoticeManager : MonoBehaviour
     public void CheckNoticeSilently()
     {
         // StopAllCoroutines();
-        StartCoroutine(CheckNoticeCoro(true, BlackSpawner.instance.NoticeData.title,
-            BlackSpawner.instance.NoticeData.text, BlackSpawner.instance.NoticeData.detailUrl));
-        StopCoroutine(CheckNoticeCoro(true, BlackSpawner.instance.NoticeData.title,
-            BlackSpawner.instance.NoticeData.text, BlackSpawner.instance.NoticeData.detailUrl));
+        StartCoroutine(CheckNoticeCoro(true, BlackContext.instance.NoticeData.title,
+            BlackContext.instance.NoticeData.text, BlackContext.instance.NoticeData.detailUrl));
+        StopCoroutine(CheckNoticeCoro(true, BlackContext.instance.NoticeData.title,
+            BlackContext.instance.NoticeData.text, BlackContext.instance.NoticeData.detailUrl));
     }
 
     IEnumerator DownloadAndGetSpriteCoro(string imageUrl, System.Action<Sprite> callback)
@@ -235,9 +235,9 @@ public class NoticeManager : MonoBehaviour
                         }
 
                         // 마지막 본 공지 내용으로 갱신
-                        BlackSpawner.instance.NoticeData.title = title;
-                        BlackSpawner.instance.NoticeData.text = text;
-                        BlackSpawner.instance.NoticeData.detailUrl = detailUrl;
+                        BlackContext.instance.NoticeData.title = title;
+                        BlackContext.instance.NoticeData.text = text;
+                        BlackContext.instance.NoticeData.detailUrl = detailUrl;
 
 
                         // 새 공지든 아니든 한번 열었으니까 느낌표 숨긴다.

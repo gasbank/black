@@ -21,7 +21,7 @@ public class SingletonManager : MonoBehaviour
     ShortMessage shortMessage;
 
     [SerializeField]
-    BlackSpawner blackSpawner;
+    BlackContext blackContext;
 
     [SerializeField]
     ConfigPopup configPopup;
@@ -84,7 +84,7 @@ public class SingletonManager : MonoBehaviour
 
         // Data.instance가 먼저 갱신되어야 한다.
         // Data.instance에 의존하는 싱글턴이 많기 때문
-        // 예를 들어, Data.instance가 예전 것인데, ContestBlackSpawner.Awake()가 먼저 호출되면
+        // 예를 들어, Data.instance가 예전 것인데, ContestBlackContext.Awake()가 먼저 호출되면
         // 언어 변경이 제대로 작동하지 않는다. (이미 언어 변경이 En으로 끝난 예전 Data.instance를 참고할 것이므로)
         // 그래서 Data.instance를 가장 먼저 바꾼다.
         Data.instance = data;
@@ -93,7 +93,7 @@ public class SingletonManager : MonoBehaviour
         Sound.instance = sound;
         AchievementPopup.instance = achievementPopup;
         ShortMessage.instance = shortMessage;
-        BlackSpawner.instance = blackSpawner;
+        BlackContext.instance = blackContext;
         ConfigPopup.instance = configPopup;
         NoticeManager.instance = noticeManager;
         ErrorReporter.instance = errorReporter;

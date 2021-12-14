@@ -55,19 +55,19 @@ public class AchievementPopup : MonoBehaviour
 
         OpenAchievementTab();
 
-        if (BlackSpawner.instance.IsBigPopupOpened == false)
+        if (BlackContext.instance.IsBigPopupOpened == false)
         {
             bigPopupAnimator.Play("Big Popup Appear", -1, 0);
         }
 
-        BlackSpawner.instance.OpenBigPopup(canvasGroup);
+        BlackContext.instance.OpenBigPopup(canvasGroup);
         BackButtonHandler.instance.PushAction(gameObjectToggle.Toggle);
     }
 
     void OnClosePopup()
     {
         StopScrolling();
-        BlackSpawner.instance.CloseBigPopup(canvasGroup);
+        BlackContext.instance.CloseBigPopup(canvasGroup);
         BackButtonHandler.instance.PopAction();
     }
 
@@ -112,7 +112,7 @@ public class AchievementPopup : MonoBehaviour
             return;
         }
 
-        if (BlackSpawner.instance == null)
+        if (BlackContext.instance == null)
         {
             return;
         }
@@ -123,8 +123,8 @@ public class AchievementPopup : MonoBehaviour
         }
 
         // short names
-        var gathered = BlackSpawner.instance.AchievementGathered;
-        var redeemed = BlackSpawner.instance.AchievementRedeemed;
+        var gathered = BlackContext.instance.AchievementGathered;
+        var redeemed = BlackContext.instance.AchievementRedeemed;
         var group = Data.achievementOrderedGroup;
 
         if (gathered == null || redeemed == null)
@@ -153,9 +153,9 @@ public class AchievementPopup : MonoBehaviour
             addCanBeRedeemedAchievementFuncMap[updateGroupKey]();
 
             // 켜져 있는 것을 끌 수는 없다. 안켜져있을 때만 켜질 가능성이 있다.
-            if (BlackSpawner.instance.AchievementNewImage.activeSelf == false)
+            if (BlackContext.instance.AchievementNewImage.activeSelf == false)
             {
-                BlackSpawner.instance.AchievementNewImage.SetActive(
+                BlackContext.instance.AchievementNewImage.SetActive(
                     canBeRedeemedAchievements.Count > 0);
             }
 
@@ -170,7 +170,7 @@ public class AchievementPopup : MonoBehaviour
         }
 
         // 빨간색 아이콘 상태 갱신
-        BlackSpawner.instance.AchievementNewImage.SetActive(canBeRedeemedAchievements.Count > 0);
+        BlackContext.instance.AchievementNewImage.SetActive(canBeRedeemedAchievements.Count > 0);
 
         // 모든 업적에 대해서 체크는 했지만, 역시 창이 안열려있으면 이 이후는 처리가 필요없다.
         if (canvasGroup.alpha == 0)
@@ -250,9 +250,9 @@ public class AchievementPopup : MonoBehaviour
 
     public void OnNewImage()
     {
-        if (!BlackSpawner.instance.AchievementNewImage.activeSelf)
+        if (!BlackContext.instance.AchievementNewImage.activeSelf)
         {
-            BlackSpawner.instance.AchievementNewImage.SetActive(true);
+            BlackContext.instance.AchievementNewImage.SetActive(true);
         }
     }
 

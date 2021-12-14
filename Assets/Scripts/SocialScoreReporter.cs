@@ -42,7 +42,7 @@ public class SocialScoreReporter : MonoBehaviour {
         if (successfullyReportedScoreDict.TryGetValue(key, out oldValue) && oldValue == value) {
             // 앱이 실행된 이후 성공적으로 등록했던 점수와 동일하다면 다시 할 필요는 없다.
         } else {
-            if (BlackSpawner.instance.CheatMode == true) {
+            if (BlackContext.instance.CheatMode == true) {
                 if (notifyCheatModeOnlyOnce == false) {
                     ConDebug.Log($"### Cheat Mode was turned on (notified only at the first time)");
                     ConDebug.Log($"ReportScore: {key}: {value} ({desc})");

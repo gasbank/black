@@ -30,9 +30,9 @@ public class Admin : MonoBehaviour
 
     void OnEnable()
     {
-        if (BlackSpawner.instance != null)
+        if (BlackContext.instance != null)
         {
-            BlackSpawner.instance.CheatMode = true;
+            BlackContext.instance.CheatMode = true;
             BlackLogManager.Add(BlackLogEntry.Type.GameCheatEnabled, 0, 0);
         }
     }
@@ -47,14 +47,14 @@ public class Admin : MonoBehaviour
     public void RiceToZero()
     {
 #if BLACK_ADMIN
-        BlackSpawner.instance.SetRice(0);
+        BlackContext.instance.SetRice(0);
 #endif
     }
 
     public void GemToZero()
     {
 #if BLACK_ADMIN
-        BlackSpawner.instance.SetGemZero();
+        BlackContext.instance.SetGemZero();
         BlackLogManager.Add(BlackLogEntry.Type.GemToZero, 0, 0);
 #endif
     }
@@ -64,14 +64,14 @@ public class Admin : MonoBehaviour
     public void Rice(int amount)
     {
 #if BLACK_ADMIN
-        BlackSpawner.instance.AddRiceSafe((uint)amount);
+        BlackContext.instance.AddRiceSafe((uint)amount);
 #endif
     }
 
     public void ManyRice()
     {
 #if BLACK_ADMIN
-        BlackSpawner.instance.SetRice(UInt128.MaxValue);
+        BlackContext.instance.SetRice(UInt128.MaxValue);
         BlackLogManager.Add(BlackLogEntry.Type.RiceAddAdmin, 1, UInt128.MaxValue.ToClampedLong());
 #endif
     }
@@ -81,7 +81,7 @@ public class Admin : MonoBehaviour
     public void Gem(int amount)
     {
 #if BLACK_ADMIN
-        BlackSpawner.instance.AddFreeGem((uint)amount);
+        BlackContext.instance.AddFreeGem((uint)amount);
         BlackLogManager.Add(BlackLogEntry.Type.GemAddAdmin, 2, amount);
 #endif
     }
@@ -121,8 +121,8 @@ public class Admin : MonoBehaviour
     public void BackToYesterday()
     {
 #if BLACK_ADMIN
-        BlackSpawner.instance.LastDailyRewardRedeemedTicks = 0;
-        BlackSpawner.instance.UpdateDailyRewardAllButtonStates();
+        BlackContext.instance.LastDailyRewardRedeemedTicks = 0;
+        BlackContext.instance.UpdateDailyRewardAllButtonStates();
         CloseAdminMenu();
 #endif
     }
@@ -248,7 +248,7 @@ public class Admin : MonoBehaviour
     {
         // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
         // 저장 한번 하고
-        saveLoadManager.Save(BlackSpawner.instance, ConfigPopup.instance, Sound.instance, Data.instance);
+        saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
         // 제출 시작한다.
         await ErrorReporter.instance.UploadSaveFileIncidentAsync(new List<Exception>(), "NO CRITICAL ERROR",
             true);
@@ -260,7 +260,7 @@ public class Admin : MonoBehaviour
         try
         {
             // 저장 한번 하고
-            saveLoadManager.Save(BlackSpawner.instance, ConfigPopup.instance, Sound.instance, Data.instance);
+            saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
             // 제출 시작한다.
             var reasonPhrase = await BlackLogManager.DumpAndUploadPlayLog("\\플레이 로그 업로드 중...".Localized(), "", "", "");
             if (string.IsNullOrEmpty(reasonPhrase))
@@ -316,7 +316,7 @@ public class Admin : MonoBehaviour
     public void ClearAchievementRedeemHistory()
     {
 #if BLACK_ADMIN
-        BlackSpawner.instance.AchievementRedeemed = new AchievementRecord5(false);
+        BlackContext.instance.AchievementRedeemed = new AchievementRecord5(false);
 #endif
     }
 
@@ -339,10 +339,10 @@ public class Admin : MonoBehaviour
     {
 #if BLACK_ADMIN
         ConfirmPopup.instance.OpenInputFieldPopup(
-            $"Redeem Daily Rewards To Day ({BlackSpawner.instance.LastDailyRewardRedeemedIndex} ~ {Data.dataSet.DailyRewardData.Count})",
+            $"Redeem Daily Rewards To Day ({BlackContext.instance.LastDailyRewardRedeemedIndex} ~ {Data.dataSet.DailyRewardData.Count})",
             () => {
                 if (int.TryParse(ConfirmPopup.instance.InputFieldText, out int toDay)) {
-                    BlackSpawner.instance.GetAllDailyRewardsAtOnceAdminToDay(toDay);
+                    BlackContext.instance.GetAllDailyRewardsAtOnceAdminToDay(toDay);
                 }
 
                 ConfirmPopup.instance.Close();
@@ -354,15 +354,15 @@ public class Admin : MonoBehaviour
     public void RefillAllMahjongCoins()
     {
 #if BLACK_ADMIN
-        BlackSpawner.instance.MahjongCoinAmount = 5;
+        BlackContext.instance.MahjongCoinAmount = 5;
 #endif
     }
 
     public void ToggleMahjongSlowMode()
     {
 #if BLACK_ADMIN
-        BlackSpawner.instance.MahjongSlowMode = !BlackSpawner.instance.MahjongSlowMode;
-        ShortMessage.instance.Show($"MahjongSlowMode to {BlackSpawner.instance.MahjongSlowMode}");
+        BlackContext.instance.MahjongSlowMode = !BlackContext.instance.MahjongSlowMode;
+        ShortMessage.instance.Show($"MahjongSlowMode to {BlackContext.instance.MahjongSlowMode}");
 #endif
     }
 
@@ -401,8 +401,8 @@ public class Admin : MonoBehaviour
     public void ToggleNoAdsCode()
     {
 #if BLACK_ADMIN
-        BlackSpawner.instance.NoAdsCode = BlackSpawner.instance.NoAdsCode == 0 ? 19850506 : 0;
-        ShortMessage.instance.Show($"No Ads Code set to {BlackSpawner.instance.NoAdsCode}");
+        BlackContext.instance.NoAdsCode = BlackContext.instance.NoAdsCode == 0 ? 19850506 : 0;
+        ShortMessage.instance.Show($"No Ads Code set to {BlackContext.instance.NoAdsCode}");
 #endif
     }
 
