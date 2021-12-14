@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using ConditionalDebug;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -137,33 +136,35 @@ public class NoticeManager : MonoBehaviour
                     }
 
                     var noticeDataRoot = MiniJSON.Json.Deserialize(request.downloadHandler.text) as Dict;
-                    var noticeData = noticeDataRoot["fields"] as Dictionary<string, object>;
 
-                    foreach (var notice in noticeData)
+                    if (noticeDataRoot?["fields"] is Dict noticeData)
                     {
-                        if (notice.Key == "title")
+                        foreach (var notice in noticeData)
                         {
-                            title = ((Dict) notice.Value)["stringValue"] as string;
-                        }
-                        else if (notice.Key == "text")
-                        {
-                            text = ((Dict) notice.Value)["stringValue"] as string;
-                        }
-                        else if (notice.Key == "url")
-                        {
-                            detailUrl = ((Dict) notice.Value)["stringValue"] as string;
-                        }
-                        else if (notice.Key == "topImageUrl")
-                        {
-                            topImageUrl = ((Dict) notice.Value)["stringValue"] as string;
-                        }
-                        else if (notice.Key == "popupImageUrl")
-                        {
-                            popupImageUrl = ((Dict) notice.Value)["stringValue"] as string;
-                        }
-                        else if (notice.Key == "popupImageHeight")
-                        {
-                            popupImageHeight = int.Parse(((Dict) notice.Value)["integerValue"] as string);
+                            if (notice.Key == "title")
+                            {
+                                title = ((Dict) notice.Value)["stringValue"] as string;
+                            }
+                            else if (notice.Key == "text")
+                            {
+                                text = ((Dict) notice.Value)["stringValue"] as string;
+                            }
+                            else if (notice.Key == "url")
+                            {
+                                detailUrl = ((Dict) notice.Value)["stringValue"] as string;
+                            }
+                            else if (notice.Key == "topImageUrl")
+                            {
+                                topImageUrl = ((Dict) notice.Value)["stringValue"] as string;
+                            }
+                            else if (notice.Key == "popupImageUrl")
+                            {
+                                popupImageUrl = ((Dict) notice.Value)["stringValue"] as string;
+                            }
+                            else if (notice.Key == "popupImageHeight")
+                            {
+                                popupImageHeight = int.Parse(((Dict) notice.Value)["integerValue"] as string);
+                            }
                         }
                     }
 

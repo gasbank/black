@@ -606,3 +606,4 @@ GoogleService-Info.plist
 GoogleService-Info.plist.meta
 
 !*.mm.*
+/Assets/StreamingAssets.meta

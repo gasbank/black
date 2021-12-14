@@ -40,7 +40,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         return (x % m + m) % m;
     }
 
-    const int LatestVersion = 65;
+    const int LatestVersion = 1;
 
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public enum SaveReason
@@ -584,9 +584,12 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         ConDebug.Log("=== VERIFIED Receipt ID End ===");
 
         context.LocalUserDict = blackSaveData2.localUserDict;
-        foreach (var kv in context.LocalUserDict)
+        if (context.LocalUserDict != null)
         {
-            ConDebug.Log(kv.Value);
+            foreach (var kv in context.LocalUserDict)
+            {
+                ConDebug.Log(kv.Value);
+            }
         }
 
         context.LoadedAtLeastOnce = true;
@@ -602,7 +605,11 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
     public static BlackSaveData2 LoadBlackSaveData2()
     {
-        return new BlackSaveData2();
+        var saveData = new BlackSaveData2
+        {
+            version = 1
+        };
+        return saveData;
     }
 
     static string ProcessCriticalLoadErrorPrelude(List<Exception> exceptionList)

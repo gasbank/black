@@ -80,6 +80,7 @@ public struct BlackLogEntry : IPlatformLogEntryType {
 
         // === 에너지 증가 이벤트 ===
         RiceSection = 7000,
+        RiceAddPending,
         
         RiceAddAdmin,
 
