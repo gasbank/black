@@ -4,12 +4,14 @@
 
 cd build
 
+pod install
+
 xcodebuild \
+    -workspace Unity-iPhone.xcworkspace \
     -scheme Unity-iPhone \
     archive \
     -archivePath build \
-    CODE_SIGN_STYLE="Manual" \
-    PROVISIONING_PROFILE_SPECIFIER="Black iOS Distribution" \
+    PROVISIONING_PROFILE_SPECIFIER="Black App Store" \
     CODE_SIGN_IDENTITY="Apple Distribution: GEOYEOB KIM (TG9MHV97AH)"
 
 xcodebuild \
