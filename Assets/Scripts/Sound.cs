@@ -45,23 +45,31 @@ public class Sound : MonoBehaviour {
 
     [SerializeField] BgmType bgmType = BgmType.Normal;
     [SerializeField] int currentNormalBgmIndex;
-    public bool BgmAudioSourceActive { get { return bgmAudioSource.enabled; } set { bgmAudioSource.enabled = value; } }
-    public bool SfxAudioSourceActive { get { return sfxAudioSource.enabled; } set { sfxAudioSource.enabled = value; } }
+    public bool BgmAudioSourceActive { get => bgmAudioSource.enabled;
+        set => bgmAudioSource.enabled = value;
+    }
+    public bool SfxAudioSourceActive { get => sfxAudioSource.enabled;
+        set => sfxAudioSource.enabled = value;
+    }
     public bool GatherStoredMaxSfxEnabled { get; set; }
 
     //슬라이더 값 간접 참조 (SaveFile IO)
     public float BgmAudioSourceVolume {
-        get { return instance.bgmAudioSource.volume; }
-        set { instance.bgmAudioSource.volume = value; }
+        get => instance.bgmAudioSource.volume;
+        set => instance.bgmAudioSource.volume = value;
     }
 
     public float SfxAudioSourceVolume {
-        get { return instance.sfxAudioSource.volume; }
-        set { instance.sfxAudioSource.volume = value; }
+        get => instance.sfxAudioSource.volume;
+        set => instance.sfxAudioSource.volume = value;
     }
 
-    public float BgmAudioVolume { get { return bgmAudioVolume; } set { bgmAudioVolume = value; } }
-    public float SfxAudioVolume { get { return sfxAudioVolume; } set { sfxAudioVolume = value; } }
+    public float BgmAudioVolume { get => bgmAudioVolume;
+        set => bgmAudioVolume = value;
+    }
+    public float SfxAudioVolume { get => sfxAudioVolume;
+        set => sfxAudioVolume = value;
+    }
 
 
     public BgmType CurrentBgmType {

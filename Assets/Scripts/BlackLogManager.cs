@@ -12,10 +12,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
     public static BlackLogManager instance;
     FileStream writeLogStream;
 
-    string LogFilePath
-    {
-        get { return Path.Combine(Application.persistentDataPath, "black.log"); }
-    }
+    string LogFilePath => Path.Combine(Application.persistentDataPath, "black.log");
 
     [SerializeField]
     BlackLogViewer logViewer;

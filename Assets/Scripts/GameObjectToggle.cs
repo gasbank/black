@@ -4,7 +4,7 @@
 public class GameObjectToggle : MonoBehaviour {
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] bool suppressMessage = false;
-    public bool Active { get { return canvasGroup.alpha != 0; } }
+    public bool Active => canvasGroup.alpha != 0;
 
 #if UNITY_EDITOR
     void OnValidate() {

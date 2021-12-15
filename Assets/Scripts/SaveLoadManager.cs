@@ -25,15 +25,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     public static readonly int maxSaveDataSlot = 9;
     static readonly string saveDataSlotKey = "Save Data Slot";
 
-    public static string SaveFileName
-    {
-        get { return GetSaveLoadFilePathName(GetSaveSlot() + 1); }
-    }
+    public static string SaveFileName => GetSaveLoadFilePathName(GetSaveSlot() + 1);
 
-    public static string LoadFileName
-    {
-        get { return GetSaveLoadFilePathName(GetSaveSlot()); }
-    }
+    public static string LoadFileName => GetSaveLoadFilePathName(GetSaveSlot());
 
     static int PositiveMod(int x, int m)
     {

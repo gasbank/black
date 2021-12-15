@@ -42,17 +42,7 @@
         return UnityEngine.Random.ColorHSV(hueMin, hueMax, saturationMin, saturationMax, valueMin, valueMax);
     }
 
-    public static UnityEngine.Vector2 insideUnitCircle {
-        get {
-            //ConDebug.Log($"[RANDOM] insideUnitCircle");
-            return UnityEngine.Random.insideUnitCircle;
-        }
-    }
+    public static UnityEngine.Vector2 insideUnitCircle => UnityEngine.Random.insideUnitCircle;
 
-    public static UnityEngine.Vector3 onUnitSphere {
-        get {
-            //ConDebug.Log($"[RANDOM] onUnitSphere");
-            return UnityEngine.Random.onUnitSphere;
-        }
-    }
+    public static UnityEngine.Vector3 onUnitSphere => UnityEngine.Random.onUnitSphere;
 }

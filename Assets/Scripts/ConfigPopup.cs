@@ -80,53 +80,43 @@ public class ConfigPopup : MonoBehaviour
 
     public bool IsNotchOn
     {
-        get { return notchToggle.isOn; }
-        set { notchToggle.isOn = value; }
+        get => notchToggle.isOn;
+        set => notchToggle.isOn = value;
     }
 
     public bool IsBottomNotchOn
     {
-        get { return bottomNotchToggle.isOn; }
-        set { bottomNotchToggle.isOn = value; }
+        get => bottomNotchToggle.isOn;
+        set => bottomNotchToggle.isOn = value;
     }
 
     public bool IsPerformanceModeOn
     {
-        get { return performanceModeToggle.isOn; }
-        set { performanceModeToggle.isOn = value; }
+        get => performanceModeToggle.isOn;
+        set => performanceModeToggle.isOn = value;
     }
 
     public bool IsAlwaysOnOn
     {
-        get { return alwaysOnToggle.isOn; }
-        set { alwaysOnToggle.isOn = value; }
+        get => alwaysOnToggle.isOn;
+        set => alwaysOnToggle.isOn = value;
     }
 
     public bool IsBigScreenOn
     {
-        get { return bigScreenToggle.isOn; }
-        set { bigScreenToggle.isOn = value; }
+        get => bigScreenToggle.isOn;
+        set => bigScreenToggle.isOn = value;
     }
 
 
-    public static string ServiceId
-    {
-        get
-        {
-            return
-                $"{BlackContext.instance.UserPseudoId / 1000000:D3}-{(BlackContext.instance.UserPseudoId / 1000) % 1000:D3}-{BlackContext.instance.UserPseudoId % 1000:D3}";
-        }
-    }
+    public static string ServiceId => $"{BlackContext.instance.UserPseudoId / 1000000:D3}-{(BlackContext.instance.UserPseudoId / 1000) % 1000:D3}-{BlackContext.instance.UserPseudoId % 1000:D3}";
 
     public static readonly string BaseUrl =
         "https://xxxxx/xxxxxx/xxxxxx";
 
     static readonly string ServiceDbUrl = BaseUrl + "/service";
 
-    public static string NoticeDbUrl
-    {
-        get { return BaseUrl + "/notice" + noticeDbPostfix; }
-    }
+    public static string NoticeDbUrl => BaseUrl + "/notice" + noticeDbPostfix;
 
     public static string noticeDbPostfix = "";
     static GameObject ConfigButtonNewImage => SingletonManager.instance.ConfigButtonNewImage;

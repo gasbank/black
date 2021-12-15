@@ -16,11 +16,7 @@ public class TopNotchOffsetGroup : MonoBehaviour {
 #endif
 
     public bool NotchMarginActive {
-        get {
-            return rt.offsetMax.y < notNotchMargin;
-        }
-        set {
-            rt.offsetMax = new Vector2(rt.offsetMax.x, value ? notchMargin : notNotchMargin);
-        }
+        get => rt.offsetMax.y < notNotchMargin;
+        set => rt.offsetMax = new Vector2(rt.offsetMax.x, value ? notchMargin : notNotchMargin);
     }
 }

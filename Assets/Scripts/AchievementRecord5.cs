@@ -17,7 +17,7 @@ public class AchievementRecord5
 
     public UInt128 MaxBlackLevel
     {
-        get { return maxBlackLevel; }
+        get => maxBlackLevel;
         set
         {
             maxBlackLevel = value;

@@ -101,15 +101,9 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
 
     static readonly int appear = Animator.StringToHash("Appear");
 
-    public bool IsOpen
-    {
-        get { return subcanvas.IsOpen; }
-    }
+    public bool IsOpen => subcanvas.IsOpen;
 
-    public string InputFieldText
-    {
-        get { return inputField.text; }
-    }
+    public string InputFieldText => inputField.text;
 
     int AutoCloseRemainSec
     {

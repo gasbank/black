@@ -7,7 +7,7 @@ public class StaticLocalizedText : MonoBehaviour {
     Text text;
     [SerializeField]
     string strRef = "";
-    public string StrRef { get { return strRef; } }
+    public string StrRef => strRef;
 
     public static string ToLiteral(string input) {
         return input.Replace("\n", @"\n");

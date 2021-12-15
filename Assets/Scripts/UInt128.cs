@@ -26,14 +26,14 @@ namespace Dirichlet.Numerics {
             public ulong s2;
             public ulong s3;
 
-            public uint r0 { get { return (uint)s0; } }
-            public uint r1 { get { return (uint)(s0 >> 32); } }
-            public uint r2 { get { return (uint)s1; } }
-            public uint r3 { get { return (uint)(s1 >> 32); } }
-            public uint r4 { get { return (uint)s2; } }
-            public uint r5 { get { return (uint)(s2 >> 32); } }
-            public uint r6 { get { return (uint)s3; } }
-            public uint r7 { get { return (uint)(s3 >> 32); } }
+            public uint r0 => (uint)s0;
+            public uint r1 => (uint)(s0 >> 32);
+            public uint r2 => (uint)s1;
+            public uint r3 => (uint)(s1 >> 32);
+            public uint r4 => (uint)s2;
+            public uint r5 => (uint)(s2 >> 32);
+            public uint r6 => (uint)s3;
+            public uint r7 => (uint)(s3 >> 32);
 
             public UInt128 t0 { get { UInt128 result; Create(out result, s0, s1); return result; } }
             public UInt128 t1 { get { UInt128 result; Create(out result, s2, s3); return result; } }
@@ -210,10 +210,10 @@ namespace Dirichlet.Numerics {
                 Negate(ref c);
         }
 
-        uint r0 { get { return (uint)s0; } }
-        uint r1 { get { return (uint)(s0 >> 32); } }
-        uint r2 { get { return (uint)s1; } }
-        uint r3 { get { return (uint)(s1 >> 32); } }
+        uint r0 => (uint)s0;
+        uint r1 => (uint)(s0 >> 32);
+        uint r2 => (uint)s1;
+        uint r3 => (uint)(s1 >> 32);
 
 #if MESSAGE_PACK
         [IgnoreMember]
