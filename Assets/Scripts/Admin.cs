@@ -351,18 +351,18 @@ public class Admin : MonoBehaviour
 #endif
     }
 
-    public void RefillAllMahjongCoins()
+    public void RefillAllCoins()
     {
 #if BLACK_ADMIN
-        BlackContext.instance.MahjongCoinAmount = 5;
+        BlackContext.instance.CoinAmount = 5;
 #endif
     }
 
-    public void ToggleMahjongSlowMode()
+    public void ToggleSlowMode()
     {
 #if BLACK_ADMIN
-        BlackContext.instance.MahjongSlowMode = !BlackContext.instance.MahjongSlowMode;
-        ShortMessage.instance.Show($"MahjongSlowMode to {BlackContext.instance.MahjongSlowMode}");
+        BlackContext.instance.SlowMode = !BlackContext.instance.SlowMode;
+        ShortMessage.instance.Show($"SlowMode to {BlackContext.instance.SlowMode}");
 #endif
     }
 

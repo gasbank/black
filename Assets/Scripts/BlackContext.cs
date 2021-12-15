@@ -220,14 +220,14 @@ public class BlackContext : MonoBehaviour, IBlackContext
         throw new NotImplementedException();
     }
 
-    public ScInt MahjongLastClearedStageId { get; set; }
-    public List<ScFloat> MahjongClearTimeList { get; set; }
-    public bool MahjongNextStagePurchased { get; set; }
-    public ScInt MahjongCoinAmount { get; set; }
-    public ScLong LastFreeMahjongCoinRefilledTicks { get; set; }
-    public bool MahjongSlowMode { get; set; }
-    public ScInt MahjongCoinUseCount { get; set; }
-    public bool MahjongLastStageFailed { get; set; }
+    public ScInt LastClearedStageId { get; set; }
+    public List<ScFloat> StageClearTimeList { get; set; }
+    public bool NextStagePurchased { get; set; }
+    public ScInt CoinAmount { get; set; }
+    public ScLong LastFreeCoinRefilledTicks { get; set; }
+    public bool SlowMode { get; set; }
+    public ScInt CoinUseCount { get; set; }
+    public bool LastStageFailed { get; set; }
     public List<ScString> StashedRewardJsonList { get; set; }
     public List<ScLong> LastDailyRewardRedeemedTicksList { get; set; }
     public int NoAdsCode { get; set; }

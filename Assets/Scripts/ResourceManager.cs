@@ -7,7 +7,7 @@ public class ResourceManager : MonoBehaviour {
 
     public static ResourceManager instance;
 
-    public int accountLevel => BlackContext.instance.MahjongLastClearedStageId;
+    public int accountLevel => BlackContext.instance.LastClearedStageId;
     public int accountLevelExp // unused
         =>
             1;

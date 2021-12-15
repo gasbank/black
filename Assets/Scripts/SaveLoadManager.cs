@@ -42,7 +42,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         Quit,
         Pause,
         AutoSave,
-        BeforeMahjong,
+        BeforeStage,
     }
 
     static byte[] lastSaveDataArray;
@@ -237,7 +237,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         else return val;
     }
 
-    public static void Load(IBlackContext context)
+    static void Load(IBlackContext context)
     {
         // 모든 세이브 슬롯에 대해 로드를 성공 할 때까지 시도한다.
         List<Exception> exceptionList = new List<Exception>();
@@ -396,6 +396,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         context.UserPseudoId = blackSaveData2.userPseudoId;
         context.LastConsumedServiceIndex = blackSaveData2.lastConsumedServiceIndex;
+        context.LastClearedStageId = blackSaveData2.lastClearedStageId;
 
         // 부정 이용 사용자 걸러낸다.
         // 다만, 부정 이용 사용자가 아닌데 걸러진 경우 개발팀 문의를 통해 풀 수 있다.
@@ -587,7 +588,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         }
 
         context.LoadedAtLeastOnce = true;
-        BlackLogManager.Add(BlackLogEntry.Type.GameLoaded, context.MahjongLastClearedStageId,
+        BlackLogManager.Add(BlackLogEntry.Type.GameLoaded, context.LastClearedStageId,
             context.Gem < long.MaxValue ? (long) context.Gem : long.MaxValue);
 
         return true;
@@ -597,11 +598,41 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     {
     }
 
-    public static BlackSaveData2 LoadBlackSaveData2()
+    static BlackSaveData2 LoadBlackSaveData2()
     {
         var saveData = new BlackSaveData2
         {
-            version = 1
+            version = 1,
+            alwaysOn = false,
+            bigScreen = false,
+            cheatMode = false,
+            languageCode = BlackLanguageCode.Ko,
+            notchSupport = false,
+            noticeData = null,
+            performanceMode = false,
+            waiveBan = false,
+            bgmAudioVolume = 1.0f,
+            bottomNotchSupport = false,
+            localUserDict = null,
+            noAdsCode = 0,
+            purchasedProductDict = null,
+            purchasedProductReceipts = null,
+            sfxAudioVolume = 1.0f,
+            userPseudoId = 0,
+            verifiedProductReceipts = null,
+            lastClearedStageId = 0,
+            lastConsumedServiceIndex = 0,
+            muteBgmAudioSource = false,
+            muteSfxAudioSource = false,
+            riceScUInt128 = 0,
+            stashedRewardJsonList = null,
+            freeGemScUInt128 = 0,
+            lastDailyRewardRedeemedIndex = 0,
+            lastDailyRewardRedeemedTicks = DateTime.MinValue.Ticks,
+            paidGemScUInt128 = 0,
+            pendingRiceScUInt128 = 0,
+            lastDailyRewardRedeemedTicksList = null,
+            pendingFreeGemScUInt128 = 0
         };
         return saveData;
     }
@@ -750,14 +781,14 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.LastConsumedServiceIndex = 0;
         context.SaveFileLoaded = true;
 
-        context.MahjongLastClearedStageId = 0;
-        context.MahjongClearTimeList = new List<ScFloat>();
-        context.MahjongNextStagePurchased = false;
-        context.MahjongCoinAmount = 0;
-        context.LastFreeMahjongCoinRefilledTicks = 0;
-        context.MahjongSlowMode = false;
-        context.MahjongCoinUseCount = 0;
-        context.MahjongLastStageFailed = false;
+        context.LastClearedStageId = 0;
+        context.StageClearTimeList = new List<ScFloat>();
+        context.NextStagePurchased = false;
+        context.CoinAmount = 0;
+        context.LastFreeCoinRefilledTicks = 0;
+        context.SlowMode = false;
+        context.CoinUseCount = 0;
+        context.LastStageFailed = false;
 
         context.StashedRewardJsonList = new List<ScString>();
         context.LastDailyRewardRedeemedTicksList = new List<ScLong> {0};

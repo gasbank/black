@@ -92,7 +92,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
             }
 
             var desc = data.notificationDesc.Localized(data.amount.ToInt());
-            var largeIconIndex = Mathf.Max(0, BlackContext.instance.MahjongLastClearedStageId - 1);
+            var largeIconIndex = Mathf.Max(0, BlackContext.instance.LastClearedStageId - 1);
 
             var currentDate = DateTime.Now;
             var localZone = TimeZoneInfo.Local;

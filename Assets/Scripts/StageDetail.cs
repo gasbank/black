@@ -13,9 +13,8 @@ public class StageDetail : MonoBehaviour
     {
         subcanvas.Open();
 
-        //SaveLoadManager.instance
-        //Data.dataSet
-        
+        var lastClearedStageId = BlackContext.instance.LastClearedStageId;
+        Debug.Log($"Last Cleared Stage ID: {lastClearedStageId}");
         //stageButton.SetStageMetadata();
     }
 

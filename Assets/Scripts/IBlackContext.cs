@@ -42,14 +42,14 @@ public interface IBlackContext
 
     void UnlockPlatformAchievement(string achievementGroup, long newValue);
 
-    ScInt MahjongLastClearedStageId { get; set; }
-    List<ScFloat> MahjongClearTimeList { get; set; }
-    bool MahjongNextStagePurchased { get; set; }
-    ScInt MahjongCoinAmount { get; set; }
-    ScLong LastFreeMahjongCoinRefilledTicks { get; set; }
-    bool MahjongSlowMode { get; set; }
-    ScInt MahjongCoinUseCount { get; set; }
-    bool MahjongLastStageFailed { get; set; }
+    ScInt LastClearedStageId { get; set; }
+    List<ScFloat> StageClearTimeList { get; set; }
+    bool NextStagePurchased { get; set; }
+    ScInt CoinAmount { get; set; }
+    ScLong LastFreeCoinRefilledTicks { get; set; }
+    bool SlowMode { get; set; }
+    ScInt CoinUseCount { get; set; }
+    bool LastStageFailed { get; set; }
     List<ScString> StashedRewardJsonList { get; set; }
     List<ScLong> LastDailyRewardRedeemedTicksList { get; set; }
     int NoAdsCode { get; set; }
