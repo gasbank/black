@@ -135,7 +135,16 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
     public static void DeleteAllSaveFiles()
     {
-        for (var i = 0; i < maxSaveDataSlot; i++) File.Delete(GetSaveLoadFilePathName(i));
+        for (var i = 0; i < maxSaveDataSlot; i++)
+        {
+            File.Delete(GetSaveLoadFilePathName(i));
+        }
+        
+        // 모든 Persistent 파일 삭제... 괜찮은가?
+        foreach (var filePath in Directory.GetFiles(Application.persistentDataPath, "*", SearchOption.AllDirectories))
+        {
+            File.Delete(filePath);
+        }
 
         ResetSaveDataSlotAndWrite();
     }

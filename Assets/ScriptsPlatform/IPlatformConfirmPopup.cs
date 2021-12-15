@@ -23,7 +23,7 @@ public interface IPlatformConfirmPopup {
     void OpenRiceClaimPopup(string msg, string claimBtnText, Action onClaim, string titleText,
         Header header = Header.Normal, int autoCloseSec = -1);
 
-    void OpenPopup(string msg, Action onBtn1, Action onBtn2, Action onBtn3,
+    void OpenConfirmPopup(string msg, Action onBtn1, Action onBtn2, Action onBtn3,
         string titleText, Header header, string btn1Text, string btn2Text, string btn3Text,
         string inputFieldText = "", string inputFieldPlaceholder = "", bool showInputField = false,
         Sprite popupSprite = null, Sprite topImageSprite = null,

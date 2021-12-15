@@ -101,6 +101,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     if (islandLabelSpawner.IsLabelByMinPointEmpty)
                     {
                         finaleDirector.Play(finaleDirector.playableAsset);
+                        UpdateLastClearedStageIdAndSave();
                     }
                 }
                 else
@@ -113,6 +114,21 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 if (Verbose) ConDebug.Log($"Local position = {localPoint}");
             }
         }
+    }
+
+    static void UpdateLastClearedStageIdAndSave()
+    {
+        var stageName = StageButton.CurrentStageMetadata.name;
+        for (var i = 0; i < Data.dataSet.StageSequenceData.Count; i++)
+        {
+            if (Data.dataSet.StageSequenceData[i].stageName == stageName)
+            {
+                BlackContext.instance.LastClearedStageId =
+                    Mathf.Max(BlackContext.instance.LastClearedStageId, i + 1);
+            }
+        }
+
+        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
     }
 
 #if UNITY_EDITOR

@@ -24,7 +24,8 @@ public class StageDetail : MonoBehaviour
 
         if (lastClearedStageId >= Data.dataSet.StageMetadataList.Count)
         {
-            Debug.LogError("lastClearedStageId exceeds Data.dataSet.StageMetadataList count.");
+            //Debug.LogError("lastClearedStageId exceeds Data.dataSet.StageMetadataList count.");
+            ConfirmPopup.instance.Open(@"\모든 스테이지를 깼습니다!", ConfirmPopup.instance.Close);
             return;
         }
 

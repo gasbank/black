@@ -135,7 +135,7 @@ public static class DataReloader
         // 번역되는 텍스트는 diff를 쉽게 볼 수 있도록 텍스트파일로도 쓴다.
         WriteStringDataToTextFile(Path.Combine("Data", "StrKoData.txt"), dataSet.StrKoData, true, 0.2f);
         WriteStringDataToTextFile(Path.Combine("Data", "StrEnData.txt"), dataSet.StrEnData, true, 1.0f);
-        
+
         ConDebug.Log($"{dataSet.StageSequenceData.Count} entries on StageSequenceData");
 
         EditorUtility.DisplayProgressBar("Reload Data", "Serializing and writing...", 0.0f);

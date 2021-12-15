@@ -130,7 +130,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
         Open(msg);
     }
 
-    public void OpenPopup(string msg, Action onBtn1, Action onBtn2, Action onBtn3,
+    public void OpenConfirmPopup(string msg, Action onBtn1, Action onBtn2, Action onBtn3,
         string titleText, Header header, string btn1Text, string btn2Text, string btn3Text,
         string inputFieldText = "", string inputFieldPlaceholder = "", bool showInputField = false,
         Sprite popupSprite = null, Sprite topImageSprite = null,
@@ -292,7 +292,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
         ShowPosition showPosition = ShowPosition.Center, Action onCloseBtn = null,
         bool allowTouchEventsOutsidePopup = false)
     {
-        OpenPopup(msg, onBtn1, onBtn2, null, titleText, header, btn1Text, btn2Text, "", "", "", false, null, null,
+        OpenConfirmPopup(msg, onBtn1, onBtn2, null, titleText, header, btn1Text, btn2Text, "", "", "", false, null, null,
             WidthType.Normal, 0, showPosition, onCloseBtn, allowTouchEventsOutsidePopup);
     }
 
@@ -300,7 +300,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
         string inputFieldText, string inputFieldPlaceholder,
         InputField.CharacterValidation validation = InputField.CharacterValidation.None)
     {
-        OpenPopup(msg, onYes, onNo, null, titleText, header, "\\확인".Localized(), "\\취소".Localized(), "", inputFieldText,
+        OpenConfirmPopup(msg, onYes, onNo, null, titleText, header, "\\확인".Localized(), "\\취소".Localized(), "", inputFieldText,
             inputFieldPlaceholder, true);
         inputField.Select();
         inputField.ActivateInputField();
@@ -315,7 +315,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
     public void OpenRiceClaimPopup(string msg, string claimBtnText, Action onClaim, string titleText,
         Header header = Header.Normal, int autoCloseSec = -1)
     {
-        OpenPopup(msg, null, null, onClaim, titleText, header, "", "", claimBtnText, "", "", false, null, null,
+        OpenConfirmPopup(msg, null, null, onClaim, titleText, header, "", "", claimBtnText, "", "", false, null, null,
             WidthType.Normal, 0, ShowPosition.Center, null, false, autoCloseSec, null, riceClaimImageSprite,
             riceClaimButtonImageSprite);
     }
@@ -323,7 +323,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
     public void OpenGemClaimPopup(string msg, string claimBtnText, Action onClaim, string titleText,
         Header header = Header.Normal, int autoCloseSec = -1)
     {
-        OpenPopup(msg, null, null, onClaim, titleText, header, "", "", claimBtnText, "", "", false, null, null,
+        OpenConfirmPopup(msg, null, null, onClaim, titleText, header, "", "", claimBtnText, "", "", false, null, null,
             WidthType.Normal, 0, ShowPosition.Center, null, false, autoCloseSec, null, gemClaimImageSprite,
             gemClaimButtonImageSprite);
     }
@@ -335,13 +335,13 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
 
     public void Open(string msg, Action onYes, string titleText, Header header = Header.Normal)
     {
-        OpenPopup(msg, onYes, null, null, titleText, header, "\\확인".Localized(), "", "");
+        OpenConfirmPopup(msg, onYes, null, null, titleText, header, "\\확인".Localized(), "", "");
     }
 
     public void OpenOneButtonPopup(string msg, Action onYes, string titleText, string confirmText,
         Header header = Header.Normal)
     {
-        OpenPopup(msg, onYes, null, null, titleText, header, confirmText, "", "");
+        OpenConfirmPopup(msg, onYes, null, null, titleText, header, confirmText, "", "");
     }
 
     public void OpenYesImagePopup(string titleText, string msg, Action onYes, Sprite sprite)
@@ -357,14 +357,16 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
     public void OpenYesNoImagePopup(string titleText, Sprite sprite, string msg, string btn1Text, string btn2Text,
         Action onBtn1, Action onBtn2)
     {
-        OpenPopup(msg, onBtn1, onBtn2, null, titleText, Header.Normal, btn1Text, btn2Text, "", "", "", false, sprite);
+        OpenConfirmPopup(msg, onBtn1, onBtn2, null, titleText, Header.Normal, btn1Text, btn2Text, "", "", "", false, sprite);
     }
 
     public void Close()
     {
         if (IsOpen)
+        {
             //gameObject.SetActive(false);
             subcanvas.Close();
+        }
     }
 
     void IPlatformConfirmPopup.OpenTwoButtonPopup_Update(string text, Action close, Action action)
@@ -382,7 +384,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
 
     public void OpenCoreIndexSelectionPopup(string msg, string titleText, string btn1Text, Action<int> buttonCallback)
     {
-        OpenPopup(msg, Close, null, null, titleText, Header.Normal, btn1Text, null, "", "", "", false, null, null,
+        OpenConfirmPopup(msg, Close, null, null, titleText, Header.Normal, btn1Text, null, "", "", "", false, null, null,
             WidthType.Normal, 0, ShowPosition.Center, Close, false, -1, null, null, null, false, true,
             CoreIndexSelectionMode.SimpleButton, buttonCallback);
     }
@@ -533,7 +535,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
 
     void OpenYesImagePopup(string titleText, Sprite sprite, string msg, string btn1Text, Action onBtn1)
     {
-        OpenPopup(msg, onBtn1, null, null, titleText, Header.Normal, btn1Text, "", "", "", "", false, sprite);
+        OpenConfirmPopup(msg, onBtn1, null, null, titleText, Header.Normal, btn1Text, "", "", "", "", false, sprite);
     }
 
     public void OnButton1()

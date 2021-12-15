@@ -179,13 +179,13 @@ public class NoticeManager : MonoBehaviour
                         var textNewlined = text.Replace("\\n", "\n").Replace("\\r", "");
                         if (string.IsNullOrEmpty(detailUrl))
                             //ConfirmPopup.instance.Open(textNewlined, ConfirmPopup.instance.Close, title);
-                            ConfirmPopup.instance.OpenPopup(textNewlined, ConfirmPopup.instance.Close, null, null,
+                            ConfirmPopup.instance.OpenConfirmPopup(textNewlined, ConfirmPopup.instance.Close, null, null,
                                 title, Header.Normal, "\\확인".Localized(), null, null, "", "", false, null,
                                 null, WidthType.Normal, 0, ShowPosition.Center,
                                 ConfirmPopup.instance.Close, false, -1, FontManager.instance.SystemFont);
                         else
                             //ConfirmPopup.instance.OpenGeneralPopup(textNewlined, ConfirmPopup.instance.Close, () => Application.OpenURL(detailUrl), null, title, ConfirmPopup.Header.Normal, "\\확인".Localized(), "\\자세히 보기".Localized(), "");
-                            ConfirmPopup.instance.OpenPopup(textNewlined, ConfirmPopup.instance.Close,
+                            ConfirmPopup.instance.OpenConfirmPopup(textNewlined, ConfirmPopup.instance.Close,
                                 () => Application.OpenURL(detailUrl), null, title, Header.Normal,
                                 "\\확인".Localized(), "\\자세히 보기".Localized(), null, "", "", false, null, null,
                                 WidthType.Normal, 0, ShowPosition.Center,
