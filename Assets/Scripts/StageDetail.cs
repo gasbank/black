@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 
 public class StageDetail : MonoBehaviour
 {
@@ -44,5 +45,7 @@ public class StageDetail : MonoBehaviour
 
     public void OnStageStartButton()
     {
+        stageButton.SetStageMetadataToCurrent();
+        SceneManager.LoadScene("Main");
     }
 }

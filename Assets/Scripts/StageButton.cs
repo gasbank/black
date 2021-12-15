@@ -74,4 +74,15 @@ public class StageButton : MonoBehaviour
         stageMetadata = inStageMetadata;
         UpdateButtonImage();
     }
+
+    public void SetStageMetadataToCurrent()
+    {
+        if (stageMetadata == null)
+        {
+            Debug.LogError("Stage metadata is null");
+            return;
+        }
+        
+        CurrentStageMetadata = stageMetadata;
+    }
 }
