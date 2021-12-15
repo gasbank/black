@@ -98,13 +98,16 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     StartAnimateFillCoin(localPoint);
 
                     // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
-                    if (islandLabelSpawner.IsLabelByMinPointEmpty) finaleDirector.Play(finaleDirector.playableAsset);
+                    if (islandLabelSpawner.IsLabelByMinPointEmpty)
+                    {
+                        finaleDirector.Play(finaleDirector.playableAsset);
+                    }
                 }
                 else
                 {
                     // 칠할 수 없는 경우에는 그에 대한 알림
                     flickerImage.enabled = true;
-                    StartCoroutine("HideFlicker");
+                    StartCoroutine(nameof(HideFlicker));
                 }
 
                 if (Verbose) ConDebug.Log($"Local position = {localPoint}");
