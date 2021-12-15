@@ -23,6 +23,9 @@ public class MainGame : MonoBehaviour
     PaletteButtonGroup paletteButtonGroup;
 
     [SerializeField]
+    CanvasGroup achieveGroup;
+
+    [SerializeField]
     PinchZoom pinchZoom;
 
     int resetCount;
@@ -119,5 +122,11 @@ public class MainGame : MonoBehaviour
         if (gridWorld != null) gridWorld.WriteStageSaveData();
 
         SceneManager.LoadScene("Museum");
+    }
+
+    public void AchievePopup(bool show)
+    {
+        if (show) achieveGroup.Show();
+        else achieveGroup.Hide();
     }
 }

@@ -15,6 +15,9 @@ public class MainCanvasDirector : MonoBehaviour
     [SerializeField]
     CanvasGroup paletteGroup;
 
+    [SerializeField]
+    CanvasGroup achieveGroup;
+
 #if UNITY_EDITOR
     void OnValidate()
     {
@@ -26,26 +29,31 @@ public class MainCanvasDirector : MonoBehaviour
                     debugGroup.Hide();
                     coinGroup.Hide();
                     paletteGroup.Hide();
+                    achieveGroup.Hide();
                     break;
                 case Mode.Finished:
                     debugGroup.Hide();
                     coinGroup.Hide();
                     paletteGroup.Hide();
+                    achieveGroup.Hide();
                     break;
                 case Mode.Finishing:
                     debugGroup.Hide();
                     coinGroup.Hide();
                     paletteGroup.Hide();
+                    achieveGroup.Hide();
                     break;
                 case Mode.Painting:
                     debugGroup.Hide();
                     coinGroup.Show();
                     paletteGroup.Show();
+                    achieveGroup.Hide();
                     break;
                 case Mode.Debug:
                     debugGroup.Show();
                     coinGroup.Show();
                     paletteGroup.Show();
+                    achieveGroup.Hide();
                     break;
             }
         };

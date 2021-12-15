@@ -57,6 +57,7 @@ dev-tools/bin
 /*-build/
 /.idea/
 
+.vsconfig
 
 # Created by https://www.toptal.com/developers/gitignore/api/unity,visualstudio,visualstudiocode,macos,windows,linux,vim
 # Edit at https://www.toptal.com/developers/gitignore?templates=unity,visualstudio,visualstudiocode,macos,windows,linux,vim
