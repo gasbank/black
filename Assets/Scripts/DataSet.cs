@@ -1,5 +1,6 @@
 using MessagePack;
 using System.Collections.Generic;
+using UnityEngine.ResourceManagement.ResourceLocations;
 
 [System.Serializable]
 [MessagePackObject(true)]
@@ -16,8 +17,8 @@ public class DataSet
     // 이하는 실행 시 생성되는 데이터
 
     [IgnoreMember]
-    public List<StageMetadata> StageMetadataList;
+    public List<IResourceLocation> StageMetadataList;
 
     [IgnoreMember]
-    public Dictionary<string, StageMetadata> StageMetadataDict;
+    public Dictionary<string, IResourceLocation> StageMetadataDict;
 }

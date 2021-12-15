@@ -16,7 +16,7 @@ public class ScIntDrawer : PropertyDrawer {
         // Calculate rects
         var valueRect = new Rect(position.x, position.y, position.width, position.height);
         property.FindPropertyRelative("value").intValue = EditorGUI.IntField(valueRect, property.FindPropertyRelative("value").intValue ^ ScInt.k) ^ ScInt.k;
-        
+
         // Set indent back to what it was
         EditorGUI.indentLevel = indent;
 

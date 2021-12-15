@@ -2,8 +2,8 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(ScBigInteger))]
-public class ScBigIntegerDrawer : PropertyDrawer {
+[CustomPropertyDrawer(typeof(ScUInt128))]
+public class ScUInt128Drawer : PropertyDrawer {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
         EditorGUI.BeginProperty(position, label, property);
 
@@ -33,9 +33,9 @@ public class ScBigIntegerDrawer : PropertyDrawer {
 
         // Calculate rects
         var valueRect = new Rect(position.x, position.y, position.width, position.height);
-        var scBigInteger = (ScBigInteger)fieldInfo.GetValue(targetObject);
-        var newScBigIntegerStr = EditorGUI.TextField(valueRect, scBigInteger);
-        fieldInfo.SetValue(targetObject, new ScBigInteger(newScBigIntegerStr));
+        var scUint128 = (ScUInt128)fieldInfo.GetValue(targetObject);
+        var newScUintStr = EditorGUI.TextField(valueRect, scUint128);
+        fieldInfo.SetValue(targetObject, new ScUInt128(newScUintStr));
 
         // Set indent back to what it was
         EditorGUI.indentLevel = indent;

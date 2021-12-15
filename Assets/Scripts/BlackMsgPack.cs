@@ -1018,7 +1018,7 @@ namespace MessagePack.Formatters
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(2);
-            writer.Write(value.seq);
+            writer.Write(value.stageId);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.stageName, options);
         }
 
@@ -1032,7 +1032,7 @@ namespace MessagePack.Formatters
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __seq__ = default(int);
+            var __stageId__ = default(int);
             var __stageName__ = default(string);
 
             for (int i = 0; i < length; i++)
@@ -1042,7 +1042,7 @@ namespace MessagePack.Formatters
                 switch (key)
                 {
                     case 0:
-                        __seq__ = reader.ReadInt32();
+                        __stageId__ = reader.ReadInt32();
                         break;
                     case 1:
                         __stageName__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
@@ -1054,7 +1054,7 @@ namespace MessagePack.Formatters
             }
 
             var ____result = new global::StageSequenceData();
-            ____result.seq = __seq__;
+            ____result.stageId = __stageId__;
             ____result.stageName = __stageName__;
             reader.Depth--;
             return ____result;

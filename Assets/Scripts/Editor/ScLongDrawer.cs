@@ -16,7 +16,7 @@ public class ScLongDrawer : PropertyDrawer {
         // Calculate rects
         var valueRect = new Rect(position.x, position.y, position.width, position.height);
         property.FindPropertyRelative("value").longValue = EditorGUI.LongField(valueRect, property.FindPropertyRelative("value").longValue ^ ScLong.k) ^ ScLong.k;
-        
+
         // Set indent back to what it was
         EditorGUI.indentLevel = indent;
 

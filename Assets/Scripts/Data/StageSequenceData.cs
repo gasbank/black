@@ -6,7 +6,7 @@ using MessagePack;
 public class StageSequenceData
 {
     [Key(0)]
-    public int seq;
+    public int stageId;
 
     [Key(1)]
     public string stageName;

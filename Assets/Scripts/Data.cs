@@ -6,6 +6,7 @@ using MessagePack.Resolvers;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Profiling;
+using UnityEngine.ResourceManagement.ResourceLocations;
 
 [DisallowMultipleComponent]
 public class Data : MonoBehaviour
@@ -52,14 +53,14 @@ public class Data : MonoBehaviour
     {
         var stageAssetLocList = await Addressables.LoadResourceLocationsAsync("Stage", typeof(StageMetadata)).Task;
         
-        newDataSet.StageMetadataDict = stageAssetLocList.ToDictionary(e => e.PrimaryKey, e => e.Data as StageMetadata);
-        newDataSet.StageMetadataList = new List<StageMetadata>();
+        newDataSet.StageMetadataDict = stageAssetLocList.ToDictionary(e => e.PrimaryKey, e => e);
+        newDataSet.StageMetadataList = new List<IResourceLocation>();
         
         foreach (var seq in newDataSet.StageSequenceData)
         {
             if (newDataSet.StageMetadataDict.TryGetValue(seq.stageName, out var stageMetadata))
             {
-                Debug.Log($"Stage: {seq.stageName}");
+                Debug.Log($"Stage: {seq.stageName} - {stageMetadata}");
                 newDataSet.StageMetadataList.Add(stageMetadata);
             }
             else

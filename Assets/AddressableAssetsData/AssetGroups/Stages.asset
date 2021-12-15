@@ -17,93 +17,13 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 8c6ec3ecdd7bb41619a4cd3f2d6048af
   m_SerializeEntries:
-  - m_GUID: 8eaf918ed563d48f6a04e8123a0b0724
-    m_Address: Easy
+  - m_GUID: b7d12eee2a3410740826f9d91f73ec8c
+    m_Address: 001
     m_ReadOnly: 0
     m_SerializedLabels:
     - Stage
-  - m_GUID: b52f25a23746c4b25813eaf26c662ad3
-    m_Address: TestStage1
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: d251ec5adaf571041af0bc1b3a312629
-    m_Address: Apple
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: 51dcabdc5ec83e14a9701a88d216d21d
-    m_Address: Ear
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: 9cc0f957cabaa224396fee2cab69fa56
-    m_Address: Earring
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: f194f547f137440e4850ce4921e474db
-    m_Address: Easy128
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: 50a2ba5067605a846adae55f2043c8dd
-    m_Address: Fish
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: 6d9e5730115132845b2da451d88e1841
-    m_Address: Hay
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: e2d9689c8ff5e4b0099e119d7d172f72
-    m_Address: Mona
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: 802debbbc83502c40beda7f22d52481f
-    m_Address: Napoleon
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: bde44b13211e94532bce583868bbff64
-    m_Address: Piper
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: a62891b42e9b54679875967e189b329a
-    m_Address: Sketchbook
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: e688d5eb7385f44b79eebc334ae2de56
-    m_Address: TestStage2
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: cb7033a844487470a8f7043bec92f0d7
-    m_Address: TwoCircle
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: afaad294bfec84e018a82d8fcbf60de4
-    m_Address: Vase
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: af8e3181f1559164795ad5270843e4fc
-    m_Address: Velvet
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: 83c3e806617b3af4aad915fd34b7ada8
-    m_Address: Waves
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Stage
-  - m_GUID: 9c0a007a3a174be4b849ff3d20155787
-    m_Address: Yellow Room
+  - m_GUID: 4a9fd048221cff04babe81e2b7fe94a4
+    m_Address: 002
     m_ReadOnly: 0
     m_SerializedLabels:
     - Stage

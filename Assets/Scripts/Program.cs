@@ -454,7 +454,7 @@ namespace black_dev_tools
                 pixelCountByColor.TryGetValue(White, out var whiteCount);
                 Logger.WriteLine($"White Count: {whiteCount}");
 
-                if (islandColorByMinPoint.Count < 2)
+                if (islandColorByMinPoint.Count < 1)
                 {
                     throw new IslandCountException();
                 }
