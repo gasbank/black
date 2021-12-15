@@ -1,19 +1,20 @@
-﻿using UnityEngine;
-using UInt128 = Dirichlet.Numerics.UInt128;
+﻿using System;
+using Dirichlet.Numerics;
+using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class AchievementRecord5
 {
-    public AchievementRecord5(bool leaderboard)
-    {
-        this.leaderboard = leaderboard;
-    }
-
-    [System.NonSerialized]
+    [NonSerialized]
     public bool leaderboard;
 
     [SerializeField]
     ScUInt128 maxBlackLevel = 0;
+
+    public AchievementRecord5(bool leaderboard)
+    {
+        this.leaderboard = leaderboard;
+    }
 
     public UInt128 MaxBlackLevel
     {
@@ -23,16 +24,14 @@ public class AchievementRecord5
             maxBlackLevel = value;
             AchievementPopup.instance.UpdateAchievementTab("maxBlackLevel");
             if (leaderboard)
-            {
                 try
                 {
                     BlackLeaderboard.instance.UpdateLeaderboard_LastClearedStageId(value.ToClampedLong());
                 }
-                catch (System.Exception e)
+                catch (Exception e)
                 {
                     Debug.LogWarning(e.ToString());
                 }
-            }
         }
     }
 }

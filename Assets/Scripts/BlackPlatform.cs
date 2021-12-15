@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Numerics;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using ConditionalDebug;
@@ -7,7 +8,8 @@ using Dirichlet.Numerics;
 using UnityEngine;
 using RemoteSaveDictionary = System.Collections.Generic.Dictionary<string, byte[]>;
 
-public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IPlatformConfig {
+public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IPlatformConfig
+{
     public static BlackPlatform instance;
 
     [SerializeField]
@@ -22,33 +24,39 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     static readonly string ACCOUNT_RICE_RATE_KEY = "__accountRiceRate";
     static readonly string SAVE_DATE_KEY = "__saveDate";
 
-    public static string GetLoadOverwriteConfirmMessage(CloudMetadata cloudMetadata) {
+    public static string GetLoadOverwriteConfirmMessage(CloudMetadata cloudMetadata)
+    {
         return TextHelper.GetText("platform_load_confirm_popup");
     }
 
-    public static string GetSaveOverwriteConfirmMessage(CloudMetadata cloudMetadata) {
+    public static string GetSaveOverwriteConfirmMessage(CloudMetadata cloudMetadata)
+    {
         return TextHelper.GetText("platform_save_confirm_popup");
     }
 
-    public static bool IsLoadRollback(CloudMetadata cloudMetadata) {
+    public static bool IsLoadRollback(CloudMetadata cloudMetadata)
+    {
         return cloudMetadata.level < ResourceManager.instance.accountLevel
                || cloudMetadata.levelExp < ResourceManager.instance.accountLevelExp
                || cloudMetadata.gem < ResourceManager.instance.accountGem
                || cloudMetadata.riceRate < ResourceManager.instance.accountRiceRate;
     }
 
-    public static bool IsSaveRollback(CloudMetadata cloudMetadata) {
+    public static bool IsSaveRollback(CloudMetadata cloudMetadata)
+    {
         return cloudMetadata.level > ResourceManager.instance.accountLevel
                || cloudMetadata.levelExp > ResourceManager.instance.accountLevelExp
                || cloudMetadata.gem > ResourceManager.instance.accountGem
                || cloudMetadata.riceRate > ResourceManager.instance.accountRiceRate;
     }
 
-    public static void LoadSplashScene() {
+    public static void LoadSplashScene()
+    {
         Splash.LoadSplashScene();
     }
 
-    public byte[] SerializeSaveData() {
+    public byte[] SerializeSaveData()
+    {
         var dict = new RemoteSaveDictionary();
         // 직전 단계에서 PlatformInterface.instance.saveLoadManager.SaveFileName에다가 썼다.
         // 쓰면서 save slot을 1 증가시켰으니까, 직전에 쓴 파일을 읽어오고 싶으면
@@ -60,7 +68,8 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         dict[ACCOUNT_LEVEL_KEY] = BitConverter.GetBytes(ResourceManager.instance.accountLevel);
         dict[ACCOUNT_LEVEL_EXP_KEY] = BitConverter.GetBytes(ResourceManager.instance.accountLevelExp);
         dict[ACCOUNT_GEM_KEY] = UInt128BigInteger.ToBigInteger(ResourceManager.instance.accountGem).ToByteArray();
-        dict[ACCOUNT_RICE_RATE_KEY] = UInt128BigInteger.ToBigInteger(ResourceManager.instance.accountRiceRate).ToByteArray();
+        dict[ACCOUNT_RICE_RATE_KEY] =
+            UInt128BigInteger.ToBigInteger(ResourceManager.instance.accountRiceRate).ToByteArray();
         dict[SAVE_DATE_KEY] = BitConverter.GetBytes(DateTime.Now.Ticks);
         var binFormatter = new BinaryFormatter();
         var memStream = new MemoryStream();
@@ -68,28 +77,33 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         return memStream.ToArray();
     }
 
-    public static void OpenTwoButtonPopup_Update(string msg, Action onBtn1, Action onBtn2) {
+    public static void OpenTwoButtonPopup_Update(string msg, Action onBtn1, Action onBtn2)
+    {
         ConfirmPopup.instance.OpenTwoButtonPopup(msg, onBtn1, onBtn2, "\\확인".Localized(), "\\확인".Localized(), "Update");
     }
 
-    public static PlatformNotificationRequest GetPlatformNotificationRequest() {
-        if (BlackContext.instance == null) {
-            Debug.LogError($"RegisterAllRepeatingNotifications(): {nameof(BlackContext)}.{nameof(BlackContext.instance)} is null. Abort.");
+    public static PlatformNotificationRequest GetPlatformNotificationRequest()
+    {
+        if (BlackContext.instance == null)
+        {
+            Debug.LogError(
+                $"RegisterAllRepeatingNotifications(): {nameof(BlackContext)}.{nameof(BlackContext.instance)} is null. Abort.");
             return null;
         }
 
-        if (Data.dataSet == null) {
-            Debug.LogError($"RegisterAllRepeatingNotifications(): {nameof(Data)}.{nameof(Data.dataSet)} is null. Abort.");
+        if (Data.dataSet == null)
+        {
+            Debug.LogError(
+                $"RegisterAllRepeatingNotifications(): {nameof(Data)}.{nameof(Data.dataSet)} is null. Abort.");
             return null;
         }
 
-        if (BlackContext.instance.LastDailyRewardRedeemedIndex < Data.dataSet.DailyRewardData.Count) {
-            var data = Data.dataSet.DailyRewardData[(int)BlackContext.instance.LastDailyRewardRedeemedIndex.ToLong()];
+        if (BlackContext.instance.LastDailyRewardRedeemedIndex < Data.dataSet.DailyRewardData.Count)
+        {
+            var data = Data.dataSet.DailyRewardData[(int) BlackContext.instance.LastDailyRewardRedeemedIndex.ToLong()];
             var title = "\\{0}일차 이벤트".Localized(BlackContext.instance.LastDailyRewardRedeemedIndex + 1);
             // iOS는 이모지 지원이 된다!
-            if (Application.platform == RuntimePlatform.IPhonePlayer) {
-                title = $"{title}";
-            }
+            if (Application.platform == RuntimePlatform.IPhonePlayer) title = $"{title}";
 
             var desc = data.notificationDesc.Localized(data.amount.ToInt());
             var largeIconIndex = Mathf.Max(0, BlackContext.instance.LastClearedStageId - 1);
@@ -98,11 +112,10 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
             var localZone = TimeZoneInfo.Local;
             var currentOffset = localZone.GetUtcOffset(currentDate);
             var localHours = currentOffset.Hours;
-            if (localHours < 0) {
-                localHours += 24;
-            }
+            if (localHours < 0) localHours += 24;
 
-            PlatformNotificationRequest request = new PlatformNotificationRequest {
+            var request = new PlatformNotificationRequest
+            {
                 title = title,
                 body = desc,
                 largeIcon = string.Format("su_00_{0:D3}", largeIconIndex),
@@ -127,8 +140,12 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
 
     public string Str_SearchingAds => "\\광고를 찾고 있습니다...".Localized();
     public string LoginErrorTitle => "\\iCloud 로그인 필요".Localized();
-    public string GetNetworkTimeQueryProgressText(int oneBasedIndex, int totalCount) {
-        return Data.dataSet != null ? "\\오늘 날짜 확인중...\\n(서버 {0}개 중 {1}개 확인)\\n\\n잠시만 기다려 주십시오.".Localized(totalCount, oneBasedIndex) : "...";
+
+    public string GetNetworkTimeQueryProgressText(int oneBasedIndex, int totalCount)
+    {
+        return Data.dataSet != null
+            ? "\\오늘 날짜 확인중...\\n(서버 {0}개 중 {1}개 확인)\\n\\n잠시만 기다려 주십시오.".Localized(totalCount, oneBasedIndex)
+            : "...";
     }
 
     public string LoginErrorMessage =>
@@ -137,23 +154,28 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
 
     public string ConfirmMessage => "\\확인".Localized();
 
-    public class CloudMetadata {
+    public class CloudMetadata
+    {
         public static readonly CloudMetadata Invalid = new CloudMetadata
             {level = 0, levelExp = 0, gem = 0, riceRate = 0, saveDate = 0};
 
+        public UInt128 gem;
+
         public int level;
         public int levelExp;
-        public UInt128 gem;
         public UInt128 riceRate;
         public long saveDate;
     }
 
-    public void SaveBeforeCloudSave() {
+    public void SaveBeforeCloudSave()
+    {
         saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
     }
 
-    public RemoteSaveDictionary DeserializeSaveData(byte[] bytes) {
-        try {
+    public RemoteSaveDictionary DeserializeSaveData(byte[] bytes)
+    {
+        try
+        {
             if (bytes == null) return null;
 
             var memStream = new MemoryStream();
@@ -161,18 +183,22 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
             memStream.Write(bytes, 0, bytes.Length);
             memStream.Position = 0;
             return binFormatter.Deserialize(memStream) as RemoteSaveDictionary;
-        } catch (SerializationException e) {
+        }
+        catch (SerializationException e)
+        {
             Debug.LogException(e);
             return null;
         }
     }
 
-    public CloudMetadata GetCloudMetadataFromBytes(byte[] byteArr) {
+    public CloudMetadata GetCloudMetadataFromBytes(byte[] byteArr)
+    {
         var remoteSaveDict = DeserializeSaveData(byteArr);
 
         if (remoteSaveDict == null) return null;
 
-        return new CloudMetadata {
+        return new CloudMetadata
+        {
             level = GetInt32FromRemoteSaveDict(remoteSaveDict,
                 ACCOUNT_LEVEL_KEY),
             levelExp = GetInt32FromRemoteSaveDict(remoteSaveDict,
@@ -182,15 +208,17 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
             riceRate = UInt128BigInteger.FromBigInteger(GetBigIntegerFromRemoteSaveDict(remoteSaveDict,
                 ACCOUNT_RICE_RATE_KEY)),
             saveDate = GetInt64FromRemoteSaveDict(remoteSaveDict,
-                SAVE_DATE_KEY),
+                SAVE_DATE_KEY)
         };
     }
 
-    public void LoadDataAndLoadSplashScene(RemoteSaveDictionary dict) {
+    public void LoadDataAndLoadSplashScene(RemoteSaveDictionary dict)
+    {
         // 모든 저장 파일을 지운다.
         SaveLoadManager.DeleteAllSaveFiles();
         // 그 다음 쓴다.
-        foreach (var fileName in dict) {
+        foreach (var fileName in dict)
+        {
             var filePath = Path.Combine(Application.persistentDataPath, fileName.Key);
             ConDebug.Log(
                 $"LoadDataAndLoadSplashScene: gd key = {fileName.Key}, length = {fileName.Value.Length:n0}, writing to = {filePath}");
@@ -203,41 +231,42 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     }
 
 
-    int GetInt32FromRemoteSaveDict(RemoteSaveDictionary remoteSaveDict, string key) {
-        if (remoteSaveDict.TryGetValue(key, out byte[] _)) {
+    int GetInt32FromRemoteSaveDict(RemoteSaveDictionary remoteSaveDict, string key)
+    {
+        if (remoteSaveDict.TryGetValue(key, out _))
             return BitConverter.ToInt32(remoteSaveDict[key], 0);
-        } else {
-            return -1;
-        }
+        return -1;
     }
 
-    long GetInt64FromRemoteSaveDict(RemoteSaveDictionary remoteSaveDict, string key) {
-        if (remoteSaveDict.TryGetValue(key, out byte[] _)) {
+    long GetInt64FromRemoteSaveDict(RemoteSaveDictionary remoteSaveDict, string key)
+    {
+        if (remoteSaveDict.TryGetValue(key, out _))
             return BitConverter.ToInt64(remoteSaveDict[key], 0);
-        } else {
-            return -1;
-        }
+        return -1;
     }
 
-    System.Numerics.BigInteger GetBigIntegerFromRemoteSaveDict(RemoteSaveDictionary remoteSaveDict,
-        string key) {
-        if (remoteSaveDict.TryGetValue(key, out byte[] _)) {
-            return new System.Numerics.BigInteger(remoteSaveDict[key]);
-        } else {
-            return -1;
-        }
+    BigInteger GetBigIntegerFromRemoteSaveDict(RemoteSaveDictionary remoteSaveDict,
+        string key)
+    {
+        if (remoteSaveDict.TryGetValue(key, out _))
+            return new BigInteger(remoteSaveDict[key]);
+        return -1;
     }
 
-    public string GetEditorSaveResultText(byte[] savedData, RemoteSaveDictionary remoteSaveDict, string path) {
+    public string GetEditorSaveResultText(byte[] savedData, RemoteSaveDictionary remoteSaveDict, string path)
+    {
         return
             $"세이브 완료 - age: {TimeChecker.instance.GetLastSavedTimeTotalSeconds()} sec, size: {savedData.Length} bytes, accountLevel = {GetInt32FromRemoteSaveDict(remoteSaveDict, ACCOUNT_LEVEL_KEY)}, accountLevelExp = {GetInt32FromRemoteSaveDict(remoteSaveDict, ACCOUNT_LEVEL_EXP_KEY)}, accountGem = {GetBigIntegerFromRemoteSaveDict(remoteSaveDict, ACCOUNT_GEM_KEY)}, savedDate = {GetInt64FromRemoteSaveDict(remoteSaveDict, SAVE_DATE_KEY)}, path = {path}";
     }
 
-    public TimeSpan GetPlayed() =>
-        TimeSpan.FromSeconds(BlackContext.instance
-            .PlayTimeSec); // System.TimeSpan.Zero;//NetworkTime.GetNetworkTime() - NetworkTime.BaseDateTime;
+    public TimeSpan GetPlayed()
+    {
+        return TimeSpan.FromSeconds(BlackContext.instance
+            .PlayTimeSec);
+    }
 
-    public string GetDesc(byte[] bytes) {
+    public string GetDesc(byte[] bytes)
+    {
         var remoteSaveDict = DeserializeSaveData(bytes);
         var accountLevel = GetInt32FromRemoteSaveDict(remoteSaveDict, ACCOUNT_LEVEL_KEY);
         var accountLevelExp = GetInt32FromRemoteSaveDict(remoteSaveDict, ACCOUNT_LEVEL_EXP_KEY);
@@ -245,28 +274,34 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         return $"Level {accountLevel} / Exp {accountLevelExp} / Gem {accountGem}";
     }
 
-    public void DebugPrintCloudMetadata(byte[] bytes) {
+    public void DebugPrintCloudMetadata(byte[] bytes)
+    {
         var cloudMetadata = GetCloudMetadataFromBytes(bytes);
-        if (cloudMetadata != null) {
+        if (cloudMetadata != null)
+        {
             ConDebug.LogFormat("prevAccountLevel = {0}", cloudMetadata.level);
             ConDebug.LogFormat("prevAccountLevelExp = {0}", cloudMetadata.levelExp);
             ConDebug.LogFormat("prevAccountGem = {0}", cloudMetadata.gem);
             ConDebug.LogFormat("prevAccountRiceRate = {0}", cloudMetadata.riceRate);
             ConDebug.LogFormat("prevSaveDate = {0}", cloudMetadata.saveDate);
-        } else {
+        }
+        else
+        {
             ConDebug.LogFormat("Cloud metadata is null.");
         }
     }
 
-    public bool IsValidCloudMetadata(byte[] bytes) {
+    public bool IsValidCloudMetadata(byte[] bytes)
+    {
         var cloudMetadata = GetCloudMetadataFromBytes(bytes);
         return cloudMetadata != null && cloudMetadata.level >= 0 && cloudMetadata.levelExp >= 0 &&
                cloudMetadata.saveDate >= 0;
     }
 
-    public string GetAdMobAppId() {
+    public string GetAdMobAppId()
+    {
 #if UNITY_ANDROID
-        string appId = "unexpected_platform";
+        var appId = "unexpected_platform";
 #elif UNITY_IOS
         string appId = "unexpected_platform";
 #else
@@ -275,10 +310,11 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         return appId;
     }
 
-    public string GetAdMobRewardVideoAdUnitId() {
+    public string GetAdMobRewardVideoAdUnitId()
+    {
 #if BLACK_ADMIN
 #if UNITY_ANDROID
-        string adUnitId = "unexpected_platform";
+        var adUnitId = "unexpected_platform";
 #elif UNITY_IOS
         string adUnitId = "unexpected_platform";
 #else
@@ -302,7 +338,8 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     // 않고 구현했으므로 같은 이름을 쓴다.
     public string ScreenshotAndReportFullClassName => "top.plusalpha.screenshot.Screenshot";
 
-    public string GetFacebookAdsPlacementId() {
+    public string GetFacebookAdsPlacementId()
+    {
 #if UNITY_ANDROID
         var PLACEMENT_ID = "NOTSUPPORTED";
 #elif UNITY_IOS
@@ -314,13 +351,16 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     }
 
     // ReSharper disable once RedundantExplicitArrayCreation
-    public string[] FacebookAdsTestDeviceIdList => new string[] {
+    public string[] FacebookAdsTestDeviceIdList => new string[]
+    {
 #if BLACK_DEBUG
 #endif
     };
 
-    public string GetUserReviewUrl() {
-        switch (Application.platform) {
+    public string GetUserReviewUrl()
+    {
+        switch (Application.platform)
+        {
             case RuntimePlatform.Android:
                 return "market://details?id=top.plusalpha.black";
             case RuntimePlatform.IPhonePlayer:

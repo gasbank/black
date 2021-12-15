@@ -1,62 +1,70 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using ConditionalDebug;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
-using UnityEngine.SceneManagement;
-using ConditionalDebug;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections;
 
 public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    static bool Verbose { get; } = true;
+    readonly HashSet<uint> coloredMinPoints = new HashSet<uint>();
 
     [SerializeField]
-    Texture2D tex;
+    GameObject animatedCoinPrefab;
 
     [SerializeField]
-    PaletteButtonGroup paletteButtonGroup;
+    int coin;
 
     [SerializeField]
-    IslandLabelSpawner islandLabelSpawner;
+    RectTransform coinIconRt;
 
     [SerializeField]
-    StageSaveManager stageSaveManager;
+    TextMeshProUGUI coinText;
+
+    public Dictionary<uint, int> coloredIslandCountByColor = new Dictionary<uint, int>();
+
+    [SerializeField]
+    PlayableDirector finaleDirector;
+
+    [SerializeField]
+    public Image flickerImage;
 
     [SerializeField]
     ScInt gold = 0;
 
     [SerializeField]
-    PlayableDirector finaleDirector;
+    IslandLabelSpawner islandLabelSpawner;
 
-    readonly HashSet<uint> coloredMinPoints = new HashSet<uint>();
-    public Dictionary<uint, int> coloredIslandCountByColor = new Dictionary<uint, int>();
+    [SerializeField]
+    int maxIslandPixelArea;
+
+    [SerializeField]
+    PaletteButtonGroup paletteButtonGroup;
+
+    Canvas rootCanvas;
+
+    [SerializeField]
+    RectTransform rt;
+
     StageData stageData;
+
+    [SerializeField]
+    StageSaveManager stageSaveManager;
+
+    [SerializeField]
+    Texture2D tex;
+
+    static bool Verbose { get; } = true;
 
     public Texture2D Tex => tex;
 
     public int texSize => tex.width;
 
     public string StageName { get; set; } = "teststage";
-
-    [SerializeField]
-    int maxIslandPixelArea;
-
-    [SerializeField]
-    RectTransform rt;
-
-    [SerializeField]
-    GameObject animatedCoinPrefab;
-
-    [SerializeField]
-    RectTransform coinIconRt;
-
-    [SerializeField]
-    int coin;
-
-    [SerializeField]
-    TMPro.TextMeshProUGUI coinText;
 
     public int Coin
     {
@@ -68,10 +76,41 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
     }
 
-    [SerializeField]
-    public Image flickerImage;
+    public int Gold => gold;
 
-    Canvas rootCanvas;
+    public void OnPointerDown(PointerEventData eventData)
+    {
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (eventData.dragging == false)
+        {
+            if (Verbose) ConDebug.Log($"World position 1 = {eventData.pointerCurrentRaycast.worldPosition}");
+            transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
+            if (Verbose) ConDebug.Log($"World position 2 = {eventData.pointerPressRaycast.worldPosition}");
+
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, eventData.position, Camera.main,
+                out var localPoint))
+            {
+                if (Fill(localPoint))
+                {
+                    StartAnimateFillCoin(localPoint);
+
+                    // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
+                    if (islandLabelSpawner.IsLabelByMinPointEmpty) finaleDirector.Play(finaleDirector.playableAsset);
+                }
+                else
+                {
+                    // 칠할 수 없는 경우에는 그에 대한 알림
+                    flickerImage.enabled = true;
+                    StartCoroutine("HideFlicker");
+                }
+
+                if (Verbose) ConDebug.Log($"Local position = {localPoint}");
+            }
+        }
+    }
 
 #if UNITY_EDITOR
     void OnValidate()
@@ -142,7 +181,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         // min point 값은 플레이어가 입력한 좌표에서 Y축이 반전된 좌표계이다.
         var invertedBitmapPoint = BlackConvert.GetInvertedY(bitmapPoint, texSize);
         if (fillMinPoint.x > invertedBitmapPoint.x ||
-            (fillMinPoint.x == invertedBitmapPoint.x && fillMinPoint.y > invertedBitmapPoint.y))
+            fillMinPoint.x == invertedBitmapPoint.x && fillMinPoint.y > invertedBitmapPoint.y)
         {
             fillMinPoint.x = invertedBitmapPoint.x;
             fillMinPoint.y = invertedBitmapPoint.y;
@@ -152,7 +191,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     bool FloodFill(Color32[] bitmap, Vector2Int bitmapPoint, Color32 targetColor, uint replacementColorUint,
         bool forceSolutionColor)
     {
-        Queue<Vector2Int> q = new Queue<Vector2Int>();
+        var q = new Queue<Vector2Int>();
         q.Enqueue(bitmapPoint);
         var fillMinPoint = new Vector2Int(texSize, texSize);
         ICollection<Vector2Int> pixelList = new List<Vector2Int>();
@@ -163,32 +202,28 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             if (!ColorMatch(GetPixel(bitmap, n.x, n.y), targetColor))
                 continue;
             Vector2Int w = n, e = new Vector2Int(n.x + 1, n.y);
-            while ((w.x >= 0) && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor))
+            while (w.x >= 0 && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor))
             {
                 if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, w) == false)
-                {
                     // ERROR
                     return false;
-                }
 
-                if ((w.y > 0) && ColorMatch(GetPixel(bitmap, w.x, w.y - 1), targetColor))
+                if (w.y > 0 && ColorMatch(GetPixel(bitmap, w.x, w.y - 1), targetColor))
                     q.Enqueue(new Vector2Int(w.x, w.y - 1));
-                if ((w.y < texSize - 1) && ColorMatch(GetPixel(bitmap, w.x, w.y + 1), targetColor))
+                if (w.y < texSize - 1 && ColorMatch(GetPixel(bitmap, w.x, w.y + 1), targetColor))
                     q.Enqueue(new Vector2Int(w.x, w.y + 1));
                 w.x--;
             }
 
-            while ((e.x <= texSize - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor))
+            while (e.x <= texSize - 1 && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor))
             {
                 if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, e) == false)
-                {
                     // ERROR
                     return false;
-                }
 
-                if ((e.y > 0) && ColorMatch(GetPixel(bitmap, e.x, e.y - 1), targetColor))
+                if (e.y > 0 && ColorMatch(GetPixel(bitmap, e.x, e.y - 1), targetColor))
                     q.Enqueue(new Vector2Int(e.x, e.y - 1));
-                if ((e.y < texSize - 1) && ColorMatch(GetPixel(bitmap, e.x, e.y + 1), targetColor))
+                if (e.y < texSize - 1 && ColorMatch(GetPixel(bitmap, e.x, e.y + 1), targetColor))
                     q.Enqueue(new Vector2Int(e.x, e.y + 1));
                 e.x++;
             }
@@ -204,15 +239,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
             // 디버그 출력
             if (Verbose)
-            {
                 if (pixelList.Count <= 128)
-                {
                     foreach (var pixel in pixelList)
-                    {
                         ConDebug.Log($"Fill Pixel: {pixel.x}, {texSize - pixel.y - 1}");
-                    }
-                }
-            }
 
             Debug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
             var solutionColorUint = stageData.islandDataByMinPoint[fillMinPointUint].rgba;
@@ -221,22 +250,14 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 var solutionColor = BlackConvert.GetColor32(solutionColorUint);
                 Debug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
-                foreach (var pixel in pixelList)
-                {
-                    SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
-                }
+                foreach (var pixel in pixelList) SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
 
                 UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint);
                 return true;
             }
-            else
-            {
-                // 틀리면 다시 흰색으로 칠해야 한다.
-                foreach (var pixel in pixelList)
-                {
-                    SetPixel(bitmap, pixel.x, pixel.y, Color.white);
-                }
-            }
+
+            // 틀리면 다시 흰색으로 칠해야 한다.
+            foreach (var pixel in pixelList) SetPixel(bitmap, pixel.x, pixel.y, Color.white);
         }
 
         return false;
@@ -249,13 +270,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         coloredMinPoints.Add(fillMinPointUint);
 
         if (coloredIslandCountByColor.TryGetValue(solutionColorUint, out var coloredIslandCount))
-        {
             coloredIslandCount++;
-        }
         else
-        {
             coloredIslandCount = 1;
-        }
 
         coloredIslandCountByColor[solutionColorUint] = coloredIslandCount;
         paletteButtonGroup.UpdateColoredCount(solutionColorUint, coloredIslandCount);
@@ -278,10 +295,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         UpdateFillMinPoint(ref fillMinPoint, bitmapPoint);
         return true;
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
     }
 
     bool Fill(Vector2 localPoint)
@@ -322,20 +335,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         var whiteCount = 0;
         var otherCount = 0;
         foreach (var b in bitmap)
-        {
             if (b == Color.white)
-            {
                 whiteCount++;
-            }
             else if (b == Color.black)
-            {
                 blackCount++;
-            }
             else
-            {
                 otherCount++;
-            }
-        }
 
         return new[] {blackCount, whiteCount, otherCount};
     }
@@ -346,51 +351,14 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         StageSaveManager.LoadWipPng(stageName, tex);
         if (inColoredMinPoints.Count > 0)
-        {
             foreach (var minPoint in inColoredMinPoints)
-            {
                 UpdatePaletteBySolutionColor(minPoint, stageData.islandDataByMinPoint[minPoint].rgba);
-            }
-        }
     }
 
     IEnumerator HideFlicker()
     {
-        yield return (new WaitForSeconds(0.0f));
+        yield return new WaitForSeconds(0.0f);
         flickerImage.enabled = false;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        if (eventData.dragging == false)
-        {
-            if (Verbose) ConDebug.Log($"World position 1 = {eventData.pointerCurrentRaycast.worldPosition}");
-            transform.InverseTransformPoint(eventData.pointerCurrentRaycast.worldPosition);
-            if (Verbose) ConDebug.Log($"World position 2 = {eventData.pointerPressRaycast.worldPosition}");
-
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, eventData.position, Camera.main,
-                out Vector2 localPoint))
-            {
-                if (Fill(localPoint))
-                {
-                    StartAnimateFillCoin(localPoint);
-
-                    // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
-                    if (islandLabelSpawner.IsLabelByMinPointEmpty)
-                    {
-                        finaleDirector.Play(finaleDirector.playableAsset);
-                    }
-                }
-                else
-                {
-                    // 칠할 수 없는 경우에는 그에 대한 알림
-                    flickerImage.enabled = true;
-                    StartCoroutine("HideFlicker");
-                }
-
-                if (Verbose) ConDebug.Log($"Local position = {localPoint}");
-            }
-        }
     }
 
     void StartAnimateFillCoin(Vector2 localPoint)
@@ -407,10 +375,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void OnApplicationPause(bool pause)
     {
-        if (pause)
-        {
-            WriteStageSaveData();
-        }
+        if (pause) WriteStageSaveData();
     }
 
     public void WriteStageSaveData()
@@ -422,6 +387,4 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         WriteStageSaveData();
     }
-
-    public int Gold => gold;
 }

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MessagePack;
 
-[System.Serializable]
-[MessagePackObject(keyAsPropertyName: true)]
-public class DataSetHash {
+[Serializable]
+[MessagePackObject(true)]
+public class DataSetHash
+{
     public Dictionary<string, string> Hash;
 }

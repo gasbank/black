@@ -1,20 +1,23 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer))]
-public class RingEffect : MonoBehaviour {
+public class RingEffect : MonoBehaviour
+{
     [SerializeField]
     MeshRenderer meshRenderer;
 
-    void Awake() {
+    void Awake()
+    {
         Hide();
     }
 
-    public void Show() {
+    public void Show()
+    {
         meshRenderer.enabled = true;
     }
 
-    public void Hide() {
+    public void Hide()
+    {
         meshRenderer.enabled = false;
     }
 }

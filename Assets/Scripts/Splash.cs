@@ -98,10 +98,7 @@ public class Splash : MonoBehaviour
 
         slider.normalizedValue = 1.0f;
         loadingAsync.allowSceneActivation = true;
-        while (!loadingAsync.isDone)
-        {
-            yield return loadingAsync;
-        }
+        while (!loadingAsync.isDone) yield return loadingAsync;
     }
 
     public static void LoadSplashScene()

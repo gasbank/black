@@ -11,15 +11,9 @@ public class StageStar : MonoBehaviour
         get => starList.Count(e => e.activeSelf);
         set
         {
-            foreach (var s in starList.Take(value))
-            {
-                s.SetActive(true);
-            }
+            foreach (var s in starList.Take(value)) s.SetActive(true);
 
-            foreach (var s in starList.Skip(value))
-            {
-                s.SetActive(false);
-            }
+            foreach (var s in starList.Skip(value)) s.SetActive(false);
         }
     }
 

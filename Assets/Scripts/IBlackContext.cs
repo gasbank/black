@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Dirichlet.Numerics;
 using UnityEngine;
-using UInt128 = Dirichlet.Numerics.UInt128;
 
 public interface IBlackContext
 {
@@ -8,21 +8,10 @@ public interface IBlackContext
     bool WaiveBan { get; set; }
     UInt128 Rice { get; }
     UInt128 PendingRice { get; }
-    void RefreshRiceText();
-    void UpdateLastTouchTime();
     UInt128 Gem { get; }
     UInt128 FreeGem { get; }
     UInt128 PaidGem { get; }
     UInt128 PendingFreeGem { get; set; }
-    void AddFreeGem(UInt128 delta);
-    void AddPaidGem(UInt128 delta);
-    void SubtractGem(UInt128 delta);
-    void SetGemZero();
-    void RefreshGemText();
-    void AddPendingRice(UInt128 delta);
-    void ApplyPendingRice();
-    void AddPendingFreeGem(UInt128 delta);
-    void ApplyPendingFreeGem();
     GameObject AchievementNewImage { get; }
     AchievementRecord5 AchievementGathered { get; set; }
     AchievementRecord5 AchievementRedeemed { get; set; }
@@ -38,9 +27,6 @@ public interface IBlackContext
     GameObject UserEmergency { get; }
     ScInt PlayTimeSec { get; set; }
     Dictionary<string, LocalUserData> LocalUserDict { get; set; }
-    void UpdateDailyRewardAllButtonStates();
-
-    void UnlockPlatformAchievement(string achievementGroup, long newValue);
 
     ScInt LastClearedStageId { get; set; }
     List<ScFloat> StageClearTimeList { get; set; }
@@ -53,16 +39,33 @@ public interface IBlackContext
     List<ScString> StashedRewardJsonList { get; set; }
     List<ScLong> LastDailyRewardRedeemedTicksList { get; set; }
     int NoAdsCode { get; set; }
+    Canvas[] CriticalErrorHiddenCanvasList { get; }
+    bool IsBigPopupOpened { get; set; }
+    Transform AnimatedIncrementParent { get; set; }
+    void RefreshRiceText();
+    void UpdateLastTouchTime();
+    void AddFreeGem(UInt128 delta);
+    void AddPaidGem(UInt128 delta);
+    void SubtractGem(UInt128 delta);
+    void SetGemZero();
+    void RefreshGemText();
+    void AddPendingRice(UInt128 delta);
+    void ApplyPendingRice();
+    void AddPendingFreeGem(UInt128 delta);
+    void ApplyPendingFreeGem();
+    void UpdateDailyRewardAllButtonStates();
+
+    void UnlockPlatformAchievement(string achievementGroup, long newValue);
     void UpdateDailyRewardPopup();
     void SetRice(UInt128 v);
     void SetPendingRice(UInt128 v);
     void AddRiceSafe(UInt128 v);
     void SubtractRice(UInt128 v);
-    Canvas[] CriticalErrorHiddenCanvasList { get; }
-    bool IsBigPopupOpened { get; set; }
-    Transform AnimatedIncrementParent { get; set; }
     void OpenBigPopup(CanvasGroup canvasGroup);
     void CloseBigPopup(CanvasGroup canvasGroup);
-    void IncreaseGemAnimated(ScLong achievementDataRewardGem, GameObject clonedGameObject, BlackLogEntry.Type gemAddAchievement, ScInt achievementDataId);
+
+    void IncreaseGemAnimated(ScLong achievementDataRewardGem, GameObject clonedGameObject,
+        BlackLogEntry.Type gemAddAchievement, ScInt achievementDataId);
+
     void GetAllDailyRewardsAtOnceAdminToDay(int toDay);
 }

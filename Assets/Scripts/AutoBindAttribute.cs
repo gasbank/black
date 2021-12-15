@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 
 [AttributeUsage(AttributeTargets.Field)]
-public class AutoBindAttribute : Attribute { }
+public class AutoBindAttribute : Attribute
+{
+}
 
 [AttributeUsage(AttributeTargets.Field)]
-public class AutoBindThisAttribute : Attribute { }
+public class AutoBindThisAttribute : Attribute
+{
+}
 
 public static class AutoBindUtil
 {
@@ -18,23 +23,17 @@ public static class AutoBindUtil
             var attributes = fieldInfo.GetCustomAttributes(typeof(AutoBindAttribute), false);
             foreach (var attr in attributes)
             {
-                var niceName = UnityEditor.ObjectNames.NicifyVariableName(fieldInfo.Name);
+                var niceName = ObjectNames.NicifyVariableName(fieldInfo.Name);
                 //ConDebug.Log($"{fieldInfo.Name} --> {niceName}");
                 var targetCompTransform = comp.transform.FindDeepChild(niceName);
                 if (SetFieldValue(comp, fieldInfo, targetCompTransform) == false)
-                {
                     Debug.LogError($"Cannot find auto bind target: {niceName}", comp.gameObject);
-                }
             }
 
             var thisAttributes = fieldInfo.GetCustomAttributes(typeof(AutoBindThisAttribute), false);
             foreach (var attr in thisAttributes)
-            {
                 if (SetFieldValue(comp, fieldInfo, comp.transform) == false)
-                {
                     Debug.LogError($"Cannot find auto bind this target: {comp.gameObject.name}", comp.gameObject);
-                }
-            }
         }
     }
 
@@ -43,13 +42,9 @@ public static class AutoBindUtil
         if (targetCompTransform != null)
         {
             if (fieldInfo.FieldType == typeof(GameObject))
-            {
                 fieldInfo.SetValue(comp, targetCompTransform.gameObject);
-            }
             else
-            {
                 fieldInfo.SetValue(comp, targetCompTransform.GetComponent(fieldInfo.FieldType));
-            }
             return true;
         }
 

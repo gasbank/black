@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 // 참고: https://docs.unity3d.com/ScriptReference/UI.Graphic.html
-public class SkipRenderGraphic : Graphic {
-    protected override void OnPopulateMesh(VertexHelper vh) {
+public class SkipRenderGraphic : Graphic
+{
+    protected override void OnPopulateMesh(VertexHelper vh)
+    {
         // Vector2 corner1 = Vector2.zero;
         // Vector2 corner2 = Vector2.zero;
 

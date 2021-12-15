@@ -1,37 +1,33 @@
 ﻿using System;
 using System.Collections;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
+#if UNITY_EDITOR
+#endif
 
 [RequireComponent(typeof(CanvasGroup))]
 [DisallowMultipleComponent]
 public class CanvasGroupAlpha : MonoBehaviour
 {
     [SerializeField]
-    [AutoBindThis]
-    CanvasGroup canvasGroup;
-
-    [SerializeField]
-    float targetAlpha = 1.0f;
-
-    [SerializeField]
-    float alphaSpeed;
-
-    [SerializeField]
-    bool useUnscaledTime;
+    bool alwaysInteractable;
 
     float blendRatio = 1.0f;
 
     [SerializeField]
-    bool alwaysInteractable;
+    [AutoBindThis]
+    CanvasGroup canvasGroup;
 
     [SerializeField]
     bool disableRaycasts;
 
     [SerializeField]
     Canvas[] immediateCanvasList;
+
+    [SerializeField]
+    float targetAlpha = 1.0f;
+
+    [SerializeField]
+    bool useUnscaledTime;
 
     public float TargetAlpha
     {
@@ -41,71 +37,10 @@ public class CanvasGroupAlpha : MonoBehaviour
 
     public bool TargetReached => Mathf.Approximately(TargetAlpha, canvasGroup.alpha);
 
-    public IEnumerator WaitTargetReachCoro() => new WaitWhile(() => TargetReached == false);
-
     public Action OnTargetReached { get; internal set; }
 
-    public float AlphaSpeed
-    {
-        get => alphaSpeed;
-        set => alphaSpeed = value;
-    }
-
-    [ContextMenu(nameof(SetTargetAlphaOne))]
-    public void SetTargetAlphaOne()
-    {
-        TargetAlpha = 1;
-        if (Application.isEditor && Application.isPlaying == false || alphaSpeed == 0)
-        {
-            canvasGroup.alpha = 1;
-        }
-#if UNITY_EDITOR
-        UpdateChildrenSceneVisibilityEditor();
-#endif
-    }
-
-    [ContextMenu(nameof(SetTargetAlphaZero))]
-    public void SetTargetAlphaZero()
-    {
-        TargetAlpha = 0;
-        if (Application.isEditor && Application.isPlaying == false || alphaSpeed == 0)
-        {
-            canvasGroup.alpha = 0;
-        }
-#if UNITY_EDITOR
-        UpdateChildrenSceneVisibilityEditor();
-#endif
-    }
-
-    public void SetAlphaImmediately(float v)
-    {
-        TargetAlpha = v;
-        canvasGroup.alpha = v;
-    }
-
-#if UNITY_EDITOR
-    void UpdateSceneVisibilityEditor()
-    {
-//        if (gameObject.IsBlocksRaycasts())
-//        {
-//            SceneVisibilityManager.instance.EnablePicking(gameObject, true);
-//        }
-//        else
-//        {
-//            SceneVisibilityManager.instance.DisablePicking(gameObject, true);
-//        }
-//
-//        EditorUtility.SetDirty(SceneVisibilityManager.instance);
-    }
-
-    void UpdateChildrenSceneVisibilityEditor()
-    {
-        foreach (var canvasGroupAlpha in GetComponentsInChildren<CanvasGroupAlpha>())
-        {
-            canvasGroupAlpha.UpdateSceneVisibilityEditor();
-        }
-    }
-#endif
+    [field: SerializeField]
+    public float AlphaSpeed { get; set; }
 
     public bool DisableRaycasts
     {
@@ -115,6 +50,37 @@ public class CanvasGroupAlpha : MonoBehaviour
             disableRaycasts = value;
             canvasGroup.blocksRaycasts = !disableRaycasts;
         }
+    }
+
+    public IEnumerator WaitTargetReachCoro()
+    {
+        return new WaitWhile(() => TargetReached == false);
+    }
+
+    [ContextMenu(nameof(SetTargetAlphaOne))]
+    public void SetTargetAlphaOne()
+    {
+        TargetAlpha = 1;
+        if (Application.isEditor && Application.isPlaying == false || AlphaSpeed == 0) canvasGroup.alpha = 1;
+#if UNITY_EDITOR
+        UpdateChildrenSceneVisibilityEditor();
+#endif
+    }
+
+    [ContextMenu(nameof(SetTargetAlphaZero))]
+    public void SetTargetAlphaZero()
+    {
+        TargetAlpha = 0;
+        if (Application.isEditor && Application.isPlaying == false || AlphaSpeed == 0) canvasGroup.alpha = 0;
+#if UNITY_EDITOR
+        UpdateChildrenSceneVisibilityEditor();
+#endif
+    }
+
+    public void SetAlphaImmediately(float v)
+    {
+        TargetAlpha = v;
+        canvasGroup.alpha = v;
     }
 
     void SetTargetAlpha(float value)
@@ -139,15 +105,9 @@ public class CanvasGroupAlpha : MonoBehaviour
 
         // 소트 문제때문에 Canvas 붙인 것들이 있다. 이들도 여기에서 처리
         if (immediateCanvasList != null)
-        {
             foreach (var immediateCanvas in immediateCanvasList)
-            {
                 if (immediateCanvas != null)
-                {
                     immediateCanvas.enabled = targetAlpha > 0;
-                }
-            }
-        }
 
 #if UNITY_EDITOR
         UpdateSceneVisibilityEditor();
@@ -170,7 +130,7 @@ public class CanvasGroupAlpha : MonoBehaviour
             canvasGroup.alpha = Mathf.SmoothStep(targetAlpha <= 0 ? 1 : 0, targetAlpha, blendRatio);
             //canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, targetAlpha, blendRatio);
             var deltaTime = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
-            blendRatio = Mathf.Clamp01(blendRatio + alphaSpeed * deltaTime);
+            blendRatio = Mathf.Clamp01(blendRatio + AlphaSpeed * deltaTime);
         }
         else
         {
@@ -190,12 +150,30 @@ public class CanvasGroupAlpha : MonoBehaviour
     {
         AlphaSpeed = duration > 0 ? 1.0f / duration : 0;
         if (duration > 0)
-        {
             TargetAlpha = newTargetAlpha;
-        }
         else
-        {
             SetAlphaImmediately(newTargetAlpha);
-        }
     }
+
+#if UNITY_EDITOR
+    void UpdateSceneVisibilityEditor()
+    {
+//        if (gameObject.IsBlocksRaycasts())
+//        {
+//            SceneVisibilityManager.instance.EnablePicking(gameObject, true);
+//        }
+//        else
+//        {
+//            SceneVisibilityManager.instance.DisablePicking(gameObject, true);
+//        }
+//
+//        EditorUtility.SetDirty(SceneVisibilityManager.instance);
+    }
+
+    void UpdateChildrenSceneVisibilityEditor()
+    {
+        foreach (var canvasGroupAlpha in GetComponentsInChildren<CanvasGroupAlpha>())
+            canvasGroupAlpha.UpdateSceneVisibilityEditor();
+    }
+#endif
 }

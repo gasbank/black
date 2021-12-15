@@ -1,51 +1,66 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.UI;
-using Dict = System.Collections.Generic.Dictionary<string, object>;
 using System.Linq;
 using ConditionalDebug;
 using JetBrains.Annotations;
-using UInt128 = Dirichlet.Numerics.UInt128;
-using UnityEngine.Serialization;
+using MiniJSON;
+using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
+using Dict = System.Collections.Generic.Dictionary<string, object>;
 
 [DisallowMultipleComponent]
 public class ConfigPopup : MonoBehaviour
 {
     public static ConfigPopup instance;
 
+    public static readonly string BaseUrl =
+        "https://xxxxx/xxxxxx/xxxxxx";
+
+    static readonly string ServiceDbUrl = BaseUrl + "/service";
+
+    public static string noticeDbPostfix = "";
+
+    // BlackLanguageCode enum 순서 그대로 드롭다운에 있으리라는 보장은 없다.
+    // 여길 수정하면 UpdateLanguageDropdownText()도 함께 바꿔줘야한다.
+    static readonly List<BlackLanguageCode> languageDropdownValueArray = new List<BlackLanguageCode>
+    {
+        BlackLanguageCode.Ko,
+        BlackLanguageCode.Ch,
+        BlackLanguageCode.Tw,
+        BlackLanguageCode.Ja,
+        BlackLanguageCode.En
+    };
+
+    static readonly int Appear = Animator.StringToHash("Appear");
+
     [SerializeField]
-    Platform platform;
+    Toggle alwaysOnToggle;
+
+    [SerializeField]
+    Text appMetaInfoText;
 
     //외부 직접 접근이 필요한 변수/인스펙터 필드
     [SerializeField]
     Slider bgmSlider;
 
     [SerializeField]
-    Slider sfxSlider;
-
-    [SerializeField]
     Toggle bgmToggle;
 
     [SerializeField]
-    Toggle sfxToggle;
-
-    [SerializeField]
-    Toggle notchToggle;
+    Toggle bigScreenToggle;
 
     [SerializeField]
     Toggle bottomNotchToggle;
 
     [SerializeField]
-    Toggle performanceModeToggle;
+    GameObject communityConfigTabNewImage;
 
     [SerializeField]
-    Toggle alwaysOnToggle;
-
-    [SerializeField]
-    Toggle bigScreenToggle;
+    List<GameObject> configButtonGroupEtc;
 
     [SerializeField]
     Dropdown languageDropdown;
@@ -56,27 +71,39 @@ public class ConfigPopup : MonoBehaviour
     [SerializeField]
     GameObject mergeTab;
 
-    static TopNotchOffsetGroup[] TopNotchOffsetGroupList => SingletonManager.instance.TopNotchOffsetGroupList;
-    static BottomNotchOffsetGroup[] BottomNotchOffsetGroupList => SingletonManager.instance.BottomNotchOffsetGroupList;
+    [SerializeField]
+    Toggle notchToggle;
+
+    [SerializeField]
+    GameObject noticeButtonNewImage;
+
+    [SerializeField]
+    Toggle performanceModeToggle;
+
+    [SerializeField]
+    Platform platform;
+
+    [SerializeField]
+    Slider sfxSlider;
+
+    [SerializeField]
+    Toggle sfxToggle;
+
+    [SerializeField]
+    Subcanvas subcanvas;
+
+    Animator topAnimator;
 
     [SerializeField]
     Text userPseudoIdText;
-
-    [SerializeField]
-    Text appMetaInfoText;
-
-    [SerializeField]
-    List<GameObject> configButtonGroupEtc;
-
-    Animator topAnimator;
 
 
     [SerializeField]
     [FormerlySerializedAs("VibrationGroup")]
     GameObject vibrationGroup; //진동 옵션 그룹
 
-    [SerializeField]
-    GameObject communityConfigTabNewImage;
+    static TopNotchOffsetGroup[] TopNotchOffsetGroupList => SingletonManager.instance.TopNotchOffsetGroupList;
+    static BottomNotchOffsetGroup[] BottomNotchOffsetGroupList => SingletonManager.instance.BottomNotchOffsetGroupList;
 
     public bool IsNotchOn
     {
@@ -109,26 +136,14 @@ public class ConfigPopup : MonoBehaviour
     }
 
 
-    public static string ServiceId => $"{BlackContext.instance.UserPseudoId / 1000000:D3}-{(BlackContext.instance.UserPseudoId / 1000) % 1000:D3}-{BlackContext.instance.UserPseudoId % 1000:D3}";
-
-    public static readonly string BaseUrl =
-        "https://xxxxx/xxxxxx/xxxxxx";
-
-    static readonly string ServiceDbUrl = BaseUrl + "/service";
+    public static string ServiceId =>
+        $"{BlackContext.instance.UserPseudoId / 1000000:D3}-{BlackContext.instance.UserPseudoId / 1000 % 1000:D3}-{BlackContext.instance.UserPseudoId % 1000:D3}";
 
     public static string NoticeDbUrl => BaseUrl + "/notice" + noticeDbPostfix;
-
-    public static string noticeDbPostfix = "";
     static GameObject ConfigButtonNewImage => SingletonManager.instance.ConfigButtonNewImage;
-
-    [SerializeField]
-    GameObject noticeButtonNewImage;
 
     static bool EtcGroupVisible =>
         Application.systemLanguage == SystemLanguage.Korean || BlackContext.instance.CheatMode;
-
-    [SerializeField]
-    Subcanvas subcanvas;
 
     bool IsOpen => subcanvas.IsOpen;
 
@@ -144,14 +159,10 @@ public class ConfigPopup : MonoBehaviour
         topAnimator = GetComponentInParent<Animator>();
 
         if (BlackContext.instance.LoadedAtLeastOnce == false)
-        {
             // 고성능 모드 기본값은 OFF다. 저장 데이터 복원 이전에 호출되어 있어야 저장 데이터가 우선순위를 가진다.
             SetPerformanceMode(false);
-        }
         else
-        {
             Debug.LogError("Logic error: Initialized after loaded!");
-        }
     }
 
     void Start()
@@ -163,15 +174,9 @@ public class ConfigPopup : MonoBehaviour
     void Update()
     {
         if (IsOpen)
-        {
             if (logoutButton != null)
-            {
                 if (logoutButton.gameObject.activeSelf)
-                {
                     logoutButton.interactable = PlatformLogin.IsAuthenticated;
-                }
-            }
-        }
     }
 
     [UsedImplicitly]
@@ -215,10 +220,8 @@ public class ConfigPopup : MonoBehaviour
                 $"v{Application.version}#{appMetaInfo.buildNumber} {appMetaInfo.buildStartDateTime} [{platformVersionCode}]" +
                 (BlackContext.instance.CheatMode ? "/ADM" : "");
         }
-        else
-        {
-            return $"v{Application.version} [{platformVersionCode}]" + (BlackContext.instance.CheatMode ? "/ADM" : "");
-        }
+
+        return $"v{Application.version} [{platformVersionCode}]" + (BlackContext.instance.CheatMode ? "/ADM" : "");
     }
 
     public static string GetUserId()
@@ -228,15 +231,9 @@ public class ConfigPopup : MonoBehaviour
 
     void UpdateServiceText()
     {
-        if (userPseudoIdText != null)
-        {
-            userPseudoIdText.text = GetUserId();
-        }
+        if (userPseudoIdText != null) userPseudoIdText.text = GetUserId();
 
-        if (appMetaInfoText != null)
-        {
-            appMetaInfoText.text = GetAppMetaInfo();
-        }
+        if (appMetaInfoText != null) appMetaInfoText.text = GetAppMetaInfo();
     }
 
     public void UpdateSoundToggleStates()
@@ -266,54 +263,39 @@ public class ConfigPopup : MonoBehaviour
         ProgressMessage.instance.Open("\\서비스 항목 확인중...".Localized());
         var url = $"{ServiceDbUrl}/{ServiceId}";
         ConDebug.Log($"Querying {url}...");
-        using UnityWebRequest request = UnityWebRequest.Get(url);
+        using var request = UnityWebRequest.Get(url);
         request.timeout = 5;
         yield return request.SendWebRequest();
         ProgressMessage.instance.Close();
         if (request.result == UnityWebRequest.Result.ConnectionError)
-        {
             ShortMessage.instance.Show("\\서비스 정보 수신에 실패했습니다.".Localized(), true);
-        }
         else
-        {
             try
             {
-                List<string> received = new List<string>();
+                var received = new List<string>();
                 //ConDebug.LogFormat("URL Text: {0}", request.downloadHandler.text);
-                var serviceDataRoot = MiniJSON.Json.Deserialize(request.downloadHandler.text) as Dict;
+                var serviceDataRoot = Json.Deserialize(request.downloadHandler.text) as Dict;
 
-                if (serviceDataRoot == null)
-                {
-                    yield break;
-                }
+                if (serviceDataRoot == null) yield break;
 
-                foreach (var kv in serviceDataRoot)
-                {
-                    ConDebug.LogFormat("root key: {0}", kv.Key);
-                }
+                foreach (var kv in serviceDataRoot) ConDebug.LogFormat("root key: {0}", kv.Key);
 
                 var serviceData = serviceDataRoot["fields"] as Dictionary<string, object>;
-                foreach (var kv in serviceData)
-                {
-                    ConDebug.LogFormat("fields key: {0}", kv.Key);
-                }
+                foreach (var kv in serviceData) ConDebug.LogFormat("fields key: {0}", kv.Key);
 
                 //ConDebug.LogFormat("serviceData = {0}", serviceData);
-                List<int> serviceIndexList = new List<int>();
+                var serviceIndexList = new List<int>();
                 foreach (var service in serviceData)
                 {
-                    var serviceIndexParsed = int.TryParse(service.Key, out int serviceIndex);
+                    var serviceIndexParsed = int.TryParse(service.Key, out var serviceIndex);
                     // 이미 받았거나 이상한 항목은 스킵
                     if (serviceIndexParsed == false
                         || serviceIndex <= BlackContext.instance.LastConsumedServiceIndex)
-                    {
                         continue;
-                    }
 
                     var fields = (Dict) ((Dict) ((Dict) service.Value)["mapValue"])["fields"];
                     //var serviceValue = service.Value as 
                     foreach (var serviceItem in fields)
-                    {
                         switch (serviceItem.Key)
                         {
                             case "testitem":
@@ -321,32 +303,23 @@ public class ConfigPopup : MonoBehaviour
                                 break;
                             }
                         }
-                    }
 
                     serviceIndexList.Add(serviceIndex);
                 }
 
-                if (serviceIndexList.Count > 0)
-                {
-                    BlackContext.instance.LastConsumedServiceIndex = serviceIndexList.Max();
-                }
+                if (serviceIndexList.Count > 0) BlackContext.instance.LastConsumedServiceIndex = serviceIndexList.Max();
 
                 if (received.Count > 0)
-                {
                     ConfirmPopup.instance.Open(string.Format("\\다음 항목을 받았습니다.".Localized() + "\n\n{0}",
                         string.Join("\n", received.ToArray())));
-                }
                 else
-                {
                     ShortMessage.instance.Show("\\모든 서비스 항목이 처리됐습니다.".Localized());
-                }
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 ConfirmPopup.instance.Open("\\받은 서비스 항목이 없습니다.".Localized());
                 Debug.LogWarning(e.ToString());
             }
-        }
     }
 
     internal void ActivateNoticeNewImage(bool b)
@@ -374,34 +347,23 @@ public class ConfigPopup : MonoBehaviour
     // should only called by Toggle component event callback
     public void EnableGatherStoredMaxSfx(bool b)
     {
-        if (Sound.instance != null)
-        {
-            Sound.instance.GatherStoredMaxSfxEnabled = b;
-        }
+        if (Sound.instance != null) Sound.instance.GatherStoredMaxSfxEnabled = b;
     }
 
     // should only called by Toggle component event callback
     public void EnableNotchSupport(bool b)
     {
         foreach (var topNotchOffsetGroup in TopNotchOffsetGroupList)
-        {
             if (topNotchOffsetGroup != null)
-            {
                 topNotchOffsetGroup.NotchMarginActive = b;
-            }
-        }
     }
 
     // should only called by Toggle component event callback
     public void EnableBottomNotchSupport(bool b)
     {
         foreach (var bottomNotchOffsetGroup in BottomNotchOffsetGroupList)
-        {
             if (bottomNotchOffsetGroup != null)
-            {
                 bottomNotchOffsetGroup.NotchMarginActive = b;
-            }
-        }
     }
 
     public static void SetPerformanceMode(bool b)
@@ -410,13 +372,9 @@ public class ConfigPopup : MonoBehaviour
         {
             QualitySettings.vSyncCount = 0;
             if (Application.isEditor)
-            {
                 Application.targetFrameRate = -1;
-            }
             else
-            {
                 Application.targetFrameRate = 60;
-            }
         }
         else
         {
@@ -445,28 +403,14 @@ public class ConfigPopup : MonoBehaviour
         SetAlwaysOn(b);
     }
 
-    // BlackLanguageCode enum 순서 그대로 드롭다운에 있으리라는 보장은 없다.
-    // 여길 수정하면 UpdateLanguageDropdownText()도 함께 바꿔줘야한다.
-    static readonly List<BlackLanguageCode> languageDropdownValueArray = new List<BlackLanguageCode>
+    static int GetLanguageIndex(BlackLanguageCode languageCode)
     {
-        BlackLanguageCode.Ko,
-        BlackLanguageCode.Ch,
-        BlackLanguageCode.Tw,
-        BlackLanguageCode.Ja,
-        BlackLanguageCode.En,
-    };
-
-    static readonly int Appear = Animator.StringToHash("Appear");
-
-    static int GetLanguageIndex(BlackLanguageCode languageCode) =>
-        languageDropdownValueArray.FindIndex(e => e == languageCode);
+        return languageDropdownValueArray.FindIndex(e => e == languageCode);
+    }
 
     public void EnableLanguage(BlackLanguageCode languageCode)
     {
-        if (languageDropdown != null)
-        {
-            languageDropdown.value = GetLanguageIndex(languageCode);
-        }
+        if (languageDropdown != null) languageDropdown.value = GetLanguageIndex(languageCode);
     }
 
     // Dropdown 콜백으로만 호출되어야 한다.
@@ -498,11 +442,8 @@ public class ConfigPopup : MonoBehaviour
 
     static void UpdateLanguageDropdownText()
     {
-        if (instance.languageDropdown == null)
-        {
-            return;
-        }
-        
+        if (instance.languageDropdown == null) return;
+
         if (instance != null)
         {
             var languageOptions = new List<string>
@@ -511,12 +452,10 @@ public class ConfigPopup : MonoBehaviour
                 "\\중국어 (간체)".Localized(),
                 "\\중국어 (번체)".Localized(),
                 "\\일본어".Localized(),
-                "\\영어".Localized(),
+                "\\영어".Localized()
             };
-            for (int i = 0; i < languageOptions.Count; i++)
-            {
+            for (var i = 0; i < languageOptions.Count; i++)
                 instance.languageDropdown.options[i].text = languageOptions[i];
-            }
 
             instance.languageDropdown.RefreshShownValue();
         }
@@ -530,23 +469,15 @@ public class ConfigPopup : MonoBehaviour
             var languageFont = FontManager.instance.GetLanguageFont(Data.instance.CurrentLanguageCode);
             foreach (var textCollector in root.GetComponentsInChildren<TextCollector>(true))
             {
-                foreach (var text in textCollector.AllTextsInPrefab)
-                {
-                    text.font = languageFont;
-                }
+                foreach (var text in textCollector.AllTextsInPrefab) text.font = languageFont;
 
                 foreach (var staticLocalizedText in textCollector.AllStaticLocalizedTextsInPrefab)
-                {
                     staticLocalizedText.UpdateText();
-                }
             }
 
             foreach (var fitter in root.GetComponentsInChildren<ContentSizeFitter>())
             {
-                if (!fitter.enabled)
-                {
-                    continue;
-                }
+                if (!fitter.enabled) continue;
 
                 fitter.enabled = false;
                 // ReSharper disable once Unity.InefficientPropertyAccess
@@ -564,10 +495,7 @@ public class ConfigPopup : MonoBehaviour
     void UpdateEtcGroupVisibility()
     {
         // 시스템 언어가 한국어인 경우 혹은 치트 모드에서만 기타 그룹 버튼(응급 서비스 확인, 카페 가기, ...) 보여준다.
-        foreach (GameObject btn in configButtonGroupEtc)
-        {
-            btn.gameObject.SetActive(EtcGroupVisible);
-        }
+        foreach (var btn in configButtonGroupEtc) btn.gameObject.SetActive(EtcGroupVisible);
     }
 
     public void OpenCommunity()
@@ -582,26 +510,17 @@ public class ConfigPopup : MonoBehaviour
 
     public void OpenNotice()
     {
-        if (NoticeManager.instance != null)
-        {
-            NoticeManager.instance.Open();
-        }
+        if (NoticeManager.instance != null) NoticeManager.instance.Open();
     }
 
     public void ReportSaveData()
     {
-        if (Admin.instance != null)
-        {
-            Admin.instance.ReportSaveData();
-        }
+        if (Admin.instance != null) Admin.instance.ReportSaveData();
     }
 
     public void ReportPlayLog()
     {
-        if (Admin.instance != null)
-        {
-            Admin.instance.ReportPlayLog();
-        }
+        if (Admin.instance != null) Admin.instance.ReportPlayLog();
     }
 
     public void OpenPrivacyPolicy()
@@ -621,44 +540,29 @@ public class ConfigPopup : MonoBehaviour
 
     public void PlayButtonClickOnlyIfTrue(bool b)
     {
-        if (b && Sound.instance != null)
-        {
-            Sound.instance.PlayButtonClick();
-        }
+        if (b && Sound.instance != null) Sound.instance.PlayButtonClick();
     }
 
     public void BgmAudioSourceActive(bool b)
     {
-        if (Sound.instance != null)
-        {
-            Sound.instance.BgmAudioSourceActive = b;
-        }
+        if (Sound.instance != null) Sound.instance.BgmAudioSourceActive = b;
     }
 
     public void SfxAudioSourceActive(bool b)
     {
-        if (Sound.instance != null)
-        {
-            Sound.instance.SfxAudioSourceActive = b;
-        }
+        if (Sound.instance != null) Sound.instance.SfxAudioSourceActive = b;
     }
 
     [UsedImplicitly]
     public void BgmAudioSourceVolume(float v)
     {
-        if (Sound.instance != null)
-        {
-            Sound.instance.BgmAudioSourceVolume = v;
-        }
+        if (Sound.instance != null) Sound.instance.BgmAudioSourceVolume = v;
     }
 
     [UsedImplicitly]
     public void SfxAudioSourceVolume(float v)
     {
-        if (Sound.instance != null)
-        {
-            Sound.instance.SfxAudioSourceVolume = v;
-        }
+        if (Sound.instance != null) Sound.instance.SfxAudioSourceVolume = v;
     }
 
     public void Logout()

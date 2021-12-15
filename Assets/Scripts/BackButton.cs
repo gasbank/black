@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BackButton : MonoBehaviour {
-    public void GoToStageSelection() {
+public class BackButton : MonoBehaviour
+{
+    public void GoToStageSelection()
+    {
         SceneManager.LoadScene("Stage Selection");
     }
 }

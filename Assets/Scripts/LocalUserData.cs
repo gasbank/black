@@ -11,11 +11,11 @@ public class LocalUserData
     [Key(0)]
     public long createdNetworkUtcTicks;
 
-    [Key(1)]
-    public long lastUsedNetworkUtcTicks;
-
     [Key(2)]
     public string id;
+
+    [Key(1)]
+    public long lastUsedNetworkUtcTicks;
 
     [Key(3)]
     public string name;

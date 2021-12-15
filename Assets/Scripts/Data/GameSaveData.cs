@@ -3,6 +3,8 @@ using MessagePack;
 
 [Serializable]
 [MessagePackObject]
-public class GameSaveData {
-    [Key(0)] public ScInt gold;
+public class GameSaveData
+{
+    [Key(0)]
+    public ScInt gold;
 }

@@ -1,26 +1,27 @@
-﻿using ConditionalDebug;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlatformAds : IPlatformAds {
-    public enum AdsType {
+public class PlatformAds : IPlatformAds
+{
+    public enum AdsType
+    {
         AdMob,
         UnityAds,
-        FacebookAudienceNetwork,
+        FacebookAudienceNetwork
     }
 
-    public static void HandleRewarded() {
-        
-    }
-
-    static public void ExecuteBackgroundTimeCompensationForAds() {
-
-    }
-
-    public void HandleRewarded(object adContext) {
-        if (adContext is BlackAdContext blackAdContext) {
+    public void HandleRewarded(object adContext)
+    {
+        if (adContext is BlackAdContext blackAdContext)
             HandleRewarded(blackAdContext.value);
-        } else {
+        else
             Debug.LogError("Not BlackAdContext type!");
-        }
+    }
+
+    public static void HandleRewarded()
+    {
+    }
+
+    public static void ExecuteBackgroundTimeCompensationForAds()
+    {
     }
 }

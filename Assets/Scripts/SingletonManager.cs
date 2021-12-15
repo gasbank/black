@@ -6,28 +6,37 @@ public class SingletonManager : MonoBehaviour
     public static SingletonManager instance;
 
     [SerializeField]
-    ConfirmPopup confirmPopup;
-
-    [SerializeField]
-    ProgressMessage progressMessage;
-
-    [SerializeField]
-    Sound sound;
-
-    [SerializeField]
     AchievementPopup achievementPopup;
 
     [SerializeField]
-    ShortMessage shortMessage;
+    Admin admin;
+
+    [SerializeField]
+    BackButtonHandler backButtonHandler;
+
+    [SerializeField]
+    BackgroundTimeCompensator backgroundTimeCompensator;
 
     [SerializeField]
     BlackContext blackContext;
 
     [SerializeField]
+    BlackPlatform blackPlatform;
+
+    [SerializeField]
+    BottomNotchOffsetGroup[] bottomNotchOffsetGroupList;
+
+    [SerializeField]
+    GameObject configButtonNewImage;
+
+    [SerializeField]
     ConfigPopup configPopup;
 
     [SerializeField]
-    NoticeManager noticeManager;
+    ConfirmPopup confirmPopup;
+
+    [SerializeField]
+    Data data;
 
     [SerializeField]
     ErrorReporter errorReporter;
@@ -36,46 +45,37 @@ public class SingletonManager : MonoBehaviour
     FontManager fontManager;
 
     [SerializeField]
-    Data data;
-
-    [SerializeField]
-    SocialScoreReporter socialScoreReporter;
-
-    [SerializeField]
-    BackButtonHandler backButtonHandler;
-
-    [SerializeField]
-    Admin admin;
-
-    [SerializeField]
-    PlatformInterface platformInterface;
-
-    [SerializeField]
-    SaveLoadManager saveLoadManager;
-
-    [SerializeField]
-    BackgroundTimeCompensator backgroundTimeCompensator;
-
-    [SerializeField]
-    BlackPlatform blackPlatform;
-
-    [SerializeField]
-    PlatformAdMobAdsInit platformAdMobAdsInit;
+    NoticeManager noticeManager;
 
     [SerializeField]
     PlatformAdMobAds platformAdMobAds;
 
     [SerializeField]
+    PlatformAdMobAdsInit platformAdMobAdsInit;
+
+    [SerializeField]
+    PlatformInterface platformInterface;
+
+    [SerializeField]
     PlatformReceiptVerifier platformReceiptVerifier;
 
     [SerializeField]
-    GameObject configButtonNewImage;
+    ProgressMessage progressMessage;
+
+    [SerializeField]
+    SaveLoadManager saveLoadManager;
+
+    [SerializeField]
+    ShortMessage shortMessage;
+
+    [SerializeField]
+    SocialScoreReporter socialScoreReporter;
+
+    [SerializeField]
+    Sound sound;
 
     [SerializeField]
     TopNotchOffsetGroup[] topNotchOffsetGroupList;
-
-    [SerializeField]
-    BottomNotchOffsetGroup[] bottomNotchOffsetGroupList;
 
     public GameObject ConfigButtonNewImage => configButtonNewImage;
     public TopNotchOffsetGroup[] TopNotchOffsetGroupList => topNotchOffsetGroupList;

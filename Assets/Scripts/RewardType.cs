@@ -4,5 +4,5 @@ public enum RewardType
 {
     Rice,
     Gem,
-    StageKey,
+    StageKey
 }

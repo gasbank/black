@@ -1,20 +1,37 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine;
-using System.Linq;
-using UnityEngine.SceneManagement;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Linq;
 using ConditionalDebug;
 using Dirichlet.Numerics;
 using MessagePack;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 {
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    public enum SaveReason
+    {
+        Quit,
+        Pause,
+        AutoSave,
+        BeforeStage
+    }
+
+    const int LatestVersion = 1;
     static readonly string localSaveFileName = "save.dat";
 
     public static SaveLoadManager instance;
+
+    // 총 maxSaveDataSlot개의 저장 슬롯이 있고, 이를 돌려가며 쓴다.
+    public static readonly int maxSaveDataSlot = 9;
+    static readonly string saveDataSlotKey = "Save Data Slot";
+
+    static byte[] lastSaveDataArray;
 
     [SerializeField]
     BlackContext blackContext;
@@ -22,31 +39,39 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     [SerializeField]
     NetworkTime networkTime;
 
-    // 총 maxSaveDataSlot개의 저장 슬롯이 있고, 이를 돌려가며 쓴다.
-    public static readonly int maxSaveDataSlot = 9;
-    static readonly string saveDataSlotKey = "Save Data Slot";
-
     public static string SaveFileName => GetSaveLoadFilePathName(GetSaveSlot() + 1);
 
     public static string LoadFileName => GetSaveLoadFilePathName(GetSaveSlot());
+
+    string IPlatformSaveLoadManager.GetLoadOverwriteConfirmMessage(byte[] bytes)
+    {
+        return BlackPlatform.GetLoadOverwriteConfirmMessage(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
+    }
+
+    string IPlatformSaveLoadManager.GetSaveOverwriteConfirmMessage(byte[] bytes)
+    {
+        return BlackPlatform.GetSaveOverwriteConfirmMessage(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
+    }
+
+    bool IPlatformSaveLoadManager.IsLoadRollback(byte[] bytes)
+    {
+        return BlackPlatform.IsLoadRollback(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
+    }
+
+    bool IPlatformSaveLoadManager.IsSaveRollback(byte[] bytes)
+    {
+        return BlackPlatform.IsSaveRollback(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
+    }
+
+    void IPlatformSaveLoadManager.SaveBeforeCloudSave()
+    {
+        BlackPlatform.instance.SaveBeforeCloudSave();
+    }
 
     static int PositiveMod(int x, int m)
     {
         return (x % m + m) % m;
     }
-
-    const int LatestVersion = 1;
-
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public enum SaveReason
-    {
-        Quit,
-        Pause,
-        AutoSave,
-        BeforeStage,
-    }
-
-    static byte[] lastSaveDataArray;
 
     void Start()
     {
@@ -108,37 +133,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         Splash.LoadSplashScene();
     }
 
-    string IPlatformSaveLoadManager.GetLoadOverwriteConfirmMessage(byte[] bytes)
-    {
-        return BlackPlatform.GetLoadOverwriteConfirmMessage(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
-    }
-
-    string IPlatformSaveLoadManager.GetSaveOverwriteConfirmMessage(byte[] bytes)
-    {
-        return BlackPlatform.GetSaveOverwriteConfirmMessage(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
-    }
-
-    bool IPlatformSaveLoadManager.IsLoadRollback(byte[] bytes)
-    {
-        return BlackPlatform.IsLoadRollback(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
-    }
-
-    bool IPlatformSaveLoadManager.IsSaveRollback(byte[] bytes)
-    {
-        return BlackPlatform.IsSaveRollback(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
-    }
-
-    void IPlatformSaveLoadManager.SaveBeforeCloudSave()
-    {
-        BlackPlatform.instance.SaveBeforeCloudSave();
-    }
-
     public static void DeleteAllSaveFiles()
     {
-        for (int i = 0; i < maxSaveDataSlot; i++)
-        {
-            File.Delete(GetSaveLoadFilePathName(i));
-        }
+        for (var i = 0; i < maxSaveDataSlot; i++) File.Delete(GetSaveLoadFilePathName(i));
 
         ResetSaveDataSlotAndWrite();
     }
@@ -159,7 +156,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         var blackSaveData = new BlackSaveData
         {
             version = LatestVersion,
-            lastClearedStageId = BlackContext.instance.LastClearedStageId,
+            lastClearedStageId = BlackContext.instance.LastClearedStageId
         };
 
         return SaveBlackSaveData(blackSaveData);
@@ -189,11 +186,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         var saveDataArray = MessagePackSerializer.Serialize(blackSaveData, Data.DefaultOptions);
         ConDebug.LogFormat("Saving path: {0}", SaveFileName);
         if (lastSaveDataArray != null && lastSaveDataArray.SequenceEqual(saveDataArray))
-        {
             ConDebug.LogFormat("Saving skipped since there is no difference made compared to last time saved.");
-        }
         else
-        {
             try
             {
                 // 진짜 쓰자!!
@@ -227,7 +221,6 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
                 BlackLogManager.Add(BlackLogEntry.Type.GameSaveFailure, 0, 0);
                 return false;
             }
-        }
 
         return true;
     }
@@ -235,8 +228,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     static T Clamp<T>(T val, T min, T max) where T : IComparable<T>
     {
         if (val.CompareTo(min) < 0) return min;
-        else if (val.CompareTo(max) > 0) return max;
-        else return val;
+        if (val.CompareTo(max) > 0) return max;
+        return val;
     }
 
     static void Load(IBlackContext context)
@@ -245,29 +238,24 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         var exceptionList = new List<Exception>();
 
         for (var i = 0; i < maxSaveDataSlot; i++)
-        {
             try
             {
                 if (LoadInternal(context))
                 {
                     // 저장 파일 중 하나는 제대로 읽히긴 했다.
                     if (i != 0)
-                    {
                         // 그런데 한번 이상 실패했다면 에러 메시지는 보여준다.
                         Debug.LogError($"Save data rolled back {i} time(s)...!!!");
-                    }
 
                     // 게임은 속행하면 된다. 롤백이 됐건 안됐건 읽긴 읽었다...
                     return;
                 }
-                else
-                {
-                    // 뭔가 예외 발생에 의한 실패는 아니지만 실패일 수도 있다.
-                    // 어쩄든 실패긴 실패.
-                    // 이전 슬롯으로 넘어간다.
-                    exceptionList.Add(new Exception("Black Save Data Load Exception"));
-                    DecreaseSaveDataSlotAndWrite();
-                }
+
+                // 뭔가 예외 발생에 의한 실패는 아니지만 실패일 수도 있다.
+                // 어쩄든 실패긴 실패.
+                // 이전 슬롯으로 넘어간다.
+                exceptionList.Add(new Exception("Black Save Data Load Exception"));
+                DecreaseSaveDataSlotAndWrite();
             }
             catch (NotSupportedBlackSaveDataVersionException e)
             {
@@ -308,7 +296,6 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
                 DecreaseSaveDataSlotAndWrite();
                 BlackLogManager.Add(BlackLogEntry.Type.GameLoadFailure, 0, GetSaveSlot());
             }
-        }
 
         if (exceptionList.All(e => e.GetType() == typeof(SaveFileNotFoundException)))
         {
@@ -352,10 +339,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         var blackSaveData = LoadBlackSaveData();
 
         // 세이브 데이터 자체에 오류가 있는 케이스이다.
-        if (blackSaveData.version < 1)
-        {
-            return false;
-        }
+        if (blackSaveData.version < 1) return false;
 
         var oldVersion = blackSaveData.version;
         // 최신 버전 데이터로 마이그레이션
@@ -368,15 +352,11 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         else if (blackSaveData.version > LatestVersion)
         {
             if (Application.isEditor)
-            {
                 Debug.LogError(
                     "NotSupportedBlackSaveDataVersionException should be thrown at this point in devices. In editor, you can proceed without error...");
-            }
             else
-            {
                 // 저장 파일 버전이 더 높다? 아마도 최신 버전에서 저장한 클라우드 저장 파일을 예전 버전 클라이언트에서 클라우드 불러오기 한 듯
                 throw new NotSupportedBlackSaveDataVersionException(blackSaveData.version);
-            }
         }
         else
         {
@@ -391,10 +371,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.WaiveBan = blackSaveData.waiveBan;
 
         // 부정 이용자 검출되기라도 한다면 이 정보가 먼저 필요하므로 먼저 로드하자.
-        if (blackSaveData.userPseudoId <= 0)
-        {
-            blackSaveData.userPseudoId = NewUserPseudoId();
-        }
+        if (blackSaveData.userPseudoId <= 0) blackSaveData.userPseudoId = NewUserPseudoId();
 
         context.UserPseudoId = blackSaveData.userPseudoId;
         context.LastConsumedServiceIndex = blackSaveData.lastConsumedServiceIndex;
@@ -411,39 +388,26 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
                 var totalPurchaseCount = blackSaveData.purchasedProductDict.Values.Sum(e => e.ToInt());
                 // 1.9.22 버전의 저장 데이터 버전인 경우에만 다수의 인앱 결제 횟수 거르기를 한다.
                 if (oldVersion <= 30 && totalPurchaseCount > 100)
-                {
                     throw new PurchaseCountBanException(totalPurchaseCount);
-                }
 
                 // 200회 이상 구매는 버전 상관 없이 무조건 말이 안된다.
-                if (totalPurchaseCount > 200)
-                {
-                    throw new PurchaseCountBanException(totalPurchaseCount);
-                }
+                if (totalPurchaseCount > 200) throw new PurchaseCountBanException(totalPurchaseCount);
             }
 
             var targetIdList = new string[]
             {
             };
             foreach (var targetId in targetIdList)
-            {
                 if (blackSaveData.localUserDict != null && blackSaveData.localUserDict.Keys.Contains(targetId))
-                {
                     throw new LocalUserIdBanException(targetId);
-                }
-            }
 
             var revokedReceiptList = new string[]
             {
             };
             foreach (var receipt in revokedReceiptList)
-            {
                 if (blackSaveData.verifiedProductReceipts != null &&
                     blackSaveData.verifiedProductReceipts.Contains(receipt))
-                {
                     throw new RevokedReceiptException(receipt);
-                }
-            }
         }
 
         context.SetRice(blackSaveData.riceScUInt128);
@@ -507,10 +471,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         ConfigPopup.instance.IsAlwaysOnOn = blackSaveData.alwaysOn;
         ConfigPopup.instance.IsBigScreenOn = blackSaveData.bigScreen;
 
-        if (context.CheatMode)
-        {
-            BlackLogManager.Add(BlackLogEntry.Type.GameCheatEnabled, 0, 0);
-        }
+        if (context.CheatMode) BlackLogManager.Add(BlackLogEntry.Type.GameCheatEnabled, 0, 0);
 
         switch (blackSaveData.languageCode)
         {
@@ -534,60 +495,39 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.NoticeData = blackSaveData.noticeData ?? new NoticeData();
         context.SaveFileLoaded = true;
 
-        if (Application.isEditor)
-        {
-            Admin.SetNoticeDbPostfixToDev();
-        }
+        if (Application.isEditor) Admin.SetNoticeDbPostfixToDev();
 
         NoticeManager.instance.CheckNoticeSilently();
 
         // 인앱 상품 구매 내역 디버그 정보
         ConDebug.Log("=== Purchased Begin ===");
         if (blackSaveData.purchasedProductDict != null)
-        {
             foreach (var kv in blackSaveData.purchasedProductDict)
-            {
                 ConDebug.Log($"PURCHASED: {kv.Key} = {kv.Value}");
-            }
-        }
 
         ConDebug.Log("=== Purchased End ===");
 
         // 인앱 상품 영수증 디버그 정보
         ConDebug.Log("=== Purchased Receipt ID Begin ===");
         if (blackSaveData.purchasedProductReceipts != null)
-        {
             foreach (var kv in blackSaveData.purchasedProductReceipts)
-            {
-                foreach (var kvv in kv.Value)
-                {
-                    ConDebug.Log($"PURCHASED RECEIPT ID: {kv.Key} = {kvv}");
-                }
-            }
-        }
+            foreach (var kvv in kv.Value)
+                ConDebug.Log($"PURCHASED RECEIPT ID: {kv.Key} = {kvv}");
 
         ConDebug.Log("=== Purchased Receipt ID End ===");
 
         // 인앱 상품 영수증 (검증 완료) 디버그 정보
         ConDebug.Log("=== VERIFIED Receipt ID Begin ===");
         if (blackSaveData.verifiedProductReceipts != null)
-        {
             foreach (var v in blackSaveData.verifiedProductReceipts)
-            {
                 ConDebug.Log($"\"VERIFIED\" RECEIPT ID (THANK YOU!!!): {v}");
-            }
-        }
 
         ConDebug.Log("=== VERIFIED Receipt ID End ===");
 
         context.LocalUserDict = blackSaveData.localUserDict;
         if (context.LocalUserDict != null)
-        {
             foreach (var kv in context.LocalUserDict)
-            {
                 ConDebug.Log(kv.Value);
-            }
-        }
 
         context.LoadedAtLeastOnce = true;
         BlackLogManager.Add(BlackLogEntry.Type.GameLoaded, context.LastClearedStageId,
@@ -613,7 +553,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         {
             throw new SaveFileNotFoundException();
         }
-        catch (System.IO.IsolatedStorage.IsolatedStorageException)
+        catch (IsolatedStorageException)
         {
             throw new SaveFileNotFoundException();
         }
@@ -622,16 +562,12 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     static string ProcessCriticalLoadErrorPrelude(List<Exception> exceptionList)
     {
         Debug.LogErrorFormat("Load: Unknown exception thrown: {0}", exceptionList[0]);
-        System.Diagnostics.StackTrace t = new System.Diagnostics.StackTrace();
+        var t = new StackTrace();
         Debug.LogErrorFormat(t.ToString());
         // 메인 게임 UI 요소를 모두 숨긴다. (아주 심각한 상황. 이 상태로는 무조건 게임 진행은 불가하다.)
         if (BlackContext.instance.CriticalErrorHiddenCanvasList != null)
-        {
             foreach (var canvas in BlackContext.instance.CriticalErrorHiddenCanvasList)
-            {
                 canvas.enabled = false;
-            }
-        }
 
         return t.ToString();
     }
@@ -695,13 +631,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         }, () =>
         {
             if (notCriticalError == false)
-            {
                 ProcessCriticalLoadError(exceptionList, st);
-            }
             else
-            {
                 ConfirmPopup.instance.Close();
-            }
         }, "\\복구 코드".Localized(), Header.Normal, "", "");
     }
 
@@ -776,15 +708,11 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         if (SystemInfo.deviceModel.IndexOf("iPhone", StringComparison.Ordinal) >= 0)
         {
-            var screenRatio = (1.0 * Screen.height) / (1.0 * Screen.width);
+            var screenRatio = 1.0 * Screen.height / (1.0 * Screen.width);
             if (2.1 < screenRatio && screenRatio < 2.2)
-            {
                 ConfigPopup.instance.IsNotchOn = true;
-            }
             else
-            {
                 ConfigPopup.instance.IsNotchOn = false;
-            }
         }
         else
         {
@@ -794,10 +722,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         // 아마 상단 노치가 필요한 모델은 하단도 필요하겠지...?
         ConfigPopup.instance.IsBottomNotchOn = ConfigPopup.instance.IsNotchOn;
 
-        if (Application.isMobilePlatform == false)
-        {
-            ConfigPopup.instance.IsPerformanceModeOn = true;
-        }
+        if (Application.isMobilePlatform == false) ConfigPopup.instance.IsPerformanceModeOn = true;
 
         BlackLogManager.Add(BlackLogEntry.Type.GameReset, 0, 0);
     }

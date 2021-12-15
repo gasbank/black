@@ -1,44 +1,57 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using ConditionalDebug;
+﻿using ConditionalDebug;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TargetImage : MonoBehaviour {
-    [SerializeField] Image targetImage;
-    [SerializeField] Image targetImageOutine;
-    [SerializeField] IslandLabelSpawner islandLabelSpawner;
+public class TargetImage : MonoBehaviour
+{
+    [SerializeField]
+    IslandLabelSpawner islandLabelSpawner;
 
-    void OnEnable() {
+    [SerializeField]
+    Image targetImage;
+
+    [SerializeField]
+    Image targetImageOutine;
+
+    void OnEnable()
+    {
         //targetImage.material = Instantiate(targetImage.material);
     }
 
-    void OnDisable() {
+    void OnDisable()
+    {
         //Destroy(targetImage.material);
     }
 
-    public void SetTargetImageMaterialTexture(Texture2D tex) {
+    public void SetTargetImageMaterialTexture(Texture2D tex)
+    {
         targetImage.material.SetTexture("ColorTexture", tex);
     }
 
-    public void SetTargetImageMaterial(Material material) {
+    public void SetTargetImageMaterial(Material material)
+    {
         targetImage.material = material;
     }
 
-    public void ToggleDebugView() {
+    public void ToggleDebugView()
+    {
         var alphaOffset = targetImage.material.GetFloat("AlphaOffset");
         var activateOutline = false;
-        if (alphaOffset == 0) {
+        if (alphaOffset == 0)
+        {
             // 디버그 렌더링
             alphaOffset = 1;
             activateOutline = false;
             ConDebug.Log("Start debug view...");
-        } else {
+        }
+        else
+        {
             // 일반 렌더링
             alphaOffset = 0;
             activateOutline = true;
             ConDebug.Log("Start normal view...");
         }
+
         targetImage.material.SetFloat("AlphaOffset", alphaOffset);
         targetImageOutine.gameObject.SetActive(activateOutline);
         islandLabelSpawner.SetLabelBackgroundImageActive(activateOutline == false);

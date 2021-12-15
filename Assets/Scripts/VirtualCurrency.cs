@@ -1,48 +1,65 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VirtualCurrency : MonoBehaviour {
-    [SerializeField] TMPro.TextMeshProUGUI text;
-    [SerializeField] Image image;
-    [SerializeField] int currencyValue;
-    [SerializeField] Type currencyType = 0;
-    [SerializeField] Sprite[] currencySprites;
-
-    public enum Type {
+public class VirtualCurrency : MonoBehaviour
+{
+    public enum Type
+    {
         Mango,
         Medal,
-        Star,
+        Star
     }
 
-    public int CurrencyValue {
+    [SerializeField]
+    Sprite[] currencySprites;
+
+    [SerializeField]
+    Type currencyType = 0;
+
+    [SerializeField]
+    int currencyValue;
+
+    [SerializeField]
+    Image image;
+
+    [SerializeField]
+    TextMeshProUGUI text;
+
+    public int CurrencyValue
+    {
         get => currencyValue;
-        set {
+        set
+        {
             currencyValue = value;
             text.text = currencyValue.ToString();
         }
     }
 
-    public Type CurrencyType {
+    public Type CurrencyType
+    {
         get => currencyType;
-        set {
+        set
+        {
             currencyType = value;
             UpdateCurrencyTypeDependents();
         }
     }
 
-    void UpdateCurrencyTypeDependents() {
-        image.sprite = currencySprites[(int)currencyType];
+    void UpdateCurrencyTypeDependents()
+    {
+        image.sprite = currencySprites[(int) currencyType];
     }
 
 #if UNITY_EDITOR
-    void OnValidate() {
+    void OnValidate()
+    {
         UpdateCurrencyTypeDependents();
     }
 #endif
 
-    void Awake() {
+    void Awake()
+    {
         CurrencyValue = 0;
     }
 }

@@ -1,4 +1,8 @@
-﻿public class PurchaseCountBanException : System.Exception {
-    public PurchaseCountBanException(int totalPurchaseCount) : base($"Total purchase count is {totalPurchaseCount}!!!") {
+﻿using System;
+
+public class PurchaseCountBanException : Exception
+{
+    public PurchaseCountBanException(int totalPurchaseCount) : base($"Total purchase count is {totalPurchaseCount}!!!")
+    {
     }
 }

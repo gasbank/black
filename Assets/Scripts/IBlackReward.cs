@@ -1,4 +1,5 @@
-﻿public interface IBlackReward {
+﻿public interface IBlackReward
+{
     RewardType RewardType { get; }
     ScInt Amount { get; }
     string AmountPostfixed { get; }

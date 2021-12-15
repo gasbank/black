@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using ConditionalDebug;
+using MiniJSON;
 using UnityEngine;
 using UnityEngine.Networking;
 using Dict = System.Collections.Generic.Dictionary<string, object>;
@@ -9,7 +11,7 @@ public class NoticeManager : MonoBehaviour
 {
     public static NoticeManager instance;
 
-    static public readonly string noticeUrlQueryStartIndexKey = "noticeUrlQueryStartIndexKey";
+    public static readonly string noticeUrlQueryStartIndexKey = "noticeUrlQueryStartIndexKey";
 
     // 유저가 직접 공지사항을 확인하려고 할 때 호출된다.
     // 공지사항 창이 열린다.
@@ -31,9 +33,9 @@ public class NoticeManager : MonoBehaviour
             BlackContext.instance.NoticeData.text, BlackContext.instance.NoticeData.detailUrl));
     }
 
-    IEnumerator DownloadAndGetSpriteCoro(string imageUrl, System.Action<Sprite> callback)
+    IEnumerator DownloadAndGetSpriteCoro(string imageUrl, Action<Sprite> callback)
     {
-        UnityWebRequest request = UnityWebRequestTexture.GetTexture(imageUrl);
+        var request = UnityWebRequestTexture.GetTexture(imageUrl);
         yield return request.SendWebRequest();
         if (request.result == UnityWebRequest.Result.ConnectionError ||
             request.result == UnityWebRequest.Result.ProtocolError)
@@ -51,21 +53,18 @@ public class NoticeManager : MonoBehaviour
 
     IEnumerator CheckNoticeCoro(bool silent, string oldTitle, string oldText, string oldDetailUrl)
     {
-        if (silent == false)
-        {
-            ProgressMessage.instance.Open("\\공지사항 항목 확인중...".Localized());
-        }
+        if (silent == false) ProgressMessage.instance.Open("\\공지사항 항목 확인중...".Localized());
 
         var urlList = new[]
         {
             // Google Firebase
             string.Format("{0}/{1}", ConfigPopup.NoticeDbUrl, "notice"),
             // AliCloud
-            "https://blacktycoon.oss-cn-beijing.aliyuncs.com/notice.json",
+            "https://blacktycoon.oss-cn-beijing.aliyuncs.com/notice.json"
         };
 
         var succeeded = false;
-        for (int i = 0; i < urlList.Length; i++)
+        for (var i = 0; i < urlList.Length; i++)
         {
             var urlIndex = (i + PlayerPrefs.GetInt(noticeUrlQueryStartIndexKey, 0)) % urlList.Length;
             var coroResult = new CoroutineWithData(this,
@@ -81,13 +80,11 @@ public class NoticeManager : MonoBehaviour
         }
 
         if (succeeded == false)
-        {
             if (silent == false)
             {
                 ShortMessage.instance.Show("\\공지사항 정보 수신에 실패했습니다.".Localized(), true);
                 ProgressMessage.instance.Close();
             }
-        }
 
         // var url1 = string.Format("{0}/{1}", ConfigPopup.NoticeDbUrl, "notice");
         // var coroResult = new CoroutineWithData(this, CheckNoticeCoroUrl(silent, oldTitle, oldText, oldDetailUrl, url1));
@@ -102,7 +99,7 @@ public class NoticeManager : MonoBehaviour
     IEnumerator CheckNoticeCoroUrl(bool silent, string oldTitle, string oldText, string oldDetailUrl, string url)
     {
         var webRequestCompleted = false;
-        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        using (var request = UnityWebRequest.Get(url))
         {
             ConDebug.Log($"Notice: GET {url}");
             request.timeout = 5;
@@ -124,8 +121,8 @@ public class NoticeManager : MonoBehaviour
                 try
                 {
                     var dateStr = request.GetResponseHeader("Date");
-                    var dateTimeNow = new System.DateTime();
-                    if (string.IsNullOrEmpty(dateStr) == false && System.DateTime.TryParse(dateStr, out dateTimeNow))
+                    var dateTimeNow = new DateTime();
+                    if (string.IsNullOrEmpty(dateStr) == false && DateTime.TryParse(dateStr, out dateTimeNow))
                     {
                         dateTimeNow = dateTimeNow.ToUniversalTime();
                         ConDebug.Log($"Date header from notice: UTC {dateTimeNow}");
@@ -135,48 +132,29 @@ public class NoticeManager : MonoBehaviour
                         ConDebug.Log($"Date header from notice [***INVALID***]: dateStr={dateStr}");
                     }
 
-                    var noticeDataRoot = MiniJSON.Json.Deserialize(request.downloadHandler.text) as Dict;
+                    var noticeDataRoot = Json.Deserialize(request.downloadHandler.text) as Dict;
 
                     if (noticeDataRoot?["fields"] is Dict noticeData)
-                    {
                         foreach (var notice in noticeData)
-                        {
                             if (notice.Key == "title")
-                            {
                                 title = ((Dict) notice.Value)["stringValue"] as string;
-                            }
                             else if (notice.Key == "text")
-                            {
                                 text = ((Dict) notice.Value)["stringValue"] as string;
-                            }
                             else if (notice.Key == "url")
-                            {
                                 detailUrl = ((Dict) notice.Value)["stringValue"] as string;
-                            }
                             else if (notice.Key == "topImageUrl")
-                            {
                                 topImageUrl = ((Dict) notice.Value)["stringValue"] as string;
-                            }
                             else if (notice.Key == "popupImageUrl")
-                            {
                                 popupImageUrl = ((Dict) notice.Value)["stringValue"] as string;
-                            }
                             else if (notice.Key == "popupImageHeight")
-                            {
                                 popupImageHeight = int.Parse(((Dict) notice.Value)["integerValue"] as string);
-                            }
-                        }
-                    }
 
                     webRequestCompleted = true;
                 }
-                catch (System.Exception e)
+                catch (Exception e)
                 {
-                    Debug.LogErrorFormat("Notice exception: {0}", e.ToString());
-                    if (silent == false)
-                    {
-                        ConfirmPopup.instance.Open("\\공지사항 항목이 없습니다.".Localized());
-                    }
+                    Debug.LogErrorFormat("Notice exception: {0}", e);
+                    if (silent == false) ConfirmPopup.instance.Open("\\공지사항 항목이 없습니다.".Localized());
                 }
 
                 if (webRequestCompleted == false)
@@ -200,22 +178,18 @@ public class NoticeManager : MonoBehaviour
                         // 직접 바꿔주자.
                         var textNewlined = text.Replace("\\n", "\n").Replace("\\r", "");
                         if (string.IsNullOrEmpty(detailUrl))
-                        {
                             //ConfirmPopup.instance.Open(textNewlined, ConfirmPopup.instance.Close, title);
                             ConfirmPopup.instance.OpenPopup(textNewlined, ConfirmPopup.instance.Close, null, null,
                                 title, Header.Normal, "\\확인".Localized(), null, null, "", "", false, null,
                                 null, WidthType.Normal, 0, ShowPosition.Center,
                                 ConfirmPopup.instance.Close, false, -1, FontManager.instance.SystemFont);
-                        }
                         else
-                        {
                             //ConfirmPopup.instance.OpenGeneralPopup(textNewlined, ConfirmPopup.instance.Close, () => Application.OpenURL(detailUrl), null, title, ConfirmPopup.Header.Normal, "\\확인".Localized(), "\\자세히 보기".Localized(), "");
                             ConfirmPopup.instance.OpenPopup(textNewlined, ConfirmPopup.instance.Close,
                                 () => Application.OpenURL(detailUrl), null, title, Header.Normal,
                                 "\\확인".Localized(), "\\자세히 보기".Localized(), null, "", "", false, null, null,
                                 WidthType.Normal, 0, ShowPosition.Center,
                                 ConfirmPopup.instance.Close, false, -1, FontManager.instance.SystemFont);
-                        }
 
                         // 공지사항용 상단 이미지가 지정되어 있다면 다운로드해서 보여준다.
                         if (string.IsNullOrEmpty(topImageUrl) == false)

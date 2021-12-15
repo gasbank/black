@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Numerics;
 using System.Text;
-using UnityEngine.SceneManagement;
-using System.Linq;
+using System.Threading.Tasks;
+using Dirichlet.Numerics;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using UInt128 = Dirichlet.Numerics.UInt128;
-using System.Threading.Tasks;
-using ConditionalDebug;
-using JetBrains.Annotations;
 
 [DisallowMultipleComponent]
 public class Admin : MonoBehaviour
@@ -17,16 +17,16 @@ public class Admin : MonoBehaviour
     public static Admin instance;
 
     [SerializeField]
-    EventSystem eventSystem;
-
-    [SerializeField]
-    GameObject spawnButton;
-
-    [SerializeField]
     Button changeButton;
 
     [SerializeField]
+    EventSystem eventSystem;
+
+    [SerializeField]
     SaveLoadManager saveLoadManager;
+
+    [SerializeField]
+    GameObject spawnButton;
 
     void OnEnable()
     {
@@ -64,7 +64,7 @@ public class Admin : MonoBehaviour
     public void Rice(int amount)
     {
 #if BLACK_ADMIN
-        BlackContext.instance.AddRiceSafe((uint)amount);
+        BlackContext.instance.AddRiceSafe((uint) amount);
 #endif
     }
 
@@ -81,7 +81,7 @@ public class Admin : MonoBehaviour
     public void Gem(int amount)
     {
 #if BLACK_ADMIN
-        BlackContext.instance.AddFreeGem((uint)amount);
+        BlackContext.instance.AddFreeGem((uint) amount);
         BlackLogManager.Add(BlackLogEntry.Type.GemAddAdmin, 2, amount);
 #endif
     }
@@ -144,8 +144,9 @@ public class Admin : MonoBehaviour
     public void CorruptSaveFileAndLoadSplash()
     {
 #if BLACK_ADMIN
-        for (int i = 0; i < SaveLoadManager.maxSaveDataSlot; i++) {
-            System.IO.File.WriteAllBytes(SaveLoadManager.SaveFileName,
+        for (var i = 0; i < SaveLoadManager.maxSaveDataSlot; i++)
+        {
+            File.WriteAllBytes(SaveLoadManager.SaveFileName,
                 Encoding.ASCII.GetBytes(ErrorReporter.RandomString(512)));
             SaveLoadManager.IncreaseSaveDataSlotAndWrite();
         }
@@ -185,9 +186,7 @@ public class Admin : MonoBehaviour
         // 그 이하의 각 테스트 부분의 StartCoroutine을 수동으로 호출해가며 확인한다.
 
         var blackTesterLoaded = SceneManager.GetSceneByName("Black Tester").isLoaded;
-        if (blackTesterLoaded == false) {
-            SceneManager.LoadScene("Black Tester", LoadSceneMode.Additive);
-        }
+        if (blackTesterLoaded == false) SceneManager.LoadScene("Black Tester", LoadSceneMode.Additive);
 
         //var blackTester = GameObject.Find("Black Tester").GetComponent<BlackTester>();
         //blackTester.StartTest();
@@ -201,12 +200,15 @@ public class Admin : MonoBehaviour
     public void LoadFromUserSaveCode(string domain)
     {
 #if BLACK_ADMIN
-        if (Application.isEditor) {
-            ConfirmPopup.instance.OpenInputFieldPopup($"Firestore Save Document Code (Domain:{domain})", () => {
-                ErrorReporter.instance.ProcessUserSaveCode(ConfirmPopup.instance.InputFieldText, domain);
-            }, ConfirmPopup.instance.Close, "ADMIN", Header.Normal, "", "");
+        if (Application.isEditor)
+        {
+            ConfirmPopup.instance.OpenInputFieldPopup($"Firestore Save Document Code (Domain:{domain})",
+                () => { ErrorReporter.instance.ProcessUserSaveCode(ConfirmPopup.instance.InputFieldText, domain); },
+                ConfirmPopup.instance.Close, "ADMIN", Header.Normal, "", "");
             CloseAdminMenu();
-        } else {
+        }
+        else
+        {
             // 실 기기에서 다른 유저 데이터를 받아버리면, 치트 플래그가 올라가지 않은 상태로
             // 플레이하게 되는 것으로써, 리더보드/업적 등 진행 상황이 개발자 실기기 연동 계정에
             // 반영이 되게 된다. 이에 대한 방지책을 마련하기 전까지는 이 기능은 개발 컴퓨터에서만
@@ -222,7 +224,8 @@ public class Admin : MonoBehaviour
         //한국어 -> 일본어 -> 중국어 (간체) -> 중국어 (번체) -> 한국어 ... (반복)
 
         var text = changeButton.GetComponentInChildren<Text>();
-        switch (Data.instance.CurrentLanguageCode) {
+        switch (Data.instance.CurrentLanguageCode)
+        {
             case BlackLanguageCode.Ko:
                 ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Ja);
                 text.text = "현재: 한국어\n일본어로 바꾼다";
@@ -340,10 +343,10 @@ public class Admin : MonoBehaviour
 #if BLACK_ADMIN
         ConfirmPopup.instance.OpenInputFieldPopup(
             $"Redeem Daily Rewards To Day ({BlackContext.instance.LastDailyRewardRedeemedIndex} ~ {Data.dataSet.DailyRewardData.Count})",
-            () => {
-                if (int.TryParse(ConfirmPopup.instance.InputFieldText, out int toDay)) {
+            () =>
+            {
+                if (int.TryParse(ConfirmPopup.instance.InputFieldText, out var toDay))
                     BlackContext.instance.GetAllDailyRewardsAtOnceAdminToDay(toDay);
-                }
 
                 ConfirmPopup.instance.Close();
             }, ConfirmPopup.instance.Close, "Admin", Header.Normal, "", "");
@@ -369,7 +372,8 @@ public class Admin : MonoBehaviour
     public void CalculateRiceRate()
     {
 #if BLACK_ADMIN
-        ConfirmPopup.instance.OpenInputFieldPopup("Rice Rate", () => {
+        ConfirmPopup.instance.OpenInputFieldPopup("Rice Rate", () =>
+        {
             PrintRiceRate(ConfirmPopup.instance.InputFieldText);
             ConfirmPopup.instance.Close();
         }, ConfirmPopup.instance.Close, "Admin", Header.Normal, "", "");
@@ -378,21 +382,23 @@ public class Admin : MonoBehaviour
     }
 
 #if BLACK_ADMIN
-    static void PrintRiceRate(string riceRateBigIntStr) {
-        if (System.Numerics.BigInteger.TryParse(riceRateBigIntStr, out var n)) {
+    static void PrintRiceRate(string riceRateBigIntStr)
+    {
+        if (BigInteger.TryParse(riceRateBigIntStr, out var n))
+        {
             //var n = BigInteger.Parse("256");
             Debug.Log(n.ToString("n0"));
             var nb = n.ToByteArray();
             var level = 0;
-            foreach (var t in nb) {
-                for (var j = 0; j < 8; j++) {
+            foreach (var t in nb)
+                for (var j = 0; j < 8; j++)
+                {
                     level++;
-                    if (((t >> j) & 1) == 1) {
-                        Debug.Log($"Level {level} = {System.Numerics.BigInteger.One << (level - 1):n0}/s");
-                    }
+                    if (((t >> j) & 1) == 1) Debug.Log($"Level {level} = {BigInteger.One << (level - 1):n0}/s");
                 }
-            }
-        } else {
+        }
+        else
+        {
             Debug.LogError("Invalid number format");
         }
     }
@@ -409,10 +415,7 @@ public class Admin : MonoBehaviour
 #if BLACK_ADMIN
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.F5))
-        {
-            ScreenCapture.CaptureScreenshot("Test");    
-        }
+        if (Input.GetKeyUp(KeyCode.F5)) ScreenCapture.CaptureScreenshot("Test");
     }
 #endif
 }

@@ -1,20 +1,36 @@
 ﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using ConditionalDebug;
-using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class MainGame : MonoBehaviour {
+public class MainGame : MonoBehaviour
+{
+    static readonly int ColorTexture = Shader.PropertyToID("ColorTexture");
+
     [SerializeField]
     GridWorld gridWorld;
+
+    [SerializeField]
+    IslandLabelSpawner islandLabelSpawner;
+
+    [SerializeField]
+    NameplateGroup nameplateGroup;
 
     [SerializeField]
     PaletteButtonGroup paletteButtonGroup;
 
     [SerializeField]
-    IslandLabelSpawner islandLabelSpawner;
+    PinchZoom pinchZoom;
+
+    int resetCount;
+
+    StageData stageData;
+
+    [SerializeField]
+    StageMetadata stageMetadata;
 
     [SerializeField]
     TargetImage targetImage;
@@ -22,32 +38,23 @@ public class MainGame : MonoBehaviour {
     [SerializeField]
     Image targetImageOutline;
 
-    [SerializeField]
-    PinchZoom pinchZoom;
-
-    [SerializeField]
-    StageMetadata stageMetadata;
-
-    [SerializeField]
-    NameplateGroup nameplateGroup;
-
-    StageData stageData;
     public bool CanInteractPanAndZoom => islandLabelSpawner.IsLabelByMinPointEmpty == false;
 
-    void Start() {
+    void Start()
+    {
         Application.runInBackground = false;
 
-        if (gridWorld == null) {
-            return;
-        }
+        if (gridWorld == null) return;
 
         // Stage Selection 신에서 넘어왔다면 이 조건문이 만족할 것이다.
-        if (StageButton.CurrentStageMetadata != null) {
+        if (StageButton.CurrentStageMetadata != null)
+        {
             stageMetadata = StageButton.CurrentStageMetadata;
             ConDebug.Log($"Stage metadata specified by StageButton: {stageMetadata.name}");
         }
 
-        using (var stream = new MemoryStream(stageMetadata.RawStageData.bytes)) {
+        using (var stream = new MemoryStream(stageMetadata.RawStageData.bytes))
+        {
             var formatter = new BinaryFormatter();
             stageData = (StageData) formatter.Deserialize(stream);
             stream.Close();
@@ -67,7 +74,7 @@ public class MainGame : MonoBehaviour {
         gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
         gridWorld.StageName = stageMetadata.name;
         nameplateGroup.Text = stageMetadata.FriendlyStageName;
-        
+
         targetImage.SetTargetImageMaterial(skipBlackMaterial);
 
         targetImageOutline.material = stageMetadata.SdfMaterial;
@@ -87,34 +94,29 @@ public class MainGame : MonoBehaviour {
         gridWorld.ResumeGame();
     }
 
-    public void ResetCamera() {
+    public void ResetCamera()
+    {
         var targetImageTransform = targetImage.transform;
         targetImageTransform.localPosition = new Vector3(0, 0, targetImageTransform.localPosition.z);
         pinchZoom.ResetZoom();
     }
 
-    int resetCount;
-    static readonly int ColorTexture = Shader.PropertyToID("ColorTexture");
-
-    public void ResetStage() {
+    public void ResetStage()
+    {
         resetCount++;
-        if (resetCount > 5) {
-            gridWorld.DeleteSaveFileAndReloadScene();
-        }
+        if (resetCount > 5) gridWorld.DeleteSaveFileAndReloadScene();
     }
 
-    public void LoadStageSelectionScene() {
-        if (gridWorld != null) {
-            gridWorld.WriteStageSaveData();
-        }
+    public void LoadStageSelectionScene()
+    {
+        if (gridWorld != null) gridWorld.WriteStageSaveData();
 
         SceneManager.LoadScene("Stage Selection");
     }
 
-    public void LoadMuseumScene() {
-        if (gridWorld != null) {
-            gridWorld.WriteStageSaveData();
-        }
+    public void LoadMuseumScene()
+    {
+        if (gridWorld != null) gridWorld.WriteStageSaveData();
 
         SceneManager.LoadScene("Museum");
     }

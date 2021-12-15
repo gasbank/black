@@ -2,10 +2,10 @@
 
 using System;
 using MessagePack;
+using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using UnityEngine;
 
 // we have to use UDateTime instead of DateTime on our classes
 // we still typically need to either cast this to a DateTime or read the DateTime field directly
@@ -13,25 +13,15 @@ using UnityEngine;
 [MessagePackObject]
 public class UDateTime : ISerializationCallbackReceiver
 {
-    [HideInInspector]
-    [IgnoreMember]
-    public DateTime dateTime;
-
     // if you don't want to use the PropertyDrawer then remove HideInInspector here
     [HideInInspector]
     [SerializeField]
     [Key(0)]
     string _dateTime;
 
-    public static implicit operator DateTime(UDateTime udt)
-    {
-        return (udt.dateTime);
-    }
-
-    public static implicit operator UDateTime(DateTime dt)
-    {
-        return new UDateTime() {dateTime = dt};
-    }
+    [HideInInspector]
+    [IgnoreMember]
+    public DateTime dateTime;
 
     public void OnAfterDeserialize()
     {
@@ -41,6 +31,16 @@ public class UDateTime : ISerializationCallbackReceiver
     public void OnBeforeSerialize()
     {
         _dateTime = NetworkTime.ToString(dateTime);
+    }
+
+    public static implicit operator DateTime(UDateTime udt)
+    {
+        return udt.dateTime;
+    }
+
+    public static implicit operator UDateTime(DateTime dt)
+    {
+        return new UDateTime {dateTime = dt};
     }
 }
 
@@ -64,7 +64,7 @@ public class UDateTimeDrawer : PropertyDrawer
         EditorGUI.indentLevel = 0;
 
         // Calculate rects
-        Rect amountRect = new Rect(position.x, position.y, position.width, position.height);
+        var amountRect = new Rect(position.x, position.y, position.width, position.height);
 
         // Draw fields - passs GUIContent.none to each so they are drawn without labels
         EditorGUI.PropertyField(amountRect, property.FindPropertyRelative("_dateTime"), GUIContent.none);

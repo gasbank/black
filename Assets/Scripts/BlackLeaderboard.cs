@@ -1,21 +1,29 @@
 ﻿using UnityEngine;
 
-public static class BlackLeaderboard {
+public static class BlackLeaderboard
+{
     static IBlackLeaderboard blackLeaderboard;
 
-    public static IBlackLeaderboard instance {
-        get {
-            if (blackLeaderboard != null) {
-                return blackLeaderboard;
-            }
+    public static IBlackLeaderboard instance
+    {
+        get
+        {
+            if (blackLeaderboard != null) return blackLeaderboard;
 
-            if (Application.isEditor) {
+            if (Application.isEditor)
+            {
                 blackLeaderboard = new BlackLeaderboardEditor();
-            } else if (Application.platform == RuntimePlatform.Android) {
+            }
+            else if (Application.platform == RuntimePlatform.Android)
+            {
                 blackLeaderboard = new BlackLeaderboardAndroid();
-            } else if (Application.platform == RuntimePlatform.IPhonePlayer) {
+            }
+            else if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
                 blackLeaderboard = new BlackLeaderboardIos();
-            } else {
+            }
+            else
+            {
                 Debug.LogErrorFormat("BlackLeaderboard: Unknown/not supported platform detected: {0}",
                     Application.platform);
                 // Fallback to editor

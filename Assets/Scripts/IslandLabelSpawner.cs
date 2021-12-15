@@ -1,37 +1,40 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
 using ConditionalDebug;
+using UnityEngine;
 
-public class IslandLabelSpawner : MonoBehaviour {
-    static bool Verbose { get; } = true;
-    
-    [SerializeField]
-    GameObject islandLabelNumberPrefab;
+public class IslandLabelSpawner : MonoBehaviour
+{
+    readonly Dictionary<uint, IslandLabel> labelByMinPoint = new Dictionary<uint, IslandLabel>();
 
     [SerializeField]
     GridWorld gridWorld;
 
     [SerializeField]
-    RectTransform rt;
+    Transform islandLabelNumberGroup;
+
+    [SerializeField]
+    GameObject islandLabelNumberPrefab;
 
     [SerializeField]
     PaletteButtonGroup paletteButtonGroup;
 
     [SerializeField]
-    Transform islandLabelNumberGroup;
+    RectTransform rt;
 
-    readonly Dictionary<uint, IslandLabel> labelByMinPoint = new Dictionary<uint, IslandLabel>();
+    static bool Verbose { get; } = true;
 
     public bool IsLabelByMinPointEmpty => labelByMinPoint.Count == 0;
 
 #if UNITY_EDITOR
-    void OnValidate() {
+    void OnValidate()
+    {
         rt = GetComponent<RectTransform>();
     }
 #endif
-    
-    RectInt GetRectRange(ulong maxRectUlong) {
+
+    RectInt GetRectRange(ulong maxRectUlong)
+    {
         var xMin = (int) (maxRectUlong & 0xffff);
         var yMax = gridWorld.texSize - (int) ((maxRectUlong >> 16) & 0xffff);
         var xMax = (int) ((maxRectUlong >> 32) & 0xffff);
@@ -41,18 +44,21 @@ public class IslandLabelSpawner : MonoBehaviour {
         return r;
     }
 
-    public void CreateAllLabels(StageData stageData) {
+    public void CreateAllLabels(StageData stageData)
+    {
         var maxRectDict = stageData.islandDataByMinPoint.ToDictionary(e => e.Key, e => GetRectRange(e.Value.maxRect));
-        
+
         var rectIndex = 0;
         var subgroupCapacity = 50;
         GameObject islandLabelNumberSubgroup = null;
-        foreach (var kv in maxRectDict) {
+        foreach (var kv in maxRectDict)
+        {
             if (Verbose)
                 ConDebug.Log(
                     $"Big sub rect island: ({kv.Value.xMin},{kv.Value.yMin})-({kv.Value.xMax},{kv.Value.yMax}) area={kv.Value.size.x * kv.Value.size.y}");
-            
-            if (rectIndex % subgroupCapacity == 0) {
+
+            if (rectIndex % subgroupCapacity == 0)
+            {
                 islandLabelNumberSubgroup =
                     new GameObject($"Island Label Subgroup ({rectIndex:d4}-{rectIndex + subgroupCapacity - 1:d4})");
                 islandLabelNumberSubgroup.transform.parent = islandLabelNumberGroup;
@@ -61,7 +67,8 @@ public class IslandLabelSpawner : MonoBehaviour {
                 subGroupRt.localScale = Vector3.one;
             }
 
-            if (islandLabelNumberSubgroup == null) {
+            if (islandLabelNumberSubgroup == null)
+            {
                 Debug.LogError($"Logic error. {nameof(islandLabelNumberSubgroup)} should not be null at this point.");
                 continue;
             }
@@ -83,18 +90,21 @@ public class IslandLabelSpawner : MonoBehaviour {
         }
     }
 
-    public void DestroyLabelByMinPoint(uint minPointUint) {
-        if (labelByMinPoint.TryGetValue(minPointUint, out var label)) {
+    public void DestroyLabelByMinPoint(uint minPointUint)
+    {
+        if (labelByMinPoint.TryGetValue(minPointUint, out var label))
+        {
             Destroy(label.gameObject);
             labelByMinPoint.Remove(minPointUint);
-        } else {
+        }
+        else
+        {
             Debug.LogError($"DestroyLabelByMinPoint: could not find minPointUint {minPointUint}!");
         }
     }
 
-    public void SetLabelBackgroundImageActive(bool b) {
-        foreach (var kv in labelByMinPoint) {
-            kv.Value.BackgroundImageActive = b;
-        }
+    public void SetLabelBackgroundImageActive(bool b)
+    {
+        foreach (var kv in labelByMinPoint) kv.Value.BackgroundImageActive = b;
     }
 }

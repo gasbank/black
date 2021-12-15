@@ -1,46 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ConditionalDebug;
+using MessagePack.LZ4;
+using MiniJSON;
 using UnityEngine;
 using UnityEngine.UI;
 using Dict = System.Collections.Generic.Dictionary<string, object>;
-using System.Linq;
-using ConditionalDebug;
 
 public class BlackLogViewer : MonoBehaviour
 {
-    [SerializeField]
-    Text logText;
+    // 원격 로그 데이터 읽을 때 보면 원격 로그가 밀려서 들어오는 경우가 있다.
+    // 주로 16바이트... 여튼, 문제를 제대로 해결하기 전까지는 이 값을 바꿔서 임시 대응한다.
+    const int LogFileReadOffset = 0;
 
     [SerializeField]
-    Text pageText;
-
-    [SerializeField]
-    int curPage = 0;
-
-    [SerializeField]
-    int pages = 0;
+    int curPage;
 
     [SerializeField]
     int entryCountPerPage = 20;
-
-    [SerializeField]
-    int totalEntryCount = 0;
 
     [SerializeField]
     GameObject loadRemoteLogButton;
 
     IBlackLogSource logSource;
 
-    public interface IBlackLogSource
-    {
-        List<BlackLogEntry> Read(int startOffset, int logEntryStartIndex, int count);
-        long Count();
-        void Flush();
-    }
+    [SerializeField]
+    Text logText;
+
+    [SerializeField]
+    int pages;
+
+    [SerializeField]
+    Text pageText;
+
+    [SerializeField]
+    int totalEntryCount;
 
     void OnEnable()
     {
@@ -51,10 +50,7 @@ public class BlackLogViewer : MonoBehaviour
 
     void UpdateToPage(int page)
     {
-        if (gameObject.activeSelf == false)
-        {
-            return;
-        }
+        if (gameObject.activeSelf == false) return;
 
         FlushAndUpdateTotalPages();
         curPage = pages > 0 ? Mathf.Clamp(page, 0, pages - 1) : 0;
@@ -65,13 +61,10 @@ public class BlackLogViewer : MonoBehaviour
     {
         if (pages > 0)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             var logEntryList = logSource.Read(LogFileReadOffset, curPage * entryCountPerPage, entryCountPerPage);
             //ConDebug.Log($"log Entry List: {logEntryList.Count}");
-            foreach (var logEntry in logEntryList)
-            {
-                sb.AppendLine(logEntry.ToColoredString());
-            }
+            foreach (var logEntry in logEntryList) sb.AppendLine(logEntry.ToColoredString());
 
             logText.text = sb.ToString();
         }
@@ -113,26 +106,47 @@ public class BlackLogViewer : MonoBehaviour
     void RefreshPageText()
     {
         if (pages > 0)
-        {
             pageText.text = $"{curPage + 1}/{pages}";
-        }
         else
-        {
             pageText.text = "--/--";
-        }
     }
 
     public void Refresh()
     {
-        if (gameObject.activeSelf == false)
-        {
-            return;
-        }
+        if (gameObject.activeSelf == false) return;
 
         FlushAndUpdateTotalPages();
         // 맨 뒤 페이지로 간다...? 자동으로?? 뭔가 불편할 듯
         //curPage = pages > 0 ? pages - 1 : 0;
         RefreshCurrentPage();
+    }
+
+    public void LoadRemoteLog()
+    {
+        ConfirmPopup.instance.OpenInputFieldPopup("Play Log Error Device ID", async () =>
+        {
+            ConfirmPopup.instance.Close();
+            var remoteLogSource = new BlackRemoteLogSource();
+            await remoteLogSource.LoadPlayLogAsync(ConfirmPopup.instance.InputFieldText);
+            logSource = remoteLogSource;
+
+            var allEntries = logSource.Read(LogFileReadOffset, 0, (int) logSource.Count());
+            var span = new DateTime(allEntries.Last().ticks) - new DateTime(allEntries[0].ticks);
+            ConDebug.Log($"LoadRemoteLog: Time Span = {span}");
+            UpdateToPage(0);
+
+            var sb = new StringBuilder();
+            foreach (var logEntry in allEntries) sb.AppendLine(logEntry.ToTabbedString());
+
+            File.WriteAllText("remotelog.txt", sb.ToString());
+        }, () => { ConfirmPopup.instance.Close(); }, "Remote Log", Header.Normal, "", "");
+    }
+
+    public interface IBlackLogSource
+    {
+        List<BlackLogEntry> Read(int startOffset, int logEntryStartIndex, int count);
+        long Count();
+        void Flush();
     }
 
     class BlackRemoteLogSource : IBlackLogSource
@@ -151,20 +165,20 @@ public class BlackLogViewer : MonoBehaviour
 
         public List<BlackLogEntry> Read(int startOffset, int logEntryStartIndex, int count)
         {
-            List<BlackLogEntry> logEntryList = new List<BlackLogEntry>();
+            var logEntryList = new List<BlackLogEntry>();
             var dummyLogEntryBytes = BlackLogManager.GetLogEntryBytes(BlackLogEntry.Type.GameLoaded, 0, 0);
             readLogStream.Seek(startOffset + logEntryStartIndex * dummyLogEntryBytes.Length, SeekOrigin.Begin);
             var bytes = new byte[count * dummyLogEntryBytes.Length];
             var readByteCount = readLogStream.Read(bytes, 0, bytes.Length);
             var offset = 0;
-            for (int i = 0; i < readByteCount / dummyLogEntryBytes.Length; i++)
+            for (var i = 0; i < readByteCount / dummyLogEntryBytes.Length; i++)
             {
                 logEntryList.Add(new BlackLogEntry
                 {
                     ticks = BitConverter.ToInt64(bytes, offset + 0),
                     type = BitConverter.ToInt32(bytes, offset + 0 + 8),
                     arg1 = BitConverter.ToInt32(bytes, offset + 0 + 8 + 4),
-                    arg2 = BitConverter.ToInt64(bytes, offset + 0 + 8 + 4 + 4),
+                    arg2 = BitConverter.ToInt64(bytes, offset + 0 + 8 + 4 + 4)
                 });
                 offset += dummyLogEntryBytes.Length;
             }
@@ -188,7 +202,7 @@ public class BlackLogViewer : MonoBehaviour
                     if (getTask.IsSuccessStatusCode)
                     {
                         var text = await getTask.Content.ReadAsStringAsync();
-                        var userPlayLogDataRoot = MiniJSON.Json.Deserialize(text) as Dict;
+                        var userPlayLogDataRoot = Json.Deserialize(text) as Dict;
                         var userPlayLogDataFields = userPlayLogDataRoot["fields"] as Dict;
                         var userPlayLogDataFieldsSaveData = userPlayLogDataFields["playLogData"] as Dict;
                         var userPlayLogDataFieldsSaveDataStringValue =
@@ -201,7 +215,7 @@ public class BlackLogViewer : MonoBehaviour
                         var playLogDataBase64 = userPlayLogDataFieldsSaveDataStringValue;
                         var playLogData = Convert.FromBase64String(playLogDataBase64);
                         var playLogUncompressedData = new byte[userPlayLogUncompressedSizeDataIntegerValue];
-                        MessagePack.LZ4.LZ4Codec.Decode(playLogData, 0, playLogData.Length, playLogUncompressedData, 0,
+                        LZ4Codec.Decode(playLogData, 0, playLogData.Length, playLogUncompressedData, 0,
                             playLogUncompressedData.Length);
 
                         readLogStream = new MemoryStream(playLogUncompressedData);
@@ -218,7 +232,7 @@ public class BlackLogViewer : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.LogError($"Play log upload exception: {e.ToString()}");
+                Debug.LogError($"Play log upload exception: {e}");
             }
             finally
             {
@@ -226,33 +240,5 @@ public class BlackLogViewer : MonoBehaviour
                 ProgressMessage.instance.Close();
             }
         }
-    }
-
-    // 원격 로그 데이터 읽을 때 보면 원격 로그가 밀려서 들어오는 경우가 있다.
-    // 주로 16바이트... 여튼, 문제를 제대로 해결하기 전까지는 이 값을 바꿔서 임시 대응한다.
-    const int LogFileReadOffset = 0;
-
-    public void LoadRemoteLog()
-    {
-        ConfirmPopup.instance.OpenInputFieldPopup("Play Log Error Device ID", async () =>
-        {
-            ConfirmPopup.instance.Close();
-            var remoteLogSource = new BlackRemoteLogSource();
-            await remoteLogSource.LoadPlayLogAsync(ConfirmPopup.instance.InputFieldText);
-            logSource = remoteLogSource;
-
-            var allEntries = logSource.Read(LogFileReadOffset, 0, (int) logSource.Count());
-            var span = (new DateTime(allEntries.Last().ticks) - new DateTime(allEntries[0].ticks));
-            ConDebug.Log($"LoadRemoteLog: Time Span = {span}");
-            UpdateToPage(0);
-
-            StringBuilder sb = new StringBuilder();
-            foreach (var logEntry in allEntries)
-            {
-                sb.AppendLine(logEntry.ToTabbedString());
-            }
-
-            File.WriteAllText("remotelog.txt", sb.ToString());
-        }, () => { ConfirmPopup.instance.Close(); }, "Remote Log", Header.Normal, "", "");
     }
 }

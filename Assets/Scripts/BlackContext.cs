@@ -9,13 +9,10 @@ public class BlackContext : MonoBehaviour, IBlackContext
     public static IBlackContext instance;
 
     [SerializeField]
-    ScUInt128 rice;
-
-    [SerializeField]
-    ScUInt128 pendingRice;
-
-    [SerializeField]
     ScUInt128 freeGem;
+
+    [SerializeField]
+    ScInt lastClearedStageId;
 
     [SerializeField]
     ScUInt128 paidGem;
@@ -24,11 +21,14 @@ public class BlackContext : MonoBehaviour, IBlackContext
     ScUInt128 pendingFreeGem;
 
     [SerializeField]
-    ScInt lastClearedStageId;
+    ScUInt128 pendingRice;
 
     [SerializeField]
     PlatformLocalNotification platformLocalNotification;
-    
+
+    [SerializeField]
+    ScUInt128 rice;
+
     public bool CheatMode { get; set; }
     public bool WaiveBan { get; set; }
 
@@ -137,10 +137,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
                 var exceeded = delta - freeGem.ToUInt128();
 
                 // 그런데 paidGem으로도 부족한 경우 (이런 일은 존재하지 않아야 한다.)
-                if (paidGem.ToUInt128() < exceeded)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
+                if (paidGem.ToUInt128() < exceeded) throw new ArgumentOutOfRangeException();
 
                 freeGem = 0;
                 paidGem = paidGem.ToUInt128() - exceeded;
@@ -278,13 +275,9 @@ public class BlackContext : MonoBehaviour, IBlackContext
     public void SubtractRice(UInt128 v)
     {
         if (Rice >= v)
-        {
             Rice -= v;
-        }
         else
-        {
             throw new ArgumentOutOfRangeException();
-        }
     }
 
     public Canvas[] CriticalErrorHiddenCanvasList { get; }
@@ -317,28 +310,28 @@ public class BlackContext : MonoBehaviour, IBlackContext
     {
         SaveLoadManager.instance.Save(this, ConfigPopup.instance, Sound.instance, Data.instance);
     }
-    
-    void OnApplicationPause(bool pause) {
+
+    void OnApplicationPause(bool pause)
+    {
         ConDebug.Log($"SushiSpawner.OnApplicationPause({pause})");
-        if (pause) {
+        if (pause)
+        {
             // 백그라운드 상태가 되기 시작할 때 호출된다.
             SaveLoadManager.instance.Save(this, ConfigPopup.instance, Sound.instance, Data.instance);
 
             platformLocalNotification.RegisterAllRepeatingNotifications();
 
             // 게임이 제대로 시작한 이후부터만 백그라운드 처리 보상이 작동해도 된다.
-            if (LoadedAtLeastOnce) {
-                BackgroundTimeCompensator.instance.BeginBackgroundState(this);
-            }
-        } else {
+            if (LoadedAtLeastOnce) BackgroundTimeCompensator.instance.BeginBackgroundState(this);
+        }
+        else
+        {
             // 백그라운드 상태가 끝나고 호출된다.
             // 게임이 최초로 실행되는 단계에서도 한번 호출되는 것 같다.
             platformLocalNotification.RemoveAllRepeatingNotifications();
 
             // 게임이 제대로 시작한 이후부터만 백그라운드 처리 보상이 작동해도 된다.
-            if (LoadedAtLeastOnce) {
-                BackgroundTimeCompensator.instance.EndBackgroundState(this);
-            }
+            if (LoadedAtLeastOnce) BackgroundTimeCompensator.instance.EndBackgroundState(this);
         }
     }
 }

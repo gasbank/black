@@ -5,27 +5,24 @@ using UnityEngine.AddressableAssets;
 public class StageDetail : MonoBehaviour
 {
     [SerializeField]
-    Subcanvas subcanvas;
+    StageButton stageButton;
 
     [SerializeField]
-    StageButton stageButton;
+    Subcanvas subcanvas;
 
     public void OpenPopup()
     {
         var lastClearedStageId = BlackContext.instance.LastClearedStageId;
         Debug.Log($"Last Cleared Stage ID: {lastClearedStageId}");
 
-        if (lastClearedStageId < 0)
-        {
-            lastClearedStageId = 0;
-        }
+        if (lastClearedStageId < 0) lastClearedStageId = 0;
 
         if (lastClearedStageId >= Data.dataSet.StageMetadataList.Count)
         {
             Debug.LogError("lastClearedStageId exceeds Data.dataSet.StageMetadataList count.");
             return;
         }
-        
+
         var stageMetadataLoc = Data.dataSet.StageMetadataList[lastClearedStageId];
         if (stageMetadataLoc == null)
         {
@@ -42,6 +39,10 @@ public class StageDetail : MonoBehaviour
 
     [UsedImplicitly]
     void ClosePopup()
+    {
+    }
+
+    public void OnStageStartButton()
     {
     }
 }

@@ -10,15 +10,31 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
 
     readonly HashSet<MonoBehaviour> backgrounderSet = new HashSet<MonoBehaviour>();
     DateTime backgroundBeginNetworkTime = DateTime.MinValue;
-    int focusLostNetworkTimeRequestSequence;
     bool focusLost;
-    bool pendingBackgroundTimeCompensation;
-    bool onApplicationPauseCalled;
+    int focusLostNetworkTimeRequestSequence;
 
     [SerializeField]
     NetworkTime networkTime;
 
-    void OnApplicationPause(bool pause) => onApplicationPauseCalled = true;
+    bool onApplicationPauseCalled;
+    bool pendingBackgroundTimeCompensation;
+
+    public void OnNetworkTimeStateChange(NetworkTime.QueryState state)
+    {
+        if (pendingBackgroundTimeCompensation)
+        {
+            ConDebug.Log($"Pending background time compensation starting now: networkTime.QueryState={state}");
+            if (state == NetworkTime.QueryState.NoError)
+            {
+                pendingBackgroundTimeCompensation = false;
+                ExecuteBackgroundTimeCompensation();
+            }
+            else if (state == NetworkTime.QueryState.Error)
+            {
+                pendingBackgroundTimeCompensation = false;
+            }
+        }
+    }
 
     public void BeginBackgroundState(MonoBehaviour backgrounder)
     {
@@ -31,13 +47,26 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
         }
 
         if (oldCount == 0 && backgrounderSet.Count != 0)
-        {
             OnBackgrounded(backgrounder);
-        }
         else
-        {
             ConDebug.Log($"Additional backgrounder registered: {backgrounder.name}");
+    }
+
+    public void EndBackgroundState(MonoBehaviour backgrounder)
+    {
+        var oldCount = backgrounderSet.Count;
+        if (backgrounderSet.Remove(backgrounder) == false)
+        {
+            Debug.LogError($"Nonexistent backgrounder cannot be removed: {backgrounder.name}");
+            return;
         }
+
+        if (oldCount != 0 && backgrounderSet.Count == 0) OnForegrounded(backgrounder);
+    }
+
+    void OnApplicationPause(bool pause)
+    {
+        onApplicationPauseCalled = true;
     }
 
     void OnBackgrounded(MonoBehaviour backgrounder)
@@ -60,21 +89,6 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
         {
             Debug.LogWarning(
                 "First backgrounder added, however, we do not have any network time at this moment. Background time compensation will not working.");
-        }
-    }
-
-    public void EndBackgroundState(MonoBehaviour backgrounder)
-    {
-        var oldCount = backgrounderSet.Count;
-        if (backgrounderSet.Remove(backgrounder) == false)
-        {
-            Debug.LogError($"Nonexistent backgrounder cannot be removed: {backgrounder.name}");
-            return;
-        }
-
-        if (oldCount != 0 && backgrounderSet.Count == 0)
-        {
-            OnForegrounded(backgrounder);
         }
     }
 
@@ -119,7 +133,10 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
         }
     }
 
-    long GetBackgroundDurationUsec() => (long) (GetBackgroundDuration() * 1000 * 1000);
+    long GetBackgroundDurationUsec()
+    {
+        return (long) (GetBackgroundDuration() * 1000 * 1000);
+    }
 
     double GetBackgroundDuration()
     {
@@ -128,10 +145,7 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
             if (backgroundBeginNetworkTime != DateTime.MinValue)
             {
                 var backgroundedDuration = (networkTime.EstimatedNetworkTime - backgroundBeginNetworkTime).TotalSeconds;
-                if (backgroundedDuration > 0)
-                {
-                    return backgroundedDuration;
-                }
+                if (backgroundedDuration > 0) return backgroundedDuration;
 
                 Debug.LogError(
                     $"{nameof(GetBackgroundDuration)} returned {backgroundedDuration}! returning 0 instead...");
@@ -152,14 +166,10 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
     {
         ConDebug.Log("Background time compensation started.");
         if (networkTime.State != NetworkTime.QueryState.NoError)
-        {
             Debug.LogError(
                 "ExecuteBackgroundTimeCompensation() should be called after network time received successfully.");
-        }
         else
-        {
             ExecuteBackgroundTimeCompensation(GetBackgroundDurationUsec());
-        }
     }
 
     void OnEnable()
@@ -170,23 +180,6 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
     void OnDisable()
     {
         networkTime.Unregister(this);
-    }
-
-    public void OnNetworkTimeStateChange(NetworkTime.QueryState state)
-    {
-        if (pendingBackgroundTimeCompensation)
-        {
-            ConDebug.Log($"Pending background time compensation starting now: networkTime.QueryState={state}");
-            if (state == NetworkTime.QueryState.NoError)
-            {
-                pendingBackgroundTimeCompensation = false;
-                ExecuteBackgroundTimeCompensation();
-            }
-            else if (state == NetworkTime.QueryState.Error)
-            {
-                pendingBackgroundTimeCompensation = false;
-            }
-        }
     }
 
     static void ExecuteBackgroundTimeCompensation(long usec)

@@ -14,10 +14,30 @@ public class Data : MonoBehaviour
     public static Data instance;
 
     public static DataSet dataSet;
-    
+
     // 업적(컨텐츠 상 퀘스트) 종류별로 정렬된 리스트 (데이터시트상에서 정렬되어 있어야 함)
     public static readonly Dictionary<ScString, List<AchievementData>> achievementOrderedGroup =
         new Dictionary<ScString, List<AchievementData>>();
+
+    public static readonly MessagePackSerializerOptions DefaultNoCompOptions =
+        MessagePackSerializerOptions.Standard.WithResolver(CompositeResolver.Create(
+            BlackStringResolver.Instance,
+            GeneratedResolver.Instance,
+            BuiltinResolver.Instance));
+
+    public static readonly MessagePackSerializerOptions DefaultOptions =
+        DefaultNoCompOptions.WithCompression(MessagePackCompression.Lz4BlockArray);
+
+    public static readonly MessagePackSerializerOptions BlackStrNoCompOptions =
+        MessagePackSerializerOptions.Standard.WithResolver(CompositeResolver.Create(
+            BlackStringTableResolver.Instance,
+            GeneratedResolver.Instance,
+            BuiltinResolver.Instance));
+
+    public static readonly MessagePackSerializerOptions BlackStrOptions =
+        BlackStrNoCompOptions.WithCompression(MessagePackCompression.Lz4BlockArray);
+
+    public BlackLanguageCode CurrentLanguageCode = BlackLanguageCode.Ko;
 
     public static DataSet DeserializeDataSet(byte[] buffer, byte[] strBuffer)
     {
@@ -38,11 +58,8 @@ public class Data : MonoBehaviour
     static async Task AssignSharedDataSetConditionalAsync()
     {
         // 에디터 환경에서는 개발 과정 중이므로 반복해서 실행한다.
-        if (Application.isEditor == false && dataSet != null)
-        {
-            return;
-        }
-        
+        if (Application.isEditor == false && dataSet != null) return;
+
         dataSet = LoadSharedDataSet();
         Profiler.BeginSample("Prebuild Dependent DataSet");
         await PrebuildDependentDataSetAsync(dataSet);
@@ -52,12 +69,11 @@ public class Data : MonoBehaviour
     static async Task PrebuildDependentDataSetAsync(DataSet newDataSet)
     {
         var stageAssetLocList = await Addressables.LoadResourceLocationsAsync("Stage", typeof(StageMetadata)).Task;
-        
+
         newDataSet.StageMetadataDict = stageAssetLocList.ToDictionary(e => e.PrimaryKey, e => e);
         newDataSet.StageMetadataList = new List<IResourceLocation>();
-        
+
         foreach (var seq in newDataSet.StageSequenceData)
-        {
             if (newDataSet.StageMetadataDict.TryGetValue(seq.stageName, out var stageMetadata))
             {
                 Debug.Log($"Stage: {seq.stageName} - {stageMetadata}");
@@ -68,13 +84,12 @@ public class Data : MonoBehaviour
                 Debug.LogError($"Stage metadata with name {seq.stageName} not found.");
                 newDataSet.StageMetadataList.Add(null);
             }
-        }
     }
 
     public static DataSet LoadSharedDataSet()
     {
         RegisterAllResolversOnce();
-        
+
         Profiler.BeginSample("Load Black-MsgPack");
         var blackMsgPackBytes = Resources.Load("Data/Black-MsgPack") as TextAsset;
         Profiler.EndSample();
@@ -83,7 +98,7 @@ public class Data : MonoBehaviour
             Debug.LogError("Black-MsgPack not found");
             return null;
         }
-        
+
         Profiler.BeginSample("Load BlackStr-MsgPack");
         var blackStrMsgPackBytes = Resources.Load("Data/BlackStr-MsgPack") as TextAsset;
         Profiler.EndSample();
@@ -92,11 +107,11 @@ public class Data : MonoBehaviour
             Debug.LogError("BlackStr-MsgPack not found");
             return null;
         }
-        
+
         Profiler.BeginSample("Deserialize DataSet");
         var newDataSet = DeserializeDataSet(blackMsgPackBytes.bytes, blackStrMsgPackBytes.bytes);
         Profiler.EndSample();
-        
+
         return newDataSet;
     }
 
@@ -112,26 +127,6 @@ public class Data : MonoBehaviour
         // }
     }
 
-    public BlackLanguageCode CurrentLanguageCode = BlackLanguageCode.Ko;
-
-    public static readonly MessagePackSerializerOptions DefaultNoCompOptions =
-        MessagePackSerializerOptions.Standard.WithResolver(CompositeResolver.Create(
-            BlackStringResolver.Instance,
-            GeneratedResolver.Instance,
-            BuiltinResolver.Instance));
-
-    public static readonly MessagePackSerializerOptions DefaultOptions =
-        DefaultNoCompOptions.WithCompression(MessagePackCompression.Lz4BlockArray);
-
-    public static readonly MessagePackSerializerOptions BlackStrNoCompOptions =
-        MessagePackSerializerOptions.Standard.WithResolver(CompositeResolver.Create(
-            BlackStringTableResolver.Instance,
-            GeneratedResolver.Instance,
-            BuiltinResolver.Instance));
-
-    public static readonly MessagePackSerializerOptions BlackStrOptions =
-        BlackStrNoCompOptions.WithCompression(MessagePackCompression.Lz4BlockArray);
-
     public static DataSet DeserializeDataSet(byte[] buffer)
     {
         var ret = MessagePackSerializer.Deserialize<DataSet>(buffer, DefaultOptions);
@@ -146,7 +141,7 @@ public class Data : MonoBehaviour
         BlackStringTable.StringNumberDict.Clear();
         var compressed = MessagePackSerializer.Serialize(value, DefaultOptions);
 
-        Debug.Log($"=== Serialization Result ===");
+        Debug.Log("=== Serialization Result ===");
         Debug.Log($"  Before compression: {notCompressed.Length:n0} bytes");
         Debug.Log($"  After compression: {compressed.Length:n0} bytes");
         Debug.Log($"  Compression ratio: {(float) compressed.Length / notCompressed.Length:f2}");

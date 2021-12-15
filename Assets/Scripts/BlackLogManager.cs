@@ -1,21 +1,68 @@
 ﻿using System;
-using System.IO;
-using UnityEngine;
-using System.Linq;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using ConditionalDebug;
+using MessagePack.LZ4;
+using UnityEngine;
 
 public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IPlatformLogManager
 {
     public static BlackLogManager instance;
+
+    [SerializeField]
+    BlackLogViewer logViewer;
+
     FileStream writeLogStream;
 
     string LogFilePath => Path.Combine(Application.persistentDataPath, "black.log");
 
-    [SerializeField]
-    BlackLogViewer logViewer;
+    public void Flush()
+    {
+        if (writeLogStream != null) writeLogStream.Flush(true);
+    }
+
+    public long Count()
+    {
+        var dummyLogEntryBytes = GetLogEntryBytes(BlackLogEntry.Type.GameLoaded, 0, 0);
+        using (var readLogStream = OpenReadLogStream())
+        {
+            return readLogStream.Length / dummyLogEntryBytes.Length;
+        }
+    }
+
+    public List<BlackLogEntry> Read(int startOffset, int logEntryStartIndex, int count)
+    {
+        var logEntryList = new List<BlackLogEntry>();
+        using (var readLogStream = OpenReadLogStream())
+        {
+            var dummyLogEntryBytes = GetLogEntryBytes(BlackLogEntry.Type.GameLoaded, 0, 0);
+            readLogStream.Seek(startOffset + logEntryStartIndex * dummyLogEntryBytes.Length, SeekOrigin.Begin);
+            var bytes = new byte[count * dummyLogEntryBytes.Length];
+            var readByteCount = readLogStream.Read(bytes, 0, bytes.Length);
+            var offset = 0;
+            for (var i = 0; i < readByteCount / dummyLogEntryBytes.Length; i++)
+            {
+                logEntryList.Add(new BlackLogEntry
+                {
+                    ticks = BitConverter.ToInt64(bytes, offset + 0),
+                    type = BitConverter.ToInt32(bytes, offset + 0 + 8),
+                    arg1 = BitConverter.ToInt32(bytes, offset + 0 + 8 + 4),
+                    arg2 = BitConverter.ToInt64(bytes, offset + 0 + 8 + 4 + 4)
+                });
+                offset += dummyLogEntryBytes.Length;
+            }
+        }
+
+        return logEntryList;
+    }
+
+    public void Add(int logType, int arg0, int arg1)
+    {
+        Add((BlackLogEntry.Type) logType, arg0, arg1);
+    }
 
     void Awake()
     {
@@ -66,27 +113,16 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
         }
     }
 
-    public void Flush()
-    {
-        if (writeLogStream != null)
-        {
-            writeLogStream.Flush(true);
-        }
-    }
-
     public static void Add(BlackLogEntry.Type type, int arg1, long arg2)
     {
         try
         {
             if (instance != null && instance.writeLogStream != null)
             {
-                byte[] logBytes = GetLogEntryBytes(type, arg1, arg2);
+                var logBytes = GetLogEntryBytes(type, arg1, arg2);
                 instance.writeLogStream.Write(logBytes, 0, logBytes.Length);
                 // 로그 항목이 생길 때마다 UI를 업데이트하는 것은 일반적인 유저에게는 불필요한 일이다.
-                if (Application.isEditor && instance.logViewer != null)
-                {
-                    instance.logViewer.Refresh();
-                }
+                if (Application.isEditor && instance.logViewer != null) instance.logViewer.Refresh();
             }
         }
         catch
@@ -107,87 +143,6 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
         return File.Open(instance.LogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
     }
 
-    public long Count()
-    {
-        var dummyLogEntryBytes = GetLogEntryBytes(BlackLogEntry.Type.GameLoaded, 0, 0);
-        using (var readLogStream = OpenReadLogStream())
-        {
-            return readLogStream.Length / dummyLogEntryBytes.Length;
-        }
-    }
-
-    public List<BlackLogEntry> Read(int startOffset, int logEntryStartIndex, int count)
-    {
-        List<BlackLogEntry> logEntryList = new List<BlackLogEntry>();
-        using (var readLogStream = OpenReadLogStream())
-        {
-            var dummyLogEntryBytes = GetLogEntryBytes(BlackLogEntry.Type.GameLoaded, 0, 0);
-            readLogStream.Seek(startOffset + logEntryStartIndex * dummyLogEntryBytes.Length, SeekOrigin.Begin);
-            var bytes = new byte[count * dummyLogEntryBytes.Length];
-            var readByteCount = readLogStream.Read(bytes, 0, bytes.Length);
-            var offset = 0;
-            for (int i = 0; i < readByteCount / dummyLogEntryBytes.Length; i++)
-            {
-                logEntryList.Add(new BlackLogEntry
-                {
-                    ticks = BitConverter.ToInt64(bytes, offset + 0),
-                    type = BitConverter.ToInt32(bytes, offset + 0 + 8),
-                    arg1 = BitConverter.ToInt32(bytes, offset + 0 + 8 + 4),
-                    arg2 = BitConverter.ToInt64(bytes, offset + 0 + 8 + 4 + 4),
-                });
-                offset += dummyLogEntryBytes.Length;
-            }
-        }
-
-        return logEntryList;
-    }
-
-    [Serializable]
-    class PlayLogFile
-    {
-        [Serializable]
-        public class Fields
-        {
-            [Serializable]
-            public class BytesValueData
-            {
-                public string bytesValue;
-            }
-
-            [Serializable]
-            public class TimestampValueData
-            {
-                public string timestampValue;
-            }
-
-            [Serializable]
-            public class StringValueData
-            {
-                public string stringValue;
-            }
-
-            [Serializable]
-            public class IntegerValueData
-            {
-                public long integerValue;
-            }
-
-            public BytesValueData saveData = new BytesValueData();
-            public BytesValueData playLogData = new BytesValueData();
-            public IntegerValueData playLogUncompressedSizeData = new IntegerValueData();
-            public TimestampValueData uploadDate = new TimestampValueData();
-            public StringValueData appMetaInfo = new StringValueData();
-            public StringValueData userId = new StringValueData();
-            public StringValueData gemStr = new StringValueData();
-            public StringValueData socialUserName = new StringValueData();
-            public StringValueData receiptDomain = new StringValueData();
-            public StringValueData receiptId = new StringValueData();
-            public StringValueData receipt = new StringValueData();
-        }
-
-        public Fields fields = new Fields();
-    }
-
     public async Task<string> UploadPlayLogAsync(byte[] playLogBytes, int uncompressedBytesLength,
         string progressMessage, string receiptDomain, string receiptId, string receipt)
     {
@@ -195,10 +150,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
                          string.IsNullOrEmpty(receipt) == false;
         var uploadPlayLogFileOrReceiptDbUrl = ConfigPopup.BaseUrl + "/" + (hasReceipt ? receiptDomain : "playLog");
         var ownProgressMessage = string.IsNullOrEmpty(progressMessage) == false;
-        if (ownProgressMessage)
-        {
-            ProgressMessage.instance.Open(progressMessage);
-        }
+        if (ownProgressMessage) ProgressMessage.instance.Open(progressMessage);
 
         var errorDeviceId = ErrorReporter.instance.GetOrCreateErrorDeviceId();
         var url = string.Format("{0}/{1}", uploadPlayLogFileOrReceiptDbUrl, hasReceipt ? receiptId : errorDeviceId);
@@ -304,7 +256,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
             saveFile.fields.receipt.stringValue = "ERROR";
         }
 
-        string reasonPhrase = "";
+        var reasonPhrase = "";
         try
         {
             using (var httpClient = new HttpClient())
@@ -335,15 +287,13 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
         }
         catch (Exception e)
         {
-            Debug.LogError($"Play log upload exception: {e.ToString()}");
+            Debug.LogError($"Play log upload exception: {e}");
         }
         finally
         {
             if (ownProgressMessage)
-            {
                 // 어떤 경우가 됐든지 마지막으로는 진행 상황 창을 닫아야 한다.
                 ProgressMessage.instance.Close();
-            }
         }
 
         return reasonPhrase;
@@ -367,7 +317,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
             var bytes = new byte[count * dummyLogEntryBytes.Length];
             var readByteCount = readLogStream.Read(bytes, 0, bytes.Length);
             ConDebug.Log(
-                $"{readByteCount:n0} bytes ({(readByteCount / dummyLogEntryBytes.Length):n0} log entries) read.");
+                $"{readByteCount:n0} bytes ({readByteCount / dummyLogEntryBytes.Length:n0} log entries) read.");
             if (readByteCount % dummyLogEntryBytes.Length != 0)
             {
                 var reasonPhrase =
@@ -376,10 +326,10 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
                 return reasonPhrase;
             }
 
-            var maxOutBytesLength = MessagePack.LZ4.LZ4Codec.MaximumOutputLength(readByteCount);
+            var maxOutBytesLength = LZ4Codec.MaximumOutputLength(readByteCount);
             ConDebug.Log($"Maximum compressed log: {maxOutBytesLength:n0} bytes");
             var outBytes = new byte[maxOutBytesLength];
-            var outBytesLength = MessagePack.LZ4.LZ4Codec.Encode(bytes, 0, readByteCount, outBytes, 0, outBytes.Length);
+            var outBytesLength = LZ4Codec.Encode(bytes, 0, readByteCount, outBytes, 0, outBytes.Length);
             ConDebug.Log($"Compressed log size: {outBytesLength:n0} bytes");
             outBytes = outBytes.Take(outBytesLength).ToArray();
             return await instance.UploadPlayLogAsync(outBytes, readByteCount, progressMessage, receiptDomain, receiptId,
@@ -387,8 +337,50 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
         }
     }
 
-    public void Add(int logType, int arg0, int arg1)
+    [Serializable]
+    class PlayLogFile
     {
-        Add((BlackLogEntry.Type) logType, arg0, arg1);
+        public Fields fields = new Fields();
+
+        [Serializable]
+        public class Fields
+        {
+            public StringValueData appMetaInfo = new StringValueData();
+            public StringValueData gemStr = new StringValueData();
+            public BytesValueData playLogData = new BytesValueData();
+            public IntegerValueData playLogUncompressedSizeData = new IntegerValueData();
+            public StringValueData receipt = new StringValueData();
+            public StringValueData receiptDomain = new StringValueData();
+            public StringValueData receiptId = new StringValueData();
+
+            public BytesValueData saveData = new BytesValueData();
+            public StringValueData socialUserName = new StringValueData();
+            public TimestampValueData uploadDate = new TimestampValueData();
+            public StringValueData userId = new StringValueData();
+
+            [Serializable]
+            public class BytesValueData
+            {
+                public string bytesValue;
+            }
+
+            [Serializable]
+            public class TimestampValueData
+            {
+                public string timestampValue;
+            }
+
+            [Serializable]
+            public class StringValueData
+            {
+                public string stringValue;
+            }
+
+            [Serializable]
+            public class IntegerValueData
+            {
+                public long integerValue;
+            }
+        }
     }
 }

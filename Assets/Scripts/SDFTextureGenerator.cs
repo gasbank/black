@@ -35,400 +35,412 @@
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-using System;
 #if UNITY_2020
 using Math = UnityEngine.Mathf;
+
 #endif
 
-namespace black_dev_tools {
-
+namespace black_dev_tools
+{
 	/// <summary>
-	/// How to fill the RGB channels of a generated singed distance field texture.
+	///     How to fill the RGB channels of a generated singed distance field texture.
 	/// </summary>
-	public enum RGBFillMode {
-		/// <summary>
-		/// Set the RGB channels to 1.
-		/// </summary>
-		White,
-		/// <summary>
-		/// Set the RGB channels to 0.
-		/// </summary>
-		Black,
-		/// <summary>
-		/// Set the RGB channels to the generated distance field.
-		/// </summary>
-		Distance,
-		/// <summary>
-		/// Copy the source texture's RGB channels.
-		/// </summary>
-		Source
-	}
+	public enum RGBFillMode
+    {
+	    /// <summary>
+	    ///     Set the RGB channels to 1.
+	    /// </summary>
+	    White,
 
-	internal struct Vector2 {
-		public float x, y;
-		public void Normalize() {
-			var len = (float)Math.Sqrt(x * x + y * y);
-			x /= len;
-			y /= len;
-		}
-	}
+	    /// <summary>
+	    ///     Set the RGB channels to 0.
+	    /// </summary>
+	    Black,
 
-	/// <summary>
-	/// Utility class for generating signed distance field textures from anti-aliased alpha maps.
-	/// </summary>
-	/// <description>
-	/// Although the generator can be used at run-time, the current version isn't convenient nor optimized for it.
-	/// </description>
-	public static class SDFTextureGenerator {
-		class Pixel {
-			public float alpha, distance;
-			public Vector2 gradient;
-			public int dX, dY;
-		}
+	    /// <summary>
+	    ///     Set the RGB channels to the generated distance field.
+	    /// </summary>
+	    Distance,
 
-		static int width, height;
-		static Pixel[,] pixels;
+	    /// <summary>
+	    ///     Copy the source texture's RGB channels.
+	    /// </summary>
+	    Source
+    }
 
-		public static Rgba32 GetPixel(this Image<Rgba32> image, int x, int y) {
-			return image[x, y];
-		}
+    internal struct Vector2
+    {
+        public float x, y;
 
-		public static void SetPixel(this Image<Rgba32> image, int x, int y, Rgba32 c) {
-			image[x, y] = c;
-		}
+        public void Normalize()
+        {
+            var len = Math.Sqrt(x * x + y * y);
+            x /= len;
+            y /= len;
+        }
+    }
 
-		/// <summary>
-		/// Fill a texture with a signed distance field generated from the alpha channel of a source texture.
-		/// </summary>
-		/// <param name="source">
-		/// Source texture. Alpha values of 1 are considered inside, values of 0 are considered outside, and any other values are considered
-		/// to be on the edge. Must be readable.
-		/// </param>
-		/// <param name="destination">
-		/// Destination texture. Must be the same size as the source texture. Must be readable.
-		/// The texture change does not get applied automatically, you need to do that yourself.
-		/// </param>
-		/// <param name="maxInside">
-		/// Maximum pixel distance measured inside the edge, resulting in an alpha value of 1.
-		/// If set to or below 0, everything inside will have an alpha value of 1.
-		/// </param>
-		/// <param name="maxOutside">
-		/// Maximum pixel distance measured outside the edge, resulting in an alpha value of 0.
-		/// If set to or below 0, everything outside will have an alpha value of 0.
-		/// </param>
-		/// <param name="postProcessDistance">
-		/// Pixel distance from the edge within which pixels will be post-processed using the edge gradient.
-		/// </param>
-		/// <param name="rgbMode">
-		/// How to fill the destination texture's RGB channels.
-		/// </param>
-		public static void Generate(
-			Image<Rgba32> source,
-			Image<Rgba32> destination,
-			float maxInside,
-			float maxOutside,
-			float postProcessDistance,
-			RGBFillMode rgbMode) {
+    /// <summary>
+    ///     Utility class for generating signed distance field textures from anti-aliased alpha maps.
+    /// </summary>
+    /// <description>
+    ///     Although the generator can be used at run-time, the current version isn't convenient nor optimized for it.
+    /// </description>
+    public static class SDFTextureGenerator
+    {
+        static int width, height;
+        static Pixel[,] pixels;
 
-			if (source.Height != destination.Height || source.Width != destination.Width) {
-				Logger.WriteLine("Source and destination textures must be the same size.");
-				return;
-			}
+        public static Rgba32 GetPixel(this Image<Rgba32> image, int x, int y)
+        {
+            return image[x, y];
+        }
 
-			width = source.Width;
-			height = source.Height;
-			pixels = new Pixel[width, height];
-			int x, y;
-			float scale;
-			Rgba32 c = rgbMode == RGBFillMode.White ? Color.White: Color.Black;
-			for (y = 0; y < height; y++) {
-				for (x = 0; x < width; x++) {
-					pixels[x, y] = new Pixel();
-				}
-			}
-			if (maxInside > 0f) {
-				for (y = 0; y < height; y++) {
-					for (x = 0; x < width; x++) {
-						pixels[x, y].alpha = source.GetPixel(x, y).R / 255f;
-					}
-				}
-				ComputeEdgeGradients();
-				GenerateDistanceTransform();
-				if (postProcessDistance > 0f) {
-					PostProcess(postProcessDistance);
-				}
-				scale = 1f / maxInside;
-				for (y = 0; y < height; y++) {
-					for (x = 0; x < width; x++) {
-						c.A = (byte)(255f * Math.Clamp(pixels[x, y].distance * scale, 0, 1));
-						destination.SetPixel(x, y, c);
-					}
-				}
-			}
-			if (maxOutside > 0f) {
-				for (y = 0; y < height; y++) {
-					for (x = 0; x < width; x++) {
-						pixels[x, y].alpha = 1f - source.GetPixel(x, y).R / 255f;
-					}
-				}
-				ComputeEdgeGradients();
-				GenerateDistanceTransform();
-				if (postProcessDistance > 0f) {
-					PostProcess(postProcessDistance);
-				}
-				scale = 1f / maxOutside;
-				if (maxInside > 0f) {
-					for (y = 0; y < height; y++) {
-						for (x = 0; x < width; x++) {
-							c.A = (byte)(255f * (0.5f + (destination.GetPixel(x, y).A/255f -
-										  Math.Clamp(pixels[x, y].distance * scale, 0, 1)) * 0.5f));
-							destination.SetPixel(x, y, c);
-						}
-					}
-				} else {
-					for (y = 0; y < height; y++) {
-						for (x = 0; x < width; x++) {
-							c.A = (byte)(255f * Math.Clamp(1f - pixels[x, y].distance * scale, 0, 1));
-							destination.SetPixel(x, y, c);
-						}
-					}
-				}
-			}
+        public static void SetPixel(this Image<Rgba32> image, int x, int y, Rgba32 c)
+        {
+            image[x, y] = c;
+        }
 
-			if (rgbMode == RGBFillMode.Distance) {
-				for (y = 0; y < height; y++) {
-					for (x = 0; x < width; x++) {
-						c = destination.GetPixel(x, y);
-						c.R = c.A;
-						c.G = c.A;
-						c.B = c.A;
-						destination.SetPixel(x, y, c);
-					}
-				}
-			} else if (rgbMode == RGBFillMode.Source) {
-				for (y = 0; y < height; y++) {
-					for (x = 0; x < width; x++) {
-						c = source.GetPixel(x, y);
-						c.A = destination.GetPixel(x, y).A;
-						destination.SetPixel(x, y, c);
-					}
-				}
-			}
-			pixels = null;
-		}
+        /// <summary>
+        ///     Fill a texture with a signed distance field generated from the alpha channel of a source texture.
+        /// </summary>
+        /// <param name="source">
+        ///     Source texture. Alpha values of 1 are considered inside, values of 0 are considered outside, and any other values
+        ///     are considered
+        ///     to be on the edge. Must be readable.
+        /// </param>
+        /// <param name="destination">
+        ///     Destination texture. Must be the same size as the source texture. Must be readable.
+        ///     The texture change does not get applied automatically, you need to do that yourself.
+        /// </param>
+        /// <param name="maxInside">
+        ///     Maximum pixel distance measured inside the edge, resulting in an alpha value of 1.
+        ///     If set to or below 0, everything inside will have an alpha value of 1.
+        /// </param>
+        /// <param name="maxOutside">
+        ///     Maximum pixel distance measured outside the edge, resulting in an alpha value of 0.
+        ///     If set to or below 0, everything outside will have an alpha value of 0.
+        /// </param>
+        /// <param name="postProcessDistance">
+        ///     Pixel distance from the edge within which pixels will be post-processed using the edge gradient.
+        /// </param>
+        /// <param name="rgbMode">
+        ///     How to fill the destination texture's RGB channels.
+        /// </param>
+        public static void Generate(
+            Image<Rgba32> source,
+            Image<Rgba32> destination,
+            float maxInside,
+            float maxOutside,
+            float postProcessDistance,
+            RGBFillMode rgbMode)
+        {
+            if (source.Height != destination.Height || source.Width != destination.Width)
+            {
+                Logger.WriteLine("Source and destination textures must be the same size.");
+                return;
+            }
 
-		static void ComputeEdgeGradients() {
-			float sqrt2 = (float)Math.Sqrt(2);
-			for (int y = 1; y < height - 1; y++) {
-				for (int x = 1; x < width - 1; x++) {
-					Pixel p = pixels[x, y];
-					if (p.alpha > 0f && p.alpha < 1f) {
-						// estimate gradient of edge pixel using surrounding pixels
-						float g =
-							-pixels[x - 1, y - 1].alpha
-							- pixels[x - 1, y + 1].alpha
-							+ pixels[x + 1, y - 1].alpha
-							+ pixels[x + 1, y + 1].alpha;
-						p.gradient.x = g + (pixels[x + 1, y].alpha - pixels[x - 1, y].alpha) * sqrt2;
-						p.gradient.y = g + (pixels[x, y + 1].alpha - pixels[x, y - 1].alpha) * sqrt2;
-						p.gradient.Normalize();
-					}
-				}
-			}
-		}
+            width = source.Width;
+            height = source.Height;
+            pixels = new Pixel[width, height];
+            int x, y;
+            float scale;
+            Rgba32 c = rgbMode == RGBFillMode.White ? Color.White : Color.Black;
+            for (y = 0; y < height; y++)
+            for (x = 0; x < width; x++)
+                pixels[x, y] = new Pixel();
+            if (maxInside > 0f)
+            {
+                for (y = 0; y < height; y++)
+                for (x = 0; x < width; x++)
+                    pixels[x, y].alpha = source.GetPixel(x, y).R / 255f;
+                ComputeEdgeGradients();
+                GenerateDistanceTransform();
+                if (postProcessDistance > 0f) PostProcess(postProcessDistance);
+                scale = 1f / maxInside;
+                for (y = 0; y < height; y++)
+                for (x = 0; x < width; x++)
+                {
+                    c.A = (byte) (255f * Math.Clamp(pixels[x, y].distance * scale, 0, 1));
+                    destination.SetPixel(x, y, c);
+                }
+            }
 
-		static float ApproximateEdgeDelta(float gx, float gy, float a) {
-			// (gx, gy) can be either the local pixel gradient or the direction to the pixel
+            if (maxOutside > 0f)
+            {
+                for (y = 0; y < height; y++)
+                for (x = 0; x < width; x++)
+                    pixels[x, y].alpha = 1f - source.GetPixel(x, y).R / 255f;
+                ComputeEdgeGradients();
+                GenerateDistanceTransform();
+                if (postProcessDistance > 0f) PostProcess(postProcessDistance);
+                scale = 1f / maxOutside;
+                if (maxInside > 0f)
+                    for (y = 0; y < height; y++)
+                    for (x = 0; x < width; x++)
+                    {
+                        c.A = (byte) (255f * (0.5f + (destination.GetPixel(x, y).A / 255f -
+                                                      Math.Clamp(pixels[x, y].distance * scale, 0, 1)) * 0.5f));
+                        destination.SetPixel(x, y, c);
+                    }
+                else
+                    for (y = 0; y < height; y++)
+                    for (x = 0; x < width; x++)
+                    {
+                        c.A = (byte) (255f * Math.Clamp(1f - pixels[x, y].distance * scale, 0, 1));
+                        destination.SetPixel(x, y, c);
+                    }
+            }
 
-			if (gx == 0f || gy == 0f) {
-				// linear function is correct if both gx and gy are zero
-				// and still fair if only one of them is zero
-				return 0.5f - a;
-			}
+            if (rgbMode == RGBFillMode.Distance)
+                for (y = 0; y < height; y++)
+                for (x = 0; x < width; x++)
+                {
+                    c = destination.GetPixel(x, y);
+                    c.R = c.A;
+                    c.G = c.A;
+                    c.B = c.A;
+                    destination.SetPixel(x, y, c);
+                }
+            else if (rgbMode == RGBFillMode.Source)
+                for (y = 0; y < height; y++)
+                for (x = 0; x < width; x++)
+                {
+                    c = source.GetPixel(x, y);
+                    c.A = destination.GetPixel(x, y).A;
+                    destination.SetPixel(x, y, c);
+                }
 
-			// normalize (gx, gy)
-			float length = (float)Math.Sqrt(gx * gx + gy * gy);
-			gx = gx / length;
-			gy = gy / length;
+            pixels = null;
+        }
 
-			// reduce symmetrical equation to first octant only
-			// gx >= 0, gy >= 0, gx >= gy
-			gx = Math.Abs(gx);
-			gy = Math.Abs(gy);
-			if (gx < gy) {
-				float temp = gx;
-				gx = gy;
-				gy = temp;
-			}
+        static void ComputeEdgeGradients()
+        {
+            var sqrt2 = Math.Sqrt(2);
+            for (var y = 1; y < height - 1; y++)
+            for (var x = 1; x < width - 1; x++)
+            {
+                var p = pixels[x, y];
+                if (p.alpha > 0f && p.alpha < 1f)
+                {
+                    // estimate gradient of edge pixel using surrounding pixels
+                    var g =
+                        -pixels[x - 1, y - 1].alpha
+                        - pixels[x - 1, y + 1].alpha
+                        + pixels[x + 1, y - 1].alpha
+                        + pixels[x + 1, y + 1].alpha;
+                    p.gradient.x = g + (pixels[x + 1, y].alpha - pixels[x - 1, y].alpha) * sqrt2;
+                    p.gradient.y = g + (pixels[x, y + 1].alpha - pixels[x, y - 1].alpha) * sqrt2;
+                    p.gradient.Normalize();
+                }
+            }
+        }
 
-			// compute delta
-			float a1 = 0.5f * gy / gx;
-			if (a < a1) {
-				// 0 <= a < a1
-				return 0.5f * (gx + gy) - (float)Math.Sqrt(2f * gx * gy * a);
-			}
-			if (a < (1f - a1)) {
-				// a1 <= a <= 1 - a1
-				return (0.5f - a) * gx;
-			}
-			// 1-a1 < a <= 1
-			return -0.5f * (gx + gy) + (float)Math.Sqrt(2f * gx * gy * (1f - a));
-		}
+        static float ApproximateEdgeDelta(float gx, float gy, float a)
+        {
+            // (gx, gy) can be either the local pixel gradient or the direction to the pixel
 
-		static void UpdateDistance(Pixel p, int x, int y, int oX, int oY) {
-			Pixel neighbor = pixels[x + oX, y + oY];
-			Pixel closest = pixels[x + oX - neighbor.dX, y + oY - neighbor.dY];
+            if (gx == 0f || gy == 0f) // linear function is correct if both gx and gy are zero
+                // and still fair if only one of them is zero
+                return 0.5f - a;
 
-			if (closest.alpha == 0f || closest == p) {
-				// neighbor has no closest yet
-				// or neighbor's closest is p itself
-				return;
-			}
+            // normalize (gx, gy)
+            var length = Math.Sqrt(gx * gx + gy * gy);
+            gx = gx / length;
+            gy = gy / length;
 
-			int dX = neighbor.dX - oX;
-			int dY = neighbor.dY - oY;
-			float distance = (float)Math.Sqrt(dX * dX + dY * dY) + ApproximateEdgeDelta(dX, dY, closest.alpha);
-			if (distance < p.distance) {
-				p.distance = distance;
-				p.dX = dX;
-				p.dY = dY;
-			}
-		}
+            // reduce symmetrical equation to first octant only
+            // gx >= 0, gy >= 0, gx >= gy
+            gx = Math.Abs(gx);
+            gy = Math.Abs(gy);
+            if (gx < gy)
+            {
+                var temp = gx;
+                gx = gy;
+                gy = temp;
+            }
 
-		static void GenerateDistanceTransform() {
-			// perform anti-aliased Euclidean distance transform
-			int x, y;
-			Pixel p;
+            // compute delta
+            var a1 = 0.5f * gy / gx;
+            if (a < a1) // 0 <= a < a1
+                return 0.5f * (gx + gy) - Math.Sqrt(2f * gx * gy * a);
+            if (a < 1f - a1) // a1 <= a <= 1 - a1
+                return (0.5f - a) * gx;
+            // 1-a1 < a <= 1
+            return -0.5f * (gx + gy) + Math.Sqrt(2f * gx * gy * (1f - a));
+        }
 
-			// initialize distances
-			for (y = 0; y < height; y++) {
-				for (x = 0; x < width; x++) {
-					p = pixels[x, y];
-					p.dX = 0;
-					p.dY = 0;
-					if (p.alpha <= 0f) {
-						// outside
-						p.distance = 1000000f;
-					} else if (p.alpha < 1f) {
-						// on the edge
-						p.distance = ApproximateEdgeDelta(p.gradient.x, p.gradient.y, p.alpha);
-					} else {
-						// inside
-						p.distance = 0f;
-					}
-				}
-			}
-			// perform 8SSED (eight-points signed sequential Euclidean distance transform)
-			// scan up
-			for (y = 1; y < height; y++) {
-				// |P.
-				// |XX
-				p = pixels[0, y];
-				if (p.distance > 0f) {
-					UpdateDistance(p, 0, y, 0, -1);
-					UpdateDistance(p, 0, y, 1, -1);
-				}
-				// -->
-				// XP.
-				// XXX
-				for (x = 1; x < width - 1; x++) {
-					p = pixels[x, y];
-					if (p.distance > 0f) {
-						UpdateDistance(p, x, y, -1, 0);
-						UpdateDistance(p, x, y, -1, -1);
-						UpdateDistance(p, x, y, 0, -1);
-						UpdateDistance(p, x, y, 1, -1);
-					}
-				}
-				// XP|
-				// XX|
-				p = pixels[width - 1, y];
-				if (p.distance > 0f) {
-					UpdateDistance(p, width - 1, y, -1, 0);
-					UpdateDistance(p, width - 1, y, -1, -1);
-					UpdateDistance(p, width - 1, y, 0, -1);
-				}
-				// <--
-				// .PX
-				for (x = width - 2; x >= 0; x--) {
-					p = pixels[x, y];
-					if (p.distance > 0f) {
-						UpdateDistance(p, x, y, 1, 0);
-					}
-				}
-			}
-			// scan down
-			for (y = height - 2; y >= 0; y--) {
-				// XX|
-				// .P|
-				p = pixels[width - 1, y];
-				if (p.distance > 0f) {
-					UpdateDistance(p, width - 1, y, 0, 1);
-					UpdateDistance(p, width - 1, y, -1, 1);
-				}
-				// <--
-				// XXX
-				// .PX
-				for (x = width - 2; x > 0; x--) {
-					p = pixels[x, y];
-					if (p.distance > 0f) {
-						UpdateDistance(p, x, y, 1, 0);
-						UpdateDistance(p, x, y, 1, 1);
-						UpdateDistance(p, x, y, 0, 1);
-						UpdateDistance(p, x, y, -1, 1);
-					}
-				}
-				// |XX
-				// |PX
-				p = pixels[0, y];
-				if (p.distance > 0f) {
-					UpdateDistance(p, 0, y, 1, 0);
-					UpdateDistance(p, 0, y, 1, 1);
-					UpdateDistance(p, 0, y, 0, 1);
-				}
-				// -->
-				// XP.
-				for (x = 1; x < width; x++) {
-					p = pixels[x, y];
-					if (p.distance > 0f) {
-						UpdateDistance(p, x, y, -1, 0);
-					}
-				}
-			}
-		}
+        static void UpdateDistance(Pixel p, int x, int y, int oX, int oY)
+        {
+            var neighbor = pixels[x + oX, y + oY];
+            var closest = pixels[x + oX - neighbor.dX, y + oY - neighbor.dY];
 
-		static void PostProcess(float maxDistance) {
-			// adjust distances near edges based on the local edge gradient
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					Pixel p = pixels[x, y];
-					if ((p.dX == 0 && p.dY == 0) || p.distance >= maxDistance) {
-						// ignore edge, inside, and beyond max distance
-						continue;
-					}
-					float
-						dX = p.dX,
-						dY = p.dY;
-					Pixel closest = pixels[x - p.dX, y - p.dY];
-					Vector2 g = closest.gradient;
+            if (closest.alpha == 0f || closest == p) // neighbor has no closest yet
+                // or neighbor's closest is p itself
+                return;
 
-					if (g.x == 0f && g.y == 0f) {
-						// ignore unknown gradients (inside)
-						continue;
-					}
+            var dX = neighbor.dX - oX;
+            var dY = neighbor.dY - oY;
+            var distance = Math.Sqrt(dX * dX + dY * dY) + ApproximateEdgeDelta(dX, dY, closest.alpha);
+            if (distance < p.distance)
+            {
+                p.distance = distance;
+                p.dX = dX;
+                p.dY = dY;
+            }
+        }
 
-					// compute hit point offset on gradient inside pixel
-					float df = ApproximateEdgeDelta(g.x, g.y, closest.alpha);
-					float t = dY * g.x - dX * g.y;
-					float u = -df * g.x + t * g.y;
-					float v = -df * g.y - t * g.x;
+        static void GenerateDistanceTransform()
+        {
+            // perform anti-aliased Euclidean distance transform
+            int x, y;
+            Pixel p;
 
-					// use hit point to compute distance
-					if (Math.Abs(u) <= 0.5f && Math.Abs(v) <= 0.5f) {
-						p.distance = (float)Math.Sqrt((dX + u) * (dX + u) + (dY + v) * (dY + v));
-					}
-				}
-			}
-		}
-	}
+            // initialize distances
+            for (y = 0; y < height; y++)
+            for (x = 0; x < width; x++)
+            {
+                p = pixels[x, y];
+                p.dX = 0;
+                p.dY = 0;
+                if (p.alpha <= 0f) // outside
+                    p.distance = 1000000f;
+                else if (p.alpha < 1f) // on the edge
+                    p.distance = ApproximateEdgeDelta(p.gradient.x, p.gradient.y, p.alpha);
+                else // inside
+                    p.distance = 0f;
+            }
+
+            // perform 8SSED (eight-points signed sequential Euclidean distance transform)
+            // scan up
+            for (y = 1; y < height; y++)
+            {
+                // |P.
+                // |XX
+                p = pixels[0, y];
+                if (p.distance > 0f)
+                {
+                    UpdateDistance(p, 0, y, 0, -1);
+                    UpdateDistance(p, 0, y, 1, -1);
+                }
+
+                // -->
+                // XP.
+                // XXX
+                for (x = 1; x < width - 1; x++)
+                {
+                    p = pixels[x, y];
+                    if (p.distance > 0f)
+                    {
+                        UpdateDistance(p, x, y, -1, 0);
+                        UpdateDistance(p, x, y, -1, -1);
+                        UpdateDistance(p, x, y, 0, -1);
+                        UpdateDistance(p, x, y, 1, -1);
+                    }
+                }
+
+                // XP|
+                // XX|
+                p = pixels[width - 1, y];
+                if (p.distance > 0f)
+                {
+                    UpdateDistance(p, width - 1, y, -1, 0);
+                    UpdateDistance(p, width - 1, y, -1, -1);
+                    UpdateDistance(p, width - 1, y, 0, -1);
+                }
+
+                // <--
+                // .PX
+                for (x = width - 2; x >= 0; x--)
+                {
+                    p = pixels[x, y];
+                    if (p.distance > 0f) UpdateDistance(p, x, y, 1, 0);
+                }
+            }
+
+            // scan down
+            for (y = height - 2; y >= 0; y--)
+            {
+                // XX|
+                // .P|
+                p = pixels[width - 1, y];
+                if (p.distance > 0f)
+                {
+                    UpdateDistance(p, width - 1, y, 0, 1);
+                    UpdateDistance(p, width - 1, y, -1, 1);
+                }
+
+                // <--
+                // XXX
+                // .PX
+                for (x = width - 2; x > 0; x--)
+                {
+                    p = pixels[x, y];
+                    if (p.distance > 0f)
+                    {
+                        UpdateDistance(p, x, y, 1, 0);
+                        UpdateDistance(p, x, y, 1, 1);
+                        UpdateDistance(p, x, y, 0, 1);
+                        UpdateDistance(p, x, y, -1, 1);
+                    }
+                }
+
+                // |XX
+                // |PX
+                p = pixels[0, y];
+                if (p.distance > 0f)
+                {
+                    UpdateDistance(p, 0, y, 1, 0);
+                    UpdateDistance(p, 0, y, 1, 1);
+                    UpdateDistance(p, 0, y, 0, 1);
+                }
+
+                // -->
+                // XP.
+                for (x = 1; x < width; x++)
+                {
+                    p = pixels[x, y];
+                    if (p.distance > 0f) UpdateDistance(p, x, y, -1, 0);
+                }
+            }
+        }
+
+        static void PostProcess(float maxDistance)
+        {
+            // adjust distances near edges based on the local edge gradient
+            for (var y = 0; y < height; y++)
+            for (var x = 0; x < width; x++)
+            {
+                var p = pixels[x, y];
+                if (p.dX == 0 && p.dY == 0 || p.distance >= maxDistance) // ignore edge, inside, and beyond max distance
+                    continue;
+                float
+                    dX = p.dX,
+                    dY = p.dY;
+                var closest = pixels[x - p.dX, y - p.dY];
+                var g = closest.gradient;
+
+                if (g.x == 0f && g.y == 0f) // ignore unknown gradients (inside)
+                    continue;
+
+                // compute hit point offset on gradient inside pixel
+                var df = ApproximateEdgeDelta(g.x, g.y, closest.alpha);
+                var t = dY * g.x - dX * g.y;
+                var u = -df * g.x + t * g.y;
+                var v = -df * g.y - t * g.x;
+
+                // use hit point to compute distance
+                if (Math.Abs(u) <= 0.5f && Math.Abs(v) <= 0.5f)
+                    p.distance = Math.Sqrt((dX + u) * (dX + u) + (dY + v) * (dY + v));
+            }
+        }
+
+        class Pixel
+        {
+            public float alpha, distance;
+            public int dX, dY;
+            public Vector2 gradient;
+        }
+    }
 }

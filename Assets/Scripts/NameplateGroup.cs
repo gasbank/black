@@ -1,24 +1,29 @@
 using TMPro;
 using UnityEngine;
 
-public class NameplateGroup : MonoBehaviour {
+public class NameplateGroup : MonoBehaviour
+{
+    [SerializeField]
+    [AutoBindThis]
+    CanvasGroup canvasGroup;
+
     [SerializeField]
     TextMeshProUGUI text;
 
-    [SerializeField, AutoBindThis]
-    CanvasGroup canvasGroup;
+    public string Text
+    {
+        set => text.text = value;
+    }
 
 #if UNITY_EDITOR
-    void OnValidate() {
+    void OnValidate()
+    {
         AutoBindUtil.BindAll(this);
     }
 #endif
 
-    void Awake() {
+    void Awake()
+    {
         canvasGroup.alpha = 0;
-    }
-
-    public string Text {
-        set => text.text = value;
     }
 }

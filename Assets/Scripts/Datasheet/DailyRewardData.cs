@@ -1,29 +1,30 @@
+using System;
 using MessagePack;
 
-[System.Serializable]
+[Serializable]
 [MessagePackObject]
 public class DailyRewardData : IBlackReward
 {
+    [Key(4)]
+    public ScInt amount;
+
     [Key(0)]
     public ScInt day;
-
-    [Key(1)]
-    public RewardType rewardType;
 
     [Key(2)]
     public ScString desc;
 
+    [Key(6)]
+    public bool hidden;
+
     [Key(3)]
     public ScString notificationDesc;
 
-    [Key(4)]
-    public ScInt amount;
+    [Key(1)]
+    public RewardType rewardType;
 
     [Key(5)]
     public ScString sprite;
-
-    [Key(6)]
-    public bool hidden;
 
     [Key(7)]
     public bool stashedRedeemed;

@@ -1,23 +1,27 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
-public class MainCanvasDirector : MonoBehaviour {
-    [SerializeField] CanvasGroup debugGroup;
-    [SerializeField] CanvasGroup coinGroup;
-    [SerializeField] CanvasGroup paletteGroup;
+public class MainCanvasDirector : MonoBehaviour
+{
+    [SerializeField]
+    CanvasGroup coinGroup;
 
-    enum Mode {
-        Entering,
-        Painting,
-        Finishing,
-        Finished,
-        Debug,
-    }
-    [SerializeField] Mode mode = Mode.Entering;
+    [SerializeField]
+    CanvasGroup debugGroup;
+
+    [SerializeField]
+    Mode mode = Mode.Entering;
+
+    [SerializeField]
+    CanvasGroup paletteGroup;
 
 #if UNITY_EDITOR
-    void OnValidate() {
-        UnityEditor.EditorApplication.delayCall += () => {
-            switch (mode) {
+    void OnValidate()
+    {
+        EditorApplication.delayCall += () =>
+        {
+            switch (mode)
+            {
                 case Mode.Entering:
                     debugGroup.Hide();
                     coinGroup.Hide();
@@ -47,4 +51,13 @@ public class MainCanvasDirector : MonoBehaviour {
         };
     }
 #endif
+
+    enum Mode
+    {
+        Entering,
+        Painting,
+        Finishing,
+        Finished,
+        Debug
+    }
 }

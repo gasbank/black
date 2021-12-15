@@ -4,18 +4,20 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class AchievementEntry : MonoBehaviour
 {
-    public Image image;
-    public Text achievementName;
-    public Text achievementDesc;
-    public Button redeemButton;
-    public Text rewardGemText;
     public AchievementData achievementData;
+    public Text achievementDesc;
+    public Text achievementName;
+
+    [SerializeField]
+    AchievementRedeemButton achievementRedeemButton;
+
+    public Image image;
+    public Button redeemButton;
 
     [SerializeField]
     Image rewardGemImage;
 
-    [SerializeField]
-    AchievementRedeemButton achievementRedeemButton;
+    public Text rewardGemText;
 
     // 버튼 콜백
     public void Redeem()
@@ -33,10 +35,7 @@ public class AchievementEntry : MonoBehaviour
     public void RedeemInternal()
     {
         // 비활성화됐다는 뜻은 보상 받을 조건 만족하지 못했단 뜻이다.
-        if (redeemButton.interactable == false)
-        {
-            return;
-        }
+        if (redeemButton.interactable == false) return;
 
         // add reward
         var clonedGameObject = InstantiateLocalized.InstantiateLocalize(rewardGemImage.gameObject,
@@ -48,13 +47,9 @@ public class AchievementEntry : MonoBehaviour
 
         // update redeemed stat
         if (achievementData.condition == "maxBlackLevel")
-        {
             BlackContext.instance.AchievementRedeemed.MaxBlackLevel = (ulong) achievementData.conditionNewArg.ToLong();
-        }
         else
-        {
             Debug.LogErrorFormat("Unknown achievement condition: {0}", achievementData.condition);
-        }
 
         // refresh achievement popup
         // *** 여기서 다시 갱신할 필요는 없다. BlackContext.instance.achievementRedeemed의 프로퍼티가 변경될 때

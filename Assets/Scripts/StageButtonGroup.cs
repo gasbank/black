@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -6,7 +5,7 @@ public class StageButtonGroup : MonoBehaviour
 {
     [SerializeField]
     GameObject stageButtonPrefab;
-    
+
     async void Start()
     {
         var stageAssetLocList = await Addressables.LoadResourceLocationsAsync("Stage", typeof(StageMetadata)).Task;
@@ -17,8 +16,8 @@ public class StageButtonGroup : MonoBehaviour
             stageButton.SetStageMetadata(stageMetadata);
             stageButton.gameObject.name = stageMetadata.name;
         }
-        
-        
+
+
 //        var stageAssetList = await Addressables.LoadAssetsAsync<StageMetadata>("Stage", null).Task;
 //        foreach (var stageMetadata in stageAssetList)
 //        {

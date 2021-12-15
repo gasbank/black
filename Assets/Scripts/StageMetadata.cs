@@ -3,19 +3,25 @@
 public class StageMetadata : ScriptableObject
 {
     [SerializeField]
-    Material skipBlackMaterial;
-
-    [SerializeField]
-    Material sdfMaterial;
+    string friendlyStageName = "Stage Name";
 
     [SerializeField]
     TextAsset rawStageData;
 
     [SerializeField]
-    int starCount;
+    Material sdfMaterial;
 
     [SerializeField]
-    string friendlyStageName = "Stage Name";
+    Material skipBlackMaterial;
+
+    [SerializeField]
+    int starCount;
+
+    public Material SkipBlackMaterial => skipBlackMaterial;
+    public Material SdfMaterial => sdfMaterial;
+    public TextAsset RawStageData => rawStageData;
+    public string FriendlyStageName => friendlyStageName;
+    public int StarCount => starCount;
 
     public static StageMetadata Create(Material skipBlackMat, Material sdfMat, TextAsset stageData, string stageName)
     {
@@ -26,10 +32,4 @@ public class StageMetadata : ScriptableObject
         asset.friendlyStageName = stageName;
         return asset;
     }
-
-    public Material SkipBlackMaterial => skipBlackMaterial;
-    public Material SdfMaterial => sdfMaterial;
-    public TextAsset RawStageData => rawStageData;
-    public string FriendlyStageName => friendlyStageName;
-    public int StarCount => starCount;
 }

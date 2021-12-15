@@ -7,34 +7,34 @@ using UnityEngine.UI;
 [RequireComponent(typeof(GraphicRaycaster))]
 public class Subcanvas : MonoBehaviour
 {
-    [SerializeField]
-    Canvas canvas;
-
-    // 아예 뒤로 가기와 무관한 경우에는 무시해야 한다.
-    [SerializeField]
-    bool disableBackButtonHandler;
-
-    // 강제로 기다려야 하는 창인 경우 뒤로 가기 처리를 하면 안된다.
-    // (ProgressMessage 등)
-    [SerializeField]
-    bool ignoreBackButtonHandler;
-
-    // 백 버튼 처리는 하되 닫지는 말아야 할 경우 true로 한다.
-    [SerializeField]
-    bool doNotCloseOnBackButton;
-
     // 초기 구동 단계에서 Close()를 부르고 시작하는 경우가 있다. (OrderPlateRect)
     // 이 때 BackButtonHandler.instance.PopAction()를 호출하면
     // 스택이 비어 있어서 오류가 난다. 이걸 처리하기 위한 플래그 변수.
     [SerializeField]
     bool backButtonHandlerPushed;
 
+    [SerializeField]
+    Canvas canvas;
+
+    [SerializeField]
+    CanvasScaler canvasScaler;
+
+    // 아예 뒤로 가기와 무관한 경우에는 무시해야 한다.
+    [SerializeField]
+    bool disableBackButtonHandler;
+
+    // 백 버튼 처리는 하되 닫지는 말아야 할 경우 true로 한다.
+    [SerializeField]
+    bool doNotCloseOnBackButton;
+
     //해당 호출값이 스택의 1이 아닌 최상부일경우 (아래에 추가 스택이 있을때)
     [SerializeField]
     bool forceBackButtonHandler;
 
+    // 강제로 기다려야 하는 창인 경우 뒤로 가기 처리를 하면 안된다.
+    // (ProgressMessage 등)
     [SerializeField]
-    CanvasScaler canvasScaler;
+    bool ignoreBackButtonHandler;
 
     public bool ForceBackButtonHandler
     {
@@ -126,9 +126,6 @@ public class Subcanvas : MonoBehaviour
         // ConfirmPopup인 경우 창이 닫히기 전에 처리해야 하는 기본 액션이 있다.
         // 그것을 처리하고 닫혀야 한다.
         SendMessage("ExecuteClosePopupDefaultAction", SendMessageOptions.DontRequireReceiver);
-        if (doNotCloseOnBackButton == false)
-        {
-            Close();
-        }
+        if (doNotCloseOnBackButton == false) Close();
     }
 }
