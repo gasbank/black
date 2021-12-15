@@ -1,6 +1,7 @@
 ﻿// https://gist.github.com/EntranceJew/f329f1c6a0c35ac51763455f76b5eb95
 
 using System;
+using MessagePack;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -9,28 +10,36 @@ using UnityEngine;
 // we have to use UDateTime instead of DateTime on our classes
 // we still typically need to either cast this to a DateTime or read the DateTime field directly
 [Serializable]
-public class UDateTime : ISerializationCallbackReceiver {
+[MessagePackObject]
+public class UDateTime : ISerializationCallbackReceiver
+{
     [HideInInspector]
+    [IgnoreMember]
     public DateTime dateTime;
 
     // if you don't want to use the PropertyDrawer then remove HideInInspector here
     [HideInInspector]
     [SerializeField]
+    [Key(0)]
     string _dateTime;
 
-    public static implicit operator DateTime(UDateTime udt) {
+    public static implicit operator DateTime(UDateTime udt)
+    {
         return (udt.dateTime);
     }
 
-    public static implicit operator UDateTime(DateTime dt) {
+    public static implicit operator UDateTime(DateTime dt)
+    {
         return new UDateTime() {dateTime = dt};
     }
 
-    public void OnAfterDeserialize() {
+    public void OnAfterDeserialize()
+    {
         dateTime = NetworkTime.ParseExactUtc(_dateTime);
     }
 
-    public void OnBeforeSerialize() {
+    public void OnBeforeSerialize()
+    {
         _dateTime = NetworkTime.ToString(dateTime);
     }
 }
@@ -38,9 +47,11 @@ public class UDateTime : ISerializationCallbackReceiver {
 // if we implement this PropertyDrawer then we keep the label next to the text field
 #if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(UDateTime))]
-public class UDateTimeDrawer : PropertyDrawer {
+public class UDateTimeDrawer : PropertyDrawer
+{
     // Draw the property inside the given rect
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
         // Using BeginProperty / EndProperty on the parent property means that
         // prefab override logic works on the entire property.
         EditorGUI.BeginProperty(position, label, property);

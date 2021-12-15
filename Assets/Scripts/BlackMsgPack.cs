@@ -49,30 +49,41 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(22)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(33)
             {
                 { typeof(global::ScString[]), 0 },
-                { typeof(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>), 1 },
-                { typeof(global::System.Collections.Generic.Dictionary<string, string>), 2 },
-                { typeof(global::System.Collections.Generic.HashSet<uint>), 3 },
-                { typeof(global::System.Collections.Generic.List<global::DailyRewardData>), 4 },
-                { typeof(global::System.Collections.Generic.List<global::StageSequenceData>), 5 },
-                { typeof(global::RewardType), 6 },
-                { typeof(global::AchievementData), 7 },
-                { typeof(global::DailyRewardData), 8 },
-                { typeof(global::DataSet), 9 },
-                { typeof(global::DataSetHash), 10 },
-                { typeof(global::Dirichlet.Numerics.UInt128), 11 },
-                { typeof(global::GameSaveData), 12 },
-                { typeof(global::ScBigInteger), 13 },
-                { typeof(global::ScFloat), 14 },
-                { typeof(global::ScInt), 15 },
-                { typeof(global::ScLong), 16 },
-                { typeof(global::ScString), 17 },
-                { typeof(global::ScUInt128), 18 },
-                { typeof(global::StageSaveData), 19 },
-                { typeof(global::StageSequenceData), 20 },
-                { typeof(global::StrBaseData), 21 },
+                { typeof(global::System.Collections.Generic.Dictionary<global::ScString, global::ScInt>), 1 },
+                { typeof(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>), 2 },
+                { typeof(global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::ScString>>), 3 },
+                { typeof(global::System.Collections.Generic.Dictionary<string, global::LocalUserData>), 4 },
+                { typeof(global::System.Collections.Generic.Dictionary<string, string>), 5 },
+                { typeof(global::System.Collections.Generic.HashSet<global::ScString>), 6 },
+                { typeof(global::System.Collections.Generic.HashSet<uint>), 7 },
+                { typeof(global::System.Collections.Generic.List<global::DailyRewardData>), 8 },
+                { typeof(global::System.Collections.Generic.List<global::ScLong>), 9 },
+                { typeof(global::System.Collections.Generic.List<global::ScString>), 10 },
+                { typeof(global::System.Collections.Generic.List<global::StageSequenceData>), 11 },
+                { typeof(global::BlackLanguageCode), 12 },
+                { typeof(global::RewardType), 13 },
+                { typeof(global::AchievementData), 14 },
+                { typeof(global::BlackSaveData), 15 },
+                { typeof(global::DailyRewardData), 16 },
+                { typeof(global::DataSet), 17 },
+                { typeof(global::DataSetHash), 18 },
+                { typeof(global::Dirichlet.Numerics.UInt128), 19 },
+                { typeof(global::GameSaveData), 20 },
+                { typeof(global::LocalUserData), 21 },
+                { typeof(global::NoticeData), 22 },
+                { typeof(global::ScBigInteger), 23 },
+                { typeof(global::ScFloat), 24 },
+                { typeof(global::ScInt), 25 },
+                { typeof(global::ScLong), 26 },
+                { typeof(global::ScString), 27 },
+                { typeof(global::ScUInt128), 28 },
+                { typeof(global::StageSaveData), 29 },
+                { typeof(global::StageSequenceData), 30 },
+                { typeof(global::StrBaseData), 31 },
+                { typeof(global::UDateTime), 32 },
             };
         }
 
@@ -87,27 +98,38 @@ namespace MessagePack.Resolvers
             switch (key)
             {
                 case 0: return new global::MessagePack.Formatters.ArrayFormatter<global::ScString>();
-                case 1: return new global::MessagePack.Formatters.DictionaryFormatter<global::ScString, global::StrBaseData>();
-                case 2: return new global::MessagePack.Formatters.DictionaryFormatter<string, string>();
-                case 3: return new global::MessagePack.Formatters.HashSetFormatter<uint>();
-                case 4: return new global::MessagePack.Formatters.ListFormatter<global::DailyRewardData>();
-                case 5: return new global::MessagePack.Formatters.ListFormatter<global::StageSequenceData>();
-                case 6: return new MessagePack.Formatters.RewardTypeFormatter();
-                case 7: return new MessagePack.Formatters.AchievementDataFormatter();
-                case 8: return new MessagePack.Formatters.DailyRewardDataFormatter();
-                case 9: return new MessagePack.Formatters.DataSetFormatter();
-                case 10: return new MessagePack.Formatters.DataSetHashFormatter();
-                case 11: return new MessagePack.Formatters.Dirichlet.Numerics.UInt128Formatter();
-                case 12: return new MessagePack.Formatters.GameSaveDataFormatter();
-                case 13: return new MessagePack.Formatters.ScBigIntegerFormatter();
-                case 14: return new MessagePack.Formatters.ScFloatFormatter();
-                case 15: return new MessagePack.Formatters.ScIntFormatter();
-                case 16: return new MessagePack.Formatters.ScLongFormatter();
-                case 17: return new MessagePack.Formatters.ScStringFormatter();
-                case 18: return new MessagePack.Formatters.ScUInt128Formatter();
-                case 19: return new MessagePack.Formatters.StageSaveDataFormatter();
-                case 20: return new MessagePack.Formatters.StageSequenceDataFormatter();
-                case 21: return new MessagePack.Formatters.StrBaseDataFormatter();
+                case 1: return new global::MessagePack.Formatters.DictionaryFormatter<global::ScString, global::ScInt>();
+                case 2: return new global::MessagePack.Formatters.DictionaryFormatter<global::ScString, global::StrBaseData>();
+                case 3: return new global::MessagePack.Formatters.DictionaryFormatter<global::ScString, global::System.Collections.Generic.List<global::ScString>>();
+                case 4: return new global::MessagePack.Formatters.DictionaryFormatter<string, global::LocalUserData>();
+                case 5: return new global::MessagePack.Formatters.DictionaryFormatter<string, string>();
+                case 6: return new global::MessagePack.Formatters.HashSetFormatter<global::ScString>();
+                case 7: return new global::MessagePack.Formatters.HashSetFormatter<uint>();
+                case 8: return new global::MessagePack.Formatters.ListFormatter<global::DailyRewardData>();
+                case 9: return new global::MessagePack.Formatters.ListFormatter<global::ScLong>();
+                case 10: return new global::MessagePack.Formatters.ListFormatter<global::ScString>();
+                case 11: return new global::MessagePack.Formatters.ListFormatter<global::StageSequenceData>();
+                case 12: return new MessagePack.Formatters.BlackLanguageCodeFormatter();
+                case 13: return new MessagePack.Formatters.RewardTypeFormatter();
+                case 14: return new MessagePack.Formatters.AchievementDataFormatter();
+                case 15: return new MessagePack.Formatters.BlackSaveDataFormatter();
+                case 16: return new MessagePack.Formatters.DailyRewardDataFormatter();
+                case 17: return new MessagePack.Formatters.DataSetFormatter();
+                case 18: return new MessagePack.Formatters.DataSetHashFormatter();
+                case 19: return new MessagePack.Formatters.Dirichlet.Numerics.UInt128Formatter();
+                case 20: return new MessagePack.Formatters.GameSaveDataFormatter();
+                case 21: return new MessagePack.Formatters.LocalUserDataFormatter();
+                case 22: return new MessagePack.Formatters.NoticeDataFormatter();
+                case 23: return new MessagePack.Formatters.ScBigIntegerFormatter();
+                case 24: return new MessagePack.Formatters.ScFloatFormatter();
+                case 25: return new MessagePack.Formatters.ScIntFormatter();
+                case 26: return new MessagePack.Formatters.ScLongFormatter();
+                case 27: return new MessagePack.Formatters.ScStringFormatter();
+                case 28: return new MessagePack.Formatters.ScUInt128Formatter();
+                case 29: return new MessagePack.Formatters.StageSaveDataFormatter();
+                case 30: return new MessagePack.Formatters.StageSequenceDataFormatter();
+                case 31: return new MessagePack.Formatters.StrBaseDataFormatter();
+                case 32: return new MessagePack.Formatters.UDateTimeFormatter();
                 default: return null;
             }
         }
@@ -142,6 +164,19 @@ namespace MessagePack.Formatters
     using System;
     using System.Buffers;
     using MessagePack;
+
+    public sealed class BlackLanguageCodeFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::BlackLanguageCode>
+    {
+        public void Serialize(ref MessagePackWriter writer, global::BlackLanguageCode value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            writer.Write((Int32)value);
+        }
+
+        public global::BlackLanguageCode Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            return (global::BlackLanguageCode)reader.ReadInt32();
+        }
+    }
 
     public sealed class RewardTypeFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::RewardType>
     {
@@ -302,6 +337,237 @@ namespace MessagePack.Formatters
             ____result.isPlatformAchievement = __isPlatformAchievement__;
             ____result.androidAchievementKey = __androidAchievementKey__;
             ____result.iosAchievementKey = __iosAchievementKey__;
+            reader.Depth--;
+            return ____result;
+        }
+    }
+
+    public sealed class BlackSaveDataFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::BlackSaveData>
+    {
+
+
+        public void Serialize(ref MessagePackWriter writer, global::BlackSaveData value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
+            IFormatterResolver formatterResolver = options.Resolver;
+            writer.WriteArrayHeader(31);
+            formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.version, options);
+            formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastClearedStageId, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.riceScUInt128, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.pendingRiceScUInt128, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.freeGemScUInt128, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.pendingFreeGemScUInt128, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.paidGemScUInt128, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::ScString>>().Serialize(ref writer, value.stashedRewardJsonList, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::ScLong>>().Serialize(ref writer, value.lastDailyRewardRedeemedTicksList, options);
+            formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.noAdsCode, options);
+            formatterResolver.GetFormatterWithVerify<global::ScLong>().Serialize(ref writer, value.lastDailyRewardRedeemedIndex, options);
+            formatterResolver.GetFormatterWithVerify<global::ScLong>().Serialize(ref writer, value.lastDailyRewardRedeemedTicks, options);
+            writer.Write(value.muteBgmAudioSource);
+            writer.Write(value.muteSfxAudioSource);
+            writer.Write(value.bgmAudioVolume);
+            writer.Write(value.sfxAudioVolume);
+            writer.Write(value.notchSupport);
+            writer.Write(value.bottomNotchSupport);
+            writer.Write(value.performanceMode);
+            writer.Write(value.alwaysOn);
+            writer.Write(value.bigScreen);
+            formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.userPseudoId, options);
+            formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastConsumedServiceIndex, options);
+            formatterResolver.GetFormatterWithVerify<global::BlackLanguageCode>().Serialize(ref writer, value.languageCode, options);
+            formatterResolver.GetFormatterWithVerify<global::NoticeData>().Serialize(ref writer, value.noticeData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<string, global::LocalUserData>>().Serialize(ref writer, value.localUserDict, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::ScInt>>().Serialize(ref writer, value.purchasedProductDict, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::ScString>>>().Serialize(ref writer, value.purchasedProductReceipts, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.HashSet<global::ScString>>().Serialize(ref writer, value.verifiedProductReceipts, options);
+            writer.Write(value.cheatMode);
+            writer.Write(value.waiveBan);
+        }
+
+        public global::BlackSaveData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (reader.TryReadNil())
+            {
+                return null;
+            }
+
+            options.Security.DepthStep(ref reader);
+            IFormatterResolver formatterResolver = options.Resolver;
+            var length = reader.ReadArrayHeader();
+            var __version__ = default(global::ScInt);
+            var __lastClearedStageId__ = default(global::ScInt);
+            var __riceScUInt128__ = default(global::ScUInt128);
+            var __pendingRiceScUInt128__ = default(global::ScUInt128);
+            var __freeGemScUInt128__ = default(global::ScUInt128);
+            var __pendingFreeGemScUInt128__ = default(global::ScUInt128);
+            var __paidGemScUInt128__ = default(global::ScUInt128);
+            var __stashedRewardJsonList__ = default(global::System.Collections.Generic.List<global::ScString>);
+            var __lastDailyRewardRedeemedTicksList__ = default(global::System.Collections.Generic.List<global::ScLong>);
+            var __noAdsCode__ = default(global::ScInt);
+            var __lastDailyRewardRedeemedIndex__ = default(global::ScLong);
+            var __lastDailyRewardRedeemedTicks__ = default(global::ScLong);
+            var __muteBgmAudioSource__ = default(bool);
+            var __muteSfxAudioSource__ = default(bool);
+            var __bgmAudioVolume__ = default(float);
+            var __sfxAudioVolume__ = default(float);
+            var __notchSupport__ = default(bool);
+            var __bottomNotchSupport__ = default(bool);
+            var __performanceMode__ = default(bool);
+            var __alwaysOn__ = default(bool);
+            var __bigScreen__ = default(bool);
+            var __userPseudoId__ = default(global::ScInt);
+            var __lastConsumedServiceIndex__ = default(global::ScInt);
+            var __languageCode__ = default(global::BlackLanguageCode);
+            var __noticeData__ = default(global::NoticeData);
+            var __localUserDict__ = default(global::System.Collections.Generic.Dictionary<string, global::LocalUserData>);
+            var __purchasedProductDict__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::ScInt>);
+            var __purchasedProductReceipts__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::ScString>>);
+            var __verifiedProductReceipts__ = default(global::System.Collections.Generic.HashSet<global::ScString>);
+            var __cheatMode__ = default(bool);
+            var __waiveBan__ = default(bool);
+
+            for (int i = 0; i < length; i++)
+            {
+                var key = i;
+
+                switch (key)
+                {
+                    case 0:
+                        __version__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                        break;
+                    case 1:
+                        __lastClearedStageId__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
+                        __riceScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 3:
+                        __pendingRiceScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 4:
+                        __freeGemScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 5:
+                        __pendingFreeGemScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 6:
+                        __paidGemScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 7:
+                        __stashedRewardJsonList__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::ScString>>().Deserialize(ref reader, options);
+                        break;
+                    case 8:
+                        __lastDailyRewardRedeemedTicksList__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::ScLong>>().Deserialize(ref reader, options);
+                        break;
+                    case 9:
+                        __noAdsCode__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                        break;
+                    case 10:
+                        __lastDailyRewardRedeemedIndex__ = formatterResolver.GetFormatterWithVerify<global::ScLong>().Deserialize(ref reader, options);
+                        break;
+                    case 11:
+                        __lastDailyRewardRedeemedTicks__ = formatterResolver.GetFormatterWithVerify<global::ScLong>().Deserialize(ref reader, options);
+                        break;
+                    case 12:
+                        __muteBgmAudioSource__ = reader.ReadBoolean();
+                        break;
+                    case 13:
+                        __muteSfxAudioSource__ = reader.ReadBoolean();
+                        break;
+                    case 14:
+                        __bgmAudioVolume__ = reader.ReadSingle();
+                        break;
+                    case 15:
+                        __sfxAudioVolume__ = reader.ReadSingle();
+                        break;
+                    case 16:
+                        __notchSupport__ = reader.ReadBoolean();
+                        break;
+                    case 17:
+                        __bottomNotchSupport__ = reader.ReadBoolean();
+                        break;
+                    case 18:
+                        __performanceMode__ = reader.ReadBoolean();
+                        break;
+                    case 19:
+                        __alwaysOn__ = reader.ReadBoolean();
+                        break;
+                    case 20:
+                        __bigScreen__ = reader.ReadBoolean();
+                        break;
+                    case 21:
+                        __userPseudoId__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                        break;
+                    case 22:
+                        __lastConsumedServiceIndex__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                        break;
+                    case 23:
+                        __languageCode__ = formatterResolver.GetFormatterWithVerify<global::BlackLanguageCode>().Deserialize(ref reader, options);
+                        break;
+                    case 24:
+                        __noticeData__ = formatterResolver.GetFormatterWithVerify<global::NoticeData>().Deserialize(ref reader, options);
+                        break;
+                    case 25:
+                        __localUserDict__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<string, global::LocalUserData>>().Deserialize(ref reader, options);
+                        break;
+                    case 26:
+                        __purchasedProductDict__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::ScInt>>().Deserialize(ref reader, options);
+                        break;
+                    case 27:
+                        __purchasedProductReceipts__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::ScString>>>().Deserialize(ref reader, options);
+                        break;
+                    case 28:
+                        __verifiedProductReceipts__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.HashSet<global::ScString>>().Deserialize(ref reader, options);
+                        break;
+                    case 29:
+                        __cheatMode__ = reader.ReadBoolean();
+                        break;
+                    case 30:
+                        __waiveBan__ = reader.ReadBoolean();
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
+
+            var ____result = new global::BlackSaveData();
+            ____result.version = __version__;
+            ____result.lastClearedStageId = __lastClearedStageId__;
+            ____result.riceScUInt128 = __riceScUInt128__;
+            ____result.pendingRiceScUInt128 = __pendingRiceScUInt128__;
+            ____result.freeGemScUInt128 = __freeGemScUInt128__;
+            ____result.pendingFreeGemScUInt128 = __pendingFreeGemScUInt128__;
+            ____result.paidGemScUInt128 = __paidGemScUInt128__;
+            ____result.stashedRewardJsonList = __stashedRewardJsonList__;
+            ____result.lastDailyRewardRedeemedTicksList = __lastDailyRewardRedeemedTicksList__;
+            ____result.noAdsCode = __noAdsCode__;
+            ____result.lastDailyRewardRedeemedIndex = __lastDailyRewardRedeemedIndex__;
+            ____result.lastDailyRewardRedeemedTicks = __lastDailyRewardRedeemedTicks__;
+            ____result.muteBgmAudioSource = __muteBgmAudioSource__;
+            ____result.muteSfxAudioSource = __muteSfxAudioSource__;
+            ____result.bgmAudioVolume = __bgmAudioVolume__;
+            ____result.sfxAudioVolume = __sfxAudioVolume__;
+            ____result.notchSupport = __notchSupport__;
+            ____result.bottomNotchSupport = __bottomNotchSupport__;
+            ____result.performanceMode = __performanceMode__;
+            ____result.alwaysOn = __alwaysOn__;
+            ____result.bigScreen = __bigScreen__;
+            ____result.userPseudoId = __userPseudoId__;
+            ____result.lastConsumedServiceIndex = __lastConsumedServiceIndex__;
+            ____result.languageCode = __languageCode__;
+            ____result.noticeData = __noticeData__;
+            ____result.localUserDict = __localUserDict__;
+            ____result.purchasedProductDict = __purchasedProductDict__;
+            ____result.purchasedProductReceipts = __purchasedProductReceipts__;
+            ____result.verifiedProductReceipts = __verifiedProductReceipts__;
+            ____result.cheatMode = __cheatMode__;
+            ____result.waiveBan = __waiveBan__;
             reader.Depth--;
             return ____result;
         }
@@ -648,6 +914,156 @@ namespace MessagePack.Formatters
 
             var ____result = new global::GameSaveData();
             ____result.gold = __gold__;
+            reader.Depth--;
+            return ____result;
+        }
+    }
+
+    public sealed class LocalUserDataFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::LocalUserData>
+    {
+
+
+        public void Serialize(ref MessagePackWriter writer, global::LocalUserData value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
+            IFormatterResolver formatterResolver = options.Resolver;
+            writer.WriteArrayHeader(4);
+            writer.Write(value.createdNetworkUtcTicks);
+            writer.Write(value.lastUsedNetworkUtcTicks);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.id, options);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.name, options);
+        }
+
+        public global::LocalUserData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (reader.TryReadNil())
+            {
+                return null;
+            }
+
+            options.Security.DepthStep(ref reader);
+            IFormatterResolver formatterResolver = options.Resolver;
+            var length = reader.ReadArrayHeader();
+            var __createdNetworkUtcTicks__ = default(long);
+            var __lastUsedNetworkUtcTicks__ = default(long);
+            var __id__ = default(string);
+            var __name__ = default(string);
+
+            for (int i = 0; i < length; i++)
+            {
+                var key = i;
+
+                switch (key)
+                {
+                    case 0:
+                        __createdNetworkUtcTicks__ = reader.ReadInt64();
+                        break;
+                    case 1:
+                        __lastUsedNetworkUtcTicks__ = reader.ReadInt64();
+                        break;
+                    case 2:
+                        __id__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 3:
+                        __name__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
+
+            var ____result = new global::LocalUserData();
+            ____result.createdNetworkUtcTicks = __createdNetworkUtcTicks__;
+            ____result.lastUsedNetworkUtcTicks = __lastUsedNetworkUtcTicks__;
+            ____result.id = __id__;
+            ____result.name = __name__;
+            reader.Depth--;
+            return ____result;
+        }
+    }
+
+    public sealed class NoticeDataFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::NoticeData>
+    {
+
+
+        public void Serialize(ref MessagePackWriter writer, global::NoticeData value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
+            IFormatterResolver formatterResolver = options.Resolver;
+            writer.WriteArrayHeader(6);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.title, options);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.text, options);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.detailUrl, options);
+            writer.Write(value.eventDrawRiceRateRatio);
+            formatterResolver.GetFormatterWithVerify<global::UDateTime>().Serialize(ref writer, value.eventDrawRiceRateRatioBegin, options);
+            formatterResolver.GetFormatterWithVerify<global::UDateTime>().Serialize(ref writer, value.eventDrawRiceRateRatioEnd, options);
+        }
+
+        public global::NoticeData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (reader.TryReadNil())
+            {
+                return null;
+            }
+
+            options.Security.DepthStep(ref reader);
+            IFormatterResolver formatterResolver = options.Resolver;
+            var length = reader.ReadArrayHeader();
+            var __title__ = default(string);
+            var __text__ = default(string);
+            var __detailUrl__ = default(string);
+            var __eventDrawRiceRateRatio__ = default(int);
+            var __eventDrawRiceRateRatioBegin__ = default(global::UDateTime);
+            var __eventDrawRiceRateRatioEnd__ = default(global::UDateTime);
+
+            for (int i = 0; i < length; i++)
+            {
+                var key = i;
+
+                switch (key)
+                {
+                    case 0:
+                        __title__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 1:
+                        __text__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
+                        __detailUrl__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 3:
+                        __eventDrawRiceRateRatio__ = reader.ReadInt32();
+                        break;
+                    case 4:
+                        __eventDrawRiceRateRatioBegin__ = formatterResolver.GetFormatterWithVerify<global::UDateTime>().Deserialize(ref reader, options);
+                        break;
+                    case 5:
+                        __eventDrawRiceRateRatioEnd__ = formatterResolver.GetFormatterWithVerify<global::UDateTime>().Deserialize(ref reader, options);
+                        break;
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
+
+            var ____result = new global::NoticeData();
+            ____result.title = __title__;
+            ____result.text = __text__;
+            ____result.detailUrl = __detailUrl__;
+            ____result.eventDrawRiceRateRatio = __eventDrawRiceRateRatio__;
+            ____result.eventDrawRiceRateRatioBegin = __eventDrawRiceRateRatioBegin__;
+            ____result.eventDrawRiceRateRatioEnd = __eventDrawRiceRateRatioEnd__;
             reader.Depth--;
             return ____result;
         }
@@ -1113,6 +1529,51 @@ namespace MessagePack.Formatters
             var ____result = new global::StrBaseData();
             ____result.id = __id__;
             ____result.str = __str__;
+            reader.Depth--;
+            return ____result;
+        }
+    }
+
+    public sealed class UDateTimeFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::UDateTime>
+    {
+
+
+        public void Serialize(ref MessagePackWriter writer, global::UDateTime value, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
+            IFormatterResolver formatterResolver = options.Resolver;
+            writer.WriteArrayHeader(0);
+        }
+
+        public global::UDateTime Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        {
+            if (reader.TryReadNil())
+            {
+                return null;
+            }
+
+            options.Security.DepthStep(ref reader);
+            IFormatterResolver formatterResolver = options.Resolver;
+            var length = reader.ReadArrayHeader();
+
+            for (int i = 0; i < length; i++)
+            {
+                var key = i;
+
+                switch (key)
+                {
+                    default:
+                        reader.Skip();
+                        break;
+                }
+            }
+
+            var ____result = new global::UDateTime();
             reader.Depth--;
             return ____result;
         }

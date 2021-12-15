@@ -54,6 +54,9 @@ public class SingletonManager : MonoBehaviour
     SaveLoadManager saveLoadManager;
 
     [SerializeField]
+    BackgroundTimeCompensator backgroundTimeCompensator;
+
+    [SerializeField]
     BlackPlatform blackPlatform;
 
     [SerializeField]
@@ -102,6 +105,7 @@ public class SingletonManager : MonoBehaviour
         BackButtonHandler.instance = backButtonHandler;
         Admin.instance = admin;
         SaveLoadManager.instance = saveLoadManager;
+        BackgroundTimeCompensator.instance = backgroundTimeCompensator;
 
         // 아주 깔끔한 구조는 아니지만, 최대한 기존 코드 안수정하고 하려니까 이렇게 됐다.
         BlackPlatform.instance = blackPlatform;

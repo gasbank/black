@@ -84,7 +84,7 @@ public class ErrorReporter : MonoBehaviour {
             SaveLoadManager.DecreaseSaveDataSlotAndWrite();
             try { saveFile.fields.saveData1.bytesValue = Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName)); } catch { saveFile.fields.saveData1.bytesValue = ""; }
             SaveLoadManager.DecreaseSaveDataSlotAndWrite();
-            try { saveFile.fields.saveData2.bytesValue = Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName)); } catch { saveFile.fields.saveData2.bytesValue = ""; }
+            try { saveFile.fields.saveData.bytesValue = Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName)); } catch { saveFile.fields.saveData.bytesValue = ""; }
             SaveLoadManager.DecreaseSaveDataSlotAndWrite();
             try { saveFile.fields.saveData3.bytesValue = Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName)); } catch { saveFile.fields.saveData3.bytesValue = ""; }
             SaveLoadManager.DecreaseSaveDataSlotAndWrite();
@@ -263,7 +263,7 @@ public class ErrorReporter : MonoBehaviour {
                 try {
                     var userSaveDataRoot = MiniJSON.Json.Deserialize(request.downloadHandler.text) as Dict;
                     var userSaveDataFields = userSaveDataRoot["fields"] as Dict;
-                    // userSaveDataFields는 정렬되어 있지 않다. saveData, saveData2, saveData3, ... 순으로
+                    // userSaveDataFields는 정렬되어 있지 않다. saveData, saveData, saveData3, ... 순으로
                     // 로드 시도하기 위해서 필터링 및 정렬한다.
                     foreach (var fieldName in userSaveDataFields.Keys.Where(e => e.StartsWith("saveData")).OrderBy(e => e)) {
                         ConDebug.Log($"Checking save data field name '{fieldName}'...");

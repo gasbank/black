@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using ConditionalDebug;
 using Dirichlet.Numerics;
+using MessagePack;
 
 public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 {
@@ -155,9 +156,13 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             return false;
         }
 
-        var blackSaveData2 = new BlackSaveData2();
+        var blackSaveData = new BlackSaveData
+        {
+            version = LatestVersion,
+            lastClearedStageId = BlackContext.instance.LastClearedStageId,
+        };
 
-        return SaveBlackSaveData2(blackSaveData2);
+        return SaveBlackSaveData(blackSaveData);
     }
 
     static void WriteAllBytesAtomically(string filePath, byte[] bytes)
@@ -178,13 +183,10 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         return Path.Combine(Application.temporaryCachePath, Guid.NewGuid().ToString());
     }
 
-    public static bool SaveBlackSaveData2(BlackSaveData2 blackSaveData2)
+    static bool SaveBlackSaveData(BlackSaveData blackSaveData)
     {
-        var binFormatter = new BinaryFormatter();
-        var memStream = new MemoryStream();
-        //ConDebug.LogFormat("Start Saving JSON Data: {0}", JsonUtility.ToJson(blackSaveData2));
-        binFormatter.Serialize(memStream, blackSaveData2);
-        var saveDataArray = memStream.ToArray();
+        //ConDebug.LogFormat("Start Saving JSON Data: {0}", JsonUtility.ToJson(blackSaveData));
+        var saveDataArray = MessagePackSerializer.Serialize(blackSaveData, Data.DefaultOptions);
         ConDebug.LogFormat("Saving path: {0}", SaveFileName);
         if (lastSaveDataArray != null && lastSaveDataArray.SequenceEqual(saveDataArray))
         {
@@ -212,8 +214,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
                 }
 
                 IncreaseSaveDataSlotAndWrite();
-                var lastBlackLevel = blackSaveData2.lastClearedStageId;
-                var gem = (blackSaveData2.freeGemScUInt128 + blackSaveData2.paidGemScUInt128).ToUInt128()
+                var lastBlackLevel = blackSaveData.lastClearedStageId;
+                var gem = (blackSaveData.freeGemScUInt128 + blackSaveData.paidGemScUInt128).ToUInt128()
                     .ToClampedLong();
                 BlackLogManager.Add(BlackLogEntry.Type.GameSaved, lastBlackLevel, gem);
             }
@@ -240,9 +242,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     static void Load(IBlackContext context)
     {
         // 모든 세이브 슬롯에 대해 로드를 성공 할 때까지 시도한다.
-        List<Exception> exceptionList = new List<Exception>();
+        var exceptionList = new List<Exception>();
 
-        for (int i = 0; i < maxSaveDataSlot; i++)
+        for (var i = 0; i < maxSaveDataSlot; i++)
         {
             try
             {
@@ -347,23 +349,23 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     [SuppressMessage("ReSharper", "StringLiteralTypo")]
     static bool LoadInternal(IBlackContext context)
     {
-        var blackSaveData2 = LoadBlackSaveData2();
+        var blackSaveData = LoadBlackSaveData();
 
         // 세이브 데이터 자체에 오류가 있는 케이스이다.
-        if (blackSaveData2.version < 1)
+        if (blackSaveData.version < 1)
         {
             return false;
         }
 
-        var oldVersion = blackSaveData2.version;
+        var oldVersion = blackSaveData.version;
         // 최신 버전 데이터로 마이그레이션
-        MigrateBlackSaveData2(blackSaveData2);
+        MigrateBlackSaveData(blackSaveData);
 
-        if (blackSaveData2.version == LatestVersion)
+        if (blackSaveData.version == LatestVersion)
         {
             // GOOD!
         }
-        else if (blackSaveData2.version > LatestVersion)
+        else if (blackSaveData.version > LatestVersion)
         {
             if (Application.isEditor)
             {
@@ -373,30 +375,30 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             else
             {
                 // 저장 파일 버전이 더 높다? 아마도 최신 버전에서 저장한 클라우드 저장 파일을 예전 버전 클라이언트에서 클라우드 불러오기 한 듯
-                throw new NotSupportedBlackSaveDataVersionException(blackSaveData2.version);
+                throw new NotSupportedBlackSaveDataVersionException(blackSaveData.version);
             }
         }
         else
         {
             throw new Exception(
-                $"[CRITICAL ERROR] Latest version {LatestVersion} not match save file latest version field {blackSaveData2.version}!!!");
+                $"[CRITICAL ERROR] Latest version {LatestVersion} not match save file latest version field {blackSaveData.version}!!!");
         }
 
         // 치트 모드 판별 여부에 따라 아래 코드의 작동이 달라진다.
         // 최대한 먼저 하자.
         // (예를 들어 context.LastDailyRewardRedeemedIndex 대입 시 리더보드 등록을 할 것인지 말 것인지 등)
-        context.CheatMode = blackSaveData2.cheatMode;
-        context.WaiveBan = blackSaveData2.waiveBan;
+        context.CheatMode = blackSaveData.cheatMode;
+        context.WaiveBan = blackSaveData.waiveBan;
 
         // 부정 이용자 검출되기라도 한다면 이 정보가 먼저 필요하므로 먼저 로드하자.
-        if (blackSaveData2.userPseudoId <= 0)
+        if (blackSaveData.userPseudoId <= 0)
         {
-            blackSaveData2.userPseudoId = NewUserPseudoId();
+            blackSaveData.userPseudoId = NewUserPseudoId();
         }
 
-        context.UserPseudoId = blackSaveData2.userPseudoId;
-        context.LastConsumedServiceIndex = blackSaveData2.lastConsumedServiceIndex;
-        context.LastClearedStageId = blackSaveData2.lastClearedStageId;
+        context.UserPseudoId = blackSaveData.userPseudoId;
+        context.LastConsumedServiceIndex = blackSaveData.lastConsumedServiceIndex;
+        context.LastClearedStageId = blackSaveData.lastClearedStageId;
 
         // 부정 이용 사용자 걸러낸다.
         // 다만, 부정 이용 사용자가 아닌데 걸러진 경우 개발팀 문의를 통해 풀 수 있다.
@@ -404,9 +406,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         // 그렇다면 이 루틴은 아예 작동하지 않는다.
         if (context.WaiveBan == false)
         {
-            if (blackSaveData2.purchasedProductDict != null)
+            if (blackSaveData.purchasedProductDict != null)
             {
-                var totalPurchaseCount = blackSaveData2.purchasedProductDict.Values.Sum(e => e.ToInt());
+                var totalPurchaseCount = blackSaveData.purchasedProductDict.Values.Sum(e => e.ToInt());
                 // 1.9.22 버전의 저장 데이터 버전인 경우에만 다수의 인앱 결제 횟수 거르기를 한다.
                 if (oldVersion <= 30 && totalPurchaseCount > 100)
                 {
@@ -425,7 +427,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             };
             foreach (var targetId in targetIdList)
             {
-                if (blackSaveData2.localUserDict != null && blackSaveData2.localUserDict.Keys.Contains(targetId))
+                if (blackSaveData.localUserDict != null && blackSaveData.localUserDict.Keys.Contains(targetId))
                 {
                     throw new LocalUserIdBanException(targetId);
                 }
@@ -436,20 +438,20 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             };
             foreach (var receipt in revokedReceiptList)
             {
-                if (blackSaveData2.verifiedProductReceipts != null &&
-                    blackSaveData2.verifiedProductReceipts.Contains(receipt))
+                if (blackSaveData.verifiedProductReceipts != null &&
+                    blackSaveData.verifiedProductReceipts.Contains(receipt))
                 {
                     throw new RevokedReceiptException(receipt);
                 }
             }
         }
 
-        context.SetRice(blackSaveData2.riceScUInt128);
+        context.SetRice(blackSaveData.riceScUInt128);
         context.SetGemZero();
         try
         {
-            context.AddFreeGem(blackSaveData2.freeGemScUInt128);
-            context.AddPaidGem(blackSaveData2.paidGemScUInt128);
+            context.AddFreeGem(blackSaveData.freeGemScUInt128);
+            context.AddPaidGem(blackSaveData.paidGemScUInt128);
         }
         catch (OverflowException)
         {
@@ -458,8 +460,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             // 문제가 생겼다.
             // 어디까지 Paid이고 어디까지 Free인지 알 수 없게 되었으므로
             // 이 경우 모든 젬을 Free Gem인 것으로 취급한다.
-            var freeGemCopy = blackSaveData2.freeGemScUInt128.ToUInt128();
-            var paidGemCopy = blackSaveData2.paidGemScUInt128.ToUInt128();
+            var freeGemCopy = blackSaveData.freeGemScUInt128.ToUInt128();
+            var paidGemCopy = blackSaveData.paidGemScUInt128.ToUInt128();
             UInt128.AddAllowOverflow(out var newGem, ref freeGemCopy, ref paidGemCopy);
             context.SetGemZero();
             context.AddFreeGem(newGem);
@@ -473,16 +475,16 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         // 슬롯 용량 변화 애니메이션 잠시 끈다.
 
-        context.SetPendingRice(blackSaveData2.pendingRiceScUInt128);
-        context.PendingFreeGem = blackSaveData2.pendingFreeGemScUInt128;
+        context.SetPendingRice(blackSaveData.pendingRiceScUInt128);
+        context.PendingFreeGem = blackSaveData.pendingFreeGemScUInt128;
 
 
-        context.StashedRewardJsonList = blackSaveData2.stashedRewardJsonList;
+        context.StashedRewardJsonList = blackSaveData.stashedRewardJsonList;
 
         context.LastDailyRewardRedeemedTicksList =
-            blackSaveData2.lastDailyRewardRedeemedTicksList ??
-            new List<ScLong> {blackSaveData2.lastDailyRewardRedeemedTicks};
-        context.NoAdsCode = blackSaveData2.noAdsCode;
+            blackSaveData.lastDailyRewardRedeemedTicksList ??
+            new List<ScLong> {blackSaveData.lastDailyRewardRedeemedTicks};
+        context.NoAdsCode = blackSaveData.noAdsCode;
 
         ConDebug.Log(
             $"Last Daily Reward Redeemed Index {context.LastDailyRewardRedeemedIndex} / DateTime (UTC) {new DateTime(context.LastDailyRewardRedeemedTicks, DateTimeKind.Utc)}");
@@ -491,26 +493,26 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.ApplyPendingFreeGem();
 
         // === Config ===
-        Sound.instance.BgmAudioSourceActive = blackSaveData2.muteBgmAudioSource == false;
-        Sound.instance.SfxAudioSourceActive = blackSaveData2.muteSfxAudioSource == false;
-        Sound.instance.BgmAudioSourceVolume = blackSaveData2.bgmAudioVolume;
-        Sound.instance.SfxAudioSourceVolume = blackSaveData2.sfxAudioVolume;
+        Sound.instance.BgmAudioSourceActive = blackSaveData.muteBgmAudioSource == false;
+        Sound.instance.SfxAudioSourceActive = blackSaveData.muteSfxAudioSource == false;
+        Sound.instance.BgmAudioSourceVolume = blackSaveData.bgmAudioVolume;
+        Sound.instance.SfxAudioSourceVolume = blackSaveData.sfxAudioVolume;
 
-        Sound.instance.BgmAudioVolume = blackSaveData2.bgmAudioVolume;
-        Sound.instance.SfxAudioVolume = blackSaveData2.sfxAudioVolume;
+        Sound.instance.BgmAudioVolume = blackSaveData.bgmAudioVolume;
+        Sound.instance.SfxAudioVolume = blackSaveData.sfxAudioVolume;
 
-        ConfigPopup.instance.IsNotchOn = blackSaveData2.notchSupport;
-        ConfigPopup.instance.IsBottomNotchOn = blackSaveData2.bottomNotchSupport;
-        ConfigPopup.instance.IsPerformanceModeOn = blackSaveData2.performanceMode;
-        ConfigPopup.instance.IsAlwaysOnOn = blackSaveData2.alwaysOn;
-        ConfigPopup.instance.IsBigScreenOn = blackSaveData2.bigScreen;
+        ConfigPopup.instance.IsNotchOn = blackSaveData.notchSupport;
+        ConfigPopup.instance.IsBottomNotchOn = blackSaveData.bottomNotchSupport;
+        ConfigPopup.instance.IsPerformanceModeOn = blackSaveData.performanceMode;
+        ConfigPopup.instance.IsAlwaysOnOn = blackSaveData.alwaysOn;
+        ConfigPopup.instance.IsBigScreenOn = blackSaveData.bigScreen;
 
         if (context.CheatMode)
         {
             BlackLogManager.Add(BlackLogEntry.Type.GameCheatEnabled, 0, 0);
         }
 
-        switch (blackSaveData2.languageCode)
+        switch (blackSaveData.languageCode)
         {
             case BlackLanguageCode.Tw:
                 ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Tw);
@@ -529,7 +531,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
                 break;
         }
 
-        context.NoticeData = blackSaveData2.noticeData ?? new NoticeData();
+        context.NoticeData = blackSaveData.noticeData ?? new NoticeData();
         context.SaveFileLoaded = true;
 
         if (Application.isEditor)
@@ -541,9 +543,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         // 인앱 상품 구매 내역 디버그 정보
         ConDebug.Log("=== Purchased Begin ===");
-        if (blackSaveData2.purchasedProductDict != null)
+        if (blackSaveData.purchasedProductDict != null)
         {
-            foreach (var kv in blackSaveData2.purchasedProductDict)
+            foreach (var kv in blackSaveData.purchasedProductDict)
             {
                 ConDebug.Log($"PURCHASED: {kv.Key} = {kv.Value}");
             }
@@ -553,9 +555,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         // 인앱 상품 영수증 디버그 정보
         ConDebug.Log("=== Purchased Receipt ID Begin ===");
-        if (blackSaveData2.purchasedProductReceipts != null)
+        if (blackSaveData.purchasedProductReceipts != null)
         {
-            foreach (var kv in blackSaveData2.purchasedProductReceipts)
+            foreach (var kv in blackSaveData.purchasedProductReceipts)
             {
                 foreach (var kvv in kv.Value)
                 {
@@ -568,9 +570,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         // 인앱 상품 영수증 (검증 완료) 디버그 정보
         ConDebug.Log("=== VERIFIED Receipt ID Begin ===");
-        if (blackSaveData2.verifiedProductReceipts != null)
+        if (blackSaveData.verifiedProductReceipts != null)
         {
-            foreach (var v in blackSaveData2.verifiedProductReceipts)
+            foreach (var v in blackSaveData.verifiedProductReceipts)
             {
                 ConDebug.Log($"\"VERIFIED\" RECEIPT ID (THANK YOU!!!): {v}");
             }
@@ -578,7 +580,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         ConDebug.Log("=== VERIFIED Receipt ID End ===");
 
-        context.LocalUserDict = blackSaveData2.localUserDict;
+        context.LocalUserDict = blackSaveData.localUserDict;
         if (context.LocalUserDict != null)
         {
             foreach (var kv in context.LocalUserDict)
@@ -594,47 +596,27 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         return true;
     }
 
-    static void MigrateBlackSaveData2(BlackSaveData2 blackSaveData2)
+    static void MigrateBlackSaveData(BlackSaveData blackSaveData)
     {
     }
 
-    static BlackSaveData2 LoadBlackSaveData2()
+    static BlackSaveData LoadBlackSaveData()
     {
-        var saveData = new BlackSaveData2
+        ConDebug.Log($"Reading the save file {LoadFileName}...");
+        try
         {
-            version = 1,
-            alwaysOn = false,
-            bigScreen = false,
-            cheatMode = false,
-            languageCode = BlackLanguageCode.Ko,
-            notchSupport = false,
-            noticeData = null,
-            performanceMode = false,
-            waiveBan = false,
-            bgmAudioVolume = 1.0f,
-            bottomNotchSupport = false,
-            localUserDict = null,
-            noAdsCode = 0,
-            purchasedProductDict = null,
-            purchasedProductReceipts = null,
-            sfxAudioVolume = 1.0f,
-            userPseudoId = 0,
-            verifiedProductReceipts = null,
-            lastClearedStageId = 0,
-            lastConsumedServiceIndex = 0,
-            muteBgmAudioSource = false,
-            muteSfxAudioSource = false,
-            riceScUInt128 = 0,
-            stashedRewardJsonList = null,
-            freeGemScUInt128 = 0,
-            lastDailyRewardRedeemedIndex = 0,
-            lastDailyRewardRedeemedTicks = DateTime.MinValue.Ticks,
-            paidGemScUInt128 = 0,
-            pendingRiceScUInt128 = 0,
-            lastDailyRewardRedeemedTicksList = null,
-            pendingFreeGemScUInt128 = 0
-        };
-        return saveData;
+            var saveDataArray = File.ReadAllBytes(LoadFileName);
+            ConDebug.Log($"Loaded on memory. ({saveDataArray.Length:n0} bytes)");
+            return MessagePackSerializer.Deserialize<BlackSaveData>(saveDataArray, Data.DefaultOptions);
+        }
+        catch (FileNotFoundException)
+        {
+            throw new SaveFileNotFoundException();
+        }
+        catch (System.IO.IsolatedStorage.IsolatedStorageException)
+        {
+            throw new SaveFileNotFoundException();
+        }
     }
 
     static string ProcessCriticalLoadErrorPrelude(List<Exception> exceptionList)
@@ -777,10 +759,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.UserPseudoId = NewUserPseudoId();
         context.NoticeData = new NoticeData();
         context.LastDailyRewardRedeemedIndex = 0;
-        //context.LastDailyRewardRedeemedTicks = 0;
+        context.LastDailyRewardRedeemedTicks = DateTime.MinValue.Ticks;
         context.LastConsumedServiceIndex = 0;
         context.SaveFileLoaded = true;
-
         context.LastClearedStageId = 0;
         context.StageClearTimeList = new List<ScFloat>();
         context.NextStagePurchased = false;
@@ -789,7 +770,6 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.SlowMode = false;
         context.CoinUseCount = 0;
         context.LastStageFailed = false;
-
         context.StashedRewardJsonList = new List<ScString>();
         context.LastDailyRewardRedeemedTicksList = new List<ScLong> {0};
         context.NoAdsCode = 0;

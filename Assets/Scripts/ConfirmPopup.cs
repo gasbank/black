@@ -99,7 +99,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
     [SerializeField]
     VerticalLayoutGroup titleGroup;
 
-    static readonly int appear = Animator.StringToHash("Appear");
+    static readonly int Appear = Animator.StringToHash("Appear");
 
     public bool IsOpen => subcanvas.IsOpen;
 
@@ -176,7 +176,8 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
     [UsedImplicitly]
     void OpenPopup()
     {
-        topAnimator.SetTrigger(appear);
+        //topAnimator.SetTrigger(Appear);
+        subcanvas.Open();
     }
 
     [UsedImplicitly]

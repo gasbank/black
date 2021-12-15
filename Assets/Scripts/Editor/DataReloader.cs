@@ -18,6 +18,7 @@ public static class DataReloader
     static readonly string[] fullXlsxList =
     {
         "Data/StageSequence.xlsx",
+        "Data/DailyReward.xlsx",
         "Data/StrKo.xlsx",
         "Data/StrEn.xlsx",
     };

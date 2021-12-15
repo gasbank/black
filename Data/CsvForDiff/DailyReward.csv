@@ -1,0 +1,9 @@
+1 sheet(s) availble.
+Sheet: 'Daily Reward' (column count: 7)
+[DailyRewardData],,,,,,,
+day,rewardType,desc,notificationDesc,amount,sprite,hidden,
+1,StageKey,\스테이지 열쇠,\스테이지 입장 게이트를 여는 열쇠,0,Sprites/Icons/stage_key,,
+2,StageKey,\스테이지 열쇠,\스테이지 입장 게이트를 여는 열쇠,0,Sprites/Icons/stage_key,,
+3,StageKey,\스테이지 열쇠,\스테이지 입장 게이트를 여는 열쇠,0,Sprites/Icons/stage_key,,
+4,StageKey,\스테이지 열쇠,\스테이지 입장 게이트를 여는 열쇠,0,Sprites/Icons/stage_key,,
+5,StageKey,\스테이지 열쇠,\스테이지 입장 게이트를 여는 열쇠,0,Sprites/Icons/stage_key,,

@@ -23,6 +23,12 @@ public class BlackContext : MonoBehaviour, IBlackContext
     [SerializeField]
     ScUInt128 pendingFreeGem;
 
+    [SerializeField]
+    ScInt lastClearedStageId;
+
+    [SerializeField]
+    PlatformLocalNotification platformLocalNotification;
+    
     public bool CheatMode { get; set; }
     public bool WaiveBan { get; set; }
 
@@ -169,17 +175,22 @@ public class BlackContext : MonoBehaviour, IBlackContext
         ConDebug.Log($"ApplyPendingRice: {PendingRice}");
         AddRiceSafe(PendingRice);
         BlackLogManager.Add(BlackLogEntry.Type.RiceAddPending, 0,
-            PendingRice < long.MaxValue ? (long)PendingRice : long.MaxValue);
+            PendingRice < long.MaxValue ? (long) PendingRice : long.MaxValue);
         PendingRice = 0;
     }
 
     public void AddPendingFreeGem(UInt128 delta)
     {
-        if (delta == 0) {
+        if (delta == 0)
+        {
             // Do nothing
-        } else if (delta > 0) {
+        }
+        else if (delta > 0)
+        {
             PendingFreeGem += delta;
-        } else {
+        }
+        else
+        {
             Debug.LogError("AddPendingFreeGem with negative value");
         }
     }
@@ -189,7 +200,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
         ConDebug.Log($"ApplyPendingFreeGem: {PendingFreeGem}");
         freeGem += new ScUInt128(PendingFreeGem);
         BlackLogManager.Add(BlackLogEntry.Type.GemAddPending, 0,
-            PendingFreeGem < long.MaxValue ? (long)PendingFreeGem : long.MaxValue);
+            PendingFreeGem < long.MaxValue ? (long) PendingFreeGem : long.MaxValue);
         PendingFreeGem = 0;
         ConDebug.Log($"ApplyPendingFreeGem after free gem becomes: {freeGem}");
     }
@@ -220,7 +231,12 @@ public class BlackContext : MonoBehaviour, IBlackContext
         throw new NotImplementedException();
     }
 
-    public ScInt LastClearedStageId { get; set; }
+    public ScInt LastClearedStageId
+    {
+        get => lastClearedStageId;
+        set => lastClearedStageId = value;
+    }
+
     public List<ScFloat> StageClearTimeList { get; set; }
     public bool NextStagePurchased { get; set; }
     public ScInt CoinAmount { get; set; }
@@ -295,5 +311,34 @@ public class BlackContext : MonoBehaviour, IBlackContext
     public void GetAllDailyRewardsAtOnceAdminToDay(int toDay)
     {
         throw new NotImplementedException();
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveLoadManager.instance.Save(this, ConfigPopup.instance, Sound.instance, Data.instance);
+    }
+    
+    void OnApplicationPause(bool pause) {
+        ConDebug.Log($"SushiSpawner.OnApplicationPause({pause})");
+        if (pause) {
+            // 백그라운드 상태가 되기 시작할 때 호출된다.
+            SaveLoadManager.instance.Save(this, ConfigPopup.instance, Sound.instance, Data.instance);
+
+            platformLocalNotification.RegisterAllRepeatingNotifications();
+
+            // 게임이 제대로 시작한 이후부터만 백그라운드 처리 보상이 작동해도 된다.
+            if (LoadedAtLeastOnce) {
+                BackgroundTimeCompensator.instance.BeginBackgroundState(this);
+            }
+        } else {
+            // 백그라운드 상태가 끝나고 호출된다.
+            // 게임이 최초로 실행되는 단계에서도 한번 호출되는 것 같다.
+            platformLocalNotification.RemoveAllRepeatingNotifications();
+
+            // 게임이 제대로 시작한 이후부터만 백그라운드 처리 보상이 작동해도 된다.
+            if (LoadedAtLeastOnce) {
+                BackgroundTimeCompensator.instance.EndBackgroundState(this);
+            }
+        }
     }
 }

@@ -126,7 +126,7 @@ public class Data : MonoBehaviour
     public static readonly MessagePackSerializerOptions BlackStrNoCompOptions =
         MessagePackSerializerOptions.Standard.WithResolver(CompositeResolver.Create(
             BlackStringTableResolver.Instance,
-            //MessagePack.Resolvers.GeneratedResolver.Instance,
+            GeneratedResolver.Instance,
             BuiltinResolver.Instance));
 
     public static readonly MessagePackSerializerOptions BlackStrOptions =
