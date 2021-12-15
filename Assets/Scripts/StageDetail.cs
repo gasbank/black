@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StageDetail : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class StageDetail : MonoBehaviour
 
     [SerializeField]
     Subcanvas subcanvas;
+
+    [SerializeField]
+    StageProgress stageProgress;
 
     public void OpenPopup()
     {
@@ -31,6 +35,8 @@ public class StageDetail : MonoBehaviour
             return;
         }
 
+        stageProgress.ProgressInt = lastClearedStageId % 5;
+        
         Addressables.LoadAssetAsync<StageMetadata>(stageMetadataLoc).Completed += stageMetadataHandle =>
         {
             stageButton.SetStageMetadata(stageMetadataHandle.Result);

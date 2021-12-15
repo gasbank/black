@@ -479,7 +479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9960785, g: 0.8078432, b: 0.37647063, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -965,13 +965,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcdac4f883e04a8eadc0deaf034b4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 131375461}
-  disableBackButtonHandler: 0
-  ignoreBackButtonHandler: 0
-  doNotCloseOnBackButton: 0
   backButtonHandlerPushed: 0
-  forceBackButtonHandler: 0
+  canvas: {fileID: 131375461}
   canvasScaler: {fileID: 0}
+  disableBackButtonHandler: 0
+  doNotCloseOnBackButton: 0
+  forceBackButtonHandler: 0
+  ignoreBackButtonHandler: 0
 --- !u!114 &131375460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1022,8 +1022,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f3d3efb9ef3e854f9f2da5c0b17ab4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 131375459}
   stageButton: {fileID: 1444722193}
+  subcanvas: {fileID: 131375459}
+  stageProgress: {fileID: 155765525}
 --- !u!1 &134832885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,6 +1278,7 @@ GameObject:
   - component: {fileID: 155765522}
   - component: {fileID: 155765524}
   - component: {fileID: 155765523}
+  - component: {fileID: 155765525}
   m_Layer: 5
   m_Name: Stage Progress
   m_TagString: Untagged
@@ -1351,6 +1353,28 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &155765525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155765521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 989b9579811f2f24fbbed6468a145cdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progressInt: 0
+  progressBar: {fileID: 1629102286}
+  progressDotList:
+  - {fileID: 35186328}
+  - {fileID: 214080183}
+  - {fileID: 853790079}
+  - {fileID: 966680072}
+  - {fileID: 1611358428}
+  activeColor: {r: 0.99607843, g: 0.80784315, b: 0.3764706, a: 1}
+  inactiveColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &168835262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,7 +1687,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &214080181
 GameObject:
@@ -3722,7 +3746,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &481648947
 GameObject:
@@ -3830,36 +3854,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffb5b83b0025b42399507f82c507b3be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonClick: {fileID: 0}
+  audioMixer: {fileID: 24100000, guid: a4cd4af2e42d33949848c0868a742a73, type: 2}
+  bgmAudioSource: {fileID: 490246694}
+  bgmAudioVolume: 0
+  bgmType: 0
   blackNew: {fileID: 0}
-  wipeStain: {fileID: 0}
-  wipeStainFinish: {fileID: 0}
+  buttonClick: {fileID: 0}
+  correctlyFinished: {fileID: 0}
+  correctlyFinishedMild: {fileID: 0}
+  currentNormalBgmIndex: 0
+  dingaling: {fileID: 0}
+  error: {fileID: 0}
+  errorBuzzer: {fileID: 0}
+  feverBgm: {fileID: 0}
+  gatherStoredMax: {fileID: 0}
+  gatherStoredMaxSfxAudioSource: {fileID: 0}
+  jingleAchievement: {fileID: 0}
+  longTada: {fileID: 0}
+  normalBgms: []
+  rubberImpact: {fileID: 0}
+  sfxAudioSource: {fileID: 490246693}
+  sfxAudioVolume: 0
+  snap: {fileID: 0}
+  softTada: {fileID: 0}
   tadaA: {fileID: 0}
   tadaF: {fileID: 0}
   tadaG: {fileID: 0}
-  softTada: {fileID: 0}
-  error: {fileID: 0}
-  snap: {fileID: 0}
-  rubberImpact: {fileID: 0}
-  correctlyFinished: {fileID: 0}
-  correctlyFinishedMild: {fileID: 0}
   whacACatBgm: {fileID: 0}
-  feverBgm: {fileID: 0}
   whooshAir: {fileID: 0}
-  jingleAchievement: {fileID: 0}
-  errorBuzzer: {fileID: 0}
-  gatherStoredMax: {fileID: 0}
-  longTada: {fileID: 0}
-  dingaling: {fileID: 0}
-  bgmAudioSource: {fileID: 490246694}
-  sfxAudioSource: {fileID: 490246693}
-  gatherStoredMaxSfxAudioSource: {fileID: 0}
-  audioMixer: {fileID: 24100000, guid: a4cd4af2e42d33949848c0868a742a73, type: 2}
-  normalBgms: []
-  bgmAudioVolume: 0
-  sfxAudioVolume: 0
-  bgmType: 0
-  currentNormalBgmIndex: 0
+  wipeStain: {fileID: 0}
+  wipeStainFinish: {fileID: 0}
 --- !u!4 &490246692
 Transform:
   m_ObjectHideFlags: 0
@@ -4266,7 +4290,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &576895340
 GameObject:
@@ -4358,13 +4382,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcdac4f883e04a8eadc0deaf034b4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 576895346}
-  disableBackButtonHandler: 0
-  ignoreBackButtonHandler: 0
-  doNotCloseOnBackButton: 0
   backButtonHandlerPushed: 0
-  forceBackButtonHandler: 0
+  canvas: {fileID: 576895346}
   canvasScaler: {fileID: 0}
+  disableBackButtonHandler: 0
+  doNotCloseOnBackButton: 0
+  forceBackButtonHandler: 0
+  ignoreBackButtonHandler: 0
 --- !u!114 &576895345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4677,26 +4701,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b926e450862400eaf92fd9978364eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platform: {fileID: 0}
-  bgmSlider: {fileID: 0}
-  sfxSlider: {fileID: 0}
-  bgmToggle: {fileID: 330745552}
-  sfxToggle: {fileID: 632960014}
-  notchToggle: {fileID: 115288702}
-  bottomNotchToggle: {fileID: 1621587488}
-  performanceModeToggle: {fileID: 1681388387}
   alwaysOnToggle: {fileID: 1384202362}
+  appMetaInfoText: {fileID: 0}
+  bgmSlider: {fileID: 0}
+  bgmToggle: {fileID: 330745552}
   bigScreenToggle: {fileID: 738365422}
+  bottomNotchToggle: {fileID: 1621587488}
+  communityConfigTabNewImage: {fileID: 1058596800}
+  configButtonGroupEtc: []
   languageDropdown: {fileID: 0}
   logoutButton: {fileID: 0}
   mergeTab: {fileID: 0}
-  userPseudoIdText: {fileID: 0}
-  appMetaInfoText: {fileID: 0}
-  configButtonGroupEtc: []
-  vibrationGroup: {fileID: 0}
-  communityConfigTabNewImage: {fileID: 1058596800}
+  notchToggle: {fileID: 115288702}
   noticeButtonNewImage: {fileID: 1051072920}
+  performanceModeToggle: {fileID: 1681388387}
+  platform: {fileID: 0}
+  sfxSlider: {fileID: 0}
+  sfxToggle: {fileID: 632960014}
   subcanvas: {fileID: 628729672}
+  userPseudoIdText: {fileID: 0}
+  vibrationGroup: {fileID: 0}
 --- !u!114 &628729670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4747,13 +4771,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcdac4f883e04a8eadc0deaf034b4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 628729673}
-  disableBackButtonHandler: 0
-  ignoreBackButtonHandler: 0
-  doNotCloseOnBackButton: 0
   backButtonHandlerPushed: 0
-  forceBackButtonHandler: 0
+  canvas: {fileID: 628729673}
   canvasScaler: {fileID: 0}
+  disableBackButtonHandler: 0
+  doNotCloseOnBackButton: 0
+  forceBackButtonHandler: 0
+  ignoreBackButtonHandler: 0
 --- !u!223 &628729673
 Canvas:
   m_ObjectHideFlags: 0
@@ -5314,7 +5338,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &718340542
 GameObject:
@@ -5842,13 +5866,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcdac4f883e04a8eadc0deaf034b4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 810777092}
-  disableBackButtonHandler: 0
-  ignoreBackButtonHandler: 0
-  doNotCloseOnBackButton: 0
   backButtonHandlerPushed: 0
-  forceBackButtonHandler: 0
+  canvas: {fileID: 810777092}
   canvasScaler: {fileID: 0}
+  disableBackButtonHandler: 0
+  doNotCloseOnBackButton: 0
+  forceBackButtonHandler: 0
+  ignoreBackButtonHandler: 0
 --- !u!114 &810777091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5899,10 +5923,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99465b07c6a94b7c8ab0c70dcf86a0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messageText: {fileID: 796606928}
   closeButton: {fileID: 151620231}
-  subcanvas: {fileID: 810777090}
+  messageText: {fileID: 796606928}
   platformFacebookAdsInit: {fileID: 0}
+  subcanvas: {fileID: 810777090}
 --- !u!114 &810777094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6117,7 +6141,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &830080722
 GameObject:
@@ -7472,7 +7496,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &966680070
 GameObject:
@@ -7714,13 +7738,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridWorld: {fileID: 0}
-  paletteButtonGroup: {fileID: 0}
   islandLabelSpawner: {fileID: 0}
-  targetImage: {fileID: 0}
-  targetImageOutline: {fileID: 0}
+  nameplateGroup: {fileID: 0}
+  paletteButtonGroup: {fileID: 0}
   pinchZoom: {fileID: 0}
   stageMetadata: {fileID: 0}
-  nameplateGroup: {fileID: 0}
+  targetImage: {fileID: 0}
+  targetImageOutline: {fileID: 0}
 --- !u!4 &973743568
 Transform:
   m_ObjectHideFlags: 0
@@ -7733,7 +7757,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &988294599
 GameObject:
@@ -8047,13 +8071,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcdac4f883e04a8eadc0deaf034b4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1051072926}
-  disableBackButtonHandler: 0
-  ignoreBackButtonHandler: 0
-  doNotCloseOnBackButton: 0
   backButtonHandlerPushed: 0
-  forceBackButtonHandler: 0
+  canvas: {fileID: 1051072926}
   canvasScaler: {fileID: 0}
+  disableBackButtonHandler: 0
+  doNotCloseOnBackButton: 0
+  forceBackButtonHandler: 0
+  ignoreBackButtonHandler: 0
 --- !u!114 &1051072925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8182,13 +8206,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcdac4f883e04a8eadc0deaf034b4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1058596806}
-  disableBackButtonHandler: 0
-  ignoreBackButtonHandler: 0
-  doNotCloseOnBackButton: 0
   backButtonHandlerPushed: 0
-  forceBackButtonHandler: 0
+  canvas: {fileID: 1058596806}
   canvasScaler: {fileID: 0}
+  disableBackButtonHandler: 0
+  doNotCloseOnBackButton: 0
+  forceBackButtonHandler: 0
+  ignoreBackButtonHandler: 0
 --- !u!114 &1058596805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9145,18 +9169,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477b74dde345421daa00f47031b5f910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rice:
-    value:
-      s0: 6922071743758026897
-      s1: 1812734171829306504
-  pendingRice:
-    value:
-      s0: 6922071743758026897
-      s1: 1812734171829306504
   freeGem:
     value:
       s0: 6922071743758026897
       s1: 1812734171829306504
+  lastClearedStageId:
+    value: 716899590
   paidGem:
     value:
       s0: 6922071743758026897
@@ -9165,9 +9183,15 @@ MonoBehaviour:
     value:
       s0: 6922071743758026897
       s1: 1812734171829306504
-  lastClearedStageId:
-    value: 716899590
+  pendingRice:
+    value:
+      s0: 6922071743758026897
+      s1: 1812734171829306504
   platformLocalNotification: {fileID: 1224714100}
+  rice:
+    value:
+      s0: 6922071743758026897
+      s1: 1812734171829306504
 --- !u!4 &1302156365
 Transform:
   m_ObjectHideFlags: 0
@@ -9180,7 +9204,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1326745874
 GameObject:
@@ -10007,7 +10031,7 @@ RectTransform:
   - {fileID: 1051072921}
   - {fileID: 810777089}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10202,13 +10226,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcdac4f883e04a8eadc0deaf034b4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1428292511}
-  disableBackButtonHandler: 0
-  ignoreBackButtonHandler: 0
-  doNotCloseOnBackButton: 0
   backButtonHandlerPushed: 0
-  forceBackButtonHandler: 0
+  canvas: {fileID: 1428292511}
   canvasScaler: {fileID: 0}
+  disableBackButtonHandler: 0
+  doNotCloseOnBackButton: 0
+  forceBackButtonHandler: 0
+  ignoreBackButtonHandler: 0
 --- !u!114 &1428292510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10297,41 +10321,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 342ea5b9250714d96a43400a87018fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: {fileID: 0}
-  decoratedHeader: {fileID: 0}
-  decoratedTitle: {fileID: 0}
-  decorated2Header: {fileID: 0}
-  decorated2Title: {fileID: 0}
-  decorated3Header: {fileID: 0}
-  decorated3Title: {fileID: 0}
-  message: {fileID: 0}
+  autoCloseRemainSec: -1
+  autoCloseText: {fileID: 0}
   button1: {fileID: 0}
   button1Text: {fileID: 0}
   button2: {fileID: 0}
   button2Text: {fileID: 0}
   claimButton: {fileID: 0}
   claimButtonText: {fileID: 0}
-  closeButton: {fileID: 0}
   claimImage: {fileID: 0}
-  riceClaimImageSprite: {fileID: 0}
-  riceClaimButtonImageSprite: {fileID: 0}
-  gemClaimImageSprite: {fileID: 0}
+  closeButton: {fileID: 0}
+  contentTopRect: {fileID: 0}
+  customSpawnAtOnceButtonGroup: {fileID: 0}
+  decorated2Header: {fileID: 0}
+  decorated2Title: {fileID: 0}
+  decorated3Header: {fileID: 0}
+  decorated3Title: {fileID: 0}
+  decoratedHeader: {fileID: 0}
+  decoratedTitle: {fileID: 0}
+  gatherButtonPowerDownToggleGroup: {fileID: 0}
   gemClaimButtonImageSprite: {fileID: 0}
-  popupImage: {fileID: 0}
-  popupImageLayoutElement: {fileID: 0}
-  topAnimator: {fileID: 0}
+  gemClaimImageSprite: {fileID: 0}
   inputField: {fileID: 0}
   inputFieldPlaceholderText: {fileID: 0}
-  subcanvas: {fileID: 1428292509}
-  topImage: {fileID: 0}
-  contentTopRect: {fileID: 0}
+  message: {fileID: 0}
+  popupImage: {fileID: 0}
+  popupImageLayoutElement: {fileID: 0}
   popupImageParentRect: {fileID: 0}
+  riceClaimButtonImageSprite: {fileID: 0}
+  riceClaimImageSprite: {fileID: 0}
   skipRenderGraphic: {fileID: 0}
-  autoCloseRemainSec: -1
-  autoCloseText: {fileID: 0}
-  gatherButtonPowerDownToggleGroup: {fileID: 0}
-  customSpawnAtOnceButtonGroup: {fileID: 0}
+  subcanvas: {fileID: 1428292509}
+  title: {fileID: 0}
   titleGroup: {fileID: 0}
+  topAnimator: {fileID: 0}
+  topImage: {fileID: 0}
 --- !u!1 &1444722189
 GameObject:
   m_ObjectHideFlags: 0
@@ -10420,11 +10444,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca35fe571738460f8cb3d2aa22be221, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateOnStart: 1
+  image: {fileID: 1444722191}
   stageMetadata: {fileID: 11400000, guid: 8eaf918ed563d48f6a04e8123a0b0724, type: 2}
   stageNumber: {fileID: 0}
-  image: {fileID: 1444722191}
   stageStar: {fileID: 1392627618}
+  updateOnStart: 1
 --- !u!1 &1456864646
 GameObject:
   m_ObjectHideFlags: 0
@@ -11405,8 +11429,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -12, y: 0}
-  m_SizeDelta: {x: -40, y: 4}
+  m_AnchoredPosition: {x: -21, y: 0}
+  m_SizeDelta: {x: -58, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1629102285
 MonoBehaviour:
@@ -11453,7 +11477,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.16666667
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -11570,30 +11594,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95e7edc5f6dd4ff8bacdafb79598fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  confirmPopup: {fileID: 1428292514}
-  progressMessage: {fileID: 810777093}
-  sound: {fileID: 490246691}
   achievementPopup: {fileID: 0}
-  shortMessage: {fileID: 0}
+  admin: {fileID: 1778677671}
+  backButtonHandler: {fileID: 1871921346}
+  backgroundTimeCompensator: {fileID: 87089786}
   blackContext: {fileID: 1302156364}
+  blackPlatform: {fileID: 0}
+  bottomNotchOffsetGroupList: []
+  configButtonNewImage: {fileID: 576895340}
   configPopup: {fileID: 628729669}
-  noticeManager: {fileID: 815493826}
+  confirmPopup: {fileID: 1428292514}
+  data: {fileID: 209680694}
   errorReporter: {fileID: 0}
   fontManager: {fileID: 0}
-  data: {fileID: 209680694}
-  socialScoreReporter: {fileID: 0}
-  backButtonHandler: {fileID: 1871921346}
-  admin: {fileID: 1778677671}
-  platformInterface: {fileID: 1967671824}
-  saveLoadManager: {fileID: 822878355}
-  backgroundTimeCompensator: {fileID: 87089786}
-  blackPlatform: {fileID: 0}
-  platformAdMobAdsInit: {fileID: 0}
+  noticeManager: {fileID: 815493826}
   platformAdMobAds: {fileID: 0}
+  platformAdMobAdsInit: {fileID: 0}
+  platformInterface: {fileID: 1967671824}
   platformReceiptVerifier: {fileID: 0}
-  configButtonNewImage: {fileID: 576895340}
+  progressMessage: {fileID: 810777093}
+  saveLoadManager: {fileID: 822878355}
+  shortMessage: {fileID: 0}
+  socialScoreReporter: {fileID: 0}
+  sound: {fileID: 490246691}
   topNotchOffsetGroupList: []
-  bottomNotchOffsetGroupList: []
 --- !u!4 &1672691429
 Transform:
   m_ObjectHideFlags: 0
@@ -11606,7 +11630,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1673619773
 GameObject:
@@ -12014,8 +12038,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -12, y: 0}
-  m_SizeDelta: {x: -40, y: 4}
+  m_AnchoredPosition: {x: -21, y: 0}
+  m_SizeDelta: {x: -58, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1760758166
 MonoBehaviour:
@@ -12214,7 +12238,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1778677671 stripped
 MonoBehaviour:
@@ -12745,7 +12769,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1888110340
 GameObject:
@@ -13227,7 +13251,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1984107278
 GameObject:
@@ -14129,7 +14153,7 @@ PrefabInstance:
     - target: {fileID: 3953899335288545544, guid: f8565fe475ebd3d4fb9a0263e064ec6f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3953899335288545544, guid: f8565fe475ebd3d4fb9a0263e064ec6f,
         type: 3}
