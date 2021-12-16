@@ -3343,6 +3343,11 @@ PrefabInstance:
       propertyPath: communityConfigTabNewImage
       value: 
       objectReference: {fileID: 1220664416}
+    - target: {fileID: 7475867359283629513, guid: 86efbc33d7a71fc4facab48c43d9fc9a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86efbc33d7a71fc4facab48c43d9fc9a, type: 3}
 --- !u!224 &961282701 stripped
