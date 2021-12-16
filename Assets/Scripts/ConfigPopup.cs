@@ -186,8 +186,8 @@ public class ConfigPopup : MonoBehaviour
         UpdateSoundSliderStates();
         UpdateServiceText();
         UpdateEtcGroupVisibility();
-        topAnimator.SetTrigger(Appear);
-        logoutButton.gameObject.SetActive(Application.isEditor || Application.platform == RuntimePlatform.Android);
+        if (topAnimator) topAnimator.SetTrigger(Appear);
+        if (logoutButton) logoutButton.gameObject.SetActive(Application.isEditor || Application.platform == RuntimePlatform.Android);
     }
 
     [UsedImplicitly]
@@ -244,8 +244,8 @@ public class ConfigPopup : MonoBehaviour
 
     void UpdateSoundSliderStates()
     {
-        bgmSlider.value = Sound.instance.BgmAudioSourceVolume;
-        sfxSlider.value = Sound.instance.SfxAudioSourceVolume;
+        if (bgmSlider) bgmSlider.value = Sound.instance.BgmAudioSourceVolume;
+        if (sfxSlider) sfxSlider.value = Sound.instance.SfxAudioSourceVolume;
     }
 
     public void StartCloudSave()
@@ -326,15 +326,15 @@ public class ConfigPopup : MonoBehaviour
     {
         if (EtcGroupVisible)
         {
-            ConfigButtonNewImage.SetActive(b);
-            communityConfigTabNewImage.SetActive(b);
-            noticeButtonNewImage.SetActive(b);
+            if (ConfigButtonNewImage) ConfigButtonNewImage.SetActive(b);
+            if (communityConfigTabNewImage) communityConfigTabNewImage.SetActive(b);
+            if (noticeButtonNewImage) noticeButtonNewImage.SetActive(b);
         }
         else
         {
-            ConfigButtonNewImage.SetActive(false);
-            communityConfigTabNewImage.SetActive(false);
-            noticeButtonNewImage.SetActive(false);
+            if (ConfigButtonNewImage) ConfigButtonNewImage.SetActive(false);
+            if (communityConfigTabNewImage) communityConfigTabNewImage.SetActive(false);
+            if (noticeButtonNewImage) noticeButtonNewImage.SetActive(false);
         }
     }
 
