@@ -11,7 +11,7 @@ public class StageProgress : MonoBehaviour
     Image progressBar;
 
     [SerializeField]
-    Image[] progressDotList;
+    StageProgressDot[] stageProgressDotList;
 
     const int ProgressStep = 5;
 
@@ -41,14 +41,15 @@ public class StageProgress : MonoBehaviour
 
     void UpdateProgress()
     {
-        progressInt = Mathf.Clamp(progressInt, 0, progressDotList.Length);
+        progressInt = Mathf.Clamp(progressInt, 0, stageProgressDotList.Length);
         
-        for (var i = 0; i < progressDotList.Length; i++)
+        for (var i = 0; i < stageProgressDotList.Length; i++)
         {
-            var dot = progressDotList[i];
-            dot.color = i < progressInt ? activeColor : inactiveColor;
+            var dot = stageProgressDotList[i];
+            dot.SetColor(i < progressInt ? activeColor : inactiveColor);
+            stageProgressDotList[i].SetAnimActive(i == progressInt);
         }
-
+        
         progressBar.fillAmount = (float) progressInt / ProgressStep;
     }
 }

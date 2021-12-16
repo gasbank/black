@@ -35,7 +35,7 @@ public class ApplySelectedPrefabs : EditorWindow {
         }
     }
 
-    private static void RevertPropertyOverride(Component rt) {
+    static void RevertPropertyOverride(Component rt) {
         var serializedObject = new SerializedObject(rt);
         var serializedProperty = serializedObject.GetIterator();
         while (serializedProperty.NextVisible(true)) {

@@ -58,7 +58,7 @@ public static class DataReloader
         }
     }
 
-    private static List<string> GetUpdatedXlsxList()
+    static List<string> GetUpdatedXlsxList()
     {
         var hashMsgPackBytes = Resources.Load("Data/Hash-MsgPack") as TextAsset;
         List<string> xlsxList = new List<string>();
@@ -171,7 +171,7 @@ public static class DataReloader
         return System.BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
     }
 
-    private static void SerializeAndWriteDataSet(DataSet dataSet)
+    static void SerializeAndWriteDataSet(DataSet dataSet)
     {
         Data.RegisterAllResolversOnce();
 
@@ -277,7 +277,7 @@ public static class DataReloader
         File.WriteAllText(path, sb.ToString());
     }
 
-    private static string NormalizeLineEndings(ScString e)
+    static string NormalizeLineEndings(ScString e)
     {
         return Regex.Replace(e.ToString(), @"\r\n|\n\r|\n|\r", "\r\n");
     }
