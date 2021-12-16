@@ -64,6 +64,8 @@ public class Data : MonoBehaviour
         Profiler.BeginSample("Prebuild Dependent DataSet");
         await PrebuildDependentDataSetAsync(dataSet);
         Profiler.EndSample();
+        
+        
     }
 
     static async Task PrebuildDependentDataSetAsync(DataSet newDataSet)

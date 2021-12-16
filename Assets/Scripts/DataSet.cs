@@ -12,8 +12,6 @@ public class DataSet
     [IgnoreMember]
     public Dictionary<string, IResourceLocation> StageMetadataDict;
 
-    // 이하는 실행 시 생성되는 데이터
-
     [IgnoreMember]
     public List<IResourceLocation> StageMetadataList;
 
