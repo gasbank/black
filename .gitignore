@@ -609,3 +609,4 @@ GoogleService-Info.plist.meta
 !*.mm.*
 /Assets/StreamingAssets.meta
 /.black_keystore_pass
+/Assets/GeneratedLocalRepo
