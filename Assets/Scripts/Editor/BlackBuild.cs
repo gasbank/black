@@ -30,16 +30,16 @@ internal static class BlackBuild {
     [UsedImplicitly]
     public static void PerformAndroidBuildMono() {
         Environment.SetEnvironmentVariable("BLACK_DEV_BUILD", "1");
-        PerformAndroidBuildInternal(false);
+        PerformAndroidBuildInternal(false, false);
         EditorUtility.RevealInFinder("./black.apk");
     }
 
     [UsedImplicitly]
     public static void PerformAndroidBuild() {
-        PerformAndroidBuildInternal(true);
+        PerformAndroidBuildInternal(true, false);
     }
 
-    static void PerformAndroidBuildInternal(bool il2cpp, bool run = false) {
+    static void PerformAndroidBuildInternal(bool il2cpp, bool appBundle, bool run = false) {
         AddressableAssetSettings.BuildPlayerContent();
         
         var isReleaseBuild = Environment.GetEnvironmentVariable("BLACK_DEV_BUILD") != "1";
@@ -70,6 +70,8 @@ internal static class BlackBuild {
             // 개발중일때는 ARM64만 빌드하자. 빠르니까...
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
         }
+
+        EditorUserBuildSettings.buildAppBundle = appBundle;
 
         // Pro 버전일때만 되는 기능이긴 한데, 이걸 켜고 푸시한 경우도 있을테니 여기서 꺼서 안전장치로 작동하게 한다.
         PlayerSettings.SplashScreen.show = false;
