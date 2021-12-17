@@ -98,10 +98,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     StartAnimateFillCoin(localPoint);
 
                     // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
-                    if (islandLabelSpawner.IsLabelByMinPointEmpty)
+                    if (IsLabelByMinPointEmpty)
                     {
-                        finaleDirector.Play(finaleDirector.playableAsset);
-                        UpdateLastClearedStageIdAndSave();
+                        StartFinale();
                     }
                 }
                 else
@@ -116,8 +115,22 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
     }
 
+    bool IsLabelByMinPointEmpty => islandLabelSpawner.IsLabelByMinPointEmpty;
+
+    void StartFinale()
+    {
+        finaleDirector.Play(finaleDirector.playableAsset);
+        UpdateLastClearedStageIdAndSave();
+    }
+
     static void UpdateLastClearedStageIdAndSave()
     {
+        if (!StageButton.CurrentStageMetadata)
+        {
+            Debug.Log("Current stage metadata is not set. Last cleared stage ID will not be updated. (Did you start the play mode from Main scene?)");
+            return;
+        }
+    
         var stageName = StageButton.CurrentStageMetadata.name;
         for (var i = 0; i < Data.dataSet.StageSequenceData.Count; i++)
         {
@@ -160,6 +173,10 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             var stageSaveData = stageSaveManager.Load(StageName);
             LoadBatchFill(StageName, stageSaveData.coloredMinPoints);
+            if (IsLabelByMinPointEmpty)
+            {
+                StartFinale();
+            }
         }
         catch (Exception e)
         {

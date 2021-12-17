@@ -93,7 +93,8 @@ public class MainGame : MonoBehaviour
         ConDebug.Log($"Black count: {counts[0]}");
         ConDebug.Log($"White count: {counts[1]}");
         ConDebug.Log($"Other count: {counts[2]}");
-
+        ConDebug.Log($"CanInteractPanAndZoom = {CanInteractPanAndZoom}");
+        
         gridWorld.ResumeGame();
     }
 
