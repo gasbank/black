@@ -47,13 +47,13 @@ public class MainCanvasDirector : MonoBehaviour
                     debugGroup.Hide();
                     coinGroup.Show();
                     paletteGroup.Show();
-                    achieveGroup.Hide();
+                    achieveGroup.Show();
                     break;
                 case Mode.Debug:
                     debugGroup.Show();
                     coinGroup.Show();
                     paletteGroup.Show();
-                    achieveGroup.Hide();
+                    achieveGroup.Show();
                     break;
             }
         };
