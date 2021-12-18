@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public interface IPlatformConfirmPopup {
-    void OpenYesNoPopup(string msg, Action executeCloudLoad, Action cancelStartLoginForLoad);
+    void OpenYesNoPopup(string msg, Action onYes, Action onNo);
     void Open(string msg);
     void Close();
     void OpenTwoButtonPopup_Update(string text, Action close, Action action);
