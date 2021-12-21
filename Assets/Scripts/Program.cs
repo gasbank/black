@@ -260,7 +260,7 @@ namespace black_dev_tools
             }
             else if (mode == "dit")
             {
-                var rasapFileName = ExecuteResizeAndSaveAsPng(startFileName, 512);
+                var rasapFileName = ExecuteResizeAndSaveAsPng(startFileName, 1500);
                 var otbFileName = ExecuteOutlineToBlack(rasapFileName, outlineThreshold);
                 var fsnbFileName = ExecuteFillSmallNotBlack(otbFileName);
                 var qFileName = ExecuteQuantize(rasapFileName, maxColor);
