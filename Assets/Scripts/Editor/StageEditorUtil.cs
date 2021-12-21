@@ -30,22 +30,16 @@ internal static class StageEditorUtil
             return;
         }
 
-        var stageName = Path.GetFileNameWithoutExtension(assetPath);
         var assetPathParent = Path.GetDirectoryName(assetPath);
-        if (string.IsNullOrEmpty(assetPathParent) || Path.GetFileNameWithoutExtension(assetPathParent) != stageName)
-        {
-            Debug.LogError(
-                $"PNG, JPEG file name must match with its parent folder name. Consider creating a folder named '{stageName}' and move source file into it.");
-            return;
-        }
-
+        var stageName = Path.GetFileNameWithoutExtension(assetPathParent);
+        
         if (!EditorUtility.DisplayDialog($"Import New Stage: {stageName}",
             "This takes about 30-60 seconds to finish. Proceed?", "Proceed", "Cancel"))
         {
             return;
         }
 
-        Program.Main(new[] {"dit", assetPath, "30"});
+        Program.Main(new[] {"dit", assetPath, "30", "", "", stageName});
 
         AssetDatabase.Refresh();
 

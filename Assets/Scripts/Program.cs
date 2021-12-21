@@ -41,6 +41,7 @@ namespace black_dev_tools
     {
         static string outputPathReplaceFrom = "";
         static string outputPathReplaceTo = "";
+        static string outputNewFileName = null;
 
         static readonly Rgba32 Black = Rgba32.ParseHex("000000ff");
         static readonly Rgba32 White = Rgba32.ParseHex("ffffffff");
@@ -215,6 +216,8 @@ namespace black_dev_tools
             if (args.Length >= 4) outputPathReplaceFrom = args[3];
 
             if (args.Length >= 5) outputPathReplaceTo = args[4];
+
+            outputNewFileName = args.Length >= 6 ? args[5] : null;
 
             if (mode == "otb")
             {
@@ -583,7 +586,7 @@ namespace black_dev_tools
                 image.Mutate(x => x.Resize(options));
             }
             
-            var targetFileName = AppendToFileName(sourceFileName, "", ".png");
+            var targetFileName = AppendToFileName(sourceFileName, "", ".png", outputNewFileName);
             
             image.Save(targetFileName, new PngEncoder());
 
@@ -623,13 +626,13 @@ namespace black_dev_tools
             return targetFileName;
         }
 
-        static string AppendToFileName(string fileName, string append, string newExt = null)
+        static string AppendToFileName(string fileName, string append, string newExt = null, string newFileName = null)
         {
             var fileDirName = Path.GetDirectoryName(fileName);
             if (string.IsNullOrEmpty(fileDirName)) return string.Empty;
 
             var r = Path.Combine(fileDirName,
-                Path.GetFileNameWithoutExtension(fileName) + append + (newExt ?? Path.GetExtension(fileName)));
+                (newFileName ?? Path.GetFileNameWithoutExtension(fileName)) + append + (newExt ?? Path.GetExtension(fileName)));
             if (string.IsNullOrEmpty(outputPathReplaceFrom) == false)
                 r = r.Replace(outputPathReplaceFrom, outputPathReplaceTo);
 

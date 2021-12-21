@@ -325,7 +325,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (pixelList.Count > maxIslandPixelArea)
         {
             Debug.LogError(
-                $"CRITICAL LOGIC ERROR: TOO BIG ISLAND. Allowed pixel area is {maxIslandPixelArea}!!! FloodFill() aborted.");
+                $"CRITICAL LOGIC ERROR: TOO BIG ISLAND. Allowed pixel area is {maxIslandPixelArea}, but this time {pixelList.Count}!!! Bug. FloodFill() aborted.");
             return false;
         }
 
