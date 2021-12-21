@@ -1,5 +1,7 @@
 fileFormatVersion: 2
 guid: 0f7e0750d9262406bb429ba1bc23a508
+labels:
+- Stage
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
