@@ -72,7 +72,7 @@ namespace black_dev_tools
             }
             catch (IslandCountException)
             {
-                ProcessSingleFile(args, 30);    
+                ProcessSingleFile(args, 30);
             }
             catch (DirectoryNotFoundException e)
             {
@@ -150,7 +150,7 @@ namespace black_dev_tools
 
                 for (var y = 0; y < image.Height; y++)
                 for (var x = 0; x < image.Width; x++)
-                    targetImage[x, y] = Average(image, x, y, radius);
+                    targetImage[x, y] = image[x,y] == Black ? Black : Average(image, x, y, radius);
 
                 Directory.CreateDirectory(Path.GetDirectoryName(targetFileName));
                 using (var stream = new FileStream(targetFileName, FileMode.Create))
@@ -262,15 +262,16 @@ namespace black_dev_tools
 
                 // 필요없는 파일은 삭제한다.
                 // 디버그가 필요한 경우 삭제하지 않고 살펴보면 된다.
-                if (rasapFileName != startFileName)
-                {
-                    File.Delete(rasapFileName);
-                }
-                File.Delete(otbFileName);
-                File.Delete(qFileName);
-                File.Delete(fotsFileName);
-                File.Delete(ditFileName);
-                File.Delete(bbFileName);
+
+//                if (rasapFileName != startFileName)
+//                {
+//                    File.Delete(rasapFileName);
+//                }
+//                File.Delete(otbFileName);
+//                File.Delete(qFileName);
+//                File.Delete(fotsFileName);
+//                File.Delete(ditFileName);
+//                File.Delete(bbFileName);
             }
             else
             {
@@ -554,19 +555,19 @@ namespace black_dev_tools
 
             return targetFileName;
         }
-        
+
         // 너무 큰 이미지를 작은 이미지로 줄이면서 PNG 파일이 아니면 PNG로 바꾼다.
         static string ExecuteResizeAndSaveAsPng(string sourceFileName, int threshold)
         {
             Logger.WriteLine($"Running {nameof(ExecuteResizeAndSaveAsPng)}");
-            
+
             using var image = Image.Load<Rgba32>(sourceFileName);
 
             // 정사각형이 아니라면 우선 큰 변 기준으로 정사각형으로 만든다. (여백 추가)
             if (image.Width != image.Height)
             {
                 var maxSide = Math.Max(image.Width, image.Height);
-                
+
                 var options = new ResizeOptions
                 {
                     Size = new Size(maxSide, maxSide),
@@ -585,9 +586,9 @@ namespace black_dev_tools
                 };
                 image.Mutate(x => x.Resize(options));
             }
-            
+
             var targetFileName = AppendToFileName(sourceFileName, "", ".png", outputNewFileName);
-            
+
             image.Save(targetFileName, new PngEncoder());
 
             return targetFileName;
@@ -632,7 +633,8 @@ namespace black_dev_tools
             if (string.IsNullOrEmpty(fileDirName)) return string.Empty;
 
             var r = Path.Combine(fileDirName,
-                (newFileName ?? Path.GetFileNameWithoutExtension(fileName)) + append + (newExt ?? Path.GetExtension(fileName)));
+                (newFileName ?? Path.GetFileNameWithoutExtension(fileName)) + append +
+                (newExt ?? Path.GetExtension(fileName)));
             if (string.IsNullOrEmpty(outputPathReplaceFrom) == false)
                 r = r.Replace(outputPathReplaceFrom, outputPathReplaceTo);
 
