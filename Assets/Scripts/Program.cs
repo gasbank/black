@@ -53,6 +53,7 @@ namespace black_dev_tools
         static string outputNewFileName = null;
 
         static readonly Rgba32 Black = Rgba32.ParseHex("000000ff");
+        static readonly Rgba32 Red = Rgba32.ParseHex("ff0000ff");
         static readonly Rgba32 White = Rgba32.ParseHex("ffffffff");
 
         public static void Main(string[] args)
@@ -265,22 +266,30 @@ namespace black_dev_tools
                 var qFileName = ExecuteQuantize(rasapFileName, maxColor);
                 var fotsFileName = ExecuteFlattenedOutlineToSource(qFileName, fsnbFileName);
                 var bytesFileName = ExecuteDetermineIsland(fotsFileName, rasapFileName);
-                var ditFileName = ExecuteDetermineIslandTest(fsnbFileName, bytesFileName);
+                
+                // 색칠 테스트. 첫 데이터를 얻기 위한 것으로 오류 메시지는 경고로 무시해도 된다.
+                var ditFileName = ExecuteDetermineIslandTest(fsnbFileName, bytesFileName, true);
+                
+                // DIT 파일이 최종 컬러링 완성 시의 이미지이다. 이걸로 최종적으로 데이터를 다시 뽑는다.
+                bytesFileName = ExecuteDetermineIsland(ditFileName, rasapFileName);
+                
+                //두 번째 테스트. 여기서 오류가 나면 뭔가 이상한거다.
+                ExecuteDetermineIslandTest(fsnbFileName, bytesFileName, false);
+                
                 var bbFileName = ExecuteBoxBlur(fsnbFileName, 1);
                 ExecuteSdf(bbFileName);
 
                 // 필요없는 파일은 삭제한다.
                 // 디버그가 필요한 경우 삭제하지 않고 살펴보면 된다.
-
-//                if (rasapFileName != startFileName)
-//                {
-//                    File.Delete(rasapFileName);
-//                }
-//                File.Delete(otbFileName);
-//                File.Delete(qFileName);
-//                File.Delete(fotsFileName);
-//                File.Delete(ditFileName);
-//                File.Delete(bbFileName);
+                if (rasapFileName != startFileName)
+                {
+                    File.Delete(rasapFileName);
+                }
+                File.Delete(otbFileName);
+                File.Delete(qFileName);
+                File.Delete(fotsFileName);
+                File.Delete(ditFileName);
+                File.Delete(bbFileName);
             }
             else
             {
@@ -293,7 +302,7 @@ namespace black_dev_tools
 
         // 섬 데이터와 외곽선 데이터를 이용해 색칠을 자동으로 해 본다.
         // 색칠 후 이미지에 문제가 없는지 확인하기 위한 테스트 과정이다.
-        static string ExecuteDetermineIslandTest(string sourceFileName, string bytesFileName)
+        static string ExecuteDetermineIslandTest(string sourceFileName, string bytesFileName, bool errorAsWarning)
         {
             Logger.WriteLine($"Running {nameof(ExecuteDetermineIslandTest)}");
 
@@ -323,15 +332,31 @@ namespace black_dev_tools
                     var targetColor = UInt32ToRgba32(island.Value.rgba);
                     var fillMinPoint = FloodFill.ExecuteFillIf(image, minPoint, White, targetColor, out var pixelArea,
                         out _, out _);
-
+                    
                     if (fillMinPoint == new Vector2Int(image.Width, image.Height))
                     {
-                        Logger.WriteErrorLine("Logic error in ExecuteDetermineIslandTest()! Invalid fillMinPoint");
+                        if (errorAsWarning)
+                        {
+                            Logger.WriteLine("Logic error in ExecuteDetermineIslandTest()! Invalid fillMinPoint");    
+                        }
+                        else
+                        {
+                            Logger.WriteErrorLine("Logic error in ExecuteDetermineIslandTest()! Invalid fillMinPoint");
+                        }
                     }
 
                     if (pixelArea != island.Value.pixelArea)
                     {
-                        Logger.WriteErrorLine($"Logic error in ExecuteDetermineIslandTest()! Pixel area {pixelArea} expected to be {island.Value.pixelArea}");
+                        if (errorAsWarning)
+                        {
+                            Logger.WriteLine(
+                                $"Logic error in ExecuteDetermineIslandTest()! Pixel area {pixelArea} expected to be {island.Value.pixelArea}");
+                        }
+                        else
+                        {
+                            Logger.WriteErrorLine(
+                                $"Logic error in ExecuteDetermineIslandTest()! Pixel area {pixelArea} expected to be {island.Value.pixelArea}");
+                        }
                     }
                 }
 
@@ -554,8 +579,11 @@ namespace black_dev_tools
 
                 for (var h = 0; h < sourceImage.Height; h++)
                 for (var w = 0; w < sourceImage.Width; w++)
+                {
                     if (outlineImage[w, h] == Black)
                         sourceImage[w, h] = Black;
+                }
+                    
 
                 using (var stream = new FileStream(targetFileName, FileMode.Create))
                 {
@@ -631,6 +659,17 @@ namespace black_dev_tools
                     {
                         image.SaveAsPng(stream);
                         stream.Close();
+                    }
+                    
+                    // Check only white & black
+                    using var targetImage = Image.Load<Rgba32>(targetFileName);
+                    for (var h = 0; h < targetImage.Height; h++)
+                    for (var w = 0; w < targetImage.Width; w++)
+                    {
+                        if (targetImage[w, h] != Black && targetImage[w, h] != White)
+                        {
+                            Logger.WriteErrorLine($"Logic error. Image pixel at ({w},{h}) is not black or white. It is {targetImage[w, h]}");
+                        }
                     }
                 }
             }
