@@ -35,6 +35,15 @@ namespace black_dev_tools
             Logger.WriteLine(s);
 #endif
         }
+        
+        public static void WriteErrorLine(string s)
+        {
+#if UNITY_2020
+            Debug.LogError(s);
+#else
+            Logger.WriteLine(s);
+#endif
+        }
     }
 
     public static class Program
@@ -50,7 +59,7 @@ namespace black_dev_tools
         {
             if (args.Length <= 0)
             {
-                Logger.WriteLine("Should provide at least one param: mode");
+                Logger.WriteErrorLine("Should provide at least one param: mode");
                 return;
             }
 
@@ -76,7 +85,7 @@ namespace black_dev_tools
             }
             catch (DirectoryNotFoundException e)
             {
-                Logger.WriteLine($"Exception: {e.Message}");
+                Logger.WriteErrorLine($"Exception: {e.Message}");
             }
         }
 
@@ -84,7 +93,7 @@ namespace black_dev_tools
         {
             if (args.Length != 2 && args.Length != 4)
             {
-                Logger.WriteLine(
+                Logger.WriteErrorLine(
                     "Provide three arguments: sdf [input path] <output path replace from> <output path replace to>");
                 throw new ArgumentException();
             }
@@ -167,7 +176,7 @@ namespace black_dev_tools
         {
             if (args.Length != 2 && args.Length != 4)
             {
-                Logger.WriteLine(
+                Logger.WriteErrorLine(
                     "Provide three arguments: batch [input path] <output path replace from> <output path replace to>");
                 return;
             }
@@ -202,7 +211,7 @@ namespace black_dev_tools
         static void ProcessSingleFile(string[] args, int outlineThreshold)
         {
             if (args.Length < 3)
-                Logger.WriteLine(
+                Logger.WriteErrorLine(
                     "Provide three arguments: [mode] [Input.png/jpg] [max colors] <output path replace from> <output path replace to>");
 
             var mode = args[0];
@@ -275,7 +284,7 @@ namespace black_dev_tools
             }
             else
             {
-                Logger.WriteLine($"Unknown mode provided: {mode}");
+                Logger.WriteErrorLine($"Unknown mode provided: {mode}");
                 return;
             }
 
@@ -301,7 +310,7 @@ namespace black_dev_tools
                 }
                 catch (SerializationException e)
                 {
-                    Logger.WriteLine("Failed to deserialize. Reason: " + e.Message);
+                    Logger.WriteErrorLine("Failed to deserialize. Reason: " + e.Message);
                     throw;
                 }
             }
@@ -314,13 +323,15 @@ namespace black_dev_tools
                     var targetColor = UInt32ToRgba32(island.Value.rgba);
                     var fillMinPoint = FloodFill.ExecuteFillIf(image, minPoint, White, targetColor, out var pixelArea,
                         out _, out _);
-                    if (fillMinPoint != new Vector2Int(image.Width, image.Height) &&
-                        pixelArea == island.Value.pixelArea)
+
+                    if (fillMinPoint == new Vector2Int(image.Width, image.Height))
                     {
+                        Logger.WriteErrorLine("Logic error in ExecuteDetermineIslandTest()! Invalid fillMinPoint");
                     }
-                    else
+
+                    if (pixelArea != island.Value.pixelArea)
                     {
-                        Logger.WriteLine("Logic error in ExecuteDetermineIslandTest()!");
+                        Logger.WriteErrorLine($"Logic error in ExecuteDetermineIslandTest()! Pixel area {pixelArea} expected to be {island.Value.pixelArea}");
                     }
                 }
 
@@ -689,7 +700,7 @@ namespace black_dev_tools
                         }
                         else
                         {
-                            Logger.WriteLine("Logic error in ExecuteFillSmallNotBlack()!");
+                            Logger.WriteErrorLine("Logic error in ExecuteFillSmallNotBlack()!");
                         }
                     }
 

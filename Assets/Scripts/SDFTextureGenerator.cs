@@ -137,7 +137,7 @@ namespace black_dev_tools
         {
             if (source.Height != destination.Height || source.Width != destination.Width)
             {
-                Logger.WriteLine("Source and destination textures must be the same size.");
+                Logger.WriteErrorLine("Source and destination textures must be the same size.");
                 return;
             }
 

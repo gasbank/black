@@ -320,13 +320,19 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         // 일단 여기서 replacementColor로 변경 해 둬야 이 알고리즘이 작동한다.
         // 진짜 색깔로 칠하는 건 나중에 pixelList에 모아둔 값으로 제대로 한다.
         SetPixel(bitmap, bitmapPoint.x, bitmapPoint.y, replacementColor);
+        
+//        if (pixelList.Contains(bitmapPoint))
+//        {
+//            Debug.LogError("pixelList duplicated item should not be inserted.");
+//        }
+        
         pixelList.Add(bitmapPoint);
         //tex.SetPixel(bitmapPoint.x, bitmapPoint.y, replacementColor);
         if (pixelList.Count > maxIslandPixelArea)
         {
             Debug.LogError(
                 $"CRITICAL LOGIC ERROR: TOO BIG ISLAND. Allowed pixel area is {maxIslandPixelArea}, but this time {pixelList.Count}!!! Bug. FloodFill() aborted.");
-            return false;
+            //return false;
         }
 
         UpdateFillMinPoint(ref fillMinPoint, bitmapPoint);

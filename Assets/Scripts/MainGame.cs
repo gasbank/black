@@ -68,6 +68,11 @@ public class MainGame : MonoBehaviour
 
         Debug.Log($"{stageData.islandDataByMinPoint.Count} islands loaded.");
         var maxIslandPixelArea = stageData.islandDataByMinPoint.Max(e => e.Value.pixelArea);
+        foreach (var mp in stageData.islandDataByMinPoint)
+        {
+            Debug.Log($"Island: Key={mp.Key} PixelArea={mp.Value.pixelArea}");
+        }
+
         Debug.Log($"Max island pixel area: {maxIslandPixelArea}");
 
         var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);

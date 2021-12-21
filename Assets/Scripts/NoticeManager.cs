@@ -19,7 +19,7 @@ public class NoticeManager : MonoBehaviour
     {
         BlackLogManager.Add(BlackLogEntry.Type.GameOpenNotice, 0, 0);
         //StopAllCoroutines();
-        StartCoroutine(CheckNoticeCoro(false, null, null, null));
+        //StartCoroutine(CheckNoticeCoro(false, null, null, null));
     }
 
     // 새 공지가 있다면 빨간색 느낌표를 보여준다.

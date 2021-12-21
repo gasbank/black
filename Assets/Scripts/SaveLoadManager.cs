@@ -506,7 +506,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         if (Application.isEditor) Admin.SetNoticeDbPostfixToDev();
 
-        NoticeManager.instance.CheckNoticeSilently();
+        //NoticeManager.instance.CheckNoticeSilently();
 
         // 인앱 상품 구매 내역 디버그 정보
         ConDebug.Log("=== Purchased Begin ===");
@@ -678,7 +678,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     static void CloseConfirmPopupAndCheckNoticeSilently()
     {
         ConfirmPopup.instance.Close();
-        NoticeManager.instance.CheckNoticeSilently();
+        //NoticeManager.instance.CheckNoticeSilently();
     }
 
     static void ShowFirstInstallWelcomePopup()
