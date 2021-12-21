@@ -8,7 +8,9 @@ using System.Text.RegularExpressions;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Processing.Processors.Quantization;
+using SixLabors.ImageSharp.Processing.Processors.Transforms;
 using Color = SixLabors.ImageSharp.Color;
 using Vector4 = System.Numerics.Vector4;
 #if UNITY_2020
@@ -69,7 +71,7 @@ namespace black_dev_tools
             }
             catch (IslandCountException)
             {
-                ProcessSingleFile(args, 30);
+                ProcessSingleFile(args, 30);    
             }
             catch (DirectoryNotFoundException e)
             {
@@ -245,14 +247,27 @@ namespace black_dev_tools
             }
             else if (mode == "dit")
             {
-                var otbFileName = ExecuteOutlineToBlack(startFileName, outlineThreshold);
+                var rasapFileName = ExecuteResizeAndSaveAsPng(startFileName, 512);
+                var otbFileName = ExecuteOutlineToBlack(rasapFileName, outlineThreshold);
                 var fsnbFileName = ExecuteFillSmallNotBlack(otbFileName);
-                var qFileName = ExecuteQuantize(startFileName, maxColor);
+                var qFileName = ExecuteQuantize(rasapFileName, maxColor);
                 var fotsFileName = ExecuteFlattenedOutlineToSource(qFileName, fsnbFileName);
-                var bytesFileName = ExecuteDetermineIsland(fotsFileName, startFileName);
-                ExecuteDetermineIslandTest(fsnbFileName, bytesFileName);
+                var bytesFileName = ExecuteDetermineIsland(fotsFileName, rasapFileName);
+                var ditFileName = ExecuteDetermineIslandTest(fsnbFileName, bytesFileName);
                 var bbFileName = ExecuteBoxBlur(fsnbFileName, 1);
                 ExecuteSdf(bbFileName);
+
+                // 필요없는 파일은 삭제한다.
+                // 디버그가 필요한 경우 삭제하지 않고 살펴보면 된다.
+                if (rasapFileName != startFileName)
+                {
+                    File.Delete(rasapFileName);
+                }
+                File.Delete(otbFileName);
+                File.Delete(qFileName);
+                File.Delete(fotsFileName);
+                File.Delete(ditFileName);
+                File.Delete(bbFileName);
             }
             else
             {
@@ -265,7 +280,7 @@ namespace black_dev_tools
 
         // 섬 데이터와 외곽선 데이터를 이용해 색칠을 자동으로 해 본다.
         // 색칠 후 이미지에 문제가 없는지 확인하기 위한 테스트 과정이다.
-        static void ExecuteDetermineIslandTest(string sourceFileName, string bytesFileName)
+        static string ExecuteDetermineIslandTest(string sourceFileName, string bytesFileName)
         {
             Logger.WriteLine($"Running {nameof(ExecuteDetermineIslandTest)}");
 
@@ -311,6 +326,8 @@ namespace black_dev_tools
                     stream.Close();
                 }
             }
+
+            return targetFileName;
         }
 
         // 입력 이미지로 섬 데이터를 만든다.
@@ -534,6 +551,44 @@ namespace black_dev_tools
 
             return targetFileName;
         }
+        
+        // 너무 큰 이미지를 작은 이미지로 줄이면서 PNG 파일이 아니면 PNG로 바꾼다.
+        static string ExecuteResizeAndSaveAsPng(string sourceFileName, int threshold)
+        {
+            Logger.WriteLine($"Running {nameof(ExecuteResizeAndSaveAsPng)}");
+            
+            using var image = Image.Load<Rgba32>(sourceFileName);
+
+            // 정사각형이 아니라면 우선 큰 변 기준으로 정사각형으로 만든다. (여백 추가)
+            if (image.Width != image.Height)
+            {
+                var maxSide = Math.Max(image.Width, image.Height);
+                
+                var options = new ResizeOptions
+                {
+                    Size = new Size(maxSide, maxSide),
+                    Mode = ResizeMode.BoxPad,
+                    Sampler = new NearestNeighborResampler()
+                };
+                image.Mutate(x => x.Resize(options));
+            }
+
+            if (image.Width > threshold)
+            {
+                var options = new ResizeOptions
+                {
+                    Size = new Size(threshold, threshold),
+                    Mode = ResizeMode.BoxPad
+                };
+                image.Mutate(x => x.Resize(options));
+            }
+            
+            var targetFileName = AppendToFileName(sourceFileName, "", ".png");
+            
+            image.Save(targetFileName, new PngEncoder());
+
+            return targetFileName;
+        }
 
         // 애매한 검은색을 완전한 검은색으로 바꾼다.
         static string ExecuteOutlineToBlack(string sourceFileName, int threshold)
@@ -568,13 +623,13 @@ namespace black_dev_tools
             return targetFileName;
         }
 
-        static string AppendToFileName(string fileName, string append)
+        static string AppendToFileName(string fileName, string append, string newExt = null)
         {
             var fileDirName = Path.GetDirectoryName(fileName);
             if (string.IsNullOrEmpty(fileDirName)) return string.Empty;
 
             var r = Path.Combine(fileDirName,
-                Path.GetFileNameWithoutExtension(fileName) + append + Path.GetExtension(fileName));
+                Path.GetFileNameWithoutExtension(fileName) + append + (newExt ?? Path.GetExtension(fileName)));
             if (string.IsNullOrEmpty(outputPathReplaceFrom) == false)
                 r = r.Replace(outputPathReplaceFrom, outputPathReplaceTo);
 

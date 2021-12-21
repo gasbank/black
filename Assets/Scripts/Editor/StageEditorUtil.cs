@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using JetBrains.Annotations;
 using UnityEditor;
@@ -10,20 +11,22 @@ internal static class StageEditorUtil
     static readonly int SdfTexture = Shader.PropertyToID("SdfTexture");
     static readonly int ColorTexture = Shader.PropertyToID("ColorTexture");
 
-    [MenuItem("Assets/Black/Import New Stage (PNG Image)")]
+    [MenuItem("Assets/Black/Import New Stage (PNG, JPEG Image)")]
     [UsedImplicitly]
     static void ImportNewStage_PngImage()
     {
         if (Selection.activeObject == null)
         {
-            Debug.LogWarning("No active object selected. Select a single PNG file to create a new stage.");
+            Debug.LogWarning("No active object selected. Select a single PNG, JPEG file to create a new stage.");
             return;
         }
 
         var assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
-        if (assetPath.EndsWith(".png") == false)
+        if (assetPath.EndsWith(".png", StringComparison.InvariantCultureIgnoreCase) == false
+            && assetPath.EndsWith(".jpg", StringComparison.InvariantCultureIgnoreCase) == false
+            && assetPath.EndsWith(".jpeg", StringComparison.InvariantCultureIgnoreCase) == false)
         {
-            Debug.LogWarning("Select a single PNG file to create a new stage.");
+            Debug.LogWarning("Select a single PNG, JPEG file to create a new stage.");
             return;
         }
 
@@ -32,7 +35,7 @@ internal static class StageEditorUtil
         if (string.IsNullOrEmpty(assetPathParent) || Path.GetFileNameWithoutExtension(assetPathParent) != stageName)
         {
             Debug.LogError(
-                $"PNG file name must match with its parent folder name. Consider creating a folder named '{stageName}' and move PNG file into it.");
+                $"PNG, JPEG file name must match with its parent folder name. Consider creating a folder named '{stageName}' and move source file into it.");
             return;
         }
 

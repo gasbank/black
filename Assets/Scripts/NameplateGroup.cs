@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NameplateGroup : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class NameplateGroup : MonoBehaviour
     CanvasGroup canvasGroup;
 
     [SerializeField]
-    TextMeshProUGUI text;
+    Text text;
 
     public string Text
     {
