@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.Presets;
 using UnityEngine;
 using black_dev_tools;
+using Object = UnityEngine.Object;
 
 internal static class StageEditorUtil
 {
@@ -13,15 +14,38 @@ internal static class StageEditorUtil
 
     [MenuItem("Assets/Black/Import New Stage (PNG, JPEG Image)")]
     [UsedImplicitly]
-    static void ImportNewStage_PngImage()
+    static void ImportNewStage_PngJpegImage()
     {
-        if (Selection.activeObject == null)
+        if (Selection.objects != null)
+        {
+            try
+            {
+                for (var i = 0; i < Selection.objects.Length; i++)
+                {
+                    EditorUtility.DisplayProgressBar("Importing", Selection.objects[i].ToString(),
+                        (float) i / Selection.objects.Length);
+                    
+                    ImportNewStage_SingleSelected(Selection.objects[i], false);
+                }
+            }
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+            }
+        }
+        else if (Selection.activeObject != null)
+        {
+            ImportNewStage_SingleSelected(Selection.activeObject, true);
+        }
+        else
         {
             Debug.LogWarning("No active object selected. Select a single PNG, JPEG file to create a new stage.");
-            return;
         }
+    }
 
-        var assetPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+    static void ImportNewStage_SingleSelected(Object targetObject, bool showConfirm)
+    {
+        var assetPath = AssetDatabase.GetAssetPath(targetObject);
         if (assetPath.EndsWith(".png", StringComparison.InvariantCultureIgnoreCase) == false
             && assetPath.EndsWith(".jpg", StringComparison.InvariantCultureIgnoreCase) == false
             && assetPath.EndsWith(".jpeg", StringComparison.InvariantCultureIgnoreCase) == false)
@@ -32,8 +56,8 @@ internal static class StageEditorUtil
 
         var assetPathParent = Path.GetDirectoryName(assetPath);
         var stageName = Path.GetFileNameWithoutExtension(assetPathParent);
-        
-        if (!EditorUtility.DisplayDialog($"Import New Stage: {stageName}",
+
+        if (showConfirm && !EditorUtility.DisplayDialog($"Import New Stage: {stageName}",
             "This takes about 30-60 seconds to finish. Proceed?", "Proceed", "Cancel"))
         {
             return;
@@ -162,7 +186,7 @@ internal static class StageEditorUtil
         AssetDatabase.CreateAsset(stageMetadata, stageMetadataPath);
 
         Debug.Log($"{stageName} stage created.");
-        
+
         AssetDatabase.ImportAsset(stageDir, ImportAssetOptions.ImportRecursive);
     }
 }
