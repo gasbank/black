@@ -1,26 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
+using ConditionalDebug;
 using UnityEngine;
 
 [DisallowMultipleComponent]
 public class BackButtonHandler : MonoBehaviour
 {
+    static bool Verbose => false;
+    
     public static BackButtonHandler instance;
 
     readonly Stack<Action> stack = new Stack<Action>();
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) CallBackButtonAction();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CallBackButtonAction();
+        }
     }
 
-    public void CallBackButtonAction()
+    void CallBackButtonAction()
     {
         if (stack.Count == 0)
+        {
             SuspendByQuitIfAndroid();
+        }
         else
+        {
             ExecuteTopAction();
+        }
     }
 
     // 스택의 모든 작업이 텅 빌때까지 다 실행한다.
@@ -32,10 +41,13 @@ public class BackButtonHandler : MonoBehaviour
         // 따로 빼 놓는다.
         var count = stack.Count;
         // 스택에 쌓인 뒤로 가기 작업 처리 중 stack이 조기 소진될 수도 있으므로 추가 조건 넣는다.
-        for (var i = 0; i < count && stack.Count > 0; i++) ExecuteTopActionExceptSuspendAction();
+        for (var i = 0; i < count && stack.Count > 0; i++)
+        {
+            ExecuteTopActionExceptSuspendAction();
+        }
     }
 
-    public static void SuspendByQuitIfAndroid()
+    static void SuspendByQuitIfAndroid()
     {
 #if UNITY_ANDROID
         ConfirmPopup.instance.OpenYesNoPopup("\\컬러뮤지엄를 종료하시겠습니까?".Localized(), () =>
@@ -70,25 +82,37 @@ public class BackButtonHandler : MonoBehaviour
     public void PushAction(Action action)
     {
         stack.Push(action);
-        //ConDebug.Log($"BackButtonHandler pushed: {stack.Count} actions stacked.");
+        if (Verbose)
+        {
+            ConDebug.Log($"BackButtonHandler pushed: {stack.Count} actions stacked.");
+        }
     }
 
     void ExecuteTopAction()
     {
         stack.Peek()();
-        //ConDebug.Log($"BackButtonHandler execute top action.");
+        if (Verbose)
+        {
+            ConDebug.Log("BackButtonHandler execute top action.");
+        }
     }
 
     // 안드로이드의 경우 홈 화면으로 가는 것 또는 게임이 종료되는 것까지 스택 작업에 들어가 있을 수 있다.
     // 이 작업은 처리하지 않는다.
     void ExecuteTopActionExceptSuspendAction()
     {
-        if (stack.Peek() != SuspendByMoveTaskToBackIfAndroid && stack.Peek() != SuspendByQuitIfAndroid) stack.Peek()();
+        if (stack.Peek() != SuspendByMoveTaskToBackIfAndroid && stack.Peek() != SuspendByQuitIfAndroid)
+        {
+            stack.Peek()();
+        }
     }
 
     public void PopAction()
     {
         stack.Pop();
-        //ConDebug.Log($"BackButtonHandler popped: {stack.Count} actions stacked.");
+        if (Verbose)
+        {
+            ConDebug.Log($"BackButtonHandler popped: {stack.Count} actions stacked.");
+        }
     }
 }

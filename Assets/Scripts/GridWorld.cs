@@ -62,9 +62,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public Texture2D Tex => tex;
 
-    public int texSize => tex.width;
+    public int TexSize => tex.width;
 
-    public string StageName { get; set; } = "teststage";
+    public string StageName { get; set; } = "TestStage";
 
     public int Coin
     {
@@ -204,19 +204,19 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     Color32 GetPixel(Color32[] bitmap, int x, int y)
     {
-        return bitmap[x + y * texSize];
+        return bitmap[x + y * TexSize];
     }
 
     void SetPixel(Color32[] bitmap, int x, int y, Color c)
     {
-        bitmap[x + y * texSize] = c;
+        bitmap[x + y * TexSize] = c;
     }
 
     void UpdateFillMinPoint(ref Vector2Int fillMinPoint, Vector2Int bitmapPoint)
     {
         // *** 주의 ***
         // min point 값은 플레이어가 입력한 좌표에서 Y축이 반전된 좌표계이다.
-        var invertedBitmapPoint = BlackConvert.GetInvertedY(bitmapPoint, texSize);
+        var invertedBitmapPoint = BlackConvert.GetInvertedY(bitmapPoint, TexSize);
         if (fillMinPoint.x > invertedBitmapPoint.x ||
             fillMinPoint.x == invertedBitmapPoint.x && fillMinPoint.y > invertedBitmapPoint.y)
         {
@@ -230,7 +230,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         var q = new Queue<Vector2Int>();
         q.Enqueue(bitmapPoint);
-        var fillMinPoint = new Vector2Int(texSize, texSize);
+        var fillMinPoint = new Vector2Int(TexSize, TexSize);
         ICollection<Vector2Int> pixelList = new List<Vector2Int>();
         var replacementColor = BlackConvert.GetColor(replacementColorUint);
         while (q.Count > 0)
@@ -247,12 +247,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
                 if (w.y > 0 && ColorMatch(GetPixel(bitmap, w.x, w.y - 1), targetColor))
                     q.Enqueue(new Vector2Int(w.x, w.y - 1));
-                if (w.y < texSize - 1 && ColorMatch(GetPixel(bitmap, w.x, w.y + 1), targetColor))
+                if (w.y < TexSize - 1 && ColorMatch(GetPixel(bitmap, w.x, w.y + 1), targetColor))
                     q.Enqueue(new Vector2Int(w.x, w.y + 1));
                 w.x--;
             }
 
-            while (e.x <= texSize - 1 && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor))
+            while (e.x <= TexSize - 1 && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor))
             {
                 if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, e) == false)
                     // ERROR
@@ -260,7 +260,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
                 if (e.y > 0 && ColorMatch(GetPixel(bitmap, e.x, e.y - 1), targetColor))
                     q.Enqueue(new Vector2Int(e.x, e.y - 1));
-                if (e.y < texSize - 1 && ColorMatch(GetPixel(bitmap, e.x, e.y + 1), targetColor))
+                if (e.y < TexSize - 1 && ColorMatch(GetPixel(bitmap, e.x, e.y + 1), targetColor))
                     q.Enqueue(new Vector2Int(e.x, e.y + 1));
                 e.x++;
             }
@@ -278,7 +278,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             if (Verbose)
                 if (pixelList.Count <= 128)
                     foreach (var pixel in pixelList)
-                        ConDebug.Log($"Fill Pixel: {pixel.x}, {texSize - pixel.y - 1}");
+                        ConDebug.Log($"Fill Pixel: {pixel.x}, {TexSize - pixel.y - 1}");
 
             ConDebug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
             var solutionColorUint = stageData.islandDataByMinPoint[fillMinPointUint].rgba;
@@ -421,7 +421,10 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void OnApplicationPause(bool pause)
     {
-        if (pause) WriteStageSaveData();
+        if (pause)
+        {
+            WriteStageSaveData();
+        }
     }
 
     public void WriteStageSaveData()

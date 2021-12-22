@@ -107,7 +107,7 @@ public class MainGame : MonoBehaviour
         var counts = gridWorld.CountWhiteAndBlackInBitmap();
         if (Verbose)
         {
-            ConDebug.Log($"Tex size: {gridWorld.texSize}");
+            ConDebug.Log($"Tex size: {gridWorld.TexSize}");
             ConDebug.Log($"Black count: {counts[0]}");
             ConDebug.Log($"White count: {counts[1]}");
             ConDebug.Log($"Other count: {counts[2]}");

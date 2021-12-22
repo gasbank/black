@@ -36,9 +36,9 @@ public class IslandLabelSpawner : MonoBehaviour
     RectInt GetRectRange(ulong maxRectUlong)
     {
         var xMin = (int) (maxRectUlong & 0xffff);
-        var yMax = gridWorld.texSize - (int) ((maxRectUlong >> 16) & 0xffff);
+        var yMax = gridWorld.TexSize - (int) ((maxRectUlong >> 16) & 0xffff);
         var xMax = (int) ((maxRectUlong >> 32) & 0xffff);
-        var yMin = gridWorld.texSize - (int) ((maxRectUlong >> 48) & 0xffff);
+        var yMin = gridWorld.TexSize - (int) ((maxRectUlong >> 48) & 0xffff);
         var r = new RectInt(xMin, yMin, xMax - xMin, yMax - yMin);
         if (Verbose)
         {
@@ -79,7 +79,7 @@ public class IslandLabelSpawner : MonoBehaviour
             var label = Instantiate(islandLabelNumberPrefab, islandLabelNumberSubgroup.transform)
                 .GetComponent<IslandLabel>();
             var labelRt = label.Rt;
-            var texSizeFloat = (float) gridWorld.texSize;
+            var texSizeFloat = (float) gridWorld.TexSize;
             var delta = rt.sizeDelta;
             var anchoredPosition = kv.Value.center / texSizeFloat * delta - delta / 2;
             labelRt.anchoredPosition = anchoredPosition;
