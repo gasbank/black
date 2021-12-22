@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 78393217}
   - component: {fileID: 78393216}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -371,13 +371,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 78393216}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
   clearPrice:
     value:
-      s0: 6922071743758026896
+      s0: 6922071743758026901
       s1: 1812734171829306504
 --- !u!114 &78393215
 MonoBehaviour:
@@ -677,7 +677,7 @@ GameObject:
   - component: {fileID: 121972919}
   - component: {fileID: 121972918}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -752,13 +752,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 121972918}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
   clearPrice:
     value:
-      s0: 6922071743758026896
+      s0: 6922071743758026899
       s1: 1812734171829306504
 --- !u!114 &121972917
 MonoBehaviour:
@@ -6811,7 +6811,7 @@ GameObject:
   - component: {fileID: 814069051}
   - component: {fileID: 814069050}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6886,13 +6886,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 814069050}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
   clearPrice:
     value:
-      s0: 6922071743758026896
+      s0: 6922071743758026898
       s1: 1812734171829306504
 --- !u!114 &814069049
 MonoBehaviour:
@@ -9001,7 +9001,7 @@ GameObject:
   - component: {fileID: 1025678611}
   - component: {fileID: 1025678610}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9076,13 +9076,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 1025678610}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
   clearPrice:
     value:
-      s0: 6922071743758026896
+      s0: 6922071743758026899
       s1: 1812734171829306504
 --- !u!114 &1025678609
 MonoBehaviour:
@@ -10935,7 +10935,7 @@ GameObject:
   - component: {fileID: 1238132028}
   - component: {fileID: 1238132027}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11010,13 +11010,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 1238132027}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
   clearPrice:
     value:
-      s0: 6922071743758026896
+      s0: 6922071743758026898
       s1: 1812734171829306504
 --- !u!114 &1238132026
 MonoBehaviour:
@@ -12908,7 +12908,7 @@ GameObject:
   - component: {fileID: 1414529386}
   - component: {fileID: 1414529385}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12983,13 +12983,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 1414529385}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
   clearPrice:
     value:
-      s0: 6922071743758026896
+      s0: 6922071743758026899
       s1: 1812734171829306504
 --- !u!114 &1414529384
 MonoBehaviour:
@@ -13121,7 +13121,7 @@ GameObject:
   - component: {fileID: 1418188711}
   - component: {fileID: 1418188710}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13196,7 +13196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 1418188710}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
@@ -14651,7 +14651,7 @@ GameObject:
   - component: {fileID: 1568706317}
   - component: {fileID: 1568706316}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14726,13 +14726,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 1568706316}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
   clearPrice:
     value:
-      s0: 6922071743758026896
+      s0: 6922071743758026898
       s1: 1812734171829306504
 --- !u!114 &1568706315
 MonoBehaviour:
@@ -14864,7 +14864,7 @@ GameObject:
   - component: {fileID: 1584783253}
   - component: {fileID: 1584783252}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14939,13 +14939,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 1584783252}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
   clearPrice:
     value:
-      s0: 6922071743758026896
+      s0: 6922071743758026899
       s1: 1812734171829306504
 --- !u!114 &1584783251
 MonoBehaviour:
@@ -15156,7 +15156,7 @@ GameObject:
   - component: {fileID: 1598436552}
   - component: {fileID: 1598436551}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15231,7 +15231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 1598436551}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
@@ -16052,7 +16052,7 @@ GameObject:
   - component: {fileID: 1682503039}
   - component: {fileID: 1682503038}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16127,13 +16127,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 1682503038}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
   clearPrice:
     value:
-      s0: 6922071743758026896
+      s0: 6922071743758026898
       s1: 1812734171829306504
 --- !u!114 &1682503037
 MonoBehaviour:
@@ -17067,7 +17067,7 @@ GameObject:
   - component: {fileID: 1789881927}
   - component: {fileID: 1789881926}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17142,13 +17142,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 1789881926}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
   clearPrice:
     value:
-      s0: 6922071743758026896
+      s0: 6922071743758026898
       s1: 1812734171829306504
 --- !u!114 &1789881925
 MonoBehaviour:
@@ -17836,7 +17836,7 @@ GameObject:
   - component: {fileID: 1911863859}
   - component: {fileID: 1911863858}
   m_Layer: 5
-  m_Name: Museum Debris
+  m_Name: Museum Debris 03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17911,7 +17911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8158acc2af7924d43a1d179f1fd4a3bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subcanvas: {fileID: 0}
+  subcanvas: {fileID: 1911863858}
   toBeClosed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
