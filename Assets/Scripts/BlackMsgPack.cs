@@ -358,8 +358,8 @@ namespace MessagePack.Formatters
             writer.WriteArrayHeader(31);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.version, options);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastClearedStageId, options);
-            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.riceScUInt128, options);
-            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.pendingRiceScUInt128, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.goldScUInt128, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.pendingGoldScUInt128, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.freeGemScUInt128, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.pendingFreeGemScUInt128, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.paidGemScUInt128, options);
@@ -401,8 +401,8 @@ namespace MessagePack.Formatters
             var length = reader.ReadArrayHeader();
             var __version__ = default(global::ScInt);
             var __lastClearedStageId__ = default(global::ScInt);
-            var __riceScUInt128__ = default(global::ScUInt128);
-            var __pendingRiceScUInt128__ = default(global::ScUInt128);
+            var __goldScUInt128__ = default(global::ScUInt128);
+            var __pendingGoldScUInt128__ = default(global::ScUInt128);
             var __freeGemScUInt128__ = default(global::ScUInt128);
             var __pendingFreeGemScUInt128__ = default(global::ScUInt128);
             var __paidGemScUInt128__ = default(global::ScUInt128);
@@ -444,10 +444,10 @@ namespace MessagePack.Formatters
                         __lastClearedStageId__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
                         break;
                     case 2:
-                        __riceScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        __goldScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
                         break;
                     case 3:
-                        __pendingRiceScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        __pendingGoldScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
                         break;
                     case 4:
                         __freeGemScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
@@ -539,8 +539,8 @@ namespace MessagePack.Formatters
             var ____result = new global::BlackSaveData();
             ____result.version = __version__;
             ____result.lastClearedStageId = __lastClearedStageId__;
-            ____result.riceScUInt128 = __riceScUInt128__;
-            ____result.pendingRiceScUInt128 = __pendingRiceScUInt128__;
+            ____result.goldScUInt128 = __goldScUInt128__;
+            ____result.pendingGoldScUInt128 = __pendingGoldScUInt128__;
             ____result.freeGemScUInt128 = __freeGemScUInt128__;
             ____result.pendingFreeGemScUInt128 = __pendingFreeGemScUInt128__;
             ____result.paidGemScUInt128 = __paidGemScUInt128__;
@@ -1005,9 +1005,9 @@ namespace MessagePack.Formatters
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.title, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.text, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.detailUrl, options);
-            writer.Write(value.eventDrawRiceRateRatio);
-            formatterResolver.GetFormatterWithVerify<global::UDateTime>().Serialize(ref writer, value.eventDrawRiceRateRatioBegin, options);
-            formatterResolver.GetFormatterWithVerify<global::UDateTime>().Serialize(ref writer, value.eventDrawRiceRateRatioEnd, options);
+            writer.Write(value.eventDrawGoldRateRatio);
+            formatterResolver.GetFormatterWithVerify<global::UDateTime>().Serialize(ref writer, value.eventDrawGoldRateRatioBegin, options);
+            formatterResolver.GetFormatterWithVerify<global::UDateTime>().Serialize(ref writer, value.eventDrawGoldRateRatioEnd, options);
         }
 
         public global::NoticeData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -1023,9 +1023,9 @@ namespace MessagePack.Formatters
             var __title__ = default(string);
             var __text__ = default(string);
             var __detailUrl__ = default(string);
-            var __eventDrawRiceRateRatio__ = default(int);
-            var __eventDrawRiceRateRatioBegin__ = default(global::UDateTime);
-            var __eventDrawRiceRateRatioEnd__ = default(global::UDateTime);
+            var __eventDrawGoldRateRatio__ = default(int);
+            var __eventDrawGoldRateRatioBegin__ = default(global::UDateTime);
+            var __eventDrawGoldRateRatioEnd__ = default(global::UDateTime);
 
             for (int i = 0; i < length; i++)
             {
@@ -1043,13 +1043,13 @@ namespace MessagePack.Formatters
                         __detailUrl__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
                     case 3:
-                        __eventDrawRiceRateRatio__ = reader.ReadInt32();
+                        __eventDrawGoldRateRatio__ = reader.ReadInt32();
                         break;
                     case 4:
-                        __eventDrawRiceRateRatioBegin__ = formatterResolver.GetFormatterWithVerify<global::UDateTime>().Deserialize(ref reader, options);
+                        __eventDrawGoldRateRatioBegin__ = formatterResolver.GetFormatterWithVerify<global::UDateTime>().Deserialize(ref reader, options);
                         break;
                     case 5:
-                        __eventDrawRiceRateRatioEnd__ = formatterResolver.GetFormatterWithVerify<global::UDateTime>().Deserialize(ref reader, options);
+                        __eventDrawGoldRateRatioEnd__ = formatterResolver.GetFormatterWithVerify<global::UDateTime>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();
@@ -1061,9 +1061,9 @@ namespace MessagePack.Formatters
             ____result.title = __title__;
             ____result.text = __text__;
             ____result.detailUrl = __detailUrl__;
-            ____result.eventDrawRiceRateRatio = __eventDrawRiceRateRatio__;
-            ____result.eventDrawRiceRateRatioBegin = __eventDrawRiceRateRatioBegin__;
-            ____result.eventDrawRiceRateRatioEnd = __eventDrawRiceRateRatioEnd__;
+            ____result.eventDrawGoldRateRatio = __eventDrawGoldRateRatio__;
+            ____result.eventDrawGoldRateRatioBegin = __eventDrawGoldRateRatioBegin__;
+            ____result.eventDrawGoldRateRatioEnd = __eventDrawGoldRateRatioEnd__;
             reader.Depth--;
             return ____result;
         }

@@ -78,10 +78,10 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
     RectTransform popupImageParentRect;
 
     [SerializeField]
-    Sprite riceClaimButtonImageSprite;
+    Sprite goldClaimButtonImageSprite;
 
     [SerializeField]
-    Sprite riceClaimImageSprite;
+    Sprite goldClaimImageSprite;
 
     [SerializeField]
     Graphic skipRenderGraphic;
@@ -243,10 +243,10 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
             {
                 claimButton.gameObject.SetActive(true);
                 claimButtonText.text = btn3Text;
-                claimImage.sprite = claimImageSprite != null ? claimImageSprite : riceClaimImageSprite;
+                claimImage.sprite = claimImageSprite != null ? claimImageSprite : goldClaimImageSprite;
                 claimButton.image.sprite = claimBackgroundImageSprite != null
                     ? claimBackgroundImageSprite
-                    : riceClaimButtonImageSprite;
+                    : goldClaimButtonImageSprite;
             }
             else
             {
@@ -312,12 +312,12 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
             : TouchScreenKeyboardType.Default;
     }
 
-    public void OpenRiceClaimPopup(string msg, string claimBtnText, Action onClaim, string titleText,
+    public void OpenGoldClaimPopup(string msg, string claimBtnText, Action onClaim, string titleText,
         Header header = Header.Normal, int autoCloseSec = -1)
     {
         OpenConfirmPopup(msg, null, null, onClaim, titleText, header, "", "", claimBtnText, "", "", false, null, null,
-            WidthType.Normal, 0, ShowPosition.Center, null, false, autoCloseSec, null, riceClaimImageSprite,
-            riceClaimButtonImageSprite);
+            WidthType.Normal, 0, ShowPosition.Center, null, false, autoCloseSec, null, goldClaimImageSprite,
+            goldClaimButtonImageSprite);
     }
 
     public void OpenGemClaimPopup(string msg, string claimBtnText, Action onClaim, string titleText,

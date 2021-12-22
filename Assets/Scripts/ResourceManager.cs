@@ -16,5 +16,5 @@ public class ResourceManager : MonoBehaviour
             1;
 
     public UInt128 accountGem => BlackContext.instance.Gem;
-    public UInt128 accountRiceRate => 0;
+    public UInt128 accountGoldRate => 0;
 }

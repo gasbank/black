@@ -418,7 +418,7 @@ public class ConfigPopup : MonoBehaviour
     public void OnLanguageValueChanged(int languageIndex)
     {
         ConDebug.Log($"Language selected: {languageIndex}");
-        BlackContext.instance.RefreshRiceText();
+        BlackContext.instance.RefreshGoldText();
         BlackContext.instance.RefreshGemText();
         languageDropdown.RefreshShownValue();
         ChangeLanguage(gameObject.scene, languageDropdownValueArray[languageIndex]);
@@ -486,7 +486,7 @@ public class ConfigPopup : MonoBehaviour
 
             if (BlackContext.instance != null)
             {
-                BlackContext.instance.RefreshRiceText();
+                BlackContext.instance.RefreshGoldText();
                 BlackContext.instance.RefreshGemText();
             }
         }

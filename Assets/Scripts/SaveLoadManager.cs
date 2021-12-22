@@ -419,7 +419,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
                     throw new RevokedReceiptException(receipt);
         }
 
-        context.SetRice(blackSaveData.riceScUInt128);
+        context.SetGold(blackSaveData.goldScUInt128);
         context.SetGemZero();
         try
         {
@@ -448,7 +448,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         // 슬롯 용량 변화 애니메이션 잠시 끈다.
 
-        context.SetPendingRice(blackSaveData.pendingRiceScUInt128);
+        context.SetPendingGold(blackSaveData.pendingGoldScUInt128);
         context.PendingFreeGem = blackSaveData.pendingFreeGemScUInt128;
 
 
@@ -462,7 +462,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         ConDebug.Log(
             $"Last Daily Reward Redeemed Index {context.LastDailyRewardRedeemedIndex} / DateTime (UTC) {new DateTime(context.LastDailyRewardRedeemedTicks, DateTimeKind.Utc)}");
 
-        context.ApplyPendingRice();
+        context.ApplyPendingGold();
         context.ApplyPendingFreeGem();
 
         // === Config ===
@@ -692,7 +692,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
     static void ResetData(IBlackContext context)
     {
-        context.SetRice(0);
+        context.SetGold(0);
         context.SetGemZero();
         BlackLogManager.Add(BlackLogEntry.Type.GemToZero, 0, 0);
         context.AchievementGathered = new AchievementRecord5(true);

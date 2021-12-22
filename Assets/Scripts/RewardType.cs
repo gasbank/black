@@ -2,7 +2,7 @@
 
 public enum RewardType
 {
-    Rice,
+    Gold,
     Gem,
     StageKey
 }

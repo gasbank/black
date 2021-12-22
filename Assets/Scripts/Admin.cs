@@ -45,10 +45,10 @@ public class Admin : MonoBehaviour
 #endif
     }
 
-    public void RiceToZero()
+    public void GoldToZero()
     {
 #if BLACK_ADMIN
-        BlackContext.instance.SetRice(0);
+        BlackContext.instance.SetGold(0);
 #endif
     }
 
@@ -62,18 +62,18 @@ public class Admin : MonoBehaviour
 
     // long is not supported on Unity Inspector's On Click() setting UI
     [UsedImplicitly]
-    public void Rice(int amount)
+    public void Gold(int amount)
     {
 #if BLACK_ADMIN
-        BlackContext.instance.AddRiceSafe((uint) amount);
+        BlackContext.instance.AddGoldSafe((uint) amount);
 #endif
     }
 
-    public void ManyRice()
+    public void ManyGold()
     {
 #if BLACK_ADMIN
-        BlackContext.instance.SetRice(UInt128.MaxValue);
-        BlackLogManager.Add(BlackLogEntry.Type.RiceAddAdmin, 1, UInt128.MaxValue.ToClampedLong());
+        BlackContext.instance.SetGold(UInt128.MaxValue);
+        BlackLogManager.Add(BlackLogEntry.Type.GoldAddAdmin, 1, UInt128.MaxValue.ToClampedLong());
 #endif
     }
 
@@ -370,12 +370,12 @@ public class Admin : MonoBehaviour
 #endif
     }
 
-    public void CalculateRiceRate()
+    public void CalculateGoldRate()
     {
 #if BLACK_ADMIN
-        ConfirmPopup.instance.OpenInputFieldPopup("Rice Rate", () =>
+        ConfirmPopup.instance.OpenInputFieldPopup("Gold Rate", () =>
         {
-            PrintRiceRate(ConfirmPopup.instance.InputFieldText);
+            PrintGoldRate(ConfirmPopup.instance.InputFieldText);
             ConfirmPopup.instance.Close();
         }, ConfirmPopup.instance.Close, "Admin", Header.Normal, "", "");
         CloseAdminMenu();
@@ -383,9 +383,9 @@ public class Admin : MonoBehaviour
     }
 
 #if BLACK_ADMIN
-    static void PrintRiceRate(string riceRateBigIntStr)
+    static void PrintGoldRate(string goldRateBigIntStr)
     {
-        if (BigInteger.TryParse(riceRateBigIntStr, out var n))
+        if (BigInteger.TryParse(goldRateBigIntStr, out var n))
         {
             //var n = BigInteger.Parse("256");
             ConDebug.Log(n.ToString("n0"));

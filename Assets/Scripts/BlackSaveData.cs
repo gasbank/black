@@ -69,7 +69,7 @@ public class BlackSaveData
     public ScUInt128 pendingFreeGemScUInt128 = 0;
 
     [Key(3)]
-    public ScUInt128 pendingRiceScUInt128 = 0;
+    public ScUInt128 pendingGoldScUInt128 = 0;
 
     [Key(18)]
     public bool performanceMode;
@@ -81,7 +81,7 @@ public class BlackSaveData
     public Dictionary<ScString, List<ScString>> purchasedProductReceipts;
 
     [Key(2)]
-    public ScUInt128 riceScUInt128 = 0;
+    public ScUInt128 goldScUInt128 = 0;
 
     [Key(15)]
     public float sfxAudioVolume = 1.0f;

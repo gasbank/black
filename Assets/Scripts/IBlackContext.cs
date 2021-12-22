@@ -6,8 +6,8 @@ public interface IBlackContext
 {
     bool CheatMode { get; set; }
     bool WaiveBan { get; set; }
-    UInt128 Rice { get; }
-    UInt128 PendingRice { get; }
+    UInt128 Gold { get; }
+    UInt128 PendingGold { get; }
     UInt128 Gem { get; }
     UInt128 FreeGem { get; }
     UInt128 PaidGem { get; }
@@ -42,25 +42,25 @@ public interface IBlackContext
     Canvas[] CriticalErrorHiddenCanvasList { get; }
     bool IsBigPopupOpened { get; set; }
     Transform AnimatedIncrementParent { get; set; }
-    void RefreshRiceText();
+    void RefreshGoldText();
     void UpdateLastTouchTime();
     void AddFreeGem(UInt128 delta);
     void AddPaidGem(UInt128 delta);
     void SubtractGem(UInt128 delta);
     void SetGemZero();
     void RefreshGemText();
-    void AddPendingRice(UInt128 delta);
-    void ApplyPendingRice();
+    void AddPendingGold(UInt128 delta);
+    void ApplyPendingGold();
     void AddPendingFreeGem(UInt128 delta);
     void ApplyPendingFreeGem();
     void UpdateDailyRewardAllButtonStates();
 
     void UnlockPlatformAchievement(string achievementGroup, long newValue);
     void UpdateDailyRewardPopup();
-    void SetRice(UInt128 v);
-    void SetPendingRice(UInt128 v);
-    void AddRiceSafe(UInt128 v);
-    void SubtractRice(UInt128 v);
+    void SetGold(UInt128 v);
+    void SetPendingGold(UInt128 v);
+    void AddGoldSafe(UInt128 v);
+    void SubtractGold(UInt128 v);
     void OpenBigPopup(CanvasGroup canvasGroup);
     void CloseBigPopup(CanvasGroup canvasGroup);
 

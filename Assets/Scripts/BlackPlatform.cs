@@ -21,7 +21,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     static readonly string ACCOUNT_LEVEL_KEY = "__accountLevel";
     static readonly string ACCOUNT_LEVEL_EXP_KEY = "__accountLevelExp";
     static readonly string ACCOUNT_GEM_KEY = "__accountGem";
-    static readonly string ACCOUNT_RICE_RATE_KEY = "__accountRiceRate";
+    static readonly string ACCOUNT_GOLD_RATE_KEY = "__accountGoldRate";
     static readonly string SAVE_DATE_KEY = "__saveDate";
 
     public static string GetLoadOverwriteConfirmMessage(CloudMetadata cloudMetadata)
@@ -39,7 +39,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         return cloudMetadata.level < ResourceManager.instance.accountLevel
                || cloudMetadata.levelExp < ResourceManager.instance.accountLevelExp
                || cloudMetadata.gem < ResourceManager.instance.accountGem
-               || cloudMetadata.riceRate < ResourceManager.instance.accountRiceRate;
+               || cloudMetadata.goldRate < ResourceManager.instance.accountGoldRate;
     }
 
     public static bool IsSaveRollback(CloudMetadata cloudMetadata)
@@ -47,7 +47,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         return cloudMetadata.level > ResourceManager.instance.accountLevel
                || cloudMetadata.levelExp > ResourceManager.instance.accountLevelExp
                || cloudMetadata.gem > ResourceManager.instance.accountGem
-               || cloudMetadata.riceRate > ResourceManager.instance.accountRiceRate;
+               || cloudMetadata.goldRate > ResourceManager.instance.accountGoldRate;
     }
 
     public static void LoadSplashScene()
@@ -68,8 +68,8 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         dict[ACCOUNT_LEVEL_KEY] = BitConverter.GetBytes(ResourceManager.instance.accountLevel);
         dict[ACCOUNT_LEVEL_EXP_KEY] = BitConverter.GetBytes(ResourceManager.instance.accountLevelExp);
         dict[ACCOUNT_GEM_KEY] = UInt128BigInteger.ToBigInteger(ResourceManager.instance.accountGem).ToByteArray();
-        dict[ACCOUNT_RICE_RATE_KEY] =
-            UInt128BigInteger.ToBigInteger(ResourceManager.instance.accountRiceRate).ToByteArray();
+        dict[ACCOUNT_GOLD_RATE_KEY] =
+            UInt128BigInteger.ToBigInteger(ResourceManager.instance.accountGoldRate).ToByteArray();
         dict[SAVE_DATE_KEY] = BitConverter.GetBytes(DateTime.Now.Ticks);
         var binFormatter = new BinaryFormatter();
         var memStream = new MemoryStream();
@@ -157,13 +157,13 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     public class CloudMetadata
     {
         public static readonly CloudMetadata Invalid = new CloudMetadata
-            {level = 0, levelExp = 0, gem = 0, riceRate = 0, saveDate = 0};
+            {level = 0, levelExp = 0, gem = 0, goldRate = 0, saveDate = 0};
 
         public UInt128 gem;
 
         public int level;
         public int levelExp;
-        public UInt128 riceRate;
+        public UInt128 goldRate;
         public long saveDate;
     }
 
@@ -205,8 +205,8 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
                 ACCOUNT_LEVEL_EXP_KEY),
             gem = UInt128BigInteger.FromBigInteger(GetBigIntegerFromRemoteSaveDict(remoteSaveDict,
                 ACCOUNT_GEM_KEY)),
-            riceRate = UInt128BigInteger.FromBigInteger(GetBigIntegerFromRemoteSaveDict(remoteSaveDict,
-                ACCOUNT_RICE_RATE_KEY)),
+            goldRate = UInt128BigInteger.FromBigInteger(GetBigIntegerFromRemoteSaveDict(remoteSaveDict,
+                ACCOUNT_GOLD_RATE_KEY)),
             saveDate = GetInt64FromRemoteSaveDict(remoteSaveDict,
                 SAVE_DATE_KEY)
         };
@@ -282,7 +282,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
             ConDebug.LogFormat("prevAccountLevel = {0}", cloudMetadata.level);
             ConDebug.LogFormat("prevAccountLevelExp = {0}", cloudMetadata.levelExp);
             ConDebug.LogFormat("prevAccountGem = {0}", cloudMetadata.gem);
-            ConDebug.LogFormat("prevAccountRiceRate = {0}", cloudMetadata.riceRate);
+            ConDebug.LogFormat("prevAccountGoldRate = {0}", cloudMetadata.goldRate);
             ConDebug.LogFormat("prevSaveDate = {0}", cloudMetadata.saveDate);
         }
         else

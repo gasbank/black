@@ -21,30 +21,34 @@ public class BlackContext : MonoBehaviour, IBlackContext
     ScUInt128 pendingFreeGem;
 
     [SerializeField]
-    ScUInt128 pendingRice;
+    ScUInt128 pendingGold;
 
     [SerializeField]
     PlatformLocalNotification platformLocalNotification;
 
     [SerializeField]
-    ScUInt128 rice;
+    ScUInt128 gold;
 
     public bool CheatMode { get; set; }
     public bool WaiveBan { get; set; }
 
-    public UInt128 Rice
+    public UInt128 Gold
     {
-        get => rice;
-        private set => rice = value;
+        get => gold;
+        private set
+        {
+            gold = value;
+            OnGoldChanged?.Invoke();
+        }
     }
 
-    public UInt128 PendingRice
+    public UInt128 PendingGold
     {
-        get => pendingRice;
-        private set => pendingRice = value;
+        get => pendingGold;
+        private set => pendingGold = value;
     }
 
-    public void RefreshRiceText()
+    public void RefreshGoldText()
     {
         throw new NotImplementedException();
     }
@@ -63,6 +67,10 @@ public class BlackContext : MonoBehaviour, IBlackContext
         get => pendingFreeGem;
         set => pendingFreeGem = value;
     }
+    
+    public delegate void NotifyGoldChange();
+
+    public event NotifyGoldChange OnGoldChanged;
 
     public void AddFreeGem(UInt128 delta)
     {
@@ -162,18 +170,18 @@ public class BlackContext : MonoBehaviour, IBlackContext
     {
     }
 
-    public void AddPendingRice(UInt128 delta)
+    public void AddPendingGold(UInt128 delta)
     {
         throw new NotImplementedException();
     }
 
-    public void ApplyPendingRice()
+    public void ApplyPendingGold()
     {
-        ConDebug.Log($"ApplyPendingRice: {PendingRice}");
-        AddRiceSafe(PendingRice);
-        BlackLogManager.Add(BlackLogEntry.Type.RiceAddPending, 0,
-            PendingRice < long.MaxValue ? (long) PendingRice : long.MaxValue);
-        PendingRice = 0;
+        ConDebug.Log($"ApplyPendingGold: {PendingGold}");
+        AddGoldSafe(PendingGold);
+        BlackLogManager.Add(BlackLogEntry.Type.GoldAddPending, 0,
+            PendingGold < long.MaxValue ? (long) PendingGold : long.MaxValue);
+        PendingGold = 0;
     }
 
     public void AddPendingFreeGem(UInt128 delta)
@@ -202,7 +210,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
         ConDebug.Log($"ApplyPendingFreeGem after free gem becomes: {freeGem}");
     }
 
-    public GameObject AchievementNewImage { get; }
+    public GameObject AchievementNewImage { get; } = null;
     public AchievementRecord5 AchievementGathered { get; set; }
     public AchievementRecord5 AchievementRedeemed { get; set; }
     public ScLong LastDailyRewardRedeemedIndex { get; set; } = 0;
@@ -214,7 +222,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
     public bool LoadedAtLeastOnce { get; set; }
     public List<ScInt> WhacACatStageClearLevelList { get; set; }
     public HashSet<string> AlreadyUnlockedPlatformAchievementSet { get; set; }
-    public GameObject UserEmergency { get; }
+    public GameObject UserEmergency { get; } = null;
     public ScInt PlayTimeSec { get; set; }
     public Dictionary<string, LocalUserData> LocalUserDict { get; set; }
 
@@ -250,37 +258,37 @@ public class BlackContext : MonoBehaviour, IBlackContext
         throw new NotImplementedException();
     }
 
-    public void SetRice(UInt128 v)
+    public void SetGold(UInt128 v)
     {
-        rice = v;
+        gold = v;
     }
 
-    public void SetPendingRice(UInt128 v)
+    public void SetPendingGold(UInt128 v)
     {
-        pendingRice = v;
+        pendingGold = v;
     }
 
-    public void AddRiceSafe(UInt128 v)
+    public void AddGoldSafe(UInt128 v)
     {
         try
         {
-            Rice += v;
+            Gold += v;
         }
         catch (OverflowException)
         {
-            Rice = UInt128.MaxValue;
+            Gold = UInt128.MaxValue;
         }
     }
 
-    public void SubtractRice(UInt128 v)
+    public void SubtractGold(UInt128 v)
     {
-        if (Rice >= v)
-            Rice -= v;
+        if (Gold >= v)
+            Gold -= v;
         else
             throw new ArgumentOutOfRangeException();
     }
 
-    public Canvas[] CriticalErrorHiddenCanvasList { get; }
+    public Canvas[] CriticalErrorHiddenCanvasList { get; } = null;
     public bool IsBigPopupOpened { get; set; }
     public Transform AnimatedIncrementParent { get; set; }
 

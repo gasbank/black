@@ -30,7 +30,7 @@ public struct BlackLogEntry : IPlatformLogEntryType
         GemToLoaded,
 
         // 보석으로 에너지 사면서 줄어든 것
-        GemSubtractGemToRice,
+        GemSubtractGemToGold,
 
         // 밀린 보석 지급
         GemAddPending,
@@ -46,7 +46,7 @@ public struct BlackLogEntry : IPlatformLogEntryType
         ServiceGem,
 
         // 응급 서비스 에너지 항목 받음 (아직 더하기 전)
-        ServiceRice,
+        ServiceGold,
 
         // === 게임 이벤트 ===
         GameSection = 4000,
@@ -109,13 +109,13 @@ public struct BlackLogEntry : IPlatformLogEntryType
         GameOpenAchievements,
 
         // === 에너지 증가 이벤트 ===
-        RiceSection = 7000,
-        RiceAddPending,
+        GoldSection = 7000,
+        GoldAddPending,
 
-        RiceAddAdmin,
+        GoldAddAdmin,
 
         // 상점 아이템 종류별 구매 비용 차감
-        RiceSubtractShopItemSection = 7100,
+        GoldSubtractShopItemSection = 7100,
 
         // === 깜짝 감사선물 이벤트 ===
         DailyRewardSection = 8000,

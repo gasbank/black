@@ -10,15 +10,15 @@ public class NoticeData
     public string detailUrl; // 자세히 보기 URL (옵션; 주로 컬러뮤지엄 공식 카페 URL)
 
     [Key(3)]
-    public int eventDrawRiceRateRatio = 1;
+    public int eventDrawGoldRateRatio = 1;
 
     [SerializeField]
     [Key(4)]
-    public UDateTime eventDrawRiceRateRatioBegin = NetworkTime.ParseExactUtc("0000-01-01T00:00:00Z");
+    public UDateTime eventDrawGoldRateRatioBegin = NetworkTime.ParseExactUtc("0000-01-01T00:00:00Z");
 
     [SerializeField]
     [Key(5)]
-    public UDateTime eventDrawRiceRateRatioEnd = NetworkTime.ParseExactUtc("0000-01-01T00:00:00Z");
+    public UDateTime eventDrawGoldRateRatioEnd = NetworkTime.ParseExactUtc("0000-01-01T00:00:00Z");
 
     [Key(1)]
     public string text; // 공지 본문
@@ -27,28 +27,28 @@ public class NoticeData
     public string title; // 공지 제목 (일반적으로 '공지사항')
 
     [IgnoreMember]
-    public DateTime EventDrawRiceRateRatioBegin
+    public DateTime EventDrawGoldRateRatioBegin
     {
-        get => eventDrawRiceRateRatioBegin?.dateTime ?? DateTime.MinValue;
-        set => eventDrawRiceRateRatioBegin = value;
+        get => eventDrawGoldRateRatioBegin?.dateTime ?? DateTime.MinValue;
+        set => eventDrawGoldRateRatioBegin = value;
     }
 
     [IgnoreMember]
-    public DateTime EventDrawRiceRateRatioEnd
+    public DateTime EventDrawGoldRateRatioEnd
     {
-        get => eventDrawRiceRateRatioEnd?.dateTime ?? DateTime.MinValue;
-        set => eventDrawRiceRateRatioEnd = value;
+        get => eventDrawGoldRateRatioEnd?.dateTime ?? DateTime.MinValue;
+        set => eventDrawGoldRateRatioEnd = value;
     }
 
-    public int GetEventDrawRiceRateRatio(NetworkTime networkTime)
+    public int GetEventDrawGoldRateRatio(NetworkTime networkTime)
     {
-        if (networkTime.EstimatedNetworkTimeInBetween(EventDrawRiceRateRatioBegin, EventDrawRiceRateRatioEnd))
-            return Mathf.Max(1, eventDrawRiceRateRatio);
+        if (networkTime.EstimatedNetworkTimeInBetween(EventDrawGoldRateRatioBegin, EventDrawGoldRateRatioEnd))
+            return Mathf.Max(1, eventDrawGoldRateRatio);
         return 1;
     }
 
-    public void SetEventDrawRiceRateRatio(int v)
+    public void SetEventDrawGoldRateRatio(int v)
     {
-        eventDrawRiceRateRatio = v;
+        eventDrawGoldRateRatio = v;
     }
 }

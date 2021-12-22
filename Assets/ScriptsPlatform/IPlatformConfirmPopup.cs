@@ -20,7 +20,7 @@ public interface IPlatformConfirmPopup {
 
     void Open(string msg, Action onYes, string titleText, Header header = Header.Normal);
 
-    void OpenRiceClaimPopup(string msg, string claimBtnText, Action onClaim, string titleText,
+    void OpenGoldClaimPopup(string msg, string claimBtnText, Action onClaim, string titleText,
         Header header = Header.Normal, int autoCloseSec = -1);
 
     void OpenConfirmPopup(string msg, Action onBtn1, Action onBtn2, Action onBtn3,

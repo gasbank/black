@@ -7,7 +7,7 @@ public class ShopPropEntry : MonoBehaviour
     Text propName;
 
     [SerializeField]
-    Text propPrice;
+    Text propPgold;
 
     [field: SerializeField]
     public GameObject PropTarget { get; set; }
@@ -24,9 +24,9 @@ public class ShopPropEntry : MonoBehaviour
         set => propName.text = value;
     }
 
-    public string PropPrice
+    public string PropPgold
     {
-        get => propPrice.text;
-        set => propPrice.text = value;
+        get => propPgold.text;
+        set => propPgold.text = value;
     }
 }
