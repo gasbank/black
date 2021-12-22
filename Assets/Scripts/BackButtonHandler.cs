@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using ConditionalDebug;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [DisallowMultipleComponent]
 public class BackButtonHandler : MonoBehaviour
