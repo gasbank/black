@@ -95,7 +95,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 if (Fill(localPoint))
                 {
-                    StartAnimateFillCoin(localPoint);
+                    // 특별 코인 획득 연출 - 아직 완성되지 않은 기능이므로 런칭스펙에서는 빼자.
+                    //StartAnimateFillCoin(localPoint);
 
                     // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
                     if (IsLabelByMinPointEmpty)
