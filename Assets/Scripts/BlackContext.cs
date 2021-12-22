@@ -32,6 +32,8 @@ public class BlackContext : MonoBehaviour, IBlackContext
     [SerializeField]
     ScUInt128 gold;
 
+    List<int> clearedDebrisIndexList;
+
     public bool CheatMode { get; set; }
     public bool WaiveBan { get; set; }
 
@@ -72,17 +74,24 @@ public class BlackContext : MonoBehaviour, IBlackContext
     }
     
     public event NotifyGoldChange OnGoldChanged;
-    public void SetDebrisState(List<int> clearedDebrisIndexList)
+    public void SetDebrisState(List<int> inClearedDebrisIndexList)
     {
-        if (clearedDebrisIndexList != null)
+        if (museumImage != null)
         {
-            museumImage.SetDebrisState(clearedDebrisIndexList);
+            if (inClearedDebrisIndexList != null)
+            {
+                museumImage.SetDebrisState(inClearedDebrisIndexList);
+            }
+        }
+        else
+        {
+            clearedDebrisIndexList = inClearedDebrisIndexList;
         }
     }
 
     public List<int> GetDebrisState()
     {
-        return museumImage.GetDebrisState();
+        return museumImage != null ? museumImage.GetDebrisState() : clearedDebrisIndexList;
     }
 
 
