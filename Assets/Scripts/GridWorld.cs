@@ -11,6 +11,8 @@ using UnityEngine.UI;
 
 public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    static bool Verbose => false;
+    
     readonly HashSet<uint> coloredMinPoints = new HashSet<uint>();
 
     [SerializeField]
@@ -57,8 +59,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     [SerializeField]
     Texture2D tex;
-
-    static bool Verbose { get; } = true;
 
     public Texture2D Tex => tex;
 
@@ -390,7 +390,10 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void LoadBatchFill(string stageName, HashSet<uint> inColoredMinPoints)
     {
-        ConDebug.Log($"Starting batch fill of {inColoredMinPoints.Count} points");
+        if (Verbose)
+        {
+            ConDebug.Log($"Starting batch fill of {inColoredMinPoints.Count} points");
+        }
 
         StageSaveManager.LoadWipPng(stageName, tex);
         if (inColoredMinPoints.Count > 0)

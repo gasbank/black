@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class MainGame : MonoBehaviour
 {
+    static bool Verbose => false;
+    
     static readonly int ColorTexture = Shader.PropertyToID("ColorTexture");
 
     [SerializeField]
@@ -51,7 +53,11 @@ public class MainGame : MonoBehaviour
         if (StageButton.CurrentStageMetadata != null)
         {
             stageMetadata = StageButton.CurrentStageMetadata;
-            ConDebug.Log($"Stage metadata specified by StageButton: {stageMetadata.name}");
+
+            if (Verbose)
+            {
+                ConDebug.Log($"Stage metadata specified by StageButton: {stageMetadata.name}");
+            }
         }
 
         using (var stream = new MemoryStream(stageMetadata.RawStageData.bytes))
@@ -64,14 +70,21 @@ public class MainGame : MonoBehaviour
         stageData.islandCountByColor = stageData.islandDataByMinPoint.GroupBy(g => g.Value.rgba)
             .ToDictionary(g => g.Key, g => g.Count());
 
-        ConDebug.Log($"{stageData.islandDataByMinPoint.Count} islands loaded.");
-        var maxIslandPixelArea = stageData.islandDataByMinPoint.Max(e => e.Value.pixelArea);
-        foreach (var mp in stageData.islandDataByMinPoint)
+        if (Verbose)
         {
-            ConDebug.Log($"Island: Key={mp.Key} PixelArea={mp.Value.pixelArea}");
+            ConDebug.Log($"{stageData.islandDataByMinPoint.Count} islands loaded.");
         }
 
-        ConDebug.Log($"Max island pixel area: {maxIslandPixelArea}");
+        var maxIslandPixelArea = stageData.islandDataByMinPoint.Max(e => e.Value.pixelArea);
+        if (Verbose)
+        {
+            foreach (var mp in stageData.islandDataByMinPoint)
+            {
+                ConDebug.Log($"Island: Key={mp.Key} PixelArea={mp.Value.pixelArea}");
+            }
+
+            ConDebug.Log($"Max island pixel area: {maxIslandPixelArea}");
+        }
 
         var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
         var colorTexture = Instantiate((Texture2D) skipBlackMaterial.GetTexture(ColorTexture));
@@ -92,12 +105,15 @@ public class MainGame : MonoBehaviour
         islandLabelSpawner.CreateAllLabels(stageData);
 
         var counts = gridWorld.CountWhiteAndBlackInBitmap();
-        ConDebug.Log($"Tex size: {gridWorld.texSize}");
-        ConDebug.Log($"Black count: {counts[0]}");
-        ConDebug.Log($"White count: {counts[1]}");
-        ConDebug.Log($"Other count: {counts[2]}");
-        ConDebug.Log($"CanInteractPanAndZoom = {CanInteractPanAndZoom}");
-        
+        if (Verbose)
+        {
+            ConDebug.Log($"Tex size: {gridWorld.texSize}");
+            ConDebug.Log($"Black count: {counts[0]}");
+            ConDebug.Log($"White count: {counts[1]}");
+            ConDebug.Log($"Other count: {counts[2]}");
+            ConDebug.Log($"CanInteractPanAndZoom = {CanInteractPanAndZoom}");
+        }
+
         gridWorld.ResumeGame();
     }
 

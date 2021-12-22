@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class IslandLabelSpawner : MonoBehaviour
 {
+    static bool Verbose => false;
+    
     readonly Dictionary<uint, IslandLabel> labelByMinPoint = new Dictionary<uint, IslandLabel>();
 
     [SerializeField]
@@ -22,8 +24,6 @@ public class IslandLabelSpawner : MonoBehaviour
     [SerializeField]
     RectTransform rt;
 
-    static bool Verbose { get; } = true;
-
     public bool IsLabelByMinPointEmpty => labelByMinPoint.Count == 0;
 
 #if UNITY_EDITOR
@@ -40,7 +40,10 @@ public class IslandLabelSpawner : MonoBehaviour
         var xMax = (int) ((maxRectUlong >> 32) & 0xffff);
         var yMin = gridWorld.texSize - (int) ((maxRectUlong >> 48) & 0xffff);
         var r = new RectInt(xMin, yMin, xMax - xMin, yMax - yMin);
-        if (Verbose) ConDebug.Log($"{r.xMin},{r.yMin} -- {r.xMax},{r.yMax} (area={r.size.x * r.size.y})");
+        if (Verbose)
+        {
+            ConDebug.Log($"{r.xMin},{r.yMin} -- {r.xMax},{r.yMax} (area={r.size.x * r.size.y})");
+        }
         return r;
     }
 

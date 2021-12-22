@@ -12,6 +12,8 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 [DisallowMultipleComponent]
 public class Data : MonoBehaviour
 {
+    static bool Verbose => false;
+    
     public static Data instance;
 
     public static DataSet dataSet;
@@ -77,9 +79,14 @@ public class Data : MonoBehaviour
         newDataSet.StageMetadataList = new List<IResourceLocation>();
 
         foreach (var seq in newDataSet.StageSequenceData)
+        {
             if (newDataSet.StageMetadataDict.TryGetValue(seq.stageName, out var stageMetadata))
             {
-                ConDebug.Log($"Stage: {seq.stageName} - {stageMetadata}");
+                if (Verbose)
+                {
+                    ConDebug.Log($"Stage: {seq.stageName} - {stageMetadata}");
+                }
+
                 newDataSet.StageMetadataList.Add(stageMetadata);
             }
             else
@@ -87,6 +94,7 @@ public class Data : MonoBehaviour
                 Debug.LogError($"Stage metadata with name {seq.stageName} not found.");
                 newDataSet.StageMetadataList.Add(null);
             }
+        }
     }
 
     public static DataSet LoadSharedDataSet()
