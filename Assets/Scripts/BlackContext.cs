@@ -68,8 +68,6 @@ public class BlackContext : MonoBehaviour, IBlackContext
         set => pendingFreeGem = value;
     }
     
-    public delegate void NotifyGoldChange();
-
     public event NotifyGoldChange OnGoldChanged;
 
     public void AddFreeGem(UInt128 delta)
@@ -260,7 +258,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
 
     public void SetGold(UInt128 v)
     {
-        gold = v;
+        Gold = v;
     }
 
     public void SetPendingGold(UInt128 v)

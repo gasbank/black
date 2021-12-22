@@ -371,6 +371,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &78393215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,6 +515,7 @@ GameObject:
   - component: {fileID: 109176504}
   - component: {fileID: 109176506}
   - component: {fileID: 109176505}
+  - component: {fileID: 109176507}
   m_Layer: 5
   m_Name: Gold Group
   m_TagString: Untagged
@@ -581,6 +584,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &109176507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109176503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9f83a3bceb844d282ba2df7614c860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldText: {fileID: 1815985812}
 --- !u!1 &121972912
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,6 +689,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &121972917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3611,7 +3629,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\uACE8\uB4DC 0\uC73C\uB85C"
 --- !u!222 &383057923
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3813,7 +3831,7 @@ RectTransform:
   m_Children:
   - {fileID: 1507009037}
   m_Father: {fileID: 1557838488}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4306,7 +4324,7 @@ GameObject:
   - component: {fileID: 524327889}
   - component: {fileID: 524327888}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Delete Save File And Reload Scene Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4325,7 +4343,7 @@ RectTransform:
   m_Children:
   - {fileID: 576729735}
   m_Father: {fileID: 1557838488}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4820,7 +4838,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC800\uC7A5 \uB370\uC774\uD130 \uC0AD\uC81C \uD6C4 \uC7AC\uC2DC\uC791"
+  m_Text: "\uC800\uC7A5 \uB370\uC774\uD130 \uC0AD\uC81C"
 --- !u!222 &576729737
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6317,7 +6335,7 @@ GameObject:
   - component: {fileID: 781502533}
   - component: {fileID: 781502532}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: Close Admin Button Group Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6336,7 +6354,7 @@ RectTransform:
   m_Children:
   - {fileID: 194036144}
   m_Father: {fileID: 1557838488}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6742,6 +6760,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &814069049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7054,7 +7074,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "5\uACE8\uB4DC \uD68D\uB4DD"
 --- !u!222 &840363373
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8867,6 +8887,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &1025678609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10033,7 +10055,7 @@ GameObject:
   - component: {fileID: 1112493330}
   - component: {fileID: 1112493329}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Add 5 Gold Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10052,7 +10074,7 @@ RectTransform:
   m_Children:
   - {fileID: 840363371}
   m_Father: {fileID: 1557838488}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10102,7 +10124,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1112493330}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1059855755}
+        m_TargetAssemblyTypeName: Admin, Black
+        m_MethodName: Gold
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1112493330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10724,6 +10758,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &1238132026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12632,6 +12668,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &1414529384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12780,6 +12818,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &1418188709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14004,11 +14044,11 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 781502531}
   - {fileID: 524327887}
   - {fileID: 1112493328}
   - {fileID: 1846871433}
   - {fileID: 440251230}
-  - {fileID: 781502531}
   - {fileID: 544817859}
   - {fileID: 737777361}
   - {fileID: 2078375186}
@@ -14040,7 +14080,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 1
-  m_StartCorner: 0
+  m_StartCorner: 1
   m_StartAxis: 0
   m_CellSize: {x: 200, y: 150}
   m_Spacing: {x: 0, y: 0}
@@ -14245,6 +14285,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &1568706315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14393,6 +14435,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &1584783251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14620,6 +14664,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &1598436550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15451,6 +15497,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &1682503037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16401,6 +16449,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &1789881925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16818,7 +16868,7 @@ GameObject:
   - component: {fileID: 1846871435}
   - component: {fileID: 1846871434}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: Zero Gold Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16837,7 +16887,7 @@ RectTransform:
   m_Children:
   - {fileID: 383057921}
   m_Father: {fileID: 1557838488}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -16887,7 +16937,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1846871435}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1059855755}
+        m_TargetAssemblyTypeName: Admin, Black
+        m_MethodName: GoldToZero
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1846871435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17093,6 +17155,8 @@ MonoBehaviour:
   toBeDestroyed: 0
   poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
     type: 3}
+  clearPrice:
+    value: 716899591
 --- !u!114 &1911863857
 MonoBehaviour:
   m_ObjectHideFlags: 0

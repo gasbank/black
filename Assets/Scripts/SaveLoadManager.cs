@@ -165,7 +165,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         var blackSaveData = new BlackSaveData
         {
             version = LatestVersion,
-            lastClearedStageId = BlackContext.instance.LastClearedStageId
+            lastClearedStageId = BlackContext.instance.LastClearedStageId,
+            goldScUInt128 = BlackContext.instance.Gold,
         };
 
         return SaveBlackSaveData(blackSaveData);
@@ -385,6 +386,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.UserPseudoId = blackSaveData.userPseudoId;
         context.LastConsumedServiceIndex = blackSaveData.lastConsumedServiceIndex;
         context.LastClearedStageId = blackSaveData.lastClearedStageId;
+        context.SetGold(blackSaveData.goldScUInt128);
 
         // 부정 이용 사용자 걸러낸다.
         // 다만, 부정 이용 사용자가 아닌데 걸러진 경우 개발팀 문의를 통해 풀 수 있다.
@@ -392,17 +394,6 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         // 그렇다면 이 루틴은 아예 작동하지 않는다.
         if (context.WaiveBan == false)
         {
-            if (blackSaveData.purchasedProductDict != null)
-            {
-                var totalPurchaseCount = blackSaveData.purchasedProductDict.Values.Sum(e => e.ToInt());
-                // 1.9.22 버전의 저장 데이터 버전인 경우에만 다수의 인앱 결제 횟수 거르기를 한다.
-                if (oldVersion <= 30 && totalPurchaseCount > 100)
-                    throw new PurchaseCountBanException(totalPurchaseCount);
-
-                // 200회 이상 구매는 버전 상관 없이 무조건 말이 안된다.
-                if (totalPurchaseCount > 200) throw new PurchaseCountBanException(totalPurchaseCount);
-            }
-
             var targetIdList = new string[]
             {
             };
@@ -421,26 +412,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         context.SetGold(blackSaveData.goldScUInt128);
         context.SetGemZero();
-        try
-        {
-            context.AddFreeGem(blackSaveData.freeGemScUInt128);
-            context.AddPaidGem(blackSaveData.paidGemScUInt128);
-        }
-        catch (OverflowException)
-        {
-            // 1.9.43 버전 이전까지 Paid Gem, Free Gem 값 깎을 때 언더플로 오류가 있었다.
-            // 이 상태로 플레이하는덴 문제는 없지만, 이제 오버플로 체크를 하기 때문에
-            // 문제가 생겼다.
-            // 어디까지 Paid이고 어디까지 Free인지 알 수 없게 되었으므로
-            // 이 경우 모든 젬을 Free Gem인 것으로 취급한다.
-            var freeGemCopy = blackSaveData.freeGemScUInt128.ToUInt128();
-            var paidGemCopy = blackSaveData.paidGemScUInt128.ToUInt128();
-            UInt128.AddAllowOverflow(out var newGem, ref freeGemCopy, ref paidGemCopy);
-            context.SetGemZero();
-            context.AddFreeGem(newGem);
-            Debug.LogWarning("Gem underflow bug fixed.");
-        }
-
+        context.AddFreeGem(blackSaveData.freeGemScUInt128);
+        context.AddPaidGem(blackSaveData.paidGemScUInt128);
+        
         // 보석 변화 애니메이션 되돌린다.
         var gemBigInt = context.Gem;
         BlackLogManager.Add(BlackLogEntry.Type.GemToLoaded, 0,

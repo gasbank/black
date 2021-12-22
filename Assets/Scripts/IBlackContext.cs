@@ -2,6 +2,8 @@
 using Dirichlet.Numerics;
 using UnityEngine;
 
+public delegate void NotifyGoldChange();
+
 public interface IBlackContext
 {
     bool CheatMode { get; set; }
@@ -68,4 +70,6 @@ public interface IBlackContext
         BlackLogEntry.Type gemAddAchievement, ScInt achievementDataId);
 
     void GetAllDailyRewardsAtOnceAdminToDay(int toDay);
+    
+    event NotifyGoldChange OnGoldChanged;
 }
