@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ConditionalDebug;
 using UnityEngine;
 
 public class PaletteButtonGroup : MonoBehaviour
@@ -37,7 +38,7 @@ public class PaletteButtonGroup : MonoBehaviour
                 var pb = t.GetComponent<PaletteButton>();
                 if (pb.Check)
                 {
-                    Debug.Log($"CurrentPaletteColorUint: {pb.ColorUint} (0x{pb.ColorUint:X8})");
+                    ConDebug.Log($"CurrentPaletteColorUint: {pb.ColorUint} (0x{pb.ColorUint:X8})");
                     return pb.ColorUint;
                 }
             }

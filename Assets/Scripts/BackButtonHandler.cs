@@ -56,7 +56,7 @@ public class BackButtonHandler : MonoBehaviour
 #if UNITY_ANDROID
         if (Application.isEditor)
         {
-            Debug.Log("Android home screen will be shown.");
+            ConDebug.Log("Android home screen will be shown.");
         }
         else
         {

@@ -128,7 +128,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (!StageButton.CurrentStageMetadata)
         {
-            Debug.Log("Current stage metadata is not set. Last cleared stage ID will not be updated. (Did you start the play mode from Main scene?)");
+            ConDebug.Log("Current stage metadata is not set. Last cleared stage ID will not be updated. (Did you start the play mode from Main scene?)");
             return;
         }
     
@@ -280,13 +280,13 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     foreach (var pixel in pixelList)
                         ConDebug.Log($"Fill Pixel: {pixel.x}, {texSize - pixel.y - 1}");
 
-            Debug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
+            ConDebug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
             var solutionColorUint = stageData.islandDataByMinPoint[fillMinPointUint].rgba;
-            Debug.Log($"Solution Color (uint): {solutionColorUint} (0x{solutionColorUint:X8})");
+            ConDebug.Log($"Solution Color (uint): {solutionColorUint} (0x{solutionColorUint:X8})");
             if (forceSolutionColor || solutionColorUint == replacementColorUint)
             {
                 var solutionColor = BlackConvert.GetColor32(solutionColorUint);
-                Debug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
+                ConDebug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
                 foreach (var pixel in pixelList) SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
 
                 UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint);
@@ -390,7 +390,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void LoadBatchFill(string stageName, HashSet<uint> inColoredMinPoints)
     {
-        Debug.Log($"Starting batch fill of {inColoredMinPoints.Count} points");
+        ConDebug.Log($"Starting batch fill of {inColoredMinPoints.Count} points");
 
         StageSaveManager.LoadWipPng(stageName, tex);
         if (inColoredMinPoints.Count > 0)

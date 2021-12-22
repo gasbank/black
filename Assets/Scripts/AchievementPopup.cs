@@ -232,7 +232,7 @@ public class AchievementPopup : MonoBehaviour
         UInt128 redeemedValue)
     {
         var gatheredValueClamped = gatheredValue.ToClampedLong();
-        //Debug.Log($"groupKey={groupKey}");
+        //ConDebug.Log($"groupKey={groupKey}");
         var achievementGroup = group[groupKey];
         var gatheredIndex = Data.AchievementData_ConditionNewArg_UpperBound(achievementGroup, gatheredValueClamped) - 1;
 

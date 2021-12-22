@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ConditionalDebug;
 using MessagePack;
 using MessagePack.Resolvers;
 using UnityEngine;
@@ -78,7 +79,7 @@ public class Data : MonoBehaviour
         foreach (var seq in newDataSet.StageSequenceData)
             if (newDataSet.StageMetadataDict.TryGetValue(seq.stageName, out var stageMetadata))
             {
-                Debug.Log($"Stage: {seq.stageName} - {stageMetadata}");
+                ConDebug.Log($"Stage: {seq.stageName} - {stageMetadata}");
                 newDataSet.StageMetadataList.Add(stageMetadata);
             }
             else
@@ -143,10 +144,10 @@ public class Data : MonoBehaviour
         BlackStringTable.StringNumberDict.Clear();
         var compressed = MessagePackSerializer.Serialize(value, DefaultOptions);
 
-        Debug.Log("=== Serialization Result ===");
-        Debug.Log($"  Before compression: {notCompressed.Length:n0} bytes");
-        Debug.Log($"  After compression: {compressed.Length:n0} bytes");
-        Debug.Log($"  Compression ratio: {(float) compressed.Length / notCompressed.Length:f2}");
+        ConDebug.Log("=== Serialization Result ===");
+        ConDebug.Log($"  Before compression: {notCompressed.Length:n0} bytes");
+        ConDebug.Log($"  After compression: {compressed.Length:n0} bytes");
+        ConDebug.Log($"  Compression ratio: {(float) compressed.Length / notCompressed.Length:f2}");
         return compressed;
     }
 

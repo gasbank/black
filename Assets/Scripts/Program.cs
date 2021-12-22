@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
+using ConditionalDebug;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
@@ -30,7 +31,7 @@ namespace black_dev_tools
         public static void WriteLine(string s)
         {
 #if UNITY_2020
-            Debug.Log(s);
+            ConDebug.Log(s);
 #else
             Logger.WriteLine(s);
 #endif

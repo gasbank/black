@@ -1,4 +1,5 @@
 using black_dev_tools;
+using ConditionalDebug;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -18,6 +19,6 @@ public class StageImporter : MonoBehaviour
     {
         if (testImport) Program.Main(new[] {"dit", "/Users/gb/two-circle.png", "30"});
 
-        Debug.Log("Test");
+        ConDebug.Log("Test");
     }
 }

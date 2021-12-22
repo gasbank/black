@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ConditionalDebug;
+using UnityEngine;
 
 public class Screenshot : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Screenshot : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.F8))
         {
             ScreenCapture.CaptureScreenshot(filename);
-            Debug.Log($"Screenshot saved to {filename}");
+            ConDebug.Log($"Screenshot saved to {filename}");
         }
     }
 }

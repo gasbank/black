@@ -64,14 +64,14 @@ public class MainGame : MonoBehaviour
         stageData.islandCountByColor = stageData.islandDataByMinPoint.GroupBy(g => g.Value.rgba)
             .ToDictionary(g => g.Key, g => g.Count());
 
-        Debug.Log($"{stageData.islandDataByMinPoint.Count} islands loaded.");
+        ConDebug.Log($"{stageData.islandDataByMinPoint.Count} islands loaded.");
         var maxIslandPixelArea = stageData.islandDataByMinPoint.Max(e => e.Value.pixelArea);
         foreach (var mp in stageData.islandDataByMinPoint)
         {
-            Debug.Log($"Island: Key={mp.Key} PixelArea={mp.Value.pixelArea}");
+            ConDebug.Log($"Island: Key={mp.Key} PixelArea={mp.Value.pixelArea}");
         }
 
-        Debug.Log($"Max island pixel area: {maxIslandPixelArea}");
+        ConDebug.Log($"Max island pixel area: {maxIslandPixelArea}");
 
         var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
         var colorTexture = Instantiate((Texture2D) skipBlackMaterial.GetTexture(ColorTexture));

@@ -40,7 +40,7 @@ public class StageSaveManager : MonoBehaviour
     void SaveWipPngData(string stageName, GridWorld gridWorld)
     {
         FileUtil.SaveAtomically(GetWipPngFileName(stageName), gridWorld.Tex.EncodeToPNG());
-        Debug.Log($"WIP PNG '{GetWipPngFileName(stageName)}' written.");
+        ConDebug.Log($"WIP PNG '{GetWipPngFileName(stageName)}' written.");
     }
 
     void SaveStageData(string stageName, HashSet<uint> coloredMinPoints)
@@ -62,11 +62,11 @@ public class StageSaveManager : MonoBehaviour
     public void DeleteSaveFile(string stageName)
     {
         var saveDataPath = FileUtil.GetPath(GetStageSaveFileName(stageName));
-        Debug.Log($"Deleting save file '{saveDataPath}'...");
+        ConDebug.Log($"Deleting save file '{saveDataPath}'...");
         File.Delete(saveDataPath);
 
         var wipPngPath = FileUtil.GetPath(GetWipPngFileName(stageName));
-        Debug.Log($"Deleting save file '{wipPngPath}'...");
+        ConDebug.Log($"Deleting save file '{wipPngPath}'...");
         File.Delete(wipPngPath);
     }
 

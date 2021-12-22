@@ -4,6 +4,7 @@ using System.IO;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using ConditionalDebug;
 using Dirichlet.Numerics;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -387,14 +388,14 @@ public class Admin : MonoBehaviour
         if (BigInteger.TryParse(riceRateBigIntStr, out var n))
         {
             //var n = BigInteger.Parse("256");
-            Debug.Log(n.ToString("n0"));
+            ConDebug.Log(n.ToString("n0"));
             var nb = n.ToByteArray();
             var level = 0;
             foreach (var t in nb)
                 for (var j = 0; j < 8; j++)
                 {
                     level++;
-                    if (((t >> j) & 1) == 1) Debug.Log($"Level {level} = {BigInteger.One << (level - 1):n0}/s");
+                    if (((t >> j) & 1) == 1) ConDebug.Log($"Level {level} = {BigInteger.One << (level - 1):n0}/s");
                 }
         }
         else

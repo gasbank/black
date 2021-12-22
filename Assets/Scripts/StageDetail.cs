@@ -1,4 +1,5 @@
 using System;
+using ConditionalDebug;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -32,7 +33,7 @@ public class StageDetail : MonoBehaviour
     public void OpenPopup()
     {
         var lastClearedStageId = BlackContext.instance.LastClearedStageId;
-        Debug.Log($"Last Cleared Stage ID: {lastClearedStageId}");
+        ConDebug.Log($"Last Cleared Stage ID: {lastClearedStageId}");
 
         if (lastClearedStageId < 0) lastClearedStageId = 0;
 
