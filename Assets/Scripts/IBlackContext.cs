@@ -72,4 +72,6 @@ public interface IBlackContext
     void GetAllDailyRewardsAtOnceAdminToDay(int toDay);
     
     event NotifyGoldChange OnGoldChanged;
+    void SetDebrisState(List<int> clearedDebrisIndexList);
+    List<int> GetDebrisState();
 }

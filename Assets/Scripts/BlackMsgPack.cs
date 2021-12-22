@@ -63,18 +63,18 @@ namespace MessagePack.Resolvers
                 { typeof(global::System.Collections.Generic.List<global::ScLong>), 9 },
                 { typeof(global::System.Collections.Generic.List<global::ScString>), 10 },
                 { typeof(global::System.Collections.Generic.List<global::StageSequenceData>), 11 },
-                { typeof(global::BlackLanguageCode), 12 },
-                { typeof(global::RewardType), 13 },
-                { typeof(global::AchievementData), 14 },
-                { typeof(global::BlackSaveData), 15 },
-                { typeof(global::DailyRewardData), 16 },
-                { typeof(global::DataSet), 17 },
-                { typeof(global::DataSetHash), 18 },
-                { typeof(global::Dirichlet.Numerics.UInt128), 19 },
-                { typeof(global::GameSaveData), 20 },
-                { typeof(global::LocalUserData), 21 },
-                { typeof(global::NoticeData), 22 },
-                { typeof(global::ScBigInteger), 23 },
+                { typeof(global::System.Collections.Generic.List<int>), 12 },
+                { typeof(global::BlackLanguageCode), 13 },
+                { typeof(global::RewardType), 14 },
+                { typeof(global::AchievementData), 15 },
+                { typeof(global::BlackSaveData), 16 },
+                { typeof(global::DailyRewardData), 17 },
+                { typeof(global::DataSet), 18 },
+                { typeof(global::DataSetHash), 19 },
+                { typeof(global::Dirichlet.Numerics.UInt128), 20 },
+                { typeof(global::GameSaveData), 21 },
+                { typeof(global::LocalUserData), 22 },
+                { typeof(global::NoticeData), 23 },
                 { typeof(global::ScFloat), 24 },
                 { typeof(global::ScInt), 25 },
                 { typeof(global::ScLong), 26 },
@@ -109,18 +109,18 @@ namespace MessagePack.Resolvers
                 case 9: return new global::MessagePack.Formatters.ListFormatter<global::ScLong>();
                 case 10: return new global::MessagePack.Formatters.ListFormatter<global::ScString>();
                 case 11: return new global::MessagePack.Formatters.ListFormatter<global::StageSequenceData>();
-                case 12: return new MessagePack.Formatters.BlackLanguageCodeFormatter();
-                case 13: return new MessagePack.Formatters.RewardTypeFormatter();
-                case 14: return new MessagePack.Formatters.AchievementDataFormatter();
-                case 15: return new MessagePack.Formatters.BlackSaveDataFormatter();
-                case 16: return new MessagePack.Formatters.DailyRewardDataFormatter();
-                case 17: return new MessagePack.Formatters.DataSetFormatter();
-                case 18: return new MessagePack.Formatters.DataSetHashFormatter();
-                case 19: return new MessagePack.Formatters.Dirichlet.Numerics.UInt128Formatter();
-                case 20: return new MessagePack.Formatters.GameSaveDataFormatter();
-                case 21: return new MessagePack.Formatters.LocalUserDataFormatter();
-                case 22: return new MessagePack.Formatters.NoticeDataFormatter();
-                case 23: return new MessagePack.Formatters.ScBigIntegerFormatter();
+                case 12: return new global::MessagePack.Formatters.ListFormatter<int>();
+                case 13: return new MessagePack.Formatters.BlackLanguageCodeFormatter();
+                case 14: return new MessagePack.Formatters.RewardTypeFormatter();
+                case 15: return new MessagePack.Formatters.AchievementDataFormatter();
+                case 16: return new MessagePack.Formatters.BlackSaveDataFormatter();
+                case 17: return new MessagePack.Formatters.DailyRewardDataFormatter();
+                case 18: return new MessagePack.Formatters.DataSetFormatter();
+                case 19: return new MessagePack.Formatters.DataSetHashFormatter();
+                case 20: return new MessagePack.Formatters.Dirichlet.Numerics.UInt128Formatter();
+                case 21: return new MessagePack.Formatters.GameSaveDataFormatter();
+                case 22: return new MessagePack.Formatters.LocalUserDataFormatter();
+                case 23: return new MessagePack.Formatters.NoticeDataFormatter();
                 case 24: return new MessagePack.Formatters.ScFloatFormatter();
                 case 25: return new MessagePack.Formatters.ScIntFormatter();
                 case 26: return new MessagePack.Formatters.ScLongFormatter();
@@ -263,18 +263,18 @@ namespace MessagePack.Formatters
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __id__ = default(global::ScInt);
-            var __sprite__ = default(global::ScString);
-            var __name__ = default(global::ScString);
-            var __desc__ = default(global::ScString);
-            var __condition__ = default(global::ScString);
-            var __conditionOldArg__ = default(global::ScLong);
-            var __conditionNewArg__ = default(global::ScLong);
-            var __rewardGemMultiplier__ = default(global::ScInt);
-            var __rewardGem__ = default(global::ScLong);
-            var __isPlatformAchievement__ = default(bool);
             var __androidAchievementKey__ = default(global::ScString);
+            var __condition__ = default(global::ScString);
+            var __conditionNewArg__ = default(global::ScLong);
+            var __conditionOldArg__ = default(global::ScLong);
+            var __desc__ = default(global::ScString);
+            var __id__ = default(global::ScInt);
             var __iosAchievementKey__ = default(global::ScString);
+            var __isPlatformAchievement__ = default(bool);
+            var __name__ = default(global::ScString);
+            var __rewardGem__ = default(global::ScLong);
+            var __rewardGemMultiplier__ = default(global::ScInt);
+            var __sprite__ = default(global::ScString);
 
             for (int i = 0; i < length; i++)
             {
@@ -282,41 +282,41 @@ namespace MessagePack.Formatters
 
                 switch (key)
                 {
-                    case 0:
-                        __id__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
-                        break;
-                    case 1:
-                        __sprite__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
-                        break;
-                    case 2:
-                        __name__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
-                        break;
-                    case 3:
-                        __desc__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
+                    case 10:
+                        __androidAchievementKey__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
                         break;
                     case 4:
                         __condition__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
                         break;
-                    case 5:
-                        __conditionOldArg__ = formatterResolver.GetFormatterWithVerify<global::ScLong>().Deserialize(ref reader, options);
-                        break;
                     case 6:
                         __conditionNewArg__ = formatterResolver.GetFormatterWithVerify<global::ScLong>().Deserialize(ref reader, options);
                         break;
-                    case 7:
-                        __rewardGemMultiplier__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                    case 5:
+                        __conditionOldArg__ = formatterResolver.GetFormatterWithVerify<global::ScLong>().Deserialize(ref reader, options);
                         break;
-                    case 8:
-                        __rewardGem__ = formatterResolver.GetFormatterWithVerify<global::ScLong>().Deserialize(ref reader, options);
+                    case 3:
+                        __desc__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
+                        break;
+                    case 0:
+                        __id__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                        break;
+                    case 11:
+                        __iosAchievementKey__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
                         break;
                     case 9:
                         __isPlatformAchievement__ = reader.ReadBoolean();
                         break;
-                    case 10:
-                        __androidAchievementKey__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
+                    case 2:
+                        __name__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
                         break;
-                    case 11:
-                        __iosAchievementKey__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
+                    case 8:
+                        __rewardGem__ = formatterResolver.GetFormatterWithVerify<global::ScLong>().Deserialize(ref reader, options);
+                        break;
+                    case 7:
+                        __rewardGemMultiplier__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                        break;
+                    case 1:
+                        __sprite__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();
@@ -325,18 +325,18 @@ namespace MessagePack.Formatters
             }
 
             var ____result = new global::AchievementData();
-            ____result.id = __id__;
-            ____result.sprite = __sprite__;
-            ____result.name = __name__;
-            ____result.desc = __desc__;
-            ____result.condition = __condition__;
-            ____result.conditionOldArg = __conditionOldArg__;
-            ____result.conditionNewArg = __conditionNewArg__;
-            ____result.rewardGemMultiplier = __rewardGemMultiplier__;
-            ____result.rewardGem = __rewardGem__;
-            ____result.isPlatformAchievement = __isPlatformAchievement__;
             ____result.androidAchievementKey = __androidAchievementKey__;
+            ____result.condition = __condition__;
+            ____result.conditionNewArg = __conditionNewArg__;
+            ____result.conditionOldArg = __conditionOldArg__;
+            ____result.desc = __desc__;
+            ____result.id = __id__;
             ____result.iosAchievementKey = __iosAchievementKey__;
+            ____result.isPlatformAchievement = __isPlatformAchievement__;
+            ____result.name = __name__;
+            ____result.rewardGem = __rewardGem__;
+            ____result.rewardGemMultiplier = __rewardGemMultiplier__;
+            ____result.sprite = __sprite__;
             reader.Depth--;
             return ____result;
         }
@@ -355,7 +355,7 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(31);
+            writer.WriteArrayHeader(32);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.version, options);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastClearedStageId, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.goldScUInt128, options);
@@ -387,6 +387,7 @@ namespace MessagePack.Formatters
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.HashSet<global::ScString>>().Serialize(ref writer, value.verifiedProductReceipts, options);
             writer.Write(value.cheatMode);
             writer.Write(value.waiveBan);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.clearedDebrisIndexList, options);
         }
 
         public global::BlackSaveData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -399,37 +400,38 @@ namespace MessagePack.Formatters
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __version__ = default(global::ScInt);
-            var __lastClearedStageId__ = default(global::ScInt);
-            var __goldScUInt128__ = default(global::ScUInt128);
-            var __pendingGoldScUInt128__ = default(global::ScUInt128);
+            var __alwaysOn__ = default(bool);
+            var __bgmAudioVolume__ = default(float);
+            var __bigScreen__ = default(bool);
+            var __bottomNotchSupport__ = default(bool);
+            var __cheatMode__ = default(bool);
             var __freeGemScUInt128__ = default(global::ScUInt128);
-            var __pendingFreeGemScUInt128__ = default(global::ScUInt128);
-            var __paidGemScUInt128__ = default(global::ScUInt128);
-            var __stashedRewardJsonList__ = default(global::System.Collections.Generic.List<global::ScString>);
-            var __lastDailyRewardRedeemedTicksList__ = default(global::System.Collections.Generic.List<global::ScLong>);
-            var __noAdsCode__ = default(global::ScInt);
+            var __languageCode__ = default(global::BlackLanguageCode);
+            var __lastClearedStageId__ = default(global::ScInt);
+            var __lastConsumedServiceIndex__ = default(global::ScInt);
             var __lastDailyRewardRedeemedIndex__ = default(global::ScLong);
             var __lastDailyRewardRedeemedTicks__ = default(global::ScLong);
+            var __lastDailyRewardRedeemedTicksList__ = default(global::System.Collections.Generic.List<global::ScLong>);
+            var __localUserDict__ = default(global::System.Collections.Generic.Dictionary<string, global::LocalUserData>);
             var __muteBgmAudioSource__ = default(bool);
             var __muteSfxAudioSource__ = default(bool);
-            var __bgmAudioVolume__ = default(float);
-            var __sfxAudioVolume__ = default(float);
+            var __noAdsCode__ = default(global::ScInt);
             var __notchSupport__ = default(bool);
-            var __bottomNotchSupport__ = default(bool);
-            var __performanceMode__ = default(bool);
-            var __alwaysOn__ = default(bool);
-            var __bigScreen__ = default(bool);
-            var __userPseudoId__ = default(global::ScInt);
-            var __lastConsumedServiceIndex__ = default(global::ScInt);
-            var __languageCode__ = default(global::BlackLanguageCode);
             var __noticeData__ = default(global::NoticeData);
-            var __localUserDict__ = default(global::System.Collections.Generic.Dictionary<string, global::LocalUserData>);
+            var __paidGemScUInt128__ = default(global::ScUInt128);
+            var __pendingFreeGemScUInt128__ = default(global::ScUInt128);
+            var __pendingGoldScUInt128__ = default(global::ScUInt128);
+            var __performanceMode__ = default(bool);
             var __purchasedProductDict__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::ScInt>);
             var __purchasedProductReceipts__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::ScString>>);
+            var __goldScUInt128__ = default(global::ScUInt128);
+            var __sfxAudioVolume__ = default(float);
+            var __stashedRewardJsonList__ = default(global::System.Collections.Generic.List<global::ScString>);
+            var __userPseudoId__ = default(global::ScInt);
             var __verifiedProductReceipts__ = default(global::System.Collections.Generic.HashSet<global::ScString>);
-            var __cheatMode__ = default(bool);
+            var __version__ = default(global::ScInt);
             var __waiveBan__ = default(bool);
+            var __clearedDebrisIndexList__ = default(global::System.Collections.Generic.List<int>);
 
             for (int i = 0; i < length; i++)
             {
@@ -437,35 +439,32 @@ namespace MessagePack.Formatters
 
                 switch (key)
                 {
-                    case 0:
-                        __version__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                    case 19:
+                        __alwaysOn__ = reader.ReadBoolean();
                         break;
-                    case 1:
-                        __lastClearedStageId__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                    case 14:
+                        __bgmAudioVolume__ = reader.ReadSingle();
                         break;
-                    case 2:
-                        __goldScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                    case 20:
+                        __bigScreen__ = reader.ReadBoolean();
                         break;
-                    case 3:
-                        __pendingGoldScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                    case 17:
+                        __bottomNotchSupport__ = reader.ReadBoolean();
+                        break;
+                    case 29:
+                        __cheatMode__ = reader.ReadBoolean();
                         break;
                     case 4:
                         __freeGemScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
                         break;
-                    case 5:
-                        __pendingFreeGemScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                    case 23:
+                        __languageCode__ = formatterResolver.GetFormatterWithVerify<global::BlackLanguageCode>().Deserialize(ref reader, options);
                         break;
-                    case 6:
-                        __paidGemScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                    case 1:
+                        __lastClearedStageId__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
                         break;
-                    case 7:
-                        __stashedRewardJsonList__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::ScString>>().Deserialize(ref reader, options);
-                        break;
-                    case 8:
-                        __lastDailyRewardRedeemedTicksList__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::ScLong>>().Deserialize(ref reader, options);
-                        break;
-                    case 9:
-                        __noAdsCode__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                    case 22:
+                        __lastConsumedServiceIndex__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
                         break;
                     case 10:
                         __lastDailyRewardRedeemedIndex__ = formatterResolver.GetFormatterWithVerify<global::ScLong>().Deserialize(ref reader, options);
@@ -473,47 +472,38 @@ namespace MessagePack.Formatters
                     case 11:
                         __lastDailyRewardRedeemedTicks__ = formatterResolver.GetFormatterWithVerify<global::ScLong>().Deserialize(ref reader, options);
                         break;
+                    case 8:
+                        __lastDailyRewardRedeemedTicksList__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::ScLong>>().Deserialize(ref reader, options);
+                        break;
+                    case 25:
+                        __localUserDict__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<string, global::LocalUserData>>().Deserialize(ref reader, options);
+                        break;
                     case 12:
                         __muteBgmAudioSource__ = reader.ReadBoolean();
                         break;
                     case 13:
                         __muteSfxAudioSource__ = reader.ReadBoolean();
                         break;
-                    case 14:
-                        __bgmAudioVolume__ = reader.ReadSingle();
-                        break;
-                    case 15:
-                        __sfxAudioVolume__ = reader.ReadSingle();
+                    case 9:
+                        __noAdsCode__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
                         break;
                     case 16:
                         __notchSupport__ = reader.ReadBoolean();
                         break;
-                    case 17:
-                        __bottomNotchSupport__ = reader.ReadBoolean();
-                        break;
-                    case 18:
-                        __performanceMode__ = reader.ReadBoolean();
-                        break;
-                    case 19:
-                        __alwaysOn__ = reader.ReadBoolean();
-                        break;
-                    case 20:
-                        __bigScreen__ = reader.ReadBoolean();
-                        break;
-                    case 21:
-                        __userPseudoId__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
-                        break;
-                    case 22:
-                        __lastConsumedServiceIndex__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
-                        break;
-                    case 23:
-                        __languageCode__ = formatterResolver.GetFormatterWithVerify<global::BlackLanguageCode>().Deserialize(ref reader, options);
-                        break;
                     case 24:
                         __noticeData__ = formatterResolver.GetFormatterWithVerify<global::NoticeData>().Deserialize(ref reader, options);
                         break;
-                    case 25:
-                        __localUserDict__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<string, global::LocalUserData>>().Deserialize(ref reader, options);
+                    case 6:
+                        __paidGemScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 5:
+                        __pendingFreeGemScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 3:
+                        __pendingGoldScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 18:
+                        __performanceMode__ = reader.ReadBoolean();
                         break;
                     case 26:
                         __purchasedProductDict__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::ScInt>>().Deserialize(ref reader, options);
@@ -521,14 +511,29 @@ namespace MessagePack.Formatters
                     case 27:
                         __purchasedProductReceipts__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::ScString>>>().Deserialize(ref reader, options);
                         break;
+                    case 2:
+                        __goldScUInt128__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 15:
+                        __sfxAudioVolume__ = reader.ReadSingle();
+                        break;
+                    case 7:
+                        __stashedRewardJsonList__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::ScString>>().Deserialize(ref reader, options);
+                        break;
+                    case 21:
+                        __userPseudoId__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                        break;
                     case 28:
                         __verifiedProductReceipts__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.HashSet<global::ScString>>().Deserialize(ref reader, options);
                         break;
-                    case 29:
-                        __cheatMode__ = reader.ReadBoolean();
+                    case 0:
+                        __version__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
                         break;
                     case 30:
                         __waiveBan__ = reader.ReadBoolean();
+                        break;
+                    case 31:
+                        __clearedDebrisIndexList__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();
@@ -537,37 +542,38 @@ namespace MessagePack.Formatters
             }
 
             var ____result = new global::BlackSaveData();
-            ____result.version = __version__;
-            ____result.lastClearedStageId = __lastClearedStageId__;
-            ____result.goldScUInt128 = __goldScUInt128__;
-            ____result.pendingGoldScUInt128 = __pendingGoldScUInt128__;
+            ____result.alwaysOn = __alwaysOn__;
+            ____result.bgmAudioVolume = __bgmAudioVolume__;
+            ____result.bigScreen = __bigScreen__;
+            ____result.bottomNotchSupport = __bottomNotchSupport__;
+            ____result.cheatMode = __cheatMode__;
             ____result.freeGemScUInt128 = __freeGemScUInt128__;
-            ____result.pendingFreeGemScUInt128 = __pendingFreeGemScUInt128__;
-            ____result.paidGemScUInt128 = __paidGemScUInt128__;
-            ____result.stashedRewardJsonList = __stashedRewardJsonList__;
-            ____result.lastDailyRewardRedeemedTicksList = __lastDailyRewardRedeemedTicksList__;
-            ____result.noAdsCode = __noAdsCode__;
+            ____result.languageCode = __languageCode__;
+            ____result.lastClearedStageId = __lastClearedStageId__;
+            ____result.lastConsumedServiceIndex = __lastConsumedServiceIndex__;
             ____result.lastDailyRewardRedeemedIndex = __lastDailyRewardRedeemedIndex__;
             ____result.lastDailyRewardRedeemedTicks = __lastDailyRewardRedeemedTicks__;
+            ____result.lastDailyRewardRedeemedTicksList = __lastDailyRewardRedeemedTicksList__;
+            ____result.localUserDict = __localUserDict__;
             ____result.muteBgmAudioSource = __muteBgmAudioSource__;
             ____result.muteSfxAudioSource = __muteSfxAudioSource__;
-            ____result.bgmAudioVolume = __bgmAudioVolume__;
-            ____result.sfxAudioVolume = __sfxAudioVolume__;
+            ____result.noAdsCode = __noAdsCode__;
             ____result.notchSupport = __notchSupport__;
-            ____result.bottomNotchSupport = __bottomNotchSupport__;
-            ____result.performanceMode = __performanceMode__;
-            ____result.alwaysOn = __alwaysOn__;
-            ____result.bigScreen = __bigScreen__;
-            ____result.userPseudoId = __userPseudoId__;
-            ____result.lastConsumedServiceIndex = __lastConsumedServiceIndex__;
-            ____result.languageCode = __languageCode__;
             ____result.noticeData = __noticeData__;
-            ____result.localUserDict = __localUserDict__;
+            ____result.paidGemScUInt128 = __paidGemScUInt128__;
+            ____result.pendingFreeGemScUInt128 = __pendingFreeGemScUInt128__;
+            ____result.pendingGoldScUInt128 = __pendingGoldScUInt128__;
+            ____result.performanceMode = __performanceMode__;
             ____result.purchasedProductDict = __purchasedProductDict__;
             ____result.purchasedProductReceipts = __purchasedProductReceipts__;
+            ____result.goldScUInt128 = __goldScUInt128__;
+            ____result.sfxAudioVolume = __sfxAudioVolume__;
+            ____result.stashedRewardJsonList = __stashedRewardJsonList__;
+            ____result.userPseudoId = __userPseudoId__;
             ____result.verifiedProductReceipts = __verifiedProductReceipts__;
-            ____result.cheatMode = __cheatMode__;
+            ____result.version = __version__;
             ____result.waiveBan = __waiveBan__;
+            ____result.clearedDebrisIndexList = __clearedDebrisIndexList__;
             reader.Depth--;
             return ____result;
         }
@@ -607,13 +613,13 @@ namespace MessagePack.Formatters
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __day__ = default(global::ScInt);
-            var __rewardType__ = default(global::RewardType);
-            var __desc__ = default(global::ScString);
-            var __notificationDesc__ = default(global::ScString);
             var __amount__ = default(global::ScInt);
-            var __sprite__ = default(global::ScString);
+            var __day__ = default(global::ScInt);
+            var __desc__ = default(global::ScString);
             var __hidden__ = default(bool);
+            var __notificationDesc__ = default(global::ScString);
+            var __rewardType__ = default(global::RewardType);
+            var __sprite__ = default(global::ScString);
             var __stashedRedeemed__ = default(bool);
 
             for (int i = 0; i < length; i++)
@@ -622,26 +628,26 @@ namespace MessagePack.Formatters
 
                 switch (key)
                 {
+                    case 4:
+                        __amount__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                        break;
                     case 0:
                         __day__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
-                        break;
-                    case 1:
-                        __rewardType__ = formatterResolver.GetFormatterWithVerify<global::RewardType>().Deserialize(ref reader, options);
                         break;
                     case 2:
                         __desc__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
                         break;
+                    case 6:
+                        __hidden__ = reader.ReadBoolean();
+                        break;
                     case 3:
                         __notificationDesc__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
                         break;
-                    case 4:
-                        __amount__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                    case 1:
+                        __rewardType__ = formatterResolver.GetFormatterWithVerify<global::RewardType>().Deserialize(ref reader, options);
                         break;
                     case 5:
                         __sprite__ = formatterResolver.GetFormatterWithVerify<global::ScString>().Deserialize(ref reader, options);
-                        break;
-                    case 6:
-                        __hidden__ = reader.ReadBoolean();
                         break;
                     case 7:
                         __stashedRedeemed__ = reader.ReadBoolean();
@@ -653,13 +659,13 @@ namespace MessagePack.Formatters
             }
 
             var ____result = new global::DailyRewardData();
-            ____result.day = __day__;
-            ____result.rewardType = __rewardType__;
-            ____result.desc = __desc__;
-            ____result.notificationDesc = __notificationDesc__;
             ____result.amount = __amount__;
-            ____result.sprite = __sprite__;
+            ____result.day = __day__;
+            ____result.desc = __desc__;
             ____result.hidden = __hidden__;
+            ____result.notificationDesc = __notificationDesc__;
+            ____result.rewardType = __rewardType__;
+            ____result.sprite = __sprite__;
             ____result.stashedRedeemed = __stashedRedeemed__;
             reader.Depth--;
             return ____result;
@@ -677,24 +683,24 @@ namespace MessagePack.Formatters
         {
             this.____keyMapping = new global::MessagePack.Internal.AutomataDictionary()
             {
-                { "StageSequenceData", 0 },
-                { "StrKoData", 1 },
+                { "DailyRewardData", 0 },
+                { "StageSequenceData", 1 },
                 { "StrChData", 2 },
-                { "StrTwData", 3 },
+                { "StrEnData", 3 },
                 { "StrJaData", 4 },
-                { "StrEnData", 5 },
-                { "DailyRewardData", 6 },
+                { "StrKoData", 5 },
+                { "StrTwData", 6 },
             };
 
             this.____stringByteKeys = new byte[][]
             {
-                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StageSequenceData"),
-                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrKoData"),
-                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrChData"),
-                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrTwData"),
-                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrJaData"),
-                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrEnData"),
                 global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("DailyRewardData"),
+                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StageSequenceData"),
+                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrChData"),
+                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrEnData"),
+                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrJaData"),
+                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrKoData"),
+                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrTwData"),
             };
         }
 
@@ -709,19 +715,19 @@ namespace MessagePack.Formatters
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteMapHeader(7);
             writer.WriteRaw(this.____stringByteKeys[0]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Serialize(ref writer, value.StageSequenceData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::DailyRewardData>>().Serialize(ref writer, value.DailyRewardData, options);
             writer.WriteRaw(this.____stringByteKeys[1]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrKoData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Serialize(ref writer, value.StageSequenceData, options);
             writer.WriteRaw(this.____stringByteKeys[2]);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrChData, options);
             writer.WriteRaw(this.____stringByteKeys[3]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrTwData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrEnData, options);
             writer.WriteRaw(this.____stringByteKeys[4]);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrJaData, options);
             writer.WriteRaw(this.____stringByteKeys[5]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrEnData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrKoData, options);
             writer.WriteRaw(this.____stringByteKeys[6]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::DailyRewardData>>().Serialize(ref writer, value.DailyRewardData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrTwData, options);
         }
 
         public global::DataSet Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -734,13 +740,13 @@ namespace MessagePack.Formatters
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadMapHeader();
-            var __StageSequenceData__ = default(global::System.Collections.Generic.List<global::StageSequenceData>);
-            var __StrKoData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
-            var __StrChData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
-            var __StrTwData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
-            var __StrJaData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
-            var __StrEnData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
             var __DailyRewardData__ = default(global::System.Collections.Generic.List<global::DailyRewardData>);
+            var __StageSequenceData__ = default(global::System.Collections.Generic.List<global::StageSequenceData>);
+            var __StrChData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
+            var __StrEnData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
+            var __StrJaData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
+            var __StrKoData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
+            var __StrTwData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
 
             for (int i = 0; i < length; i++)
             {
@@ -755,25 +761,25 @@ namespace MessagePack.Formatters
                 switch (key)
                 {
                     case 0:
-                        __StageSequenceData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Deserialize(ref reader, options);
+                        __DailyRewardData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::DailyRewardData>>().Deserialize(ref reader, options);
                         break;
                     case 1:
-                        __StrKoData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StageSequenceData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Deserialize(ref reader, options);
                         break;
                     case 2:
                         __StrChData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     case 3:
-                        __StrTwData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StrEnData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     case 4:
                         __StrJaData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     case 5:
-                        __StrEnData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StrKoData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     case 6:
-                        __DailyRewardData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::DailyRewardData>>().Deserialize(ref reader, options);
+                        __StrTwData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();
@@ -782,13 +788,13 @@ namespace MessagePack.Formatters
             }
 
             var ____result = new global::DataSet();
-            ____result.StageSequenceData = __StageSequenceData__;
-            ____result.StrKoData = __StrKoData__;
-            ____result.StrChData = __StrChData__;
-            ____result.StrTwData = __StrTwData__;
-            ____result.StrJaData = __StrJaData__;
-            ____result.StrEnData = __StrEnData__;
             ____result.DailyRewardData = __DailyRewardData__;
+            ____result.StageSequenceData = __StageSequenceData__;
+            ____result.StrChData = __StrChData__;
+            ____result.StrEnData = __StrEnData__;
+            ____result.StrJaData = __StrJaData__;
+            ____result.StrKoData = __StrKoData__;
+            ____result.StrTwData = __StrTwData__;
             reader.Depth--;
             return ____result;
         }
@@ -950,8 +956,8 @@ namespace MessagePack.Formatters
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __createdNetworkUtcTicks__ = default(long);
-            var __lastUsedNetworkUtcTicks__ = default(long);
             var __id__ = default(string);
+            var __lastUsedNetworkUtcTicks__ = default(long);
             var __name__ = default(string);
 
             for (int i = 0; i < length; i++)
@@ -963,11 +969,11 @@ namespace MessagePack.Formatters
                     case 0:
                         __createdNetworkUtcTicks__ = reader.ReadInt64();
                         break;
-                    case 1:
-                        __lastUsedNetworkUtcTicks__ = reader.ReadInt64();
-                        break;
                     case 2:
                         __id__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 1:
+                        __lastUsedNetworkUtcTicks__ = reader.ReadInt64();
                         break;
                     case 3:
                         __name__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
@@ -980,8 +986,8 @@ namespace MessagePack.Formatters
 
             var ____result = new global::LocalUserData();
             ____result.createdNetworkUtcTicks = __createdNetworkUtcTicks__;
-            ____result.lastUsedNetworkUtcTicks = __lastUsedNetworkUtcTicks__;
             ____result.id = __id__;
+            ____result.lastUsedNetworkUtcTicks = __lastUsedNetworkUtcTicks__;
             ____result.name = __name__;
             reader.Depth--;
             return ____result;
@@ -1020,12 +1026,12 @@ namespace MessagePack.Formatters
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __title__ = default(string);
-            var __text__ = default(string);
             var __detailUrl__ = default(string);
             var __eventDrawGoldRateRatio__ = default(int);
             var __eventDrawGoldRateRatioBegin__ = default(global::UDateTime);
             var __eventDrawGoldRateRatioEnd__ = default(global::UDateTime);
+            var __text__ = default(string);
+            var __title__ = default(string);
 
             for (int i = 0; i < length; i++)
             {
@@ -1033,12 +1039,6 @@ namespace MessagePack.Formatters
 
                 switch (key)
                 {
-                    case 0:
-                        __title__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
-                        break;
-                    case 1:
-                        __text__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
-                        break;
                     case 2:
                         __detailUrl__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
@@ -1051,6 +1051,12 @@ namespace MessagePack.Formatters
                     case 5:
                         __eventDrawGoldRateRatioEnd__ = formatterResolver.GetFormatterWithVerify<global::UDateTime>().Deserialize(ref reader, options);
                         break;
+                    case 1:
+                        __text__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 0:
+                        __title__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -1058,57 +1064,12 @@ namespace MessagePack.Formatters
             }
 
             var ____result = new global::NoticeData();
-            ____result.title = __title__;
-            ____result.text = __text__;
             ____result.detailUrl = __detailUrl__;
             ____result.eventDrawGoldRateRatio = __eventDrawGoldRateRatio__;
             ____result.eventDrawGoldRateRatioBegin = __eventDrawGoldRateRatioBegin__;
             ____result.eventDrawGoldRateRatioEnd = __eventDrawGoldRateRatioEnd__;
-            reader.Depth--;
-            return ____result;
-        }
-    }
-
-    public sealed class ScBigIntegerFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::ScBigInteger>
-    {
-
-
-        public void Serialize(ref MessagePackWriter writer, global::ScBigInteger value, global::MessagePack.MessagePackSerializerOptions options)
-        {
-            IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(1);
-            formatterResolver.GetFormatterWithVerify<global::System.Numerics.BigInteger>().Serialize(ref writer, value.value, options);
-        }
-
-        public global::ScBigInteger Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
-        {
-            if (reader.TryReadNil())
-            {
-                throw new InvalidOperationException("typecode is null, struct not supported");
-            }
-
-            options.Security.DepthStep(ref reader);
-            IFormatterResolver formatterResolver = options.Resolver;
-            var length = reader.ReadArrayHeader();
-            var __value__ = default(global::System.Numerics.BigInteger);
-
-            for (int i = 0; i < length; i++)
-            {
-                var key = i;
-
-                switch (key)
-                {
-                    case 0:
-                        __value__ = formatterResolver.GetFormatterWithVerify<global::System.Numerics.BigInteger>().Deserialize(ref reader, options);
-                        break;
-                    default:
-                        reader.Skip();
-                        break;
-                }
-            }
-
-            var ____result = new global::ScBigInteger(__value__);
-            ____result.value = __value__;
+            ____result.text = __text__;
+            ____result.title = __title__;
             reader.Depth--;
             return ____result;
         }
@@ -1376,11 +1337,11 @@ namespace MessagePack.Formatters
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __stageName__ = default(string);
             var __coloredMinPoints__ = default(global::System.Collections.Generic.HashSet<uint>);
-            var __zoomValue__ = default(float);
+            var __stageName__ = default(string);
             var __targetImageCenterX__ = default(float);
             var __targetImageCenterY__ = default(float);
+            var __zoomValue__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
@@ -1388,20 +1349,20 @@ namespace MessagePack.Formatters
 
                 switch (key)
                 {
-                    case 0:
-                        __stageName__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
-                        break;
                     case 1:
                         __coloredMinPoints__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.HashSet<uint>>().Deserialize(ref reader, options);
                         break;
-                    case 2:
-                        __zoomValue__ = reader.ReadSingle();
+                    case 0:
+                        __stageName__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
                     case 3:
                         __targetImageCenterX__ = reader.ReadSingle();
                         break;
                     case 4:
                         __targetImageCenterY__ = reader.ReadSingle();
+                        break;
+                    case 2:
+                        __zoomValue__ = reader.ReadSingle();
                         break;
                     default:
                         reader.Skip();
@@ -1410,11 +1371,11 @@ namespace MessagePack.Formatters
             }
 
             var ____result = new global::StageSaveData();
-            ____result.stageName = __stageName__;
             ____result.coloredMinPoints = __coloredMinPoints__;
-            ____result.zoomValue = __zoomValue__;
+            ____result.stageName = __stageName__;
             ____result.targetImageCenterX = __targetImageCenterX__;
             ____result.targetImageCenterY = __targetImageCenterY__;
+            ____result.zoomValue = __zoomValue__;
             reader.Depth--;
             return ____result;
         }

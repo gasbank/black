@@ -1,4 +1,5 @@
 using Dirichlet.Numerics;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +8,11 @@ using UnityEngine.UI;
 public class MuseumDebris : MonoBehaviour
 {
     [SerializeField]
-    bool toBeDestroyed;
+    [AutoBindThis]
+    Subcanvas subcanvas;
+    
+    [SerializeField]
+    bool toBeClosed;
 
     [SerializeField]
     GameObject poofPrefab;
@@ -22,9 +27,21 @@ public class MuseumDebris : MonoBehaviour
     }
 #endif
 
+    public bool IsOpen => subcanvas.IsOpen;
+    
+    public void Open()
+    {
+        subcanvas.Open();
+    }
+
+    public void Close()
+    {
+        subcanvas.Close();
+    }
+
     public void OnClick()
     {
-        if (toBeDestroyed) return;
+        if (toBeClosed) return;
 
         ConfirmPopup.instance.OpenYesNoPopup(
             @"\잔해를 치울까요? {0}골드가 필요합니다.".Localized(clearPrice),
@@ -43,7 +60,7 @@ public class MuseumDebris : MonoBehaviour
         else
         {
             BlackContext.instance.SubtractGold(clearPrice);
-            toBeDestroyed = true;
+            toBeClosed = true;
 
             var poof = Instantiate(poofPrefab, transform.parent).GetComponent<Poof>();
 
@@ -51,10 +68,19 @@ public class MuseumDebris : MonoBehaviour
             poofTransform.localPosition = transform.localPosition;
             poofTransform.localScale = Vector3.one;
 
-            //poof.SetFinishAction(() => { Destroy(gameObject); });
-            Destroy(gameObject);
+            Close();
 
             ConfirmPopup.instance.Close();
         }
+    }
+
+    [UsedImplicitly]
+    void OpenPopup()
+    {
+    }
+
+    [UsedImplicitly]
+    void ClosePopup()
+    {
     }
 }

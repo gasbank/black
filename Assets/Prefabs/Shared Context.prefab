@@ -146,12 +146,13 @@ MonoBehaviour:
     value:
       s0: 6922071743758026897
       s1: 1812734171829306504
-  pendingRice:
+  pendingGold:
     value:
       s0: 6922071743758026897
       s1: 1812734171829306504
   platformLocalNotification: {fileID: 2425384018219975491}
-  rice:
+  museumImage: {fileID: 0}
+  gold:
     value:
       s0: 6922071743758026897
       s1: 1812734171829306504

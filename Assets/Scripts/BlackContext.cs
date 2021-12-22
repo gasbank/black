@@ -27,6 +27,9 @@ public class BlackContext : MonoBehaviour, IBlackContext
     PlatformLocalNotification platformLocalNotification;
 
     [SerializeField]
+    MuseumImage museumImage;
+
+    [SerializeField]
     ScUInt128 gold;
 
     public bool CheatMode { get; set; }
@@ -69,6 +72,19 @@ public class BlackContext : MonoBehaviour, IBlackContext
     }
     
     public event NotifyGoldChange OnGoldChanged;
+    public void SetDebrisState(List<int> clearedDebrisIndexList)
+    {
+        if (clearedDebrisIndexList != null)
+        {
+            museumImage.SetDebrisState(clearedDebrisIndexList);
+        }
+    }
+
+    public List<int> GetDebrisState()
+    {
+        return museumImage.GetDebrisState();
+    }
+
 
     public void AddFreeGem(UInt128 delta)
     {

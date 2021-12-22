@@ -100,4 +100,7 @@ public class BlackSaveData
 
     [Key(30)]
     public bool waiveBan;
+
+    [Key(31)]
+    public List<int> clearedDebrisIndexList;
 }
