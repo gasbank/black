@@ -28,8 +28,6 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     PinchZoom pinchZoom;
 
-    int resetCount;
-
     StageData stageData;
 
     [SerializeField]
@@ -112,8 +110,7 @@ public class MainGame : MonoBehaviour
 
     public void ResetStage()
     {
-        resetCount++;
-        if (resetCount > 5) gridWorld.DeleteSaveFileAndReloadScene();
+        gridWorld.DeleteSaveFileAndReloadScene();
     }
 
     public void LoadStageSelectionScene()
