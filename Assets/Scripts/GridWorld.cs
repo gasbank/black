@@ -128,7 +128,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (!StageButton.CurrentStageMetadata)
         {
-            ConDebug.Log("Current stage metadata is not set. Last cleared stage ID will not be updated. (Did you start the play mode from Main scene?)");
+            if (Verbose) ConDebug.Log("Current stage metadata is not set. Last cleared stage ID will not be updated. (Did you start the play mode from Main scene?)");
             return;
         }
     
@@ -266,8 +266,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             }
         }
 
-        ConDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded.");
-        ConDebug.Log($"Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
+        if (Verbose) ConDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded.");
+        if (Verbose) ConDebug.Log($"Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
 
         if (pixelList.Count > 0)
         {
@@ -278,15 +278,15 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             if (Verbose)
                 if (pixelList.Count <= 128)
                     foreach (var pixel in pixelList)
-                        ConDebug.Log($"Fill Pixel: {pixel.x}, {TexSize - pixel.y - 1}");
+                        if (Verbose) ConDebug.Log($"Fill Pixel: {pixel.x}, {TexSize - pixel.y - 1}");
 
-            ConDebug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
+            if (Verbose) ConDebug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
             var solutionColorUint = stageData.islandDataByMinPoint[fillMinPointUint].rgba;
-            ConDebug.Log($"Solution Color (uint): {solutionColorUint} (0x{solutionColorUint:X8})");
+            if (Verbose) ConDebug.Log($"Solution Color (uint): {solutionColorUint} (0x{solutionColorUint:X8})");
             if (forceSolutionColor || solutionColorUint == replacementColorUint)
             {
                 var solutionColor = BlackConvert.GetColor32(solutionColorUint);
-                ConDebug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
+                if (Verbose) ConDebug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
                 foreach (var pixel in pixelList) SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
 
                 UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint);

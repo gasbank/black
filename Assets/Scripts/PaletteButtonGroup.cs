@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PaletteButtonGroup : MonoBehaviour
 {
+    static bool Verbose => false;
+    
     [SerializeField]
     List<PaletteButton> paletteButtonList;
 
@@ -38,7 +40,7 @@ public class PaletteButtonGroup : MonoBehaviour
                 var pb = t.GetComponent<PaletteButton>();
                 if (pb.Check)
                 {
-                    ConDebug.Log($"CurrentPaletteColorUint: {pb.ColorUint} (0x{pb.ColorUint:X8})");
+                    if (Verbose) ConDebug.Log($"CurrentPaletteColorUint: {pb.ColorUint} (0x{pb.ColorUint:X8})");
                     return pb.ColorUint;
                 }
             }
