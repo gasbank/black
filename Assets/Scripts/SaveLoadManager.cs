@@ -167,7 +167,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             version = LatestVersion,
             lastClearedStageId = BlackContext.instance.LastClearedStageId,
             goldScUInt128 = BlackContext.instance.Gold,
-            clearedDebrisIndexList = BlackContext.instance.GetDebrisState()
+            clearedDebrisIndexList = BlackContext.instance.GetDebrisState(),
+            pendingGoldScUInt128 = BlackContext.instance.PendingGold,
         };
 
         return SaveBlackSaveData(blackSaveData);

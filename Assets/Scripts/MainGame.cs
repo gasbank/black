@@ -136,6 +136,20 @@ public class MainGame : MonoBehaviour
         SceneManager.LoadScene("Stage Selection");
     }
 
+    public void OnFinishConfirmButton()
+    {
+        if (gridWorld != null) gridWorld.WriteStageSaveData();
+
+        if (BlackContext.instance.PendingGold == 1)
+        {
+            ConfirmPopup.instance.Open(@"\클리어를 축하합니다. 1골드를 받았습니다.", () => SceneManager.LoadScene("Stage Selection"));
+        }
+        else
+        {
+            SceneManager.LoadScene("Stage Selection");
+        }
+    }
+
     public void LoadMuseumScene()
     {
         if (gridWorld != null) gridWorld.WriteStageSaveData();

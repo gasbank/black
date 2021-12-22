@@ -195,7 +195,13 @@ public class BlackContext : MonoBehaviour, IBlackContext
 
     public void AddPendingGold(UInt128 delta)
     {
-        throw new NotImplementedException();
+        if (delta == 0) {
+            // Do nothing
+        } else if (delta > 0) {
+            PendingGold += delta;
+        } else {
+            Debug.LogError("AddPendingGold with negative value");
+        }
     }
 
     public void ApplyPendingGold()

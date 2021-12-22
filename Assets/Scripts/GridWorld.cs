@@ -137,8 +137,16 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             if (Data.dataSet.StageSequenceData[i].stageName == stageName)
             {
+                var old = BlackContext.instance.LastClearedStageId;
+                
                 BlackContext.instance.LastClearedStageId =
                     Mathf.Max(BlackContext.instance.LastClearedStageId, i + 1);
+
+                // 스테이지 클리어에 진전이 있었다. 보상을 준다.
+                if (BlackContext.instance.LastClearedStageId > old)
+                {
+                    BlackContext.instance.AddPendingGold(1);
+                }
             }
         }
 

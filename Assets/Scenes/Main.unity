@@ -1536,8 +1536,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1037197464}
-        m_TargetAssemblyTypeName: MainGame, Assembly-CSharp
-        m_MethodName: LoadStageSelectionScene
+        m_TargetAssemblyTypeName: MainGame, Black
+        m_MethodName: OnFinishConfirmButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
