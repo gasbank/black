@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Museum Level 0
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 9fda17f1de9f049d7bbc1a83f3417974, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 3f6b02c0762d84be19153858a050e18f, type: 3}
+  - {fileID: 21300000, guid: 631a4ae3b5a29465f8fae7b1b15fa518, type: 3}
+  - {fileID: 21300000, guid: 5fb935159510b47e29144ee73b18f763, type: 3}
+  - {fileID: 21300000, guid: f391c5363a1254930b709e5d13c24cee, type: 3}
+  - {fileID: 21300000, guid: 0b524d461713249caaf5a5b58b5e315d, type: 3}
+  - {fileID: 21300000, guid: e511f6084ab0f43ccb148de9d67248af, type: 3}
+  - {fileID: 21300000, guid: ef722c98daabd4295acf5a7496a35b2a, type: 3}
+  - {fileID: 21300000, guid: cc8047d82b1a04f7d830bc015ac888a0, type: 3}
+  - {fileID: 21300000, guid: f434d539e2f1249db8457910d3f88bf9, type: 3}
+  - {fileID: 21300000, guid: a201a0f96985d457d91401584d32bfed, type: 3}
+  - {fileID: 21300000, guid: de2ccf6a65dbb47ebab04605e3a3c056, type: 3}
+  - {fileID: 21300000, guid: c591acea1efb94798bb4471235603ea9, type: 3}
+  - {fileID: 21300000, guid: 94fae05b64ce54617b0b70da602f4242, type: 3}
+  - {fileID: 21300000, guid: c91690ce5e96b4cc08b79bad2f82323e, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - bg_1vl_04
+  - bg_1vl_05
+  - bg_1vl_10
+  - bg_1vl_00
+  - bg_1vl_08
+  - bg_1vl_07
+  - bg_1vl_12
+  - bg_1vl_06
+  - bg_1vl_09
+  - bg_1vl_02
+  - bg_1vl_03
+  - bg_1vl_01
+  - bg_01
+  - bg_1vl_11
+  m_RenderDataMap: {}
+  m_Tag: Museum Level 0
+  m_IsVariant: 0
