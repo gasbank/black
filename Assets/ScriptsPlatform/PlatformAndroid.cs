@@ -128,8 +128,8 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
                     }
                     else
                     {
-                        platformSaveUtil.LogCloudLoadSaveError(string.Format(
-                            "GetCloudSavedAccountData: OpenWithAutomaticConflictResolution error! - {0}", status));
+                        platformSaveUtil.LogCloudLoadSaveError(
+                            $"GetCloudSavedAccountData: OpenWithAutomaticConflictResolution error! - {status}");
                         onPeekResult(null);
                     }
                 });
@@ -279,14 +279,12 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
                 // Google Play 게임 앱 버전이 낮아서 InternalError가 나는 사례도 두 번 정도 제보되었다.
                 // 여기서 관련된 정보를 추가로 알려주면 어쩌면 좋을지도...?
                 platformSaveUtil.ShowSaveErrorPopupWithGooglePlayGamesUpdateButton(
-                    string.Format(
-                        "OnSavedGameOpenedAndWrite: Save game open (write) failed! - {0}\nPlease consider updating Google Play Games app.",
-                        status));
+                    $"OnSavedGameOpenedAndWrite: Save game open (write) failed! - {status}\nPlease consider updating Google Play Games app.");
             }
             else
             {
                 platformSaveUtil.ShowSaveErrorPopup(
-                    string.Format("OnSavedGameOpenedAndWrite: Save game open (write) failed! - {0}", status));
+                    $"OnSavedGameOpenedAndWrite: Save game open (write) failed! - {status}");
             }
 
             //rootCanvasGroup.interactable = true;
@@ -325,8 +323,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         else
         {
             // handle error
-            platformSaveUtil.ShowSaveErrorPopup(string.Format("OnSavedGameWritten: OnSavedGameWritten failed! - {0}",
-                status));
+            platformSaveUtil.ShowSaveErrorPopup($"OnSavedGameWritten: OnSavedGameWritten failed! - {status}");
             PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudSaveFailure, 0,
                 3);
         }

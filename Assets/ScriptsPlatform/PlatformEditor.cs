@@ -50,7 +50,7 @@ public class PlatformEditor : MonoBehaviour, IPlatformBase {
     }
 
     public void Report(string reportPopupTitle, string mailTo, string subject, string text, byte[] saveData) {
-        var str = string.Format("버그 메일을 보냅니다. 수신자: {0}, 제목: {1}, 본문: {2}, 세이브데이터크기: {3} bytes", mailTo, subject, text, saveData.Length);
+        var str = $"버그 메일을 보냅니다. 수신자: {mailTo}, 제목: {subject}, 본문: {text}, 세이브데이터크기: {saveData.Length} bytes";
         PlatformInterface.instance.confirmPopup.Open(str);
     }
 
