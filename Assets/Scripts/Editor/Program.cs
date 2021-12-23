@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
-using ConditionalDebug;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
@@ -15,36 +14,15 @@ using SixLabors.ImageSharp.Processing.Processors.Transforms;
 using Color = SixLabors.ImageSharp.Color;
 using Vector4 = System.Numerics.Vector4;
 #if UNITY_2020
-using UnityEngine;
 using Math = UnityEngine.Mathf;
 
 #endif
+
 
 namespace black_dev_tools
 {
     internal class IslandCountException : Exception
     {
-    }
-
-    internal static class Logger
-    {
-        public static void WriteLine(string s)
-        {
-#if UNITY_2020
-            ConDebug.Log(s);
-#else
-            Logger.WriteLine(s);
-#endif
-        }
-        
-        public static void WriteErrorLine(string s)
-        {
-#if UNITY_2020
-            Debug.LogError(s);
-#else
-            Logger.WriteLine(s);
-#endif
-        }
     }
 
     public static class Program

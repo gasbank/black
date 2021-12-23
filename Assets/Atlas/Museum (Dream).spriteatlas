@@ -63,7 +63,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: d848c92f500984404ba73616305b1ab9, type: 3}
   - {fileID: 21300000, guid: 1370d65f8603b45399fb13894bd596dd, type: 3}
   - {fileID: 21300000, guid: 5ca7629fc4f60456bafa54adf3f014e9, type: 3}
-  - {fileID: 21300000, guid: 0fce24ff2c42442949bcd415f44bdb3c, type: 3}
   m_PackedSpriteNamesToIndex:
   - UI_Top_01
   - UI_06
@@ -91,7 +90,6 @@ SpriteAtlas:
   - bg_04
   - bg_03
   - bg_07
-  - UI_02
   m_RenderDataMap: {}
   m_Tag: Museum (Dream)
   m_IsVariant: 0
