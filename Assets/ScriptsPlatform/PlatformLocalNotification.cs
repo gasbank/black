@@ -5,7 +5,7 @@ public class PlatformLocalNotification : MonoBehaviour {
     PlatformInterface platformInterface;
     
     public void RegisterAllRepeatingNotifications() {
-        PlatformNotificationRequest request = PlatformInterface.instance.notification.GetNotificationRequest();
+        var request = PlatformInterface.instance.notification.GetNotificationRequest();
         if (request != null) {
             Platform.instance.RegisterAllNotifications(request.title, request.body, request.largeIcon, request.localHours);
         }

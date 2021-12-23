@@ -21,7 +21,7 @@ public class PlatformLog : MonoBehaviour {
     public void HandleLog(string logString, string stackTrace, LogType type) {
         var loggingForm = new WWWForm();
         // 'stackTrace' 변수는 기기 빌드에서는 비어 있으므로 직접 구한다.
-        System.Diagnostics.StackTrace trace = new System.Diagnostics.StackTrace();
+        var trace = new System.Diagnostics.StackTrace();
         loggingForm.AddField("localTimestamp", System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff zzz", CultureInfo.InvariantCulture));
         loggingForm.AddField("stackTrace", trace.ToString());
         loggingForm.AddField("message", logString);
@@ -33,7 +33,7 @@ public class PlatformLog : MonoBehaviour {
     }
 
     public IEnumerator SendData(WWWForm form) {
-        using (UnityWebRequest request = UnityWebRequest.Post(LOGGLY_URL, form)) {
+        using (var request = UnityWebRequest.Post(LOGGLY_URL, form)) {
             yield return request.SendWebRequest();
         }
     }

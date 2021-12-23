@@ -24,7 +24,7 @@ public class PlatformAfterLogin : MonoBehaviour {
         const bool allowDelete = true; // 삭제는 지원하자.
 
         if (PlayGamesPlatform.Instance != null) {
-            ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+            var savedGameClient = PlayGamesPlatform.Instance.SavedGame;
             if (savedGameClient != null) {
                 savedGameClient.ShowSelectSavedGameUI(
                     "Select saved game",

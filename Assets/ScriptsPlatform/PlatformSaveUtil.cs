@@ -121,7 +121,7 @@ public class PlatformSaveUtil : MonoBehaviour {
     }
 
     public IEnumerator ReportCorruptSaveFileSendCoroutine(string guid, string reportJsonStr) {
-        using (UnityWebRequest request = UnityWebRequest.Put(string.Format(saveUrlFormat, guid), reportJsonStr)) {
+        using (var request = UnityWebRequest.Put(string.Format(saveUrlFormat, guid), reportJsonStr)) {
             yield return request.SendWebRequest();
         }
         PlatformInterface.instance.logger.LogFormat("ReportCorruptSaveFile report finished. GUID {0}", guid);

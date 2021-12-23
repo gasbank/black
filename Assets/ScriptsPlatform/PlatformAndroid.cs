@@ -85,7 +85,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
             return;
         }
 
-        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+        var savedGameClient = PlayGamesPlatform.Instance.SavedGame;
         if (savedGameClient != null)
         {
             Open(savedGameClient,
@@ -147,7 +147,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 #if !NO_GPGS
         platformSaveUtil.ShowLoadProgressPopup();
 
-        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+        var savedGameClient = PlayGamesPlatform.Instance.SavedGame;
         if (savedGameClient != null)
         {
             Open(savedGameClient,
@@ -171,7 +171,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         PlatformInterface.instance.saveLoadManager.SaveBeforeCloudSave();
         platformSaveUtil.ShowSaveProgressPopup();
 
-        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+        var savedGameClient = PlayGamesPlatform.Instance.SavedGame;
         if (savedGameClient != null)
         {
             Open(savedGameClient,
@@ -211,7 +211,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
     public void Report(string reportPopupTitle, string mailTo, string subject, string text, byte[] saveData)
     {
 #if UNITY_ANDROID
-        AndroidJavaClass pluginClass = new AndroidJavaClass(SCREENSHOT_AND_REPORT_FULL_CLASS_NAME);
+        var pluginClass = new AndroidJavaClass(SCREENSHOT_AND_REPORT_FULL_CLASS_NAME);
         if (pluginClass != null)
         {
             pluginClass.CallStatic("ReportBugByMailSaveFileOnUiThread", reportPopupTitle, mailTo, subject, text,
@@ -228,7 +228,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
     public void ShareScreenshot(byte[] pngData)
     {
 #if UNITY_ANDROID
-        AndroidJavaClass pluginClass = new AndroidJavaClass(SCREENSHOT_AND_REPORT_FULL_CLASS_NAME);
+        var pluginClass = new AndroidJavaClass(SCREENSHOT_AND_REPORT_FULL_CLASS_NAME);
         if (pluginClass != null)
         {
             pluginClass.CallStatic("SharePngByteArrayOnUiThread", pngData);
@@ -305,11 +305,11 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 #if !NO_GPGS
     void SaveGame(ISavedGameMetadata game, byte[] savedData, System.TimeSpan totalPlaytime, string desc)
     {
-        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
-        SavedGameMetadataUpdate.Builder builder = new SavedGameMetadataUpdate.Builder();
+        var savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+        var builder = new SavedGameMetadataUpdate.Builder();
         builder = builder.WithUpdatedDescription(desc);
         builder = builder.WithUpdatedPlayedTime(totalPlaytime);
-        SavedGameMetadataUpdate updatedMetadata = builder.Build();
+        var updatedMetadata = builder.Build();
         savedGameClient.CommitUpdate(game, updatedMetadata, savedData, OnSavedGameWritten);
     }
 
@@ -354,7 +354,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 #if !NO_GPGS
     void LoadGameData(ISavedGameMetadata game)
     {
-        ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
+        var savedGameClient = PlayGamesPlatform.Instance.SavedGame;
         savedGameClient.ReadBinaryData(game, OnSavedGameDataRead);
     }
 
@@ -415,7 +415,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
     int SendNotification(System.TimeSpan delay, string title, string message, Color32 bgColor, bool sound = true,
         bool vibrate = true, bool lights = true, string bigIcon = "", string smallIcon = "")
     {
-        int id = new System.Random().Next();
+        var id = new System.Random().Next();
         return SendNotification(id, (int) delay.TotalSeconds * 1000, title, message, bgColor, sound, vibrate, lights,
             bigIcon, smallIcon);
     }

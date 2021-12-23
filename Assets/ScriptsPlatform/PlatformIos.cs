@@ -213,7 +213,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
         }
 
         if (Application.platform == RuntimePlatform.IPhonePlayer) {
-            string text = $"{title}\n{body}";
+            var text = $"{title}\n{body}";
             PlatformInterface.instance.logger.Log("Schedule Local Notification");
 #if UNITY_IOS
 #pragma warning disable 618
@@ -240,7 +240,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
     }
 
     public void Report(string reportPopupTitle, string mailTo, string subject, string text, byte[] saveData) {
-        string reportSaveDataPath = Application.persistentDataPath + "/report-save-data";
+        var reportSaveDataPath = Application.persistentDataPath + "/report-save-data";
         System.IO.File.WriteAllBytes(reportSaveDataPath, saveData);
 #if UNITY_IOS
         PlatformIosNative.sendMail(subject, text, mailTo, reportSaveDataPath);
@@ -248,7 +248,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
     }
 
     public void ShareScreenshot(byte[] pngData) {
-        string pngDataPath = Application.persistentDataPath + "/screenshot-share.png";
+        var pngDataPath = Application.persistentDataPath + "/screenshot-share.png";
         System.IO.File.WriteAllBytes(pngDataPath, pngData);
         NativeShare.Share("", pngDataPath, null, "", "image/png", true, "Share");
     }
