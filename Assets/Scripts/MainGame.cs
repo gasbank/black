@@ -1,8 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading.Tasks;
 using ConditionalDebug;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -43,7 +45,7 @@ public class MainGame : MonoBehaviour
 
     public bool CanInteractPanAndZoom => islandLabelSpawner.IsLabelByMinPointEmpty == false;
 
-    void Start()
+    async void Start()
     {
         Application.runInBackground = false;
 
@@ -58,6 +60,16 @@ public class MainGame : MonoBehaviour
             {
                 ConDebug.Log($"Stage metadata specified by StageButton: {stageMetadata.name}");
             }
+        }
+
+        if (stageMetadata == null)
+        {
+            while (Data.dataSet == null || Data.dataSet.StageMetadataLocList == null)
+            {
+                await Task.Yield();
+            }
+            
+            stageMetadata = await Addressables.LoadAssetAsync<StageMetadata>(Data.dataSet.StageMetadataLocList[0]).Task;
         }
 
         using (var stream = new MemoryStream(stageMetadata.RawStageData.bytes))

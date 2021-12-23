@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ConditionalDebug;
 using UnityEngine;
@@ -16,6 +17,11 @@ public class PaletteButtonGroup : MonoBehaviour
     readonly Dictionary<uint, int> paletteIndexbyColor = new Dictionary<uint, int>();
 
     StageData stageData;
+
+    void Awake()
+    {
+        DestroyAllPaletteButtons();
+    }
 
     public Color CurrentPaletteColor
     {
