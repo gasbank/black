@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 #if UNITY_ADS
 using UnityEngine.Advertisements;
 #endif
@@ -10,7 +11,7 @@ public class PlatformUnityAdsInit : MonoBehaviour
 {
     [SerializeField]
     PlatformInterface platformInterface;
-    
+
     public static readonly string PLACEMENT_ID = "rewardedVideo";
 
     string GAME_ID => PlatformInterface.instance.config.UnityAdsGameId;

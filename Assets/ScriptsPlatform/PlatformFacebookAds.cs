@@ -1,19 +1,24 @@
 ﻿using UnityEngine;
 
-public class PlatformFacebookAds : MonoBehaviour {
-    [SerializeField]
-    PlatformInterface platformInterface;
-    
+public class PlatformFacebookAds : MonoBehaviour
+{
+    object adContext;
+
     [SerializeField]
     PlatformAdMobAds platformAdMobAds;
-    
-    object adContext;
-    
-    public void TryShowRewardedAd(object adContext) {
+
+    [SerializeField]
+    PlatformInterface platformInterface;
+
+    public void TryShowRewardedAd(object adContext)
+    {
         //광고 시청을 실패했을때는 '찾고 있습니다' 자체가 나올 필요가 없을것.
-        if (Application.internetReachability == NetworkReachability.NotReachable) {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
             PlatformInterface.instance.confirmPopup.Open(PlatformInterface.instance.text.Str_InternetRequiredForAds);
-        } else {
+        }
+        else
+        {
             //뒤로가기 상태 활성화. 네트워크 통신인 경우에 대해서는 활성화 필요.
             PlatformInterface.instance.progressMessage.ForceBackButtonActive();
 
@@ -27,20 +32,21 @@ public class PlatformFacebookAds : MonoBehaviour {
         }
     }
 
-    public void HandleShowResult(bool result, string message) {
-        if (result) {
+    public void HandleShowResult(bool result, string message)
+    {
+        if (result)
             PlatformInterface.instance.ads.HandleRewarded(adContext);
-        } else {
-            // ShowAdsErrorPopup(message);
+        else // ShowAdsErrorPopup(message);
             // Facebook 광고 시청 실패했을 때는 조용히 2차로 Google AdMob 시도한다.
             platformAdMobAds.TryShowRewardedAd(adContext);
-        }
 
         PlatformInterface.instance.progressMessage.DisableCloseButton();
         PlatformInterface.instance.progressMessage.Close();
     }
 
-    public void ShowAdsErrorPopup(string message) {
-        PlatformInterface.instance.confirmPopup.Open(PlatformInterface.instance.text.Str_FacebookAdsError + "\n" + message);
+    public void ShowAdsErrorPopup(string message)
+    {
+        PlatformInterface.instance.confirmPopup.Open(PlatformInterface.instance.text.Str_FacebookAdsError + "\n" +
+                                                     message);
     }
 }

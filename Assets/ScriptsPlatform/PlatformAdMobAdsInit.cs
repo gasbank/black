@@ -10,15 +10,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class PlatformAdMobAdsInit : MonoBehaviour {
+public class PlatformAdMobAdsInit : MonoBehaviour
+{
     public static PlatformAdMobAdsInit instance;
-    
+
     [SerializeField]
     PlatformInterface platformInterface;
 
     [SerializeField]
     PlatformAdMobAds platformAdMobAds;
-    
+
 #if GOOGLE_MOBILE_ADS
     bool shouldBeRewarded;
     public RewardedAd rewardBasedVideo;

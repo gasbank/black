@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public interface IPlatformBackgroundTimeCompensator {
+public interface IPlatformBackgroundTimeCompensator
+{
     void BeginBackgroundState(MonoBehaviour behaviour);
     void EndBackgroundState(MonoBehaviour behaviour);
 }

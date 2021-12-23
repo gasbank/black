@@ -1,3 +1,4 @@
-public interface IPlatformAds {
+public interface IPlatformAds
+{
     void HandleRewarded(object adContext);
 }

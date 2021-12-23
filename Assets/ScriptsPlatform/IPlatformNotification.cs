@@ -1,3 +1,4 @@
-public interface IPlatformNotification {
+public interface IPlatformNotification
+{
     PlatformNotificationRequest GetNotificationRequest();
 }

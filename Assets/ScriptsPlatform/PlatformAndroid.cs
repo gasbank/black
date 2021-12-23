@@ -1,16 +1,20 @@
-﻿using System;
-#if !NO_GPGS
+﻿#if !NO_GPGS
+using System;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 #endif
 #if UNITY_ANDROID
 using Unity.Notifications.Android;
-#endif
 using UnityEngine;
+using Random = System.Random;
+#endif
 
 public class PlatformAndroid : MonoBehaviour, IPlatformBase
 {
+    static readonly string GOOGLE_LOGIN_FAILED_FLAG_PREF_KEY = "__google_login_failed_flag";
+    public static bool OnSavedGameOpenedAndWriteAlwaysInternalError = false;
+
     [SerializeField]
     Platform platform;
 
@@ -20,13 +24,6 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
     [SerializeField]
     PlatformSaveUtil platformSaveUtil;
 
-    static string GOOGLE_LOGIN_FAILED_FLAG_PREF_KEY = "__google_login_failed_flag";
-    public static bool OnSavedGameOpenedAndWriteAlwaysInternalError = false;
-#if UNITY_ANDROID
-    // 버그 신고 기능과 스크린샷 기능은 기능상은 다르지만, 라이브러리를 따로 추가하지
-    // 않고 구현했으므로 같은 이름을 쓴다.
-    string SCREENSHOT_AND_REPORT_FULL_CLASS_NAME => PlatformInterface.instance.config.ScreenshotAndReportFullClassName;
-#endif
     public bool CheckLoadSavePrecondition(string progressMessage, Action onNotLoggedIn, Action onAbort)
     {
         if (!PlatformLogin.IsAuthenticated)
@@ -44,36 +41,10 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         }
 
         if (string.IsNullOrEmpty(progressMessage) == false)
-        {
             PlatformInterface.instance.progressMessage.Open(progressMessage);
-        }
 
         return true;
     }
-
-#if !NO_GPGS
-    void Open(ISavedGameClient savedGameClient, bool useAutomaticResolution, ConflictCallback conflictCallback,
-        System.Action<SavedGameRequestStatus, ISavedGameMetadata> completedCallback)
-    {
-        if (useAutomaticResolution)
-        {
-            savedGameClient.OpenWithAutomaticConflictResolution(
-                PlatformSaveUtil.remoteSaveFileName,
-                DataSource.ReadNetworkOnly,
-                ConflictResolutionStrategy.UseLongestPlaytime,
-                completedCallback);
-        }
-        else
-        {
-            savedGameClient.OpenWithManualConflictResolution(
-                PlatformSaveUtil.remoteSaveFileName,
-                DataSource.ReadNetworkOnly,
-                true,
-                conflictCallback,
-                completedCallback);
-        }
-    }
-#endif
 
     public void GetCloudLastSavedMetadataAsync(Action<byte[]> onPeekResult)
     {
@@ -136,7 +107,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         }
         else
         {
-            platformSaveUtil.LogCloudLoadSaveError(string.Format("GetCloudSavedAccountData: savedGameClient null"));
+            platformSaveUtil.LogCloudLoadSaveError("GetCloudSavedAccountData: savedGameClient null");
             onPeekResult(null);
         }
 #endif
@@ -208,47 +179,174 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 #endif
     }
 
-    public void Report(string reportPopupTitle, string mailTo, string subject, string text, byte[] saveData)
+    public void PreAuthenticate()
     {
+#if !NO_GPGS
+        var config = new PlayGamesClientConfiguration.Builder()
+            .EnableSavedGames()
+            .Build();
+
+        PlayGamesPlatform.InitializeInstance(config);
+        //PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGamesPlatform.Activate();
+#endif
+
 #if UNITY_ANDROID
-        var pluginClass = new AndroidJavaClass(SCREENSHOT_AND_REPORT_FULL_CLASS_NAME);
-        if (pluginClass != null)
+        var channel = new AndroidNotificationChannel
         {
-            pluginClass.CallStatic("ReportBugByMailSaveFileOnUiThread", reportPopupTitle, mailTo, subject, text,
-                saveData);
-        }
-        else
-        {
-            Debug.LogErrorFormat("ReportBugByMailSaveFileOnUiThread: AndroidJavaClass name {0} not found!",
-                SCREENSHOT_AND_REPORT_FULL_CLASS_NAME);
-        }
+            Id = "friends",
+            Name = "Friends Channel",
+            Importance = Importance.High,
+            Description = "Friends notifications",
+            EnableLights = true,
+            EnableVibration = true,
+            LockScreenVisibility = LockScreenVisibility.Public
+        };
+        AndroidNotificationCenter.RegisterNotificationChannel(channel);
 #endif
     }
 
-    public void ShareScreenshot(byte[] pngData)
+    public bool LoginFailedLastTime()
+    {
+        return PlayerPrefs.GetInt(GOOGLE_LOGIN_FAILED_FLAG_PREF_KEY, 0) != 0;
+    }
+
+    public void RegisterSingleNotification(string title, string body, int afterMs, string largeIcon)
+    {
+        SendNotification(
+            TimeSpan.FromMilliseconds(afterMs),
+            title,
+            body,
+            new Color32(0x7f, 0x7f, 0x7f, 255),
+            true,
+            true,
+            true,
+            largeIcon,
+            "icon1024_2_gray");
+    }
+
+    public void RegisterAllNotifications(string title, string body, string largeIcon, int localHours)
+    {
+        ClearAllNotifications();
+
+        RegisterDailyChannel();
+
+#if UNITY_ANDROID
+        var notification = new AndroidNotification
+        {
+            Title = title,
+            Text = body,
+            FireTime = PlatformEditor.GetNextLocalHours(localHours),
+            RepeatInterval = TimeSpan.FromDays(1)
+        };
+        AndroidNotificationCenter.SendNotification(notification, "DailyChannel");
+#endif
+
+        PlatformInterface.instance.logger.Log("RegisterAllRepeatingNotifications");
+    }
+
+    public void ClearAllNotifications()
     {
 #if UNITY_ANDROID
-        var pluginClass = new AndroidJavaClass(SCREENSHOT_AND_REPORT_FULL_CLASS_NAME);
-        if (pluginClass != null)
-        {
-            pluginClass.CallStatic("SharePngByteArrayOnUiThread", pngData);
-        }
-        else
-        {
-            Debug.LogErrorFormat("SharePngByteArrayOnUiThread: AndroidJavaClass name {0} not found!",
-                SCREENSHOT_AND_REPORT_FULL_CLASS_NAME);
-        }
+        AndroidNotificationCenter.CancelAllNotifications();
 #endif
+    }
+
+    public void OnCloudSaveResult(string result)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OnCloudLoadResult(string result, byte[] data)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RequestUserReview()
+    {
+        Application.OpenURL(PlatformInterface.instance.config.GetUserReviewUrl());
+    }
+
+    public string GetAccountTypeText()
+    {
+        return PlatformInterface.instance.textHelper.GetText("platform_account_google");
     }
 
 #if !NO_GPGS
-    private void OnSavedGameOpenedAndWriteConflictResolve(IConflictResolver resolver, ISavedGameMetadata original,
+    void Open(ISavedGameClient savedGameClient, bool useAutomaticResolution, ConflictCallback conflictCallback,
+        Action<SavedGameRequestStatus, ISavedGameMetadata> completedCallback)
+    {
+        if (useAutomaticResolution)
+            savedGameClient.OpenWithAutomaticConflictResolution(
+                PlatformSaveUtil.remoteSaveFileName,
+                DataSource.ReadNetworkOnly,
+                ConflictResolutionStrategy.UseLongestPlaytime,
+                completedCallback);
+        else
+            savedGameClient.OpenWithManualConflictResolution(
+                PlatformSaveUtil.remoteSaveFileName,
+                DataSource.ReadNetworkOnly,
+                true,
+                conflictCallback,
+                completedCallback);
+    }
+#endif
+
+    static void SendNotification(TimeSpan delay, string title, string message, Color32 bgColor, bool sound = true,
+        bool vibrate = true, bool lights = true, string bigIcon = "", string smallIcon = "")
+    {
+        var id = new Random().Next();
+        SendNotification((int) delay.TotalSeconds * 1000, title, message, bgColor, sound, vibrate, lights,
+            bigIcon, smallIcon);
+    }
+
+    static void SendNotification(long delayMs, string title, string message, Color32 bgColor, bool sound = true,
+        bool vibrate = true, bool lights = true, string bigIcon = "", string smallIcon = "")
+    {
+        RegisterDailyChannel();
+#if UNITY_ANDROID
+        var notification = new AndroidNotification
+        {
+            Title = title,
+            Text = message,
+            FireTime = DateTime.Now.AddDays(1)
+        };
+        AndroidNotificationCenter.SendNotification(notification, "daily_channel_id");
+#endif
+    }
+
+    static void RegisterDailyChannel()
+    {
+#if UNITY_ANDROID
+        var channel = new AndroidNotificationChannel
+        {
+            Id = "daily_channel_id",
+            Name = "Daily Channel",
+            Importance = Importance.Default,
+            Description = "Color Museum Daily Events"
+        };
+        AndroidNotificationCenter.RegisterNotificationChannel(channel);
+#endif
+    }
+
+    long GetNextHourOfDayInMillis(int hourOfDay)
+    {
+        return 0;
+    }
+
+    long GetDayInterval()
+    {
+        return 0;
+    }
+
+#if !NO_GPGS
+    void OnSavedGameOpenedAndWriteConflictResolve(IConflictResolver resolver, ISavedGameMetadata original,
         byte[] originalData, ISavedGameMetadata unmerged, byte[] unmergedData)
     {
         resolver.ChooseMetadata(unmerged);
     }
 
-    private void OnSavedGameOpenedAndReadConflictResolve(IConflictResolver resolver, ISavedGameMetadata original,
+    void OnSavedGameOpenedAndReadConflictResolve(IConflictResolver resolver, ISavedGameMetadata original,
         byte[] originalData, ISavedGameMetadata unmerged, byte[] unmergedData)
     {
         resolver.ChooseMetadata(original);
@@ -257,10 +355,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
     public void OnSavedGameOpenedAndWrite(SavedGameRequestStatus status, ISavedGameMetadata game)
     {
         // 코너 케이스 테스트를 위한 코드
-        if (OnSavedGameOpenedAndWriteAlwaysInternalError)
-        {
-            status = SavedGameRequestStatus.InternalError;
-        }
+        if (OnSavedGameOpenedAndWriteAlwaysInternalError) status = SavedGameRequestStatus.InternalError;
 
         if (status == SavedGameRequestStatus.Success)
         {
@@ -275,17 +370,13 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         {
             // handle error
             if (status == SavedGameRequestStatus.InternalError)
-            {
                 // Google Play 게임 앱 버전이 낮아서 InternalError가 나는 사례도 두 번 정도 제보되었다.
                 // 여기서 관련된 정보를 추가로 알려주면 어쩌면 좋을지도...?
                 platformSaveUtil.ShowSaveErrorPopupWithGooglePlayGamesUpdateButton(
                     $"OnSavedGameOpenedAndWrite: Save game open (write) failed! - {status}\nPlease consider updating Google Play Games app.");
-            }
             else
-            {
                 platformSaveUtil.ShowSaveErrorPopup(
                     $"OnSavedGameOpenedAndWrite: Save game open (write) failed! - {status}");
-            }
 
             //rootCanvasGroup.interactable = true;
             PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudSaveFailure, 0,
@@ -303,7 +394,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 #endif
 
 #if !NO_GPGS
-    void SaveGame(ISavedGameMetadata game, byte[] savedData, System.TimeSpan totalPlaytime, string desc)
+    void SaveGame(ISavedGameMetadata game, byte[] savedData, TimeSpan totalPlaytime, string desc)
     {
         var savedGameClient = PlayGamesPlatform.Instance.SavedGame;
         var builder = new SavedGameMetadataUpdate.Builder();
@@ -379,179 +470,4 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         }
     }
 #endif
-
-    public void PreAuthenticate()
-    {
-#if !NO_GPGS
-        var config = new PlayGamesClientConfiguration.Builder()
-            .EnableSavedGames()
-            .Build();
-
-        PlayGamesPlatform.InitializeInstance(config);
-        //PlayGamesPlatform.DebugLogEnabled = true;
-        PlayGamesPlatform.Activate();
-#endif
-
-#if UNITY_ANDROID
-        var channel = new AndroidNotificationChannel
-        {
-            Id = "friends",
-            Name = "Friends Channel",
-            Importance = Importance.High,
-            Description = "Friends notifications",
-            EnableLights = true,
-            EnableVibration = true,
-            LockScreenVisibility = LockScreenVisibility.Public,
-        };
-        AndroidNotificationCenter.RegisterNotificationChannel(channel);
-#endif
-    }
-
-    public bool LoginFailedLastTime()
-    {
-        return PlayerPrefs.GetInt(GOOGLE_LOGIN_FAILED_FLAG_PREF_KEY, 0) != 0;
-    }
-
-    int SendNotification(System.TimeSpan delay, string title, string message, Color32 bgColor, bool sound = true,
-        bool vibrate = true, bool lights = true, string bigIcon = "", string smallIcon = "")
-    {
-        var id = new System.Random().Next();
-        return SendNotification(id, (int) delay.TotalSeconds * 1000, title, message, bgColor, sound, vibrate, lights,
-            bigIcon, smallIcon);
-    }
-
-    int SendNotification(int id, System.TimeSpan delay, string title, string message, Color32 bgColor,
-        bool sound = true, bool vibrate = true, bool lights = true, string bigIcon = "", string smallIcon = "")
-    {
-        return SendNotification(id, (int) delay.TotalSeconds * 1000, title, message, bgColor, sound, vibrate, lights,
-            bigIcon, smallIcon);
-    }
-
-    static int SendNotification(int id, long delayMs, string title, string message, Color32 bgColor, bool sound = true,
-        bool vibrate = true, bool lights = true, string bigIcon = "", string smallIcon = "")
-    {
-        RegisterDailyChannel();
-#if UNITY_ANDROID
-        var notification = new AndroidNotification
-        {
-            Title = title,
-            Text = message,
-            FireTime = DateTime.Now.AddDays(1)
-        };
-        AndroidNotificationCenter.SendNotification(notification, "daily_channel_id");
-#endif
-        return id;
-    }
-
-    static void RegisterDailyChannel()
-    {
-#if UNITY_ANDROID
-        var channel = new AndroidNotificationChannel()
-        {
-            Id = "daily_channel_id",
-            Name = "Daily Channel",
-            Importance = Importance.Default,
-            Description = "Color Museum Daily Events",
-        };
-        AndroidNotificationCenter.RegisterNotificationChannel(channel);
-#endif
-    }
-
-    public void RegisterSingleNotification(string title, string body, int afterMs, string largeIcon)
-    {
-        SendNotification(
-            System.TimeSpan.FromMilliseconds(afterMs),
-            title,
-            body,
-            new Color32(0x7f, 0x7f, 0x7f, 255),
-            true,
-            true,
-            true,
-            largeIcon,
-            "icon1024_2_gray");
-    }
-
-    public void RegisterAllNotifications(string title, string body, string largeIcon, int localHours)
-    {
-        ClearAllNotifications();
-
-        SetRepeatingNotificationAtMillis(
-            (int) RepeatingLocalNotificationId.AT_0900,
-            GetNextHourOfDayInMillis(localHours), // 09:00 (KST), 17:00 (PDT), 08:00 (CST)
-            GetDayInterval(),
-            title,
-            body,
-            new Color32(239, 58, 38, 255),
-            true,
-            true,
-            true,
-            largeIcon,
-            "icon1024_2_gray");
-
-        PlatformInterface.instance.logger.Log("RegisterAllRepeatingNotifications");
-    }
-
-    enum RepeatingLocalNotificationId
-    {
-        AT_0900 = 1,
-        AT_1200 = 2,
-        AT_1800 = 3,
-        AT_0000_TEST = 4,
-    }
-
-    public void ClearAllNotifications()
-    {
-#if UNITY_ANDROID
-        AndroidNotificationCenter.CancelAllNotifications();
-#endif
-    }
-
-    public void OnCloudSaveResult(string result)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnCloudLoadResult(string result, byte[] data)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    static int SetRepeatingNotificationAtMillis(int id, long atMillis, long timeoutMs, string title, string message,
-        Color32 bgColor, bool sound, bool vibrate, bool lights, string bigIcon, string smallIcon)
-    {
-        RegisterDailyChannel();
-#if UNITY_ANDROID
-        var notification = new AndroidNotification
-        {
-            Title = title,
-            Text = message,
-            FireTime = DateTime.Now.AddDays(1),
-            RepeatInterval = TimeSpan.FromMilliseconds(timeoutMs),
-        };
-        AndroidNotificationCenter.SendNotification(notification, "DailyChannel");
-        return id;
-#else
-        return 0;
-#endif
-    }
-
-    long GetNextHourOfDayInMillis(int hourOfDay)
-    {
-        return 0;
-    }
-
-    long GetDayInterval()
-    {
-        return 0;
-    }
-
-    public void RequestUserReview()
-    {
-        Application.OpenURL(PlatformInterface.instance.config.GetUserReviewUrl());
-    }
-
-    public string GetAccountTypeText()
-    {
-        return PlatformInterface.instance.textHelper.GetText("platform_account_google");
-    }
 }

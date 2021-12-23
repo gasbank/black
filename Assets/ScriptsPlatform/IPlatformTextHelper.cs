@@ -1,3 +1,4 @@
-public interface IPlatformTextHelper {
+public interface IPlatformTextHelper
+{
     string GetText(string s);
 }

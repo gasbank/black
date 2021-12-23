@@ -1,4 +1,5 @@
-public interface IPlatformLogEntryType {
+public interface IPlatformLogEntryType
+{
     int GameCloudLoadBegin { get; }
     int GameCloudSaveBegin { get; }
     int GameCloudSaveEnd { get; }

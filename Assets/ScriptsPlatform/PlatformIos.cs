@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Threading.Tasks;
+using UnityEngine;
 #if UNITY_IOS
 using Unity.Notifications.iOS;
 #endif
-using UnityEngine;
 
-public class PlatformIos : MonoBehaviour, IPlatformBase {
-    static string GAME_CENTER_LOGIN_FAILED_FLAG_PREF_KEY = "__game_center_login_failed_flag";
-    static string GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY = "__game_center_login_disabled_flag";
+public class PlatformIos : MonoBehaviour, IPlatformBase
+{
+    static readonly string GAME_CENTER_LOGIN_FAILED_FLAG_PREF_KEY = "__game_center_login_failed_flag";
+    static readonly string GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY = "__game_center_login_disabled_flag";
 #if UNITY_IOS
     static bool registerForNotificationsOnce;
 #endif
@@ -24,17 +25,20 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
     [SerializeField]
     bool requiredDummyBoolVariable;
 
-    public bool CheckLoadSavePrecondition(string progressMessage, Action onNotLoggedIn, Action onAbort) {
+    public bool CheckLoadSavePrecondition(string progressMessage, Action onNotLoggedIn, Action onAbort)
+    {
         // Game Center 로그인 시도 회수 제한(3회 연속 로그인 거절)이 있다.
         // 회수 제한을 넘어서면 아무런 응답이 오지 않기 때문에 아예 시도조차 하지 않아야 한다.
-        if (!PlatformLogin.IsAuthenticated && PlayerPrefs.GetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 0) != 0) {
+        if (!PlatformLogin.IsAuthenticated && PlayerPrefs.GetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 0) != 0)
+        {
             // 유저가 직접 홈 -> 설정 -> Game Center 로그인을 해야 한다는 것을 알려야된다.
             PlatformInterface.instance.confirmPopup.Open(
                 PlatformInterface.instance.textHelper.GetText("platform_game_center_login_required_popup"));
             return false;
         }
 
-        if (!PlatformLogin.IsAuthenticated) {
+        if (!PlatformLogin.IsAuthenticated)
+        {
             PlatformInterface.instance.confirmPopup.OpenYesNoPopup(
                 platform.GetText("platform_game_center_login_required_popup"),
                 onNotLoggedIn, onAbort);
@@ -46,21 +50,23 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
         PlayerPrefs.SetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 0);
         PlayerPrefs.SetInt(GAME_CENTER_LOGIN_FAILED_FLAG_PREF_KEY, 0);
 
-        if (Application.internetReachability == NetworkReachability.NotReachable) {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
             PlatformInterface.instance.confirmPopup.Open(
                 PlatformInterface.instance.textHelper.GetText("platform_load_require_internet_popup"));
             return false;
         }
 
-        if (string.IsNullOrEmpty(progressMessage) == false) {
+        if (string.IsNullOrEmpty(progressMessage) == false)
             PlatformInterface.instance.progressMessage.Open(progressMessage);
-        }
 
         return true;
     }
 
-    public void GetCloudLastSavedMetadataAsync(Action<byte[]> onPeekResult) {
-        if (!PlatformLogin.IsAuthenticated) {
+    public void GetCloudLastSavedMetadataAsync(Action<byte[]> onPeekResult)
+    {
+        if (!PlatformLogin.IsAuthenticated)
+        {
             PlatformInterface.instance.logger.LogFormat("GetCloudSavedAccountData: not authenticated");
             onPeekResult?.Invoke(null);
 
@@ -71,14 +77,14 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
         // PlatformCallbackHandler.OnIosLoadResult()로 비동기적으로 호출되는 것으로 처리한다.
         // 이를 위해 onPeekResult를 챙겨둔다.
         onPeekResultSave = onPeekResult;
-        if (Application.platform == RuntimePlatform.IPhonePlayer) {
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
             PlatformIosNative.loadFromCloudPrivate(Social.localUser.id, PlatformInterface.instance.text.LoginErrorTitle,
                 PlatformInterface.instance.text.LoginErrorMessage,
                 PlatformInterface.instance.text.ConfirmMessage);
-        }
     }
 
-    public void ExecuteCloudLoad() {
+    public void ExecuteCloudLoad()
+    {
         platformSaveUtil.ShowLoadProgressPopup();
 
         // GetCloudLastSavedMetadataAsync()의 첫 번째 인자가 null이면
@@ -86,7 +92,8 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
         GetCloudLastSavedMetadataAsync(null);
     }
 
-    public void ExecuteCloudSave() {
+    public void ExecuteCloudSave()
+    {
         PlatformInterface.instance.saveLoadManager.SaveBeforeCloudSave();
         platformSaveUtil.ShowSaveProgressPopup();
 #pragma warning disable 219
@@ -94,25 +101,29 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
 #pragma warning restore 219
         // 아래 함수의 호출 결과는 결과는 PlatformCallbackHandler GameObject의
         // PlatformCallbackHandler.OnIosSaveResult()로 비동기적으로 호출되는 것으로 처리한다.
-        if (Application.platform == RuntimePlatform.IPhonePlayer) {
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
             PlatformIosNative.saveToCloudPrivate(Social.localUser.id, Convert.ToBase64String(savedData),
                 PlatformInterface.instance.text.LoginErrorTitle, PlatformInterface.instance.text.LoginErrorMessage,
                 PlatformInterface.instance.text.ConfirmMessage);
-        }
     }
 
-    public async void Login(Action<bool, string> onAuthResult) {
+    public async void Login(Action<bool, string> onAuthResult)
+    {
         // iOS에서는 Social.localUser.Authenticate 콜백이 호출이 되지 않을 때도 있다.
         // (유저가 의도적으로 로그인을 3회 거절한 경우, 4회째부터는 콜백이 안온다. ㄷㄷ)
         // 6.0초 타임아웃을 재자.
 
-        var authResultTask = await Task.WhenAny(Task.Run(async () => {
+        var authResultTask = await Task.WhenAny(Task.Run(async () =>
+        {
             await Task.Delay(6000);
             return new Tuple<bool, string>(false, "TIMEOUT");
-        }), Task.Run(async () => {
+        }), Task.Run(async () =>
+        {
             var authenticateTask = new TaskCompletionSource<Tuple<bool, string>>();
-            UnityMainThreadDispatcher.Instance().Enqueue(() => {
-                Social.localUser.Authenticate((b, reason) => {
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                Social.localUser.Authenticate((b, reason) =>
+                {
                     authenticateTask.SetResult(new Tuple<bool, string>(b, reason));
                 });
             });
@@ -125,7 +136,8 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
     }
 
     [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
-    void AuthenticateCallback(Action<bool, string> onAuthResult, bool b, string reason) {
+    void AuthenticateCallback(Action<bool, string> onAuthResult, bool b, string reason)
+    {
         // Game Center 로그인 성공/실패 유무에 따른 플래그 업데이트
         PlayerPrefs.SetInt(GAME_CENTER_LOGIN_FAILED_FLAG_PREF_KEY, b ? 0 : 1);
 
@@ -137,11 +149,9 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
         // 그러므로 GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY 플래그를 올리는 것은
         // 제대로 작동하지 않는다. (언어별로 정상 작동 여부가 달라진다.)
         // 아직은 고치지 않고 그래두 두겠다...
-        if (b == false && reason.Contains("canceled") && reason.Contains("disabled")) {
+        if (b == false && reason.Contains("canceled") && reason.Contains("disabled"))
             PlayerPrefs.SetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 1);
-        } else if (b) {
-            PlayerPrefs.SetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 0);
-        }
+        else if (b) PlayerPrefs.SetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 0);
 
         PlayerPrefs.Save();
 
@@ -192,30 +202,28 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
     }
 #endif
 
-    public bool LoginFailedLastTime() {
+    public bool LoginFailedLastTime()
+    {
         // iOS는 마지막 로그인이 실패했건 안했건 무조건 구동 시 로그인 시도 한다.
         return false;
     }
 
-    public void Logout() {
+    public void Logout()
+    {
         PlatformInterface.instance.logger.Log("PlatformIos.Logout()");
     }
 
-    public void PreAuthenticate() {
+    public void PreAuthenticate()
+    {
     }
 
-    public void RegisterAllNotifications(string title, string body, string largeIcon, int localHours) {
-        var notificationDate0000 = DateTime.Today;
-        var now = DateTime.Now;
-        var notificationDate0900 = notificationDate0000.AddHours(localHours);
-        if (notificationDate0900 < now) {
-            notificationDate0900 = notificationDate0900.AddDays(1);
-        }
-
-        if (Application.platform == RuntimePlatform.IPhonePlayer) {
+    public void RegisterAllNotifications(string title, string body, string largeIcon, int localHours)
+    {
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+#if UNITY_IOS
             var text = $"{title}\n{body}";
             PlatformInterface.instance.logger.Log("Schedule Local Notification");
-#if UNITY_IOS
 #pragma warning disable 618
             UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
             UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
@@ -227,7 +235,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
 #if UNITY_IOS
 #pragma warning disable 618            
             UnityEngine.iOS.LocalNotification notification0900 = new UnityEngine.iOS.LocalNotification {
-                fireDate = notificationDate0900,
+                fireDate = PlatformEditor.GetNextLocalHours(localHours),
                 alertBody = text,
                 alertAction = "Action",
                 soundName = UnityEngine.iOS.LocalNotification.defaultSoundName,
@@ -239,70 +247,83 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
         }
     }
 
-    public void Report(string reportPopupTitle, string mailTo, string subject, string text, byte[] saveData) {
+    public void Report(string reportPopupTitle, string mailTo, string subject, string text, byte[] saveData)
+    {
         var reportSaveDataPath = Application.persistentDataPath + "/report-save-data";
-        System.IO.File.WriteAllBytes(reportSaveDataPath, saveData);
+        File.WriteAllBytes(reportSaveDataPath, saveData);
 #if UNITY_IOS
         PlatformIosNative.sendMail(subject, text, mailTo, reportSaveDataPath);
 #endif
     }
 
-    public void ShareScreenshot(byte[] pngData) {
+    public void ShareScreenshot(byte[] pngData)
+    {
         var pngDataPath = Application.persistentDataPath + "/screenshot-share.png";
-        System.IO.File.WriteAllBytes(pngDataPath, pngData);
+        File.WriteAllBytes(pngDataPath, pngData);
         NativeShare.Share("", pngDataPath, null, "", "image/png", true, "Share");
     }
 
-    public void ClearAllNotifications() {
+    public void ClearAllNotifications()
+    {
 #if UNITY_IOS
         PlatformIosNative.clearAllNotifications();
 #endif
     }
 
-    public void OnCloudSaveResult(string result) {
-        if (result == "OK") {
-            // handle reading or writing of saved game.
+    public void OnCloudSaveResult(string result)
+    {
+        if (result == "OK") // handle reading or writing of saved game.
             platformSaveUtil.ShowSaveResultPopup();
-        } else {
-            // handle error
+        else // handle error
             platformSaveUtil.ShowSaveErrorPopup(
                 PlatformInterface.instance.textHelper.GetText("platform_cloud_save_fail") +
                 "\n\n" + result);
-        }
     }
 
-    public void OnCloudLoadResult(string result, byte[] data) {
-        if (result == "OK") {
+    public void OnCloudLoadResult(string result, byte[] data)
+    {
+        if (result == "OK")
+        {
             PlatformInterface.instance.logger.LogFormat("OnCloudLoadResult: data length {0} bytes",
                 data?.Length ?? 0);
             // 메타데이터 조회의 경우와 실제 세이브 데이터 로딩의 경우를 나눠서 처리
-            if (onPeekResultSave != null) {
+            if (onPeekResultSave != null)
+            {
                 PlatformInterface.instance.logger.Log("OnCloudLoadResult: onPeekResultSave valid");
                 onPeekResultSave(data);
                 onPeekResultSave = null;
-            } else {
+            }
+            else
+            {
                 PlatformInterface.instance.logger.Log("OnCloudLoadResult: onPeekResultSave empty. data load...");
-                if (data == null || data.Length == 0) {
+                if (data == null || data.Length == 0)
+                {
                     platformSaveUtil.ShowLoadErrorPopup("OnCloudLoadResult: Cloud save data corrupted");
-                } else {
+                }
+                else
+                {
                     PlatformInterface.instance.logger.LogFormat("OnCloudLoadResult: success! - Data size: {0} bytes",
                         data.Length);
                     var remoteSaveDict = PlatformInterface.instance.saveUtil.DeserializeSaveData(data);
                     PlatformInterface.instance.saveUtil.LoadDataAndLoadSplashScene(remoteSaveDict);
                 }
             }
-        } else {
+        }
+        else
+        {
             platformSaveUtil.ShowSaveErrorPopup(
                 PlatformInterface.instance.textHelper.GetText("platform_cloud_load_fail") +
                 "\n\n" + result);
         }
     }
 
-    public void RequestUserReview() {
+    public void RequestUserReview()
+    {
         Application.OpenURL(PlatformInterface.instance.config.GetUserReviewUrl());
     }
 
-    public void RegisterSingleNotification(string title, string body, int afterMs, string largeIcon) {
+    public void RegisterSingleNotification(string title, string body, int afterMs, string largeIcon)
+    {
 #if UNITY_IOS
 #pragma warning disable 618
         UnityEngine.iOS.LocalNotification n = new UnityEngine.iOS.LocalNotification {
@@ -316,7 +337,8 @@ public class PlatformIos : MonoBehaviour, IPlatformBase {
 #endif
     }
 
-    public string GetAccountTypeText() {
+    public string GetAccountTypeText()
+    {
         return PlatformInterface.instance.textHelper.GetText("platform_account_game_center");
     }
 }

@@ -1,34 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using UnityEngine;
-using System.Linq;
 
 [DisallowMultipleComponent]
-public class NetworkTime : MonoBehaviour {
-    static int timeServerListQueryStartIndex = 0;
+public class NetworkTime : MonoBehaviour
+{
+    public enum QueryState
+    {
+        // 처음 앱이 실행됐을 때 상태
+        InitialState,
 
-    [SerializeField]
-    PlatformInterface platformInterface;
+        // NTP 조회 중
+        Querying,
+
+        // NTP 조회 최종 실패
+        Error,
+
+        // NTP 조회 실패했지만 즉시 재시도할 것
+        ErrorButWillRetry,
+
+        // NTP 조회 성공
+        NoError
+    }
+
+    public const string TimeServerListQueryStartIndexKey = "timeServerListQueryStartIndex";
+    static int timeServerListQueryStartIndex = 0;
 
     // https로 시작하는 것은 HttpClient로 헤더의 Date를 시각으로 쓰고,
     // 그렇지 않은 것은 NTP 이용해서 시각을 가져온다.
     // 우선순위는 조회가 빠른 NTP가 높다.
-    static readonly string[] timeServerList = {
+    static readonly string[] timeServerList =
+    {
         "time.windows.com", "time.nist.gov", "time.bora.net", "time.google.com",
         "https://baidu.com", "https://naver.com", "https://google.com"
     };
 
-    public const string TimeServerListQueryStartIndexKey = "timeServerListQueryStartIndex";
     static readonly DateTime BaseDateTime = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     static DateTime lastNetworkTime = DateTime.MinValue;
 
-    DateTime LastNetworkTime {
-        get { return lastNetworkTime; }
-        set {
+    static double offsetSec = 0;
+    static QueryState state = QueryState.InitialState;
+
+    static readonly string STANDARD_NETWORK_FORMAT = "yyyy-MM-ddTHH:mm:ssZ";
+
+    [SerializeField]
+    PlatformInterface platformInterface;
+
+    DateTime LastNetworkTime
+    {
+        get => lastNetworkTime;
+        set
+        {
             lastNetworkTime = value;
             offsetSec = 0;
         }
@@ -39,17 +67,16 @@ public class NetworkTime : MonoBehaviour {
     public static float TimeDotTimeDiff { get; private set; }
     public static bool TimeDiscrepancyDetected { get; private set; } = false;
 
-    public DateTime EstimatedNetworkTime {
-        get => State == QueryState.NoError ? LastNetworkTime.AddSeconds(offsetSec) : DateTime.MinValue;
-    }
+    public DateTime EstimatedNetworkTime =>
+        State == QueryState.NoError ? LastNetworkTime.AddSeconds(offsetSec) : DateTime.MinValue;
 
-    static double offsetSec = 0;
     public int RequestSequence { get; private set; } = 0;
-    static QueryState state = QueryState.InitialState;
 
-    public QueryState State {
-        get { return state; }
-        private set {
+    public QueryState State
+    {
+        get => state;
+        private set
+        {
             state = value;
             Publish();
         }
@@ -60,90 +87,69 @@ public class NetworkTime : MonoBehaviour {
     static List<INetworkTimeSubscriber> SubscriberList { get; set; } =
         new List<INetworkTimeSubscriber>();
 
-    public string QueryStateMessageLocalized {
-        get {
-            // NetworkTime.Awake()로 시작해서 여기까지 올 수 있으므로, Data.Start()가 호출되기 전에 올 수도 있다.
-            // 그래서 조건을 걸었다.
-            return PlatformInterface.instance.text.GetNetworkTimeQueryProgressText(timeServerList.Length,
-                QueryingServerIndex + 1);
-        }
-    }
+    public string QueryStateMessageLocalized =>
+        PlatformInterface.instance.text.GetNetworkTimeQueryProgressText(timeServerList.Length,
+            QueryingServerIndex + 1);
 
-    public enum QueryState {
-        // 처음 앱이 실행됐을 때 상태
-        InitialState,
-
-        // NTP 조회 중
-        Querying,
-
-        // NTP 조회 최종 실패
-        Error,
-        
-        // NTP 조회 실패했지만 즉시 재시도할 것
-        ErrorButWillRetry,
-        
-        // NTP 조회 성공
-        NoError,
-    }
-
-    async void Awake() {
+    async void Awake()
+    {
         await Query(false);
     }
 
-    void Update() {
+    void Update()
+    {
         offsetSec += Time.unscaledDeltaTime;
     }
 
-    async void OnApplicationPause(bool pause) {
+    async void OnApplicationPause(bool pause)
+    {
         // 앱에 들어올 때 새로운 쿼리 시작하도록, 이전 것이 안끝났으면 아마 이어서 되겠지?
-        if (pause) {
-            return;
-        }
+        if (pause) return;
 
-        if (State == QueryState.ErrorButWillRetry) {
-            return;
-        }
+        if (State == QueryState.ErrorButWillRetry) return;
 
         // Query 시도는 총 5회, 1초 간격으로
         const int retryCount = 10;
         const int retryIntervalMs = 2000;
-        for (var i = 0; i < retryCount; i++) {
+        for (var i = 0; i < retryCount; i++)
+        {
             await Query(i != retryCount - 1);
-            
-            if (State == QueryState.NoError) {
-                break;
-            }
 
-            if (State == QueryState.Querying) {
-                break;
-            }
+            if (State == QueryState.NoError) break;
+
+            if (State == QueryState.Querying) break;
 
             await Task.Delay(retryIntervalMs);
         }
     }
 
-    void Publish() {
+    void Publish()
+    {
         SubscriberList = SubscriberList.Where(e => e.gameObject != null).ToList();
-        foreach (var sub in SubscriberList) {
-            sub.OnNetworkTimeStateChange(State);
-        }
+        foreach (var sub in SubscriberList) sub.OnNetworkTimeStateChange(State);
     }
 
-    public void Register(INetworkTimeSubscriber sub) {
-        PlatformInterface.instance.logger.Log($"Registering {sub.gameObject.name} to NetworkTime event subscription...");
+    public void Register(INetworkTimeSubscriber sub)
+    {
+        PlatformInterface.instance.logger.Log(
+            $"Registering {sub.gameObject.name} to NetworkTime event subscription...");
         SubscriberList.Add(sub);
         PlatformInterface.instance.logger.Log($"{SubscriberList.Count} subscriber(s).");
     }
 
-    public void Unregister(INetworkTimeSubscriber sub) {
-        PlatformInterface.instance.logger.Log($"Unregistering {sub.gameObject.name} to NetworkTime event subscription...");
+    public void Unregister(INetworkTimeSubscriber sub)
+    {
+        PlatformInterface.instance.logger.Log(
+            $"Unregistering {sub.gameObject.name} to NetworkTime event subscription...");
         SubscriberList.Remove(sub);
         PlatformInterface.instance.logger.Log($"{SubscriberList.Count} subscriber(s).");
     }
 
-    public async Task Query(bool willRetry) {
+    public async Task Query(bool willRetry)
+    {
         // 시간 조회 결론이 나기 전까진 중복 요청할 수 없다.
-        if (State == QueryState.Querying) {
+        if (State == QueryState.Querying)
+        {
             PlatformInterface.instance.logger.Log("Another query is in progress. This Query() call will be aborted.");
             return;
         }
@@ -153,28 +159,32 @@ public class NetworkTime : MonoBehaviour {
         PlatformInterface.instance.logger.Log(
             $"ntpServerListQueryStartIndex = {timeServerListQueryStartIndex} [{timeServerList[timeServerListQueryStartIndex % timeServerList.Length]}]");
 
-        for (QueryingServerIndex = 0; QueryingServerIndex < timeServerList.Length; QueryingServerIndex++) {
+        for (QueryingServerIndex = 0; QueryingServerIndex < timeServerList.Length; QueryingServerIndex++)
+        {
             // 다른 서버 접속시마다 네트워크 시간 구독자에게 알려준다. 조회 중이라고...
             State = QueryState.Querying;
-            try {
+            try
+            {
                 var newNetworkTime = await GetNetworkTimeAsync();
                 var newTimeDotTime = Time.realtimeSinceStartup;
 
                 // 두 번째 이후 조회라면 Time.time 흐른 값과 네트워크 시간 흐른 값을
                 // 비교해서 스피드핵 여부를 판별한다.
-                if (LastTimeDotTime != 0 && LastNetworkTime != DateTime.MinValue) {
+                if (LastTimeDotTime != 0 && LastNetworkTime != DateTime.MinValue)
+                {
                     NetworkTimeDiff = newNetworkTime - LastNetworkTime;
                     TimeDotTimeDiff = newTimeDotTime - LastTimeDotTime;
-                    if (NetworkTimeDiff.TotalSeconds != 0) {
+                    if (NetworkTimeDiff.TotalSeconds != 0)
+                    {
                         var discrepancyRatio = TimeDotTimeDiff / NetworkTimeDiff.TotalSeconds;
                         var discrepancy = TimeDotTimeDiff - NetworkTimeDiff.TotalSeconds;
                         PlatformInterface.instance.logger.LogFormat(
                             "Time discrepancy between Time.time and network time: {0:F3} seconds (ratio={1:F1}%)",
                             discrepancy, discrepancyRatio * 100);
-                        if (Mathf.Abs((float)discrepancyRatio) > 2.0f) {
-                            TimeDiscrepancyDetected = true;
-                        }
-                    } else {
+                        if (Mathf.Abs((float) discrepancyRatio) > 2.0f) TimeDiscrepancyDetected = true;
+                    }
+                    else
+                    {
                         Debug.LogError("Network time corrupted.");
                     }
                 }
@@ -185,7 +195,9 @@ public class NetworkTime : MonoBehaviour {
                 State = QueryState.NoError;
                 // 반드시 리턴해야 한다.
                 return;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 LastNetworkTime = DateTime.MinValue;
                 Debug.LogWarning(e);
             }
@@ -196,25 +208,27 @@ public class NetworkTime : MonoBehaviour {
         Debug.LogWarning("All time servers could not provide network time!");
     }
 
-    public static void ResetTimeServerListQueryStartIndex() {
+    public static void ResetTimeServerListQueryStartIndex()
+    {
         timeServerListQueryStartIndex = 0;
         PlayerPrefs.SetInt(TimeServerListQueryStartIndexKey, 0);
         PlayerPrefs.Save();
     }
 
-    async Task<DateTime> GetNetworkTimeAsync() {
+    async Task<DateTime> GetNetworkTimeAsync()
+    {
         RequestSequence++;
         var index = timeServerListQueryStartIndex % timeServerList.Length;
         var timeServerAddress = timeServerList[index];
         PlatformInterface.instance.logger.Log(
             $"GetNetworkTimeAsync() called. Querying from '{timeServerAddress}'... (Req seq = {RequestSequence})");
-        try {
+        try
+        {
             DateTime dt;
-            if (timeServerAddress.StartsWith("https://")) {
+            if (timeServerAddress.StartsWith("https://"))
                 dt = await GetNetworkTimeHttpsServerAsync(timeServerAddress);
-            } else {
+            else
                 dt = await GetNetworkTimeNtpServerAsync(timeServerAddress);
-            }
 
             // 테스트를 위해 시간 조회가 아주 오래 걸리도록 하고 싶으면
             // 아래 주석을 풀면 된다.
@@ -224,12 +238,16 @@ public class NetworkTime : MonoBehaviour {
             PlatformInterface.instance.logger.Log(
                 $"Network time '{dt}' queried from '{timeServerAddress}' successfully. (Req seq = {RequestSequence})");
             return dt;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             // timeServerListQueryStartIndex로 실패했으니까 다음에 시도할 떄는
             // 그 다음칸으로 해 본다.
             timeServerListQueryStartIndex = (timeServerListQueryStartIndex + 1) % timeServerList.Length;
             Debug.LogWarning(e.ToString());
-        } finally {
+        }
+        finally
+        {
             PlayerPrefs.SetInt(TimeServerListQueryStartIndexKey, timeServerListQueryStartIndex);
             PlayerPrefs.Save();
         }
@@ -238,34 +256,36 @@ public class NetworkTime : MonoBehaviour {
             $"Time server '{timeServerAddress}' unavailable or time query failed. (Req seq = {RequestSequence})");
     }
 
-    async Task<DateTime> GetNetworkTimeHttpsServerAsync(string httpsServer) {
+    async Task<DateTime> GetNetworkTimeHttpsServerAsync(string httpsServer)
+    {
         PlatformInterface.instance.logger.LogFormat("[HTTPS] Querying network time from {0}...", httpsServer);
         using var httpClient = new HttpClient {Timeout = TimeSpan.FromSeconds(2)};
         PlatformInterface.instance.logger.Log("[HTTPS] Before GetAsync...");
         var getTask = await httpClient.GetAsync(httpsServer, HttpCompletionOption.ResponseHeadersRead);
         PlatformInterface.instance.logger.Log("[HTTPS] After GetAsync...");
-        if (getTask.IsSuccessStatusCode) {
-            if (getTask.Headers.Date.HasValue) {
+        if (getTask.IsSuccessStatusCode)
+        {
+            if (getTask.Headers.Date.HasValue)
                 return getTask.Headers.Date.Value.UtcDateTime;
-            } else {
-                throw new Exception($"No Date available on header from {httpsServer}...");
-            }
-        } else {
-            throw new Exception($"Invalid response from {httpsServer} ... Result: {getTask.ReasonPhrase}");
+            throw new Exception($"No Date available on header from {httpsServer}...");
         }
+
+        throw new Exception($"Invalid response from {httpsServer} ... Result: {getTask.ReasonPhrase}");
 
         //throw new Exception("Should not reach here");
     }
-    
+
     // stackoverflow.com/a/3294698/162671
-    static uint SwapEndianness(ulong x) {
-        return (uint)(((x & 0x000000ff) << 24) +
-                      ((x & 0x0000ff00) << 8) +
-                      ((x & 0x00ff0000) >> 8) +
-                      ((x & 0xff000000) >> 24));
+    static uint SwapEndianness(ulong x)
+    {
+        return (uint) (((x & 0x000000ff) << 24) +
+                       ((x & 0x0000ff00) << 8) +
+                       ((x & 0x00ff0000) >> 8) +
+                       ((x & 0xff000000) >> 24));
     }
 
-    async Task<DateTime> GetNetworkTimeNtpServerAsync(string ntpServer) {
+    async Task<DateTime> GetNetworkTimeNtpServerAsync(string ntpServer)
+    {
         PlatformInterface.instance.logger.LogFormat("[NTP] Querying network time from {0}...", ntpServer);
 
         // NTP message size - 16 bytes of the digest (RFC 2030)
@@ -280,7 +300,8 @@ public class NetworkTime : MonoBehaviour {
         var ipEndPoint = new IPEndPoint(addresses[0], 123);
         //NTP uses UDP
 
-        using (var udpClient = new UdpClient(123)) {
+        using (var udpClient = new UdpClient(123))
+        {
             // Async 버전 호출에서는 Timeout 값은 무관하다.
             //udpClient.Client.SendTimeout = 2000;
             //udpClient.Client.ReceiveTimeout = 2000;
@@ -291,16 +312,16 @@ public class NetworkTime : MonoBehaviour {
 
             await udpClient.SendAsync(ntpData, ntpData.Length);
 
-            var received = await Task.Run(() => {
+            var received = await Task.Run(() =>
+            {
                 var receiveTask = udpClient.ReceiveAsync();
                 receiveTask.Wait(2000);
-                if (receiveTask.IsCompleted) {
-                    if (receiveTask.Result.Buffer.Length == ntpData.Length) {
+                if (receiveTask.IsCompleted)
+                {
+                    if (receiveTask.Result.Buffer.Length == ntpData.Length)
                         return receiveTask.Result;
-                    } else {
-                        throw new Exception(
-                            $"Replied NTP packet is {receiveTask.Result.Buffer.Length} bytes! (should be {ntpData.Length})");
-                    }
+                    throw new Exception(
+                        $"Replied NTP packet is {receiveTask.Result.Buffer.Length} bytes! (should be {ntpData.Length})");
                 }
 
                 throw new TimeoutException();
@@ -324,31 +345,30 @@ public class NetworkTime : MonoBehaviour {
         intPart = SwapEndianness(intPart);
         fractionPart = SwapEndianness(fractionPart);
 
-        var milliseconds = (intPart * 1000) + ((fractionPart * 1000) / 0x100000000L);
+        var milliseconds = intPart * 1000 + fractionPart * 1000 / 0x100000000L;
 
         //**UTC** time
-        var networkDateTime = BaseDateTime.AddMilliseconds((long)milliseconds);
+        var networkDateTime = BaseDateTime.AddMilliseconds((long) milliseconds);
 
         return networkDateTime;
     }
 
-    static readonly string STANDARD_NETWORK_FORMAT = "yyyy-MM-ddTHH:mm:ssZ";
-
-    public static DateTime ParseExactUtc(string dateString) {
+    public static DateTime ParseExactUtc(string dateString)
+    {
         if (DateTime.TryParseExact(dateString, STANDARD_NETWORK_FORMAT,
-            System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal,
-            out var ret)) {
+            CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal,
+            out var ret))
             return ret.ToUniversalTime();
-        } else {
-            return DateTime.MinValue;
-        }
+        return DateTime.MinValue;
     }
 
-    public static string ToString(DateTime dt) {
+    public static string ToString(DateTime dt)
+    {
         return dt.ToUniversalTime().ToString(STANDARD_NETWORK_FORMAT);
     }
 
-    public bool EstimatedNetworkTimeInBetween(DateTime begin, DateTime end) {
+    public bool EstimatedNetworkTimeInBetween(DateTime begin, DateTime end)
+    {
         var estimatedNetworkTime = EstimatedNetworkTime;
         //PlatformInterface.instance.logger.Log($"*** BEGIN: {NetworkTime.ToString(begin)} / CURRENT: {NetworkTime.ToString(estimatedNetworkTime)} / END: {NetworkTime.ToString(end)}");
         return estimatedNetworkTime >= begin && estimatedNetworkTime < end;

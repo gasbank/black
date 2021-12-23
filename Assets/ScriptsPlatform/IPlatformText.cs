@@ -1,4 +1,5 @@
-public interface IPlatformText {
+public interface IPlatformText
+{
     string Str_InternetRequiredForAds { get; }
     string Str_AdsAborted { get; }
     string Str_UnityAdsError { get; }

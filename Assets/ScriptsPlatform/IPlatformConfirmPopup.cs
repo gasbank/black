@@ -2,7 +2,12 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public interface IPlatformConfirmPopup {
+public interface IPlatformConfirmPopup
+{
+    GameObject ClaimImageGameObject { get; }
+    string InputFieldText { get; }
+    string MessageText { get; set; }
+    bool IsOpen { get; }
     void OpenYesNoPopup(string msg, Action onYes, Action onNo);
     void Open(string msg);
     void Close();
@@ -16,7 +21,8 @@ public interface IPlatformConfirmPopup {
         Header header = Header.Normal);
 
     void OpenInputFieldPopup(string msg, Action onYes, Action onNo, string titleText, Header header,
-        string inputFieldText, string inputFieldPlaceholder, InputField.CharacterValidation validation = InputField.CharacterValidation.None);
+        string inputFieldText, string inputFieldPlaceholder,
+        InputField.CharacterValidation validation = InputField.CharacterValidation.None);
 
     void Open(string msg, Action onYes, string titleText, Header header = Header.Normal);
 
@@ -57,32 +63,31 @@ public interface IPlatformConfirmPopup {
 
     void OpenGemClaimPopup(string msg, string claimBtnText, Action onClaim, string titleText,
         Header header = Header.Normal, int autoCloseSec = -1);
-    
-    GameObject ClaimImageGameObject { get; }
-    string InputFieldText { get; }
-    string MessageText { get; set; }
-    bool IsOpen { get; }
 }
 
-public enum Header {
+public enum Header
+{
     Normal,
     Decorated,
     Decorated2,
-    Decorated3,
+    Decorated3
 }
 
-public enum WidthType {
+public enum WidthType
+{
     Normal = 480,
-    Narrow = 380,
+    Narrow = 380
 }
 
-public enum ShowPosition {
+public enum ShowPosition
+{
     Center,
-    Bottom,
+    Bottom
 }
 
-public enum CoreIndexSelectionMode {
+public enum CoreIndexSelectionMode
+{
     DontCare,
     CustomSpawnAtOnce,
-    SimpleButton,
+    SimpleButton
 }
