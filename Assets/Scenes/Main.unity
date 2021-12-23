@@ -3482,7 +3482,7 @@ MonoBehaviour:
   paletteButtonGroup: {fileID: 955176418}
   achieveGroup: {fileID: 0}
   pinchZoom: {fileID: 519181981}
-  stageMetadata: {fileID: 11400000, guid: b52f25a23746c4b25813eaf26c662ad3, type: 2}
+  stageMetadata: {fileID: 11400000, guid: b7d12eee2a3410740826f9d91f73ec8c, type: 2}
   targetImage: {fileID: 1643267989}
   targetImageOutline: {fileID: 589030467}
 --- !u!4 &1037197465

@@ -39,8 +39,16 @@ public class StageSaveManager : MonoBehaviour
 
     void SaveWipPngData(string stageName, GridWorld gridWorld)
     {
-        FileUtil.SaveAtomically(GetWipPngFileName(stageName), gridWorld.Tex.EncodeToPNG());
-        ConDebug.Log($"WIP PNG '{GetWipPngFileName(stageName)}' written.");
+        var bytes = gridWorld.Tex.EncodeToPNG();
+        if (bytes != null)
+        {
+            FileUtil.SaveAtomically(GetWipPngFileName(stageName), gridWorld.Tex.EncodeToPNG());
+            ConDebug.Log($"WIP PNG '{GetWipPngFileName(stageName)}' written.");
+        }
+        else
+        {
+            ConDebug.LogWarning("No GridWorld.Tex to be saved.");
+        }
     }
 
     void SaveStageData(string stageName, HashSet<uint> coloredMinPoints)
