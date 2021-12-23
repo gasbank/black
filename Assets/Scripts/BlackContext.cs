@@ -350,7 +350,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
 
     void OnApplicationPause(bool pause)
     {
-        ConDebug.Log($"SushiSpawner.OnApplicationPause({pause})");
+        ConDebug.Log($"{nameof(BlackContext)}.{nameof(OnApplicationPause)}({pause})");
 
         // 개발 중일 때 종종 이 조건에 걸린다. (코드 고치고 유니티로 돌아온 뒤 플레이 시작하는 경우)
         // 그냥 처리하지 말자. 어차피 처리 중에 오류 난다.

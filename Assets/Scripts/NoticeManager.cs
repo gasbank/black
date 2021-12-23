@@ -19,7 +19,7 @@ public class NoticeManager : MonoBehaviour
     {
         BlackLogManager.Add(BlackLogEntry.Type.GameOpenNotice, 0, 0);
         //StopAllCoroutines();
-        //StartCoroutine(CheckNoticeCoro(false, null, null, null));
+        StartCoroutine(CheckNoticeCoro(false, null, null, null));
     }
 
     // 새 공지가 있다면 빨간색 느낌표를 보여준다.
@@ -58,9 +58,9 @@ public class NoticeManager : MonoBehaviour
         var urlList = new[]
         {
             // Google Firebase
-            string.Format("{0}/{1}", ConfigPopup.NoticeDbUrl, "notice"),
+            $"{ConfigPopup.NoticeDbUrl}/notice",
             // AliCloud
-            "https://blacktycoon.oss-cn-beijing.aliyuncs.com/notice.json"
+            //"https://colormuseum.oss-cn-beijing.aliyuncs.com/notice.json"
         };
 
         var succeeded = false;
@@ -80,20 +80,13 @@ public class NoticeManager : MonoBehaviour
         }
 
         if (succeeded == false)
+        {
             if (silent == false)
             {
                 ShortMessage.instance.Show("\\공지사항 정보 수신에 실패했습니다.".Localized(), true);
                 ProgressMessage.instance.Close();
             }
-
-        // var url1 = string.Format("{0}/{1}", ConfigPopup.NoticeDbUrl, "notice");
-        // var coroResult = new CoroutineWithData(this, CheckNoticeCoroUrl(silent, oldTitle, oldText, oldDetailUrl, url1));
-        // yield return coroResult.coroutine;
-        // var webRequestCompleted = (bool)coroResult.result;
-        // if (webRequestCompleted == false) {
-        //     var url2 = "https://blacktycoon.oss-cn-beijing.aliyuncs.com/notice.json";
-        //     yield return CheckNoticeCoroUrl(silent, oldTitle, oldText, oldDetailUrl, url2);
-        // }
+        }
     }
 
     IEnumerator CheckNoticeCoroUrl(bool silent, string oldTitle, string oldText, string oldDetailUrl, string url)
@@ -179,17 +172,18 @@ public class NoticeManager : MonoBehaviour
                         var textNewlined = text.Replace("\\n", "\n").Replace("\\r", "");
                         if (string.IsNullOrEmpty(detailUrl))
                             //ConfirmPopup.instance.Open(textNewlined, ConfirmPopup.instance.Close, title);
-                            ConfirmPopup.instance.OpenConfirmPopup(textNewlined, ConfirmPopup.instance.Close, null, null,
+                            ConfirmPopup.instance.OpenConfirmPopup(textNewlined, ConfirmPopup.instance.Close, null,
+                                null,
                                 title, Header.Normal, "\\확인".Localized(), null, null, "", "", false, null,
                                 null, WidthType.Normal, 0, ShowPosition.Center,
-                                ConfirmPopup.instance.Close, false, -1, FontManager.instance.SystemFont);
+                                ConfirmPopup.instance.Close, false, -1);
                         else
                             //ConfirmPopup.instance.OpenGeneralPopup(textNewlined, ConfirmPopup.instance.Close, () => Application.OpenURL(detailUrl), null, title, ConfirmPopup.Header.Normal, "\\확인".Localized(), "\\자세히 보기".Localized(), "");
                             ConfirmPopup.instance.OpenConfirmPopup(textNewlined, ConfirmPopup.instance.Close,
                                 () => Application.OpenURL(detailUrl), null, title, Header.Normal,
                                 "\\확인".Localized(), "\\자세히 보기".Localized(), null, "", "", false, null, null,
                                 WidthType.Normal, 0, ShowPosition.Center,
-                                ConfirmPopup.instance.Close, false, -1, FontManager.instance.SystemFont);
+                                ConfirmPopup.instance.Close, false, -1);
 
                         // 공지사항용 상단 이미지가 지정되어 있다면 다운로드해서 보여준다.
                         if (string.IsNullOrEmpty(topImageUrl) == false)

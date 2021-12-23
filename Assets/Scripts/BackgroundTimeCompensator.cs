@@ -57,7 +57,7 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
         var oldCount = backgrounderSet.Count;
         if (backgrounderSet.Remove(backgrounder) == false)
         {
-            Debug.LogError($"Nonexistent backgrounder cannot be removed: {backgrounder.name}");
+            Debug.LogWarning($"Nonexistent backgrounder cannot be removed: {backgrounder.name}");
             return;
         }
 

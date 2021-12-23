@@ -14,12 +14,6 @@ public class ScUInt128Drawer : PropertyDrawer {
         var indent = EditorGUI.indentLevel;
         EditorGUI.indentLevel = 0;
 
-        // 예를 들어 현재 보여주려는 property가 nested 구조인 경우
-        // (예: achievementGathered.maxSushiLevel)
-        // 'property.serializedObject.targetObject'의 'achievementGathered' 필드 정보를 찾고,
-        // 필드 정보로 achievementGathered의 값을 가져와서 targetObject로 쓴다.
-        // nested 구조가 아니면 'property.serializedObject.targetObject'를 그대로 targetObject로 쓰면 된다.
-        // 지금은 1단계 nested까지만 하드코딩으로 지원.
         object targetObject = null;
         string[] propertyPathSplit = property.propertyPath.Split('.');
         if (propertyPathSplit.Length > 2) {

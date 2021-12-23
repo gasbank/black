@@ -18,7 +18,7 @@ public class ConfigPopup : MonoBehaviour
     public static ConfigPopup instance;
 
     public static readonly string BaseUrl =
-        "https://xxxxx/xxxxxx/xxxxxx";
+        "https://firestore.googleapis.com/v1/projects/api-project-52999068/databases/(default)/documents";
 
     static readonly string ServiceDbUrl = BaseUrl + "/service";
 
