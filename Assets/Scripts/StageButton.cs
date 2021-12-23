@@ -45,7 +45,6 @@ public class StageButton : MonoBehaviour
     {
         if (stageMetadata == null)
         {
-            Debug.LogError("Stage Metadata is null");
             return;
         }
 
