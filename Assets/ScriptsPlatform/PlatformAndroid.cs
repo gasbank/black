@@ -1,13 +1,13 @@
-﻿#if !NO_GPGS
+﻿using UnityEngine;
 using System;
+using Random = System.Random;
+#if !NO_GPGS
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 #endif
 #if UNITY_ANDROID
 using Unity.Notifications.Android;
-using UnityEngine;
-using Random = System.Random;
 #endif
 
 public class PlatformAndroid : MonoBehaviour, IPlatformBase

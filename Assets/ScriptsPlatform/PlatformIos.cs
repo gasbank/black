@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 #if UNITY_IOS
+using System.Collections;
 using Unity.Notifications.iOS;
 #endif
 
