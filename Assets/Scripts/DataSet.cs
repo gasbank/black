@@ -13,7 +13,7 @@ public class DataSet
     public Dictionary<string, IResourceLocation> StageMetadataDict;
 
     [IgnoreMember]
-    public List<IResourceLocation> StageMetadataList;
+    public List<IResourceLocation> StageMetadataLocList;
 
     public List<StageSequenceData> StageSequenceData;
     public Dictionary<ScString, StrBaseData> StrChData; // 중국어 (간체)

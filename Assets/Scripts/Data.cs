@@ -76,7 +76,7 @@ public class Data : MonoBehaviour
         var stageAssetLocList = await Addressables.LoadResourceLocationsAsync("Stage", typeof(StageMetadata)).Task;
 
         newDataSet.StageMetadataDict = stageAssetLocList.ToDictionary(e => e.PrimaryKey, e => e);
-        newDataSet.StageMetadataList = new List<IResourceLocation>();
+        newDataSet.StageMetadataLocList = new List<IResourceLocation>();
 
         foreach (var seq in newDataSet.StageSequenceData)
         {
@@ -87,12 +87,12 @@ public class Data : MonoBehaviour
                     ConDebug.Log($"Stage: {seq.stageName} - {stageMetadata}");
                 }
 
-                newDataSet.StageMetadataList.Add(stageMetadata);
+                newDataSet.StageMetadataLocList.Add(stageMetadata);
             }
             else
             {
                 Debug.LogError($"Stage metadata with name {seq.stageName} not found.");
-                newDataSet.StageMetadataList.Add(null);
+                newDataSet.StageMetadataLocList.Add(null);
             }
         }
     }

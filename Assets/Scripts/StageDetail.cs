@@ -1,10 +1,9 @@
-using System;
+using System.Threading.Tasks;
 using ConditionalDebug;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class StageDetail : MonoBehaviour
 {
@@ -30,7 +29,7 @@ public class StageDetail : MonoBehaviour
         SetInitialBottomTip();
     }
 
-    public void OpenPopup()
+    public async void OpenPopupAfterLoadingAsync()
     {
         var lastClearedStageId = BlackContext.instance.LastClearedStageId;
         ConDebug.Log($"Last Cleared Stage ID: {lastClearedStageId}");
@@ -44,7 +43,7 @@ public class StageDetail : MonoBehaviour
             return;
         }
 
-        var stageMetadataLoc = Data.dataSet.StageMetadataList[lastClearedStageId];
+        var stageMetadataLoc = Data.dataSet.StageMetadataLocList[lastClearedStageId];
         if (stageMetadataLoc == null)
         {
             Debug.LogError($"Stage metadata at index {lastClearedStageId} is null");
@@ -52,13 +51,15 @@ public class StageDetail : MonoBehaviour
         }
 
         stageProgress.ProgressInt = lastClearedStageId % 5;
-        
-        Addressables.LoadAssetAsync<StageMetadata>(stageMetadataLoc).Completed += stageMetadataHandle =>
-        {
-            stageButton.SetStageMetadata(stageMetadataHandle.Result);
-            subcanvas.Open();
-        };
-        
+
+        ProgressMessage.instance.Open("Loading...");
+
+        var stageMetadata = await Addressables.LoadAssetAsync<StageMetadata>(stageMetadataLoc).Task;
+
+        ProgressMessage.instance.Close();
+        stageButton.SetStageMetadata(stageMetadata);
+        subcanvas.Open();
+
         easelExclamationMark.SetActive(false);
 
         if (BlackContext.instance.LastClearedStageId == 0)
@@ -76,6 +77,11 @@ public class StageDetail : MonoBehaviour
             bottomTip.SetMessage("\\이번 스테이지는 시간제한이 있는 '관문 스테이지'예요! 파이팅!!!".Localized());
             bottomTip.OpenSubcanvas();
         }
+    }
+
+    [UsedImplicitly]
+    public void OpenPopup()
+    {
     }
 
     [UsedImplicitly]

@@ -7,6 +7,6 @@ public class EaselButton : MonoBehaviour
 
     public void OnClick()
     {
-        stageDetail.OpenPopup();
+        stageDetail.OpenPopupAfterLoadingAsync();
     }
 }
