@@ -60,22 +60,28 @@ public class StageDetail : MonoBehaviour
         stageButton.SetStageMetadata(stageMetadata);
         subcanvas.Open();
 
-        easelExclamationMark.SetActive(false);
+        if (easelExclamationMark != null)
+        {
+            easelExclamationMark.SetActive(false);
+        }
 
-        if (BlackContext.instance.LastClearedStageId == 0)
+        if (bottomTip != null)
         {
-            bottomTip.SetMessage("\\시작하기를 눌러 색칠을 시작하세요~!".Localized());
-            bottomTip.OpenSubcanvas();
-        }
-        else if (BlackContext.instance.LastClearedStageId == 1)
-        {
-            bottomTip.SetMessage("\\잘 했어요! 다음 스테이지도 어서어서 색칠합시다.".Localized());
-            bottomTip.OpenSubcanvas();
-        }
-        else if (BlackContext.instance.LastClearedStageId == 4)
-        {
-            bottomTip.SetMessage("\\이번 스테이지는 시간제한이 있는 '관문 스테이지'예요! 파이팅!!!".Localized());
-            bottomTip.OpenSubcanvas();
+            if (BlackContext.instance.LastClearedStageId == 0)
+            {
+                bottomTip.SetMessage("\\시작하기를 눌러 색칠을 시작하세요~!".Localized());
+                bottomTip.OpenSubcanvas();
+            }
+            else if (BlackContext.instance.LastClearedStageId == 1)
+            {
+                bottomTip.SetMessage("\\잘 했어요! 다음 스테이지도 어서어서 색칠합시다.".Localized());
+                bottomTip.OpenSubcanvas();
+            }
+            else if (BlackContext.instance.LastClearedStageId == 4)
+            {
+                bottomTip.SetMessage("\\이번 스테이지는 시간제한이 있는 '관문 스테이지'예요! 파이팅!!!".Localized());
+                bottomTip.OpenSubcanvas();
+            }
         }
     }
 
@@ -87,13 +93,18 @@ public class StageDetail : MonoBehaviour
     [UsedImplicitly]
     void ClosePopup()
     {
-        easelExclamationMark.SetActive(IsAllCleared == false);
+        if (easelExclamationMark != null)
+        {
+            easelExclamationMark.SetActive(IsAllCleared == false);
+        }
 
         SetInitialBottomTip();
     }
 
     void SetInitialBottomTip()
     {
+        if (bottomTip == null) return;
+        
         if (BlackContext.instance.LastClearedStageId == 0)
         {
             bottomTip.SetMessage("\\이젤을 터치해서 색칠할 그림을 확인해봐요.".Localized());
