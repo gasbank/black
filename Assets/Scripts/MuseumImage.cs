@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,24 @@ public class MuseumImage : MonoBehaviour
 {
     [SerializeField]
     MuseumDebris[] debrisList;
+
+    void OnEnable()
+    {
+        BlackContext.instance.OnGoldChanged += OnOnGoldChanged;
+    }
+
+    void OnOnGoldChanged()
+    {
+        foreach (var t in debrisList)
+        {
+            if (t == null)
+            {
+                continue;
+            }
+
+            t.UpdateExclamationMark();
+        }
+    }
 
 #if UNITY_EDITOR
     void OnValidate()

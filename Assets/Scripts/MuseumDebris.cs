@@ -20,10 +20,14 @@ public class MuseumDebris : MonoBehaviour
     [SerializeField]
     ScUInt128 clearPrice = 1;
 
+    [SerializeField]
+    EaselExclamationMark exclamationMark;
+
 #if UNITY_EDITOR
     void OnValidate()
     {
         AutoBindUtil.BindAll(this);
+        exclamationMark = transform.GetComponentInChildren<EaselExclamationMark>();
     }
 #endif
 
@@ -32,6 +36,7 @@ public class MuseumDebris : MonoBehaviour
     public void Open()
     {
         subcanvas.Open();
+        UpdateExclamationMark();
     }
 
     public void Close()
@@ -82,5 +87,15 @@ public class MuseumDebris : MonoBehaviour
     [UsedImplicitly]
     void ClosePopup()
     {
+    }
+
+    public void UpdateExclamationMark()
+    {
+        if (IsOpen == false)
+        {
+            return;
+        }
+        
+        exclamationMark.gameObject.SetActive(BlackContext.instance.Gold >= clearPrice.ToUInt128());
     }
 }
