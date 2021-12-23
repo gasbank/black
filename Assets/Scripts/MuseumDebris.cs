@@ -1,6 +1,7 @@
 using Dirichlet.Numerics;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
@@ -23,6 +24,15 @@ public class MuseumDebris : MonoBehaviour
     [SerializeField]
     EaselExclamationMark exclamationMark;
 
+    public bool IsExclamationMarkShown
+    {
+        get
+        {
+            UpdateExclamationMark(); 
+            return subcanvas.IsOpen && exclamationMark.gameObject.activeInHierarchy;
+        }
+    }
+    
 #if UNITY_EDITOR
     void OnValidate()
     {
@@ -91,11 +101,6 @@ public class MuseumDebris : MonoBehaviour
 
     public void UpdateExclamationMark()
     {
-        if (IsOpen == false)
-        {
-            return;
-        }
-        
-        exclamationMark.gameObject.SetActive(BlackContext.instance.Gold >= clearPrice.ToUInt128());
+        exclamationMark.gameObject.SetActive(subcanvas.IsOpen && BlackContext.instance.Gold >= clearPrice.ToUInt128());
     }
 }

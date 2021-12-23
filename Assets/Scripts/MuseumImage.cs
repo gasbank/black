@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -8,12 +9,29 @@ public class MuseumImage : MonoBehaviour
     [SerializeField]
     MuseumDebris[] debrisList;
 
+    public bool IsAnyExclamationMarkShown => debrisList.Where(e => e != null).Any(e => e.IsExclamationMarkShown); 
+
     void OnEnable()
     {
-        BlackContext.instance.OnGoldChanged += OnOnGoldChanged;
+        BlackContext.instance.OnGoldChanged += OnGoldChanged;
     }
 
-    void OnOnGoldChanged()
+    void OnDisable()
+    {
+        BlackContext.instance.OnGoldChanged -= OnGoldChanged;
+    }
+
+    void Start()
+    {
+        UpdateExclamationMark();
+    }
+
+    void OnGoldChanged()
+    {
+        UpdateExclamationMark();
+    }
+
+    void UpdateExclamationMark()
     {
         foreach (var t in debrisList)
         {
