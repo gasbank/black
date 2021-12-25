@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using UnityEngine.UI;
 public class MainGame : MonoBehaviour
 {
     static bool Verbose => false;
-    
+
     static readonly int ColorTexture = Shader.PropertyToID("ColorTexture");
 
     [SerializeField]
@@ -43,6 +44,15 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     Image targetImageOutline;
 
+    [SerializeField]
+    GameObject timeGroup;
+
+    [SerializeField]
+    Text timeText;
+
+    [SerializeField]
+    float remainTime;
+
     public bool CanInteractPanAndZoom => islandLabelSpawner.IsLabelByMinPointEmpty == false;
 
     async void Start()
@@ -68,7 +78,7 @@ public class MainGame : MonoBehaviour
             {
                 await Task.Yield();
             }
-            
+
             stageMetadata = await Addressables.LoadAssetAsync<StageMetadata>(Data.dataSet.StageMetadataLocList[0]).Task;
         }
 
@@ -117,6 +127,18 @@ public class MainGame : MonoBehaviour
         islandLabelSpawner.CreateAllLabels(stageData);
 
         var counts = gridWorld.CountWhiteAndBlackInBitmap();
+
+        remainTime = stageMetadata.RemainTime;
+
+        if (stageMetadata.RemainTime > 0)
+        {
+            ActivateTime();
+        }
+        else
+        {
+            DeactivateTime();
+        }
+        
         if (Verbose)
         {
             ConDebug.Log($"Tex size: {gridWorld.TexSize}");
@@ -173,5 +195,39 @@ public class MainGame : MonoBehaviour
     {
         if (show) achieveGroup.Show();
         else achieveGroup.Hide();
+    }
+
+    void Update()
+    {
+        if (timeGroup.gameObject.activeInHierarchy)
+        {
+            remainTime = Mathf.Max(0, remainTime - Time.deltaTime);
+            GetMinutesSeconds(TimeSpan.FromSeconds(remainTime), out var minutes, out var seconds);
+            timeText.text = @"\남은 시간".Localized() + "\n" + $"{minutes:00}:{seconds:00}";
+
+            if (remainTime <= 0)
+            {
+                DeactivateTime();
+                gridWorld.DeleteSaveFile();
+                ConfirmPopup.instance.Open("제한 시간이 지났습니다. 처음부터 다시 시작해야합니다.",
+                    () => SceneManager.LoadScene("Stage Selection"));
+            }
+        }
+    }
+
+    static void GetMinutesSeconds(TimeSpan totalElapsedTimeSpan, out int minutes, out int seconds)
+    {
+        int.TryParse(totalElapsedTimeSpan.ToString("%m"), out minutes);
+        int.TryParse(totalElapsedTimeSpan.ToString("%s"), out seconds);
+    }
+
+    public void DeactivateTime()
+    {
+        timeGroup.gameObject.SetActive(false);
+    }
+    
+    void ActivateTime()
+    {
+        timeGroup.gameObject.SetActive(true);
     }
 }

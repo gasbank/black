@@ -376,7 +376,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3600738253834969587}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -465,8 +465,8 @@ MonoBehaviour:
   popupImage: {fileID: 0}
   popupImageLayoutElement: {fileID: 0}
   popupImageParentRect: {fileID: 0}
-  riceClaimButtonImageSprite: {fileID: 0}
-  riceClaimImageSprite: {fileID: 0}
+  goldClaimButtonImageSprite: {fileID: 0}
+  goldClaimImageSprite: {fileID: 0}
   skipRenderGraphic: {fileID: 0}
   subcanvas: {fileID: 3600738253834969589}
   title: {fileID: 0}

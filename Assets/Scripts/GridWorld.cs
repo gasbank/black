@@ -60,6 +60,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField]
     Texture2D tex;
 
+    [SerializeField]
+    MainGame mainGame;
+
     public Texture2D Tex => tex;
 
     public int TexSize => tex.width;
@@ -120,6 +123,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void StartFinale()
     {
+        mainGame.DeactivateTime();
         finaleDirector.Play(finaleDirector.playableAsset);
         UpdateLastClearedStageIdAndSave();
     }
@@ -200,7 +204,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         SceneManager.LoadScene("Main");
     }
 
-    void DeleteSaveFile()
+    public void DeleteSaveFile()
     {
         stageSaveManager.DeleteSaveFile(StageName);
     }
