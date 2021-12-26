@@ -18,6 +18,9 @@ public class Admin : MonoBehaviour
     public static Admin instance;
 
     [SerializeField]
+    Subcanvas adminMenuSubcanvas;
+
+    [SerializeField]
     Button changeButton;
 
     [SerializeField]
@@ -326,7 +329,7 @@ public class Admin : MonoBehaviour
 
     void CloseAdminMenu()
     {
-        gameObject.SetActive(false);
+        adminMenuSubcanvas.Close();
     }
 
     public async void ShowDummyProgressMessage()
@@ -419,4 +422,13 @@ public class Admin : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.F5)) ScreenCapture.CaptureScreenshot("Test");
     }
 #endif
+
+    public void TestAd()
+    {
+#if BLACK_ADMIN
+        CloseAdminMenu();
+        var adContext = new BlackAdContext(1);
+        PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
+#endif
+    }
 }

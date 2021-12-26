@@ -314,7 +314,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     {
 #if BLACK_ADMIN
 #if UNITY_ANDROID
-        var adUnitId = "ca-app-pub-5072035175916776/7928389116";
+        var adUnitId = "ca-app-pub-3940256099942544/5224354917";
 #elif UNITY_IOS
         string adUnitId = "unexpected_platform";
 #else
@@ -322,7 +322,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
 #endif
 #else
 #if UNITY_ANDROID
-        string adUnitId = "unexpected_platform";
+        var adUnitId = "ca-app-pub-5072035175916776/7928389116";
 #elif UNITY_IOS
         string adUnitId = "unexpected_platform";
 #else

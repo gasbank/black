@@ -2019,7 +2019,7 @@ GameObject:
   - component: {fileID: 440251232}
   - component: {fileID: 440251231}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: Test Ad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2088,7 +2088,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 440251232}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1059855755}
+        m_TargetAssemblyTypeName: Admin, Black
+        m_MethodName: TestAd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &440251232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10207,7 +10219,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Test Ad
 --- !u!222 &1507009039
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13778,6 +13790,11 @@ PrefabInstance:
       propertyPath: museumImage
       value: 
       objectReference: {fileID: 2012340037}
+    - target: {fileID: 2425384018333359075, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
+        type: 3}
+      propertyPath: adminMenuSubcanvas
+      value: 
+      objectReference: {fileID: 1557838492}
     - target: {fileID: 2425384018903423699, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
         type: 3}
       propertyPath: configPopup

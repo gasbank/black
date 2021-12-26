@@ -4,7 +4,6 @@ public class PlatformInterface : MonoBehaviour
 {
     public static PlatformInterface instance;
     public IPlatformAds ads;
-    public IPlatformBackgroundTimeCompensator backgroundTimeCompensator;
     public IPlatformConfig config;
     public IPlatformConfirmPopup confirmPopup;
     public IPlatformLogEntryType logEntryType;

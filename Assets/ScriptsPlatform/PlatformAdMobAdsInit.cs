@@ -101,9 +101,6 @@ public class PlatformAdMobAdsInit : MonoBehaviour
     void HandleAdOpening(object sender, EventArgs args) {
         PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdOpening)}");
         shouldBeRewarded = false;
-        // 게임 시간 멈추는 주관은 <see cref="BackgroundTimeCompensator.OnBackgrounded(MonoBehaviour)"/>에서 하도록 한다.
-        //Sound.instance.StopTimeAndMuteAudioMixer();
-        UnityMainThreadDispatcher.Instance().Enqueue(() => PlatformInterface.instance.backgroundTimeCompensator.BeginBackgroundState(this));
     }
 
     void HandleAdClosed(object sender, EventArgs args) {
@@ -113,10 +110,6 @@ public class PlatformAdMobAdsInit : MonoBehaviour
             if (shouldBeRewarded) {
                 platformAdMobAds.HandleRewarded();
             }
-
-            // 게임 시간 정상으로 되돌리는 주관은 <see cref="BackgroundTimeCompensator.OnForegrounded(MonoBehaviour)"/>에서 하도록 한다.
-            //Sound.instance.ResumeToNormalTimeAndResumeAudioMixer();
-            PlatformInterface.instance.backgroundTimeCompensator.EndBackgroundState(this);
         });
     }
 

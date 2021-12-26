@@ -394,8 +394,8 @@ MonoBehaviour:
   errorReporter: {fileID: 0}
   fontManager: {fileID: 0}
   noticeManager: {fileID: 2425384019690362613}
-  platformAdMobAds: {fileID: 0}
-  platformAdMobAdsInit: {fileID: 0}
+  platformAdMobAds: {fileID: 1938465472656912810}
+  platformAdMobAdsInit: {fileID: 8900014836290110902}
   platformInterface: {fileID: 2425384018663878183}
   platformReceiptVerifier: {fileID: 0}
   progressMessage: {fileID: 0}

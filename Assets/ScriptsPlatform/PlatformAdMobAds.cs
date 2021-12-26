@@ -37,7 +37,7 @@ public class PlatformAdMobAds : MonoBehaviour
         //PlatformInterface.instance.shortMessage.Show("\\광고 불러오기를 실패했습니다.".Localized());
     }
 
-    void ShowAdsErrorPopup()
+    static void ShowAdsErrorPopup()
     {
         PlatformInterface.instance.confirmPopup.Open(PlatformInterface.instance.text.Str_AdMobError);
     }
