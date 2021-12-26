@@ -314,7 +314,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     {
 #if BLACK_ADMIN
 #if UNITY_ANDROID
-        var adUnitId = "unexpected_platform";
+        var adUnitId = "ca-app-pub-5072035175916776/7928389116";
 #elif UNITY_IOS
         string adUnitId = "unexpected_platform";
 #else
@@ -331,12 +331,6 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
 #endif
         return adUnitId;
     }
-
-    public string NotificationManagerFullClassName => "top.plusalpha.notification.NotificationManager";
-
-    // 버그 신고 기능과 스크린샷 기능은 기능상은 다르지만, 라이브러리를 따로 추가하지
-    // 않고 구현했으므로 같은 이름을 쓴다.
-    public string ScreenshotAndReportFullClassName => "top.plusalpha.screenshot.Screenshot";
 
     public string GetFacebookAdsPlacementId()
     {
