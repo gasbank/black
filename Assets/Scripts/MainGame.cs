@@ -230,4 +230,14 @@ public class MainGame : MonoBehaviour
     {
         timeGroup.gameObject.SetActive(true);
     }
+
+    public void SetRemainTime(float f)
+    {
+        remainTime = f;
+    }
+
+    public float GetRemainTime()
+    {
+        return remainTime;
+    }
 }

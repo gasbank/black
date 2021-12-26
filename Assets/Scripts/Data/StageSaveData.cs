@@ -20,4 +20,7 @@ public class StageSaveData
 
     [Key(2)]
     public float zoomValue;
+
+    [Key(5)]
+    public float remainTime;
 }

@@ -184,8 +184,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         try
         {
-            var stageSaveData = stageSaveManager.Load(StageName);
+            var stageSaveData = stageSaveManager.Load(StageName, StageButton.CurrentStageMetadata);
             LoadBatchFill(StageName, stageSaveData.coloredMinPoints);
+            mainGame.SetRemainTime(stageSaveData.remainTime);
             if (IsLabelByMinPointEmpty)
             {
                 StartFinale();
@@ -441,7 +442,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void WriteStageSaveData()
     {
-        stageSaveManager.Save(StageName, coloredMinPoints, this);
+        stageSaveManager.Save(StageName, coloredMinPoints, this, mainGame.GetRemainTime());
     }
 
     void OnApplicationQuit()

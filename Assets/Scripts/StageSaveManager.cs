@@ -20,9 +20,9 @@ public class StageSaveManager : MonoBehaviour
     {
     }
 
-    public void Save(string stageName, HashSet<uint> coloredMinPoints, GridWorld gridWorld)
+    public void Save(string stageName, HashSet<uint> coloredMinPoints, GridWorld gridWorld, float remainTime)
     {
-        SaveStageData(stageName, coloredMinPoints);
+        SaveStageData(stageName, coloredMinPoints, remainTime);
         SaveGameData(gridWorld);
         SaveWipPngData(stageName, gridWorld);
     }
@@ -51,12 +51,12 @@ public class StageSaveManager : MonoBehaviour
         }
     }
 
-    void SaveStageData(string stageName, HashSet<uint> coloredMinPoints)
+    void SaveStageData(string stageName, HashSet<uint> coloredMinPoints, float remainTime)
     {
         ConDebug.Log($"Saving save data for '{stageName}'...");
         InitializeMessagePackConditional();
         FileUtil.SaveAtomically(GetStageSaveFileName(stageName),
-            MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints), Data.DefaultOptions));
+            MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints, remainTime), Data.DefaultOptions));
     }
 
     void SaveGameData(GridWorld gridWorld)
@@ -78,7 +78,7 @@ public class StageSaveManager : MonoBehaviour
         File.Delete(wipPngPath);
     }
 
-    public StageSaveData Load(string stageName)
+    public StageSaveData Load(string stageName, StageMetadata stageMetadata)
     {
         try
         {
@@ -95,12 +95,12 @@ public class StageSaveManager : MonoBehaviour
         catch (FileNotFoundException)
         {
             ConDebug.Log("No save data exist.");
-            return CreateStageSaveData(stageName, new HashSet<uint>());
+            return CreateStageSaveData(stageName, new HashSet<uint>(), stageMetadata.RemainTime);
         }
         catch (IsolatedStorageException)
         {
             ConDebug.Log("No save data exist.");
-            return CreateStageSaveData(stageName, new HashSet<uint>());
+            return CreateStageSaveData(stageName, new HashSet<uint>(), stageMetadata.RemainTime);
         }
     }
 
@@ -119,7 +119,7 @@ public class StageSaveManager : MonoBehaviour
         return false;
     }
 
-    StageSaveData CreateStageSaveData(string stageName, HashSet<uint> coloredMinPoints)
+    StageSaveData CreateStageSaveData(string stageName, HashSet<uint> coloredMinPoints, float remainTime)
     {
         var stageSaveData = new StageSaveData
         {
@@ -127,7 +127,8 @@ public class StageSaveManager : MonoBehaviour
             coloredMinPoints = coloredMinPoints,
             zoomValue = pinchZoom.ZoomValue,
             targetImageCenterX = targetImage.transform.localPosition.x,
-            targetImageCenterY = targetImage.transform.localPosition.y
+            targetImageCenterY = targetImage.transform.localPosition.y,
+            remainTime = remainTime,
         };
         return stageSaveData;
     }

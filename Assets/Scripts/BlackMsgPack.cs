@@ -1319,12 +1319,13 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(5);
+            writer.WriteArrayHeader(6);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.stageName, options);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.HashSet<uint>>().Serialize(ref writer, value.coloredMinPoints, options);
             writer.Write(value.zoomValue);
             writer.Write(value.targetImageCenterX);
             writer.Write(value.targetImageCenterY);
+            writer.Write(value.remainTime);
         }
 
         public global::StageSaveData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -1342,6 +1343,7 @@ namespace MessagePack.Formatters
             var __targetImageCenterX__ = default(float);
             var __targetImageCenterY__ = default(float);
             var __zoomValue__ = default(float);
+            var __remainTime__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
@@ -1364,6 +1366,9 @@ namespace MessagePack.Formatters
                     case 2:
                         __zoomValue__ = reader.ReadSingle();
                         break;
+                    case 5:
+                        __remainTime__ = reader.ReadSingle();
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -1376,6 +1381,7 @@ namespace MessagePack.Formatters
             ____result.targetImageCenterX = __targetImageCenterX__;
             ____result.targetImageCenterY = __targetImageCenterY__;
             ____result.zoomValue = __zoomValue__;
+            ____result.remainTime = __remainTime__;
             reader.Depth--;
             return ____result;
         }
