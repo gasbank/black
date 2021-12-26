@@ -12,4 +12,9 @@ public class AchievePopup : MonoBehaviour
     void ClosePopup()
     {
     }
+
+    public void Test()
+    {
+
+    }
 }
