@@ -17,4 +17,4 @@ MonoBehaviour:
   sdfMaterial: {fileID: 2100000, guid: 656095b6f858f4acf9da1254865dbd13, type: 2}
   skipBlackMaterial: {fileID: 2100000, guid: 8e2ee52c541f14488b4ea365be5de9cb, type: 2}
   starCount: 0
-  remainTime: 900
+  remainTime: 0

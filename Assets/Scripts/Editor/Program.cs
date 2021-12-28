@@ -113,6 +113,11 @@ namespace black_dev_tools
             return image[Math.Clamp(x, 0, image.Width - 1), Math.Clamp(y, 0, image.Height - 1)];
         }
 
+        static void SetPixelClamped(Image<Rgba32> image, int x, int y, Rgba32 v)
+        {
+            image[Math.Clamp(x, 0, image.Width - 1), Math.Clamp(y, 0, image.Height - 1)] = v;
+        }
+
         static Rgba32 Average(Image<Rgba32> image, int x, int y, int radius)
         {
             var sum = Vector4.Zero;
@@ -139,7 +144,7 @@ namespace black_dev_tools
 
                 for (var y = 0; y < image.Height; y++)
                 for (var x = 0; x < image.Width; x++)
-                    targetImage[x, y] = image[x,y] == Black ? Black : Average(image, x, y, radius);
+                    targetImage[x, y] = image[x, y] == Black ? Black : Average(image, x, y, radius);
 
                 Directory.CreateDirectory(Path.GetDirectoryName(targetFileName));
                 using (var stream = new FileStream(targetFileName, FileMode.Create))
@@ -245,30 +250,30 @@ namespace black_dev_tools
                 var qFileName = ExecuteQuantize(rasapFileName, maxColor);
                 var fotsFileName = ExecuteFlattenedOutlineToSource(qFileName, fsnbFileName);
                 var bytesFileName = ExecuteDetermineIsland(fotsFileName, rasapFileName);
-                
+
                 // 색칠 테스트. 첫 데이터를 얻기 위한 것으로 오류 메시지는 경고로 무시해도 된다.
                 var ditFileName = ExecuteDetermineIslandTest(fsnbFileName, bytesFileName, true);
-                
+
                 // DIT 파일이 최종 컬러링 완성 시의 이미지이다. 이걸로 최종적으로 데이터를 다시 뽑는다.
                 bytesFileName = ExecuteDetermineIsland(ditFileName, rasapFileName);
-                
+
                 //두 번째 테스트. 여기서 오류가 나면 뭔가 이상한거다.
                 ExecuteDetermineIslandTest(fsnbFileName, bytesFileName, false);
-                
+
                 var bbFileName = ExecuteBoxBlur(fsnbFileName, 1);
                 ExecuteSdf(bbFileName);
 
                 // 필요없는 파일은 삭제한다.
                 // 디버그가 필요한 경우 삭제하지 않고 살펴보면 된다.
-                if (rasapFileName != startFileName)
-                {
-                    File.Delete(rasapFileName);
-                }
-                File.Delete(otbFileName);
-                File.Delete(qFileName);
-                File.Delete(fotsFileName);
-                File.Delete(ditFileName);
-                File.Delete(bbFileName);
+//                if (rasapFileName != startFileName)
+//                {
+//                    File.Delete(rasapFileName);
+//                }
+//                File.Delete(otbFileName);
+//                File.Delete(qFileName);
+//                File.Delete(fotsFileName);
+//                File.Delete(ditFileName);
+//                File.Delete(bbFileName);
             }
             else
             {
@@ -311,12 +316,12 @@ namespace black_dev_tools
                     var targetColor = UInt32ToRgba32(island.Value.rgba);
                     var fillMinPoint = FloodFill.ExecuteFillIf(image, minPoint, White, targetColor, out var pixelArea,
                         out _, out _);
-                    
+
                     if (fillMinPoint == new Vector2Int(image.Width, image.Height))
                     {
                         if (errorAsWarning)
                         {
-                            Logger.WriteLine("Logic error in ExecuteDetermineIslandTest()! Invalid fillMinPoint");    
+                            Logger.WriteLine("Logic error in ExecuteDetermineIslandTest()! Invalid fillMinPoint");
                         }
                         else
                         {
@@ -562,7 +567,7 @@ namespace black_dev_tools
                     if (outlineImage[w, h] == Black)
                         sourceImage[w, h] = Black;
                 }
-                    
+
 
                 using (var stream = new FileStream(targetFileName, FileMode.Create))
                 {
@@ -620,14 +625,30 @@ namespace black_dev_tools
             var targetFileName = AppendToFileName(sourceFileName, "-OTB");
             using (var image = Image.Load<Rgba32>(sourceFileName))
             {
+                var newImage = image.Clone();
+
                 for (var h = 0; h < image.Height; h++)
                 for (var w = 0; w < image.Width; w++)
                 {
                     var pixelColor = image[w, h];
-                    if (pixelColor.R <= threshold && pixelColor.G <= threshold && pixelColor.B <= threshold)
-                        image[w, h] = Black;
+                    var r = pixelColor.R / 255.0f;
+                    var g = pixelColor.G / 255.0f;
+                    var b = pixelColor.B / 255.0f;
+                    var y = 0.2126f * r + 0.7152f * g + 0.0722f * b;
+                    if (y < threshold / 255.0f)
+                    {
+                        var ss = 0;
+                        // 7x7 윈도우로 모두 검은색 만들기
+                        for (var hh = -ss; hh <= ss; hh++)
+                        for (var ww = -ss; ww <= ss; ww++)
+                        {
+                            SetPixelClamped(newImage, w + ww, h + hh, Black);
+                        }
+                    }
                     else
-                        image[w, h] = White;
+                    {
+                        newImage[w, h] = White;
+                    }
                 }
 
                 var targetDirName = Path.GetDirectoryName(targetFileName);
@@ -636,10 +657,10 @@ namespace black_dev_tools
                     Directory.CreateDirectory(targetDirName);
                     using (var stream = new FileStream(targetFileName, FileMode.Create))
                     {
-                        image.SaveAsPng(stream);
+                        newImage.SaveAsPng(stream);
                         stream.Close();
                     }
-                    
+
                     // Check only white & black
                     using var targetImage = Image.Load<Rgba32>(targetFileName);
                     for (var h = 0; h < targetImage.Height; h++)
@@ -647,7 +668,8 @@ namespace black_dev_tools
                     {
                         if (targetImage[w, h] != Black && targetImage[w, h] != White)
                         {
-                            Logger.WriteErrorLine($"Logic error. Image pixel at ({w},{h}) is not black or white. It is {targetImage[w, h]}");
+                            Logger.WriteErrorLine(
+                                $"Logic error. Image pixel at ({w},{h}) is not black or white. It is {targetImage[w, h]}");
                         }
                     }
                 }
