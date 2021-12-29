@@ -35,6 +35,7 @@ public class PaletteButton : MonoBehaviour
     public float ColoredRatio
     {
         set => gauge.fillAmount = value;
+        get => gauge.fillAmount;
     }
 
     public Color PaletteColor => image.color;

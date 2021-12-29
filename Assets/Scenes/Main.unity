@@ -2890,6 +2890,8 @@ MonoBehaviour:
   paletteButtonList: []
   paletteButtonPrefab: {fileID: 8210816990736881292, guid: cf50f43a04ded4582834cd22cedc290c,
     type: 3}
+  poofPrefab: {fileID: 1006482324794380090, guid: a898cd558cb6a494cae96e7246e0f3fb,
+    type: 3}
 --- !u!1001 &961282700
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -184,7 +184,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         try
         {
-            var stageSaveData = stageSaveManager.Load(StageName, StageButton.CurrentStageMetadata);
+            var stageSaveData = stageSaveManager.Load(StageName);
             LoadBatchFill(StageName, stageSaveData.coloredMinPoints);
             mainGame.SetRemainTime(stageSaveData.remainTime);
             if (IsLabelByMinPointEmpty)
@@ -207,7 +207,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void DeleteSaveFile()
     {
-        stageSaveManager.DeleteSaveFile(StageName);
+        StageSaveManager.DeleteSaveFile(StageName);
     }
 
     static bool ColorMatch(Color32 a, Color32 b)
@@ -409,9 +409,13 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
 
         StageSaveManager.LoadWipPng(stageName, tex);
-        if (inColoredMinPoints.Count > 0)
-            foreach (var minPoint in inColoredMinPoints)
-                UpdatePaletteBySolutionColor(minPoint, stageData.islandDataByMinPoint[minPoint].rgba);
+        
+        if (inColoredMinPoints.Count <= 0) return;
+        
+        foreach (var minPoint in inColoredMinPoints)
+        {
+            UpdatePaletteBySolutionColor(minPoint, stageData.islandDataByMinPoint[minPoint].rgba);
+        }
     }
 
     IEnumerator HideFlicker()

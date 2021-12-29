@@ -14,6 +14,9 @@ public class PaletteButtonGroup : MonoBehaviour
     [SerializeField]
     PaletteButton paletteButtonPrefab;
 
+    [SerializeField]
+    GameObject poofPrefab;
+
     readonly Dictionary<uint, int> paletteIndexbyColor = new Dictionary<uint, int>();
 
     StageData stageData;
@@ -90,7 +93,24 @@ public class PaletteButtonGroup : MonoBehaviour
 
     public void UpdateColoredCount(uint color, int count)
     {
-        paletteButtonList[GetPaletteIndexByColor(color)].ColoredRatio =
-            (float) count / stageData.islandCountByColor[color];
+        var paletteButton = paletteButtonList[GetPaletteIndexByColor(color)];
+        
+        var oldRatio = paletteButton.ColoredRatio;
+        var newRatio = (float) count / stageData.islandCountByColor[color];
+        
+        paletteButton.ColoredRatio = newRatio;
+
+        // 다 칠한 팔레트는 사라진다.
+        paletteButton.gameObject.SetActive(newRatio < 1.0f);
+
+        if (oldRatio >= 1.0f || newRatio < 1.0f) return;
+
+        if (poofPrefab == null) return;
+        
+        // 이번에 칠해서 사라졌다. 펑 효과 보여주자.
+        var poof = Instantiate(poofPrefab, GetComponentInParent<Canvas>().transform).GetComponent<Poof>();
+        var poofTransform = poof.transform;
+        poofTransform.position = paletteButton.transform.position;
+        poofTransform.localScale = Vector3.one;
     }
 }

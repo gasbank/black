@@ -27,7 +27,7 @@ public class StageSaveManager : MonoBehaviour
         SaveWipPngData(stageName, gridWorld);
     }
 
-    string GetStageSaveFileName(string stageName)
+    static string GetStageSaveFileName(string stageName)
     {
         return stageName + ".save";
     }
@@ -37,7 +37,7 @@ public class StageSaveManager : MonoBehaviour
         return stageName + ".png";
     }
 
-    void SaveWipPngData(string stageName, GridWorld gridWorld)
+    static void SaveWipPngData(string stageName, GridWorld gridWorld)
     {
         var bytes = gridWorld.Tex.EncodeToPNG();
         if (bytes != null)
@@ -59,7 +59,7 @@ public class StageSaveManager : MonoBehaviour
             MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints, remainTime), Data.DefaultOptions));
     }
 
-    void SaveGameData(GridWorld gridWorld)
+    static void SaveGameData(GridWorld gridWorld)
     {
         ConDebug.Log("Saving game data...");
         InitializeMessagePackConditional();
@@ -67,7 +67,7 @@ public class StageSaveManager : MonoBehaviour
             MessagePackSerializer.Serialize(CreateGameSaveData(gridWorld), Data.DefaultOptions));
     }
 
-    public void DeleteSaveFile(string stageName)
+    public static void DeleteSaveFile(string stageName)
     {
         var saveDataPath = FileUtil.GetPath(GetStageSaveFileName(stageName));
         ConDebug.Log($"Deleting save file '{saveDataPath}'...");
@@ -78,7 +78,7 @@ public class StageSaveManager : MonoBehaviour
         File.Delete(wipPngPath);
     }
 
-    public StageSaveData Load(string stageName, StageMetadata stageMetadata)
+    public StageSaveData Load(string stageName)
     {
         try
         {
@@ -87,9 +87,15 @@ public class StageSaveManager : MonoBehaviour
             var bytes = File.ReadAllBytes(FileUtil.GetPath(GetStageSaveFileName(stageName)));
             ConDebug.Log($"{bytes.Length} bytes loaded.");
             var stageSaveData = MessagePackSerializer.Deserialize<StageSaveData>(bytes, Data.DefaultOptions);
-            targetImage.transform.localPosition = new Vector3(stageSaveData.targetImageCenterX,
-                stageSaveData.targetImageCenterY, targetImage.transform.localPosition.z);
+
+            var targetImageTransform = targetImage.transform;
+            var targetImageLocPos = targetImageTransform.localPosition;
+            
+            targetImageTransform.localPosition = new Vector3(stageSaveData.targetImageCenterX,
+                stageSaveData.targetImageCenterY, targetImageLocPos.z);
+            
             pinchZoom.ZoomValue = stageSaveData.zoomValue;
+            
             return stageSaveData;
         }
         catch (FileNotFoundException)
@@ -121,19 +127,20 @@ public class StageSaveManager : MonoBehaviour
 
     StageSaveData CreateStageSaveData(string stageName, HashSet<uint> coloredMinPoints, float remainTime)
     {
+        var targetImageLocPos = targetImage.transform.localPosition;
         var stageSaveData = new StageSaveData
         {
             stageName = stageName,
             coloredMinPoints = coloredMinPoints,
             zoomValue = pinchZoom.ZoomValue,
-            targetImageCenterX = targetImage.transform.localPosition.x,
-            targetImageCenterY = targetImage.transform.localPosition.y,
+            targetImageCenterX = targetImageLocPos.x,
+            targetImageCenterY = targetImageLocPos.y,
             remainTime = remainTime,
         };
         return stageSaveData;
     }
 
-    GameSaveData CreateGameSaveData(GridWorld gridWorld)
+    static GameSaveData CreateGameSaveData(GridWorld gridWorld)
     {
         var gameSaveData = new GameSaveData
         {
