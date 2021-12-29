@@ -120,6 +120,12 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
 
     public string InputFieldText => inputField.text;
 
+    void Awake()
+    {
+        // 에디터에서 열어둔 채로 프리팹 저장하는 경우가 허다하다. 끄고 시작하자.
+        subcanvas.Close();
+    }
+
     public void OpenYesNoPopup(string msg, Action onYes, Action onNo)
     {
         OpenYesNoPopup(msg, onYes, onNo, "\\확인".Localized());
