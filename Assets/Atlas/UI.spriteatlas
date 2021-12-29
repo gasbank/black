@@ -47,6 +47,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 1aeae0917b2aa49f0905f4bc767251e6, type: 3}
   - {fileID: 21300000, guid: db654902386abdd4ca6f81f40bab89dd, type: 3}
   - {fileID: 21300000, guid: 3b368e5284e9b4f31ab20b9a80851f88, type: 3}
+  - {fileID: 21300000, guid: e5424a825680644ccb2198788f7ff2aa, type: 3}
   - {fileID: 21300000, guid: b2ffe8927f1db459f93b05003fa443a8, type: 3}
   - {fileID: 21300000, guid: 6c5beea2e76c34698a463f620c60247a, type: 3}
   - {fileID: 21300000, guid: 946f4983e0698e34bbca6c81f27551dc, type: 3}
@@ -121,6 +122,7 @@ SpriteAtlas:
   - medal
   - SideMenu_UI_slot_bg
   - white-circle-256-sliced
+  - popup_icon_Result
   - mango
   - popup_bg_top
   - main_ui_coin_bg
