@@ -563,4 +563,9 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
     {
         if (IsOpen) onCloseButton();
     }
+
+    public void OpenSimpleMessage(string message)
+    {
+        Open(message, Close);
+    }
 }

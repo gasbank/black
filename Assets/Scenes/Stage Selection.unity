@@ -5119,6 +5119,94 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &837724707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 837724709}
+  - component: {fileID: 837724708}
+  - component: {fileID: 837724710}
+  m_Layer: 0
+  m_Name: Intro Director
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!320 &837724708
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837724707}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: afe4c1c86d7b54c97b9356ac78f8a40d, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: -2678357626214012834, guid: afe4c1c86d7b54c97b9356ac78f8a40d, type: 2}
+    value: {fileID: 2012340035}
+  - key: {fileID: 1598125355388593574, guid: afe4c1c86d7b54c97b9356ac78f8a40d, type: 2}
+    value: {fileID: 1360991712}
+  - key: {fileID: -8288431624367761926, guid: afe4c1c86d7b54c97b9356ac78f8a40d, type: 2}
+    value: {fileID: 734260535}
+  - key: {fileID: 968904130479405517, guid: afe4c1c86d7b54c97b9356ac78f8a40d, type: 2}
+    value: {fileID: 1079462864}
+  m_ExposedReferences:
+    m_References:
+    - 86998b722159943f1abdec7a2e7e03ea: {fileID: 1079462858}
+--- !u!4 &837724709
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837724707}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &837724710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837724707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 7c279673a1b81453ea2422362f613025, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 837724707}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &840363370
 GameObject:
   m_ObjectHideFlags: 0
@@ -6795,6 +6883,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageButtonPrefab: {fileID: 5754413660071529047, guid: d8cd63886cde0424cbaab528e23cc55d,
     type: 3}
+--- !u!1 &1079462858 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3600738253834969587, guid: fd43eb6f1015f874b947d5e2355f7977,
+    type: 3}
+  m_PrefabInstance: {fileID: 3600738252977103464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1079462864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079462858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 7c279673a1b81453ea2422362f613025, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1428292514}
+          m_TargetAssemblyTypeName: ConfirmPopup, Black
+          m_MethodName: OpenSimpleMessage
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Welcome to Color Museum!
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1087415540
 GameObject:
   m_ObjectHideFlags: 0
@@ -8521,7 +8645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1385009039
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9536,7 +9660,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 3600738252977103464}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1079462858}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 342ea5b9250714d96a43400a87018fa7, type: 3}
