@@ -95,12 +95,12 @@ public class StageSaveManager : MonoBehaviour
         catch (FileNotFoundException)
         {
             ConDebug.Log("No save data exist.");
-            return CreateStageSaveData(stageName, new HashSet<uint>(), stageMetadata.RemainTime);
+            return CreateStageSaveData(stageName, new HashSet<uint>(), 0);
         }
         catch (IsolatedStorageException)
         {
             ConDebug.Log("No save data exist.");
-            return CreateStageSaveData(stageName, new HashSet<uint>(), stageMetadata.RemainTime);
+            return CreateStageSaveData(stageName, new HashSet<uint>(), 0);
         }
     }
 

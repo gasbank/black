@@ -21,7 +21,7 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
     RectTransform rt;
 
     [SerializeField]
-    Transform targetImage;
+    RectTransform targetImage;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -42,7 +42,16 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
             RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main,
                 out var dragWorldPosition);
             targetImage.position = beginDragTargetPosition + (dragWorldPosition - beginDragWorldPosition);
+            LimitDragRange();
         }
+    }
+
+    void LimitDragRange()
+    {
+        var anchoredPosition = targetImage.anchoredPosition;
+        anchoredPosition.x = Mathf.Clamp(anchoredPosition.x, -500, 500);
+        anchoredPosition.y = Mathf.Clamp(anchoredPosition.y, -500, 500);
+        targetImage.anchoredPosition = anchoredPosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
