@@ -25,6 +25,7 @@ public class AchievementRecord1
         {
             maxBlackLevel = value;
             AchievementPopup.instance.UpdateAchievementTab("maxBlackLevel");
+            AchievePopup.instance.UpdateAchievementProgress("maxBlackLevel");
             if (leaderboard)
                 try
                 {
