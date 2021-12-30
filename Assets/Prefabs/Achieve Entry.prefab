@@ -399,6 +399,7 @@ GameObject:
   - component: {fileID: 3891857049413755393}
   - component: {fileID: 3891857049413755394}
   - component: {fileID: 3891857049413755395}
+  - component: {fileID: 8765671810864603637}
   m_Layer: 5
   m_Name: Get Button
   m_TagString: Untagged
@@ -509,10 +510,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainGame, Black
-        m_MethodName: AchievePopup
-        m_Mode: 6
+      - m_Target: {fileID: -7740815767757602405}
+        m_TargetAssemblyTypeName: AchievementEntry, Black
+        m_MethodName: Redeem
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -521,6 +522,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8765671810864603637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3891857049413755397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 178b92a41d294a34994776cf70ae2b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  achievementEntry: {fileID: 0}
+  down: 0
+  downDuration: 0
+  lastRepeatRedeemTime: 0
+  repeatAchievementCondition: 
+  repeatRedeemInterval: 0.5
+  repeatRedeemThreshold: 1.5
 --- !u!1 &3891857049685293495
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,7 +620,7 @@ MonoBehaviour:
       value: 
   achievementDesc: {fileID: 2494729758909857678}
   achievementName: {fileID: 3334197894682049942}
-  achievementRedeemButton: {fileID: 0}
+  achievementRedeemButton: {fileID: 8765671810864603637}
   image: {fileID: 0}
   redeemButton: {fileID: 3891857049413755395}
   rewardGemImage: {fileID: 0}

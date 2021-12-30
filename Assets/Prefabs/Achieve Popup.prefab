@@ -454,7 +454,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 729117574853840268}
+  - {fileID: 3264909156568314649}
   - {fileID: 685746239823241086}
   m_Father: {fileID: 729117574798945093}
   m_RootOrder: 0
@@ -568,7 +568,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729117575547784392}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -787,7 +787,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1001 &4331618208894104634
+--- !u!1001 &1967491161538677423
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -904,13 +904,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Achieve_01
       objectReference: {fileID: 0}
+    - target: {fileID: 8765671810864603637, guid: d88961e31d32243c19b6a2bb195ae967,
+        type: 3}
+      propertyPath: achievementEntry
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d88961e31d32243c19b6a2bb195ae967, type: 3}
---- !u!224 &729117574853840268 stripped
+--- !u!224 &3264909156568314649 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3891857049685293494, guid: d88961e31d32243c19b6a2bb195ae967,
     type: 3}
-  m_PrefabInstance: {fileID: 4331618208894104634}
+  m_PrefabInstance: {fileID: 1967491161538677423}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4577598750732461768
 PrefabInstance:

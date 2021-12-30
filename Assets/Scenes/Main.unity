@@ -4190,6 +4190,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1119378752}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1134327721 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3104665548131067731, guid: 2403998f80fe144f483ab2ab58118422,
+    type: 3}
+  m_PrefabInstance: {fileID: 1610792094}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd71e377b9253145ab0c66fedfadafb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1151563517
 GameObject:
   m_ObjectHideFlags: 0
@@ -10140,6 +10152,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1397155104}
     m_Modifications:
+    - target: {fileID: 685746239823241086, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 685746239823241086, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 685746239823241086, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 685746239823241086, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 729117574853840268, guid: 2403998f80fe144f483ab2ab58118422,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10288,7 +10320,7 @@ PrefabInstance:
     - target: {fileID: 729117575547784436, guid: 2403998f80fe144f483ab2ab58118422,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 729117575670601273, guid: 2403998f80fe144f483ab2ab58118422,
         type: 3}
@@ -10420,6 +10452,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3264909156568314649, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264909156568314649, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264909156568314649, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264909156568314649, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3928676697030547764, guid: 2403998f80fe144f483ab2ab58118422,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10440,6 +10492,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5053894057228715837, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: achievementEntry
+      value: 
+      objectReference: {fileID: 1134327721}
     - target: {fileID: 5152425400358209125, guid: 2403998f80fe144f483ab2ab58118422,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10520,6 +10577,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7126949538359061338, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: achievementEntry
+      value: 
+      objectReference: {fileID: 1789868723}
     - target: {fileID: 7524985073520212122, guid: 2403998f80fe144f483ab2ab58118422,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10592,104 +10654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1610792098 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 729117574853840269, guid: 2403998f80fe144f483ab2ab58118422,
-    type: 3}
-  m_PrefabInstance: {fileID: 1610792094}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1610792099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610792098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcd71e377b9253145ab0c66fedfadafb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  achievementData:
-    androidAchievementKey:
-      value: 
-    condition:
-      value: 
-    conditionNewArg:
-      value: 0
-    conditionOldArg:
-      value: 0
-    desc:
-      value: 
-    id:
-      value: 0
-    iosAchievementKey:
-      value: 
-    isPlatformAchievement: 0
-    name:
-      value: 
-    rewardGem:
-      value: 0
-    rewardGemMultiplier:
-      value: 0
-    sprite:
-      value: 
-  achievementDesc: {fileID: 0}
-  achievementName: {fileID: 0}
-  achievementRedeemButton: {fileID: 0}
-  image: {fileID: 0}
-  redeemButton: {fileID: 0}
-  rewardGemImage: {fileID: 0}
-  rewardGemText: {fileID: 0}
---- !u!1 &1610792100 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 750556400508393543, guid: 2403998f80fe144f483ab2ab58118422,
-    type: 3}
-  m_PrefabInstance: {fileID: 1610792094}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1610792101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610792100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcd71e377b9253145ab0c66fedfadafb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  achievementData:
-    androidAchievementKey:
-      value: 
-    condition:
-      value: 
-    conditionNewArg:
-      value: 0
-    conditionOldArg:
-      value: 0
-    desc:
-      value: 
-    id:
-      value: 0
-    iosAchievementKey:
-      value: 
-    isPlatformAchievement: 0
-    name:
-      value: 
-    rewardGem:
-      value: 0
-    rewardGemMultiplier:
-      value: 0
-    sprite:
-      value: 
-  achievementDesc: {fileID: 0}
-  achievementName: {fileID: 0}
-  achievementRedeemButton: {fileID: 0}
-  image: {fileID: 0}
-  redeemButton: {fileID: 0}
-  rewardGemImage: {fileID: 0}
-  rewardGemText: {fileID: 0}
 --- !u!1 &1640146609
 GameObject:
   m_ObjectHideFlags: 0
@@ -11917,6 +11881,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1789868723 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1143623879213386548, guid: 2403998f80fe144f483ab2ab58118422,
+    type: 3}
+  m_PrefabInstance: {fileID: 1610792094}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd71e377b9253145ab0c66fedfadafb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1799480000
 GameObject:
   m_ObjectHideFlags: 0
@@ -13198,6 +13174,11 @@ PrefabInstance:
       propertyPath: configPopup
       value: 
       objectReference: {fileID: 961282702}
+    - target: {fileID: 2425384018903423699, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
+        type: 3}
+      propertyPath: achievePopup
+      value: 
+      objectReference: {fileID: 1848492118}
     - target: {fileID: 2425384018903423699, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
         type: 3}
       propertyPath: confirmPopup

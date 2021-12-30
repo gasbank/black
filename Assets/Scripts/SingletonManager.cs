@@ -9,6 +9,9 @@ public class SingletonManager : MonoBehaviour
     AchievementPopup achievementPopup;
 
     [SerializeField]
+    AchievePopup achievePopup;
+
+    [SerializeField]
     Admin admin;
 
     [SerializeField]
@@ -95,6 +98,7 @@ public class SingletonManager : MonoBehaviour
         ProgressMessage.instance = progressMessage;
         Sound.instance = sound;
         AchievementPopup.instance = achievementPopup;
+        AchievePopup.instance = achievePopup;
         ShortMessage.instance = shortMessage;
         BlackContext.instance = blackContext;
         ConfigPopup.instance = configPopup;
