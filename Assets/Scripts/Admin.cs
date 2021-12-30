@@ -323,7 +323,7 @@ public class Admin : MonoBehaviour
     public void ClearAchievementRedeemHistory()
     {
 #if BLACK_ADMIN
-        BlackContext.instance.AchievementRedeemed = new AchievementRecord5(false);
+        BlackContext.instance.AchievementRedeemed = new AchievementRecord1(false);
 #endif
     }
 

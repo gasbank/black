@@ -240,8 +240,8 @@ public class BlackContext : MonoBehaviour, IBlackContext
     }
 
     public GameObject AchievementNewImage { get; } = null;
-    public AchievementRecord5 AchievementGathered { get; set; }
-    public AchievementRecord5 AchievementRedeemed { get; set; }
+    public AchievementRecord1 AchievementGathered { get; set; }
+    public AchievementRecord1 AchievementRedeemed { get; set; }
     public ScLong LastDailyRewardRedeemedIndex { get; set; } = 0;
     public ScLong LastDailyRewardRedeemedTicks { get; set; } = DateTime.MinValue.Ticks;
     public ScInt UserPseudoId { get; set; }

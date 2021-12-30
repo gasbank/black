@@ -672,8 +672,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.SetGold(0);
         context.SetGemZero();
         BlackLogManager.Add(BlackLogEntry.Type.GemToZero, 0, 0);
-        context.AchievementGathered = new AchievementRecord5(true);
-        context.AchievementRedeemed = new AchievementRecord5(false);
+        context.AchievementGathered = new AchievementRecord1(true);
+        context.AchievementRedeemed = new AchievementRecord1(false);
         context.UserPseudoId = NewUserPseudoId();
         context.NoticeData = new NoticeData();
         context.LastDailyRewardRedeemedIndex = 0;

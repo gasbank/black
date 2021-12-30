@@ -15,8 +15,8 @@ public interface IBlackContext
     UInt128 PaidGem { get; }
     UInt128 PendingFreeGem { get; set; }
     GameObject AchievementNewImage { get; }
-    AchievementRecord5 AchievementGathered { get; set; }
-    AchievementRecord5 AchievementRedeemed { get; set; }
+    AchievementRecord1 AchievementGathered { get; set; }
+    AchievementRecord1 AchievementRedeemed { get; set; }
     ScLong LastDailyRewardRedeemedIndex { get; set; }
     ScLong LastDailyRewardRedeemedTicks { get; set; }
     ScInt UserPseudoId { get; set; }

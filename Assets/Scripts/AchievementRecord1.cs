@@ -3,7 +3,7 @@ using Dirichlet.Numerics;
 using UnityEngine;
 
 [Serializable]
-public class AchievementRecord5
+public class AchievementRecord1
 {
     [NonSerialized]
     public bool leaderboard;
@@ -11,7 +11,7 @@ public class AchievementRecord5
     [SerializeField]
     ScUInt128 maxBlackLevel = 0;
 
-    public AchievementRecord5(bool leaderboard)
+    public AchievementRecord1(bool leaderboard)
     {
         this.leaderboard = leaderboard;
     }

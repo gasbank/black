@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class AchievePopup : MonoBehaviour
 {
+    public static AchievePopup instance;
+
     [UsedImplicitly]
     void OpenPopup()
     {
