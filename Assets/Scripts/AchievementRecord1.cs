@@ -11,6 +11,8 @@ public class AchievementRecord1
     [SerializeField]
     ScUInt128 maxBlackLevel = 0;
 
+    ScUInt128 maxColoringCombo = 0;
+
     public AchievementRecord1(bool leaderboard)
     {
         this.leaderboard = leaderboard;
@@ -32,6 +34,16 @@ public class AchievementRecord1
                 {
                     Debug.LogWarning(e.ToString());
                 }
+        }
+    }
+
+    public UInt128 MaxColoringCombo
+    {
+        get => maxColoringCombo;
+        set
+        {
+            maxColoringCombo = value;
+            AchievePopup.instance.UpdateAchievementProgress("maxColoringCombo");
         }
     }
 }

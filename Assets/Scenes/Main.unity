@@ -1784,6 +1784,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 598474533}
   m_CullTransparentMesh: 1
+--- !u!224 &599632270 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 729117575272288070, guid: 2403998f80fe144f483ab2ab58118422,
+    type: 3}
+  m_PrefabInstance: {fileID: 1610792094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &615505213
 GameObject:
   m_ObjectHideFlags: 0
@@ -10154,6 +10160,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 729117574853840269, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_Name
+      value: Achieve Entry
+      objectReference: {fileID: 0}
     - target: {fileID: 729117575272288070, guid: 2403998f80fe144f483ab2ab58118422,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -10274,6 +10285,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 729117575547784436, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 729117575670601273, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 729117575670601273, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1848492118}
+    - target: {fileID: 729117575670601273, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 729117575670601273, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AchievePopup, Black
+      objectReference: {fileID: 0}
     - target: {fileID: 849479312696766194, guid: 2403998f80fe144f483ab2ab58118422,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10354,6 +10390,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2538199429574482101, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: scrollView
+      value: 
+      objectReference: {fileID: 1610792097}
+    - target: {fileID: 2538199429574482101, guid: 2403998f80fe144f483ab2ab58118422,
+        type: 3}
+      propertyPath: scrollViewRect
+      value: 
+      objectReference: {fileID: 599632270}
     - target: {fileID: 2831708301191359386, guid: 2403998f80fe144f483ab2ab58118422,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10534,6 +10580,116 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dcdac4f883e04a8eadc0deaf034b4be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1610792097 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 729117574798945095, guid: 2403998f80fe144f483ab2ab58118422,
+    type: 3}
+  m_PrefabInstance: {fileID: 1610792094}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1610792098 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 729117574853840269, guid: 2403998f80fe144f483ab2ab58118422,
+    type: 3}
+  m_PrefabInstance: {fileID: 1610792094}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1610792099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610792098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd71e377b9253145ab0c66fedfadafb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  achievementData:
+    androidAchievementKey:
+      value: 
+    condition:
+      value: 
+    conditionNewArg:
+      value: 0
+    conditionOldArg:
+      value: 0
+    desc:
+      value: 
+    id:
+      value: 0
+    iosAchievementKey:
+      value: 
+    isPlatformAchievement: 0
+    name:
+      value: 
+    rewardGem:
+      value: 0
+    rewardGemMultiplier:
+      value: 0
+    sprite:
+      value: 
+  achievementDesc: {fileID: 0}
+  achievementName: {fileID: 0}
+  achievementRedeemButton: {fileID: 0}
+  image: {fileID: 0}
+  redeemButton: {fileID: 0}
+  rewardGemImage: {fileID: 0}
+  rewardGemText: {fileID: 0}
+--- !u!1 &1610792100 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 750556400508393543, guid: 2403998f80fe144f483ab2ab58118422,
+    type: 3}
+  m_PrefabInstance: {fileID: 1610792094}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1610792101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610792100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd71e377b9253145ab0c66fedfadafb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  achievementData:
+    androidAchievementKey:
+      value: 
+    condition:
+      value: 
+    conditionNewArg:
+      value: 0
+    conditionOldArg:
+      value: 0
+    desc:
+      value: 
+    id:
+      value: 0
+    iosAchievementKey:
+      value: 
+    isPlatformAchievement: 0
+    name:
+      value: 
+    rewardGem:
+      value: 0
+    rewardGemMultiplier:
+      value: 0
+    sprite:
+      value: 
+  achievementDesc: {fileID: 0}
+  achievementName: {fileID: 0}
+  achievementRedeemButton: {fileID: 0}
+  image: {fileID: 0}
+  redeemButton: {fileID: 0}
+  rewardGemImage: {fileID: 0}
+  rewardGemText: {fileID: 0}
 --- !u!1 &1640146609
 GameObject:
   m_ObjectHideFlags: 0
@@ -11950,6 +12106,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1835563623}
   m_CullTransparentMesh: 0
+--- !u!114 &1848492118 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2538199429574482101, guid: 2403998f80fe144f483ab2ab58118422,
+    type: 3}
+  m_PrefabInstance: {fileID: 1610792094}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b004a9494eefc416f801a23e2dabced5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1880559481
 GameObject:
   m_ObjectHideFlags: 0
