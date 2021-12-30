@@ -176,7 +176,7 @@ public class MainGame : MonoBehaviour
 
         if (BlackContext.instance.PendingGold == 1)
         {
-            ConfirmPopup.instance.Open(@"\클리어를 축하합니다. 1골드를 받았습니다.", () => SceneManager.LoadScene("Stage Selection"));
+            ConfirmPopup.instance.Open(@"\클리어를 축하합니다. {0}골드를 받았습니다.".Localized(1), () => SceneManager.LoadScene("Stage Selection"));
         }
         else
         {
