@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ConditionalDebug;
 using UnityEngine;
+using UnityEngine.InputSystem;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -17,7 +18,7 @@ public class BackButtonHandler : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Keyboard.current[Key.Backspace].wasPressedThisFrame)
         {
             CallBackButtonAction();
         }

@@ -140,8 +140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15c38f6fa1940124db1ab7f6fe7268d1, type: 3}
   m_Name: Signal Emitter
   m_EditorClassIdentifier: 
-  m_Time: 0.65
-  m_Retroactive: 0
+  m_Time: 0
+  m_Retroactive: 1
   m_EmitOnce: 0
   m_Asset: {fileID: 11400000, guid: 7c279673a1b81453ea2422362f613025, type: 2}
 --- !u!114 &-2678357626214012834
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfda56da833e2384a9677cd3c976a436, type: 3}
-  m_Name: Intro DirectorTimeline
+  m_Name: Intro Director Timeline
   m_EditorClassIdentifier: 
   m_Version: 0
   m_Tracks:
@@ -267,7 +267,7 @@ MonoBehaviour:
   - {fileID: -8288431624367761926}
   - {fileID: 1598125355388593574}
   - {fileID: 968904130479405517}
-  m_FixedDuration: 0
+  m_FixedDuration: 8.25
   m_EditorSettings:
     m_Framerate: 60
     m_ScenePreview: 1

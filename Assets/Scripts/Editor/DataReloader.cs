@@ -29,9 +29,13 @@ public static class DataReloader
     {
         var xlsxList = GetUpdatedXlsxList();
         ReloadData(xlsxList, false);
-        CheckLocalizedKeyConsistency();
-    }
 
+        // 한국어 버전밖에 없으니까 지금은 호출할 필요 없다.
+        //CheckLocalizedKeyConsistency();
+    }
+    
+    // 한국어 버전밖에 없으니까 지금은 호출할 필요 없다.
+    // ReSharper disable once UnusedMember.Local
     static void CheckLocalizedKeyConsistency()
     {
         var dataSet = Data.LoadSharedDataSet();
@@ -287,7 +291,8 @@ public static class DataReloader
     static void ReloadDataForce()
     {
         ReloadData(fullXlsxList, true);
-        CheckLocalizedKeyConsistency();
+        
+        //CheckLocalizedKeyConsistency();
     }
 
     [MenuItem("Black/List All Scaled Objects")]

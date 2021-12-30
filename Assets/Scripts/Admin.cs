@@ -9,6 +9,7 @@ using Dirichlet.Numerics;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -419,7 +420,10 @@ public class Admin : MonoBehaviour
 #if BLACK_ADMIN
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.F5)) ScreenCapture.CaptureScreenshot("Test");
+        if (Keyboard.current[Key.F5].wasReleasedThisFrame)
+        {
+            ScreenCapture.CaptureScreenshot("Test");
+        }
     }
 #endif
 

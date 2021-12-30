@@ -392,7 +392,7 @@ MonoBehaviour:
   confirmPopup: {fileID: 0}
   data: {fileID: 2425384019352460545}
   errorReporter: {fileID: 0}
-  fontManager: {fileID: 0}
+  fontManager: {fileID: 1836466411794581992}
   noticeManager: {fileID: 2425384019690362613}
   platformAdMobAds: {fileID: 1938465472656912810}
   platformAdMobAdsInit: {fileID: 8900014836290110902}
@@ -763,6 +763,7 @@ Transform:
   - {fileID: 4459798522848581818}
   - {fileID: 1741164988554657810}
   - {fileID: 6136597670328459926}
+  - {fileID: 1534391767277670925}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1078,6 +1079,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformInterface: {fileID: 2425384018663878183}
   platformAdMobAds: {fileID: 1938465472656912810}
+--- !u!1 &7676334619370603248
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1534391767277670925}
+  - component: {fileID: 1836466411794581992}
+  m_Layer: 0
+  m_Name: Font Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1534391767277670925
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7676334619370603248}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2425384019270992929}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1836466411794581992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7676334619370603248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed227939509804a268bb5a7c0e3b6948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  englishFont: {fileID: 12800000, guid: 7a515f82c6ff41c36a5b1393dbebe67f, type: 3}
+  japaneseFont: {fileID: 12800000, guid: 7a515f82c6ff41c36a5b1393dbebe67f, type: 3}
+  koreanFont: {fileID: 12800000, guid: 7a515f82c6ff41c36a5b1393dbebe67f, type: 3}
+  simplifiedChineseFont: {fileID: 12800000, guid: 7a515f82c6ff41c36a5b1393dbebe67f,
+    type: 3}
+  systemFont: {fileID: 12800000, guid: 7a515f82c6ff41c36a5b1393dbebe67f, type: 3}
+  traditionalChineseFont: {fileID: 12800000, guid: 7a515f82c6ff41c36a5b1393dbebe67f,
+    type: 3}
 --- !u!1 &8009804225351442738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,6 +1289,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8565fe475ebd3d4fb9a0263e064ec6f, type: 3}
+--- !u!4 &2425384018333359074 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3953899335288545544, guid: f8565fe475ebd3d4fb9a0263e064ec6f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1691000046338554602}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2425384018333359075 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3953899335288545545, guid: f8565fe475ebd3d4fb9a0263e064ec6f,
@@ -1249,9 +1307,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fa1e1aee64773d438fb4e98c8c85153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &2425384018333359074 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3953899335288545544, guid: f8565fe475ebd3d4fb9a0263e064ec6f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1691000046338554602}
-  m_PrefabAsset: {fileID: 0}

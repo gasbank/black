@@ -566,6 +566,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
 
     public void OpenSimpleMessage(string message)
     {
+        Debug.Log(nameof(OpenSimpleMessage));
         Open(message, Close);
     }
 }
