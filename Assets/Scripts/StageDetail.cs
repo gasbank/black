@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using ConditionalDebug;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -9,6 +7,8 @@ using UnityEngine.UI;
 
 public class StageDetail : MonoBehaviour
 {
+    public static StageDetail instance;
+    
     [SerializeField]
     StageButton stageButton;
 
@@ -31,6 +31,7 @@ public class StageDetail : MonoBehaviour
     Text startStageButtonText;
 
     public static bool IsAllCleared => BlackContext.instance.LastClearedStageId >= Data.dataSet.StageSequenceData.Count;
+    public float StageLockDetailTime => stageLocker.RemainTime;
 
     void Start()
     {

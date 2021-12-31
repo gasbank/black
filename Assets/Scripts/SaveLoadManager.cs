@@ -177,6 +177,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             maxBlackLevelRedeemed = BlackContext.instance.AchievementRedeemed.MaxBlackLevel,
             maxColoringComboGathered = BlackContext.instance.AchievementGathered.MaxColoringCombo,
             maxColoringComboRedeemed = BlackContext.instance.AchievementRedeemed.MaxColoringCombo,
+            //stageLockRemainTime = StageDetail.instance.StageLockDetailTime,
         };
 
         return SaveBlackSaveData(blackSaveData);

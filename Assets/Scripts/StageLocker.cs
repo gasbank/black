@@ -9,18 +9,19 @@ public class StageLocker : MonoBehaviour
     Subcanvas subcanvas;
 
     [SerializeField]
-    Image stageLockerGauge;
+    Image gauge;
 
     [SerializeField]
-    Text stageLockerText;
+    Text text;
 
     [SerializeField]
-    float stageLockInitialTime;
+    float initialTime;
 
     [SerializeField]
-    float stageLockRemainTime;
+    float remainTime;
 
-    public bool Locked => enabled && stageLockInitialTime > 0 && stageLockRemainTime > 0;
+    public bool Locked => enabled && initialTime > 0 && remainTime > 0;
+    public float RemainTime => Locked ? remainTime : 0;
 
 #if UNITY_EDITOR
     void OnValidate()
@@ -34,10 +35,10 @@ public class StageLocker : MonoBehaviour
 
     void Update()
     {
-        var oldStageLockRemainTime = stageLockRemainTime;
-        stageLockRemainTime = Mathf.Clamp(stageLockRemainTime - Time.deltaTime, 0, stageLockInitialTime);
+        var oldStageLockRemainTime = remainTime;
+        remainTime = Mathf.Clamp(remainTime - Time.deltaTime, 0, initialTime);
 
-        if (stageLockInitialTime <= 0 || stageLockRemainTime <= 0)
+        if (initialTime <= 0 || remainTime <= 0)
         {
             subcanvas.Close();
 
@@ -47,14 +48,14 @@ public class StageLocker : MonoBehaviour
         }
         else
         {
-            if (oldStageLockRemainTime <= 0 && stageLockRemainTime > 0)
+            if (oldStageLockRemainTime <= 0 && remainTime > 0)
             {
                 OnStageLocked?.Invoke();
             }
 
             subcanvas.Open();
-            stageLockerGauge.fillAmount = stageLockRemainTime / stageLockInitialTime;
-            stageLockerText.text = @"\다음 스테이지 준비중\n{0:F1}초".Localized(stageLockRemainTime);
+            gauge.fillAmount = remainTime / initialTime;
+            text.text = @"\다음 스테이지 준비중\n{0:F1}초".Localized(remainTime);
         }
     }
 
@@ -70,6 +71,6 @@ public class StageLocker : MonoBehaviour
 
     public void Unlock()
     {
-        stageLockRemainTime = 0;
+        remainTime = 0;
     }
 }

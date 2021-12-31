@@ -115,4 +115,8 @@ public class BlackSaveData
 
     [Key(35)]
     public ScUInt128 maxColoringComboRedeemed;
+	
+    [Key(36)]
+    public float stageLockRemainTime;
+
 }
