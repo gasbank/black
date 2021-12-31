@@ -85,13 +85,13 @@ public class AchievePopup : MonoBehaviour
         
         var entries = scrollViewRect.GetComponentsInChildren<AchievementEntry>(true);
         UpdateEntryUI(entries[0], group["maxBlackLevel"][0]);
-        // if (BlackContext.instance.AchievementGathered.MaxBlackLevel >= 3 &&
-        //     BlackContext.instance.AchievementRedeemed.MaxBlackLevel < 3)
-        //     EnableEntryUI(entries[0]);
+        if (BlackContext.instance.AchievementGathered.MaxBlackLevel >= 1 &&
+            BlackContext.instance.AchievementRedeemed.MaxBlackLevel < 1)
+            EnableEntryUI(entries[0]);
         UpdateEntryUI(entries[1], group["maxColoringCombo"][0]);
-        // if (BlackContext.instance.AchievementGathered.MaxColoringCombo >= 5 &&
-        //     BlackContext.instance.AchievementRedeemed.MaxColoringCombo < 5)
-        //     EnableEntryUI(entries[1]);
+        if (BlackContext.instance.AchievementGathered.MaxColoringCombo >= 5 &&
+            BlackContext.instance.AchievementRedeemed.MaxColoringCombo < 5)
+            EnableEntryUI(entries[1]);
     }
 
     private void UpdateEntryUI(AchievementEntry entry, AchievementData data)
