@@ -176,7 +176,7 @@ public class MainGame : MonoBehaviour
 
         if (gridWorld != null) gridWorld.WriteStageSaveData();
 
-        if (gridWorld.RewardGoldAmount > 1)
+        if (gridWorld.RewardGoldAmount > 0)
         {
             ConfirmPopup.instance.Open(@"\클리어를 축하합니다. {0}골드를 받았습니다.".Localized(gridWorld.RewardGoldAmount),
                 () => SceneManager.LoadScene("Stage Selection"));
