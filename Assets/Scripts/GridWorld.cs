@@ -146,15 +146,22 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             if (Data.dataSet.StageSequenceData[i].stageName == stageName)
             {
-                var old = BlackContext.instance.LastClearedStageId;
+                var oldClearedStageId = BlackContext.instance.LastClearedStageId;
+                var newClearedStageId = i + 1;
                 
-                BlackContext.instance.LastClearedStageId =
-                    Mathf.Max(BlackContext.instance.LastClearedStageId, i + 1);
+                BlackContext.instance.LastClearedStageId = Mathf.Max(oldClearedStageId, newClearedStageId);
 
                 // 스테이지 클리어에 진전이 있었다. 보상을 준다.
-                if (BlackContext.instance.LastClearedStageId > old)
+                if (newClearedStageId > oldClearedStageId)
                 {
                     BlackContext.instance.AddPendingGold(1);
+
+                    // 관문 스테이지는 추가 골드를 더 준다.
+                    if (newClearedStageId % 5 == 0)
+                    {
+                        BlackContext.instance.AddPendingGold(4);    
+                    }
+                    
                     BlackContext.instance.AchievementGathered.MaxBlackLevel = (UInt128)BlackContext.instance.LastClearedStageId.ToInt();
                 }
             }
