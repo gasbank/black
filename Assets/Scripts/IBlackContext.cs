@@ -46,6 +46,7 @@ public interface IBlackContext
     Canvas[] CriticalErrorHiddenCanvasList { get; }
     bool IsBigPopupOpened { get; set; }
     Transform AnimatedIncrementParent { get; set; }
+    ScInt  StageCombo { get; set; }
     void RefreshGoldText();
     void UpdateLastTouchTime();
     void AddFreeGem(UInt128 delta);

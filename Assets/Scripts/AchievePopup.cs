@@ -102,7 +102,7 @@ public class AchievePopup : MonoBehaviour
         if (BlackContext.instance.AchievementGathered.MaxColoringCombo >= 5 &&
             BlackContext.instance.AchievementRedeemed.MaxColoringCombo < 5)
             EnableEntryUI(entries[1]);
-        else if (BlackContext.instance.AchievementRedeemed.MaxBlackLevel >= 50)
+        else if (BlackContext.instance.AchievementRedeemed.MaxColoringCombo >= 50)
             entries[1].gameObject.SetActive(false);
     }
 

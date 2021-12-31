@@ -100,6 +100,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 if (Fill(localPoint))
                 {
+                    BlackContext.instance.StageCombo++;
+
                     // 특별 코인 획득 연출 - 아직 완성되지 않은 기능이므로 런칭스펙에서는 빼자.
                     //StartAnimateFillCoin(localPoint);
 
@@ -117,6 +119,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 }
                 else
                 {
+                    BlackContext.instance.StageCombo = 0;
+
                     Sound.instance.PlayFillError();
 
                     // 칠할 수 없는 경우에는 그에 대한 알림
@@ -170,6 +174,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                         (UInt128) BlackContext.instance.LastClearedStageId.ToInt();
                 }
             }
+        }
+
+        var combo = (UInt128) BlackContext.instance.StageCombo.ToInt();
+        if (BlackContext.instance.AchievementGathered.MaxColoringCombo < combo)
+        {
+            BlackContext.instance.AchievementGathered.MaxColoringCombo = combo;
         }
 
         SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);

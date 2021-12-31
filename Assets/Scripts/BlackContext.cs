@@ -255,6 +255,8 @@ public class BlackContext : MonoBehaviour, IBlackContext
         ConDebug.Log($"ApplyPendingFreeGem after free gem becomes: {freeGem}");
     }
 
+    public ScInt StageCombo { get; set; } = 0;
+
     public GameObject AchievementNewImage { get; } = null;
     public AchievementRecord1 AchievementGathered { get; set; }
     public AchievementRecord1 AchievementRedeemed { get; set; }
