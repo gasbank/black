@@ -52,7 +52,7 @@ internal static class BlackBuild {
         BuildPlayerOptions options = new BuildPlayerOptions {
             scenes = Scenes,
             target = BuildTarget.Android,
-            locationPathName = appBundle ? string.Empty : "./black.apk",
+            locationPathName = appBundle ? "./black.aab" : "./black.apk",
         };
 
         if (run) {
