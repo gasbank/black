@@ -66,7 +66,7 @@ public class StageDetail : MonoBehaviour
         if (IsAllCleared)
         {
             //Debug.LogError("lastClearedStageId exceeds Data.dataSet.StageMetadataList count.");
-            ConfirmPopup.instance.Open(@"\모든 스테이지를 깼습니다!", ConfirmPopup.instance.Close);
+            ConfirmPopup.instance.Open(@"\모든 스테이지를 깼습니다!\n진정한 미술관 재건이 시작되는 다음 업데이트를 기대 해 주세요!".Localized(), ConfirmPopup.instance.Close);
             return;
         }
 

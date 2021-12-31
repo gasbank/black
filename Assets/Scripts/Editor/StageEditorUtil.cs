@@ -24,7 +24,7 @@ internal static class StageEditorUtil
                 {
                     EditorUtility.DisplayProgressBar("Importing", Selection.objects[i].ToString(),
                         (float) i / Selection.objects.Length);
-                    
+
                     ImportNewStage_SingleSelected(Selection.objects[i], false);
                 }
             }
@@ -58,7 +58,7 @@ internal static class StageEditorUtil
         var stageName = Path.GetFileNameWithoutExtension(assetPathParent);
 
         if (showConfirm && !EditorUtility.DisplayDialog($"Import New Stage: {stageName}",
-            "This takes about 30-60 seconds to finish. Proceed?", "Proceed", "Cancel"))
+                "This takes about 30-60 seconds to finish. Proceed?", "Proceed", "Cancel"))
         {
             return;
         }
@@ -182,8 +182,12 @@ internal static class StageEditorUtil
         AssetDatabase.CreateAsset(sdfMat, Path.Combine(stageDir, $"{stageName}-SDF.mat"));
 
         var stageMetadataPath = Path.Combine(stageDir, $"{stageName}.asset");
-        var stageMetadata = StageMetadata.Create(skipBlackMat, sdfMat, rawStageData, stageName);
-        AssetDatabase.CreateAsset(stageMetadata, stageMetadataPath);
+        var oldStageMetadata = AssetDatabase.LoadAssetAtPath<StageMetadata>(stageMetadataPath);
+        if (oldStageMetadata == null)
+        {
+            var stageMetadata = StageMetadata.Create(skipBlackMat, sdfMat, rawStageData, stageName);
+            AssetDatabase.CreateAsset(stageMetadata, stageMetadataPath);
+        }
 
         Debug.Log($"{stageName} stage created.");
 
