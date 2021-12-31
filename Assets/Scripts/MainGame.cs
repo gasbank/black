@@ -172,11 +172,15 @@ public class MainGame : MonoBehaviour
 
     public void OnFinishConfirmButton()
     {
+        Sound.instance.PlayButtonClick();
+        
         if (gridWorld != null) gridWorld.WriteStageSaveData();
 
         if (BlackContext.instance.PendingGold == 1)
         {
             ConfirmPopup.instance.Open(@"\클리어를 축하합니다. {0}골드를 받았습니다.".Localized(1), () => SceneManager.LoadScene("Stage Selection"));
+            
+            Sound.instance.PlaySoftTada();
         }
         else
         {

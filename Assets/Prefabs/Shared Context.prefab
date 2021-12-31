@@ -475,8 +475,8 @@ MonoBehaviour:
   sfxAudioSource: {fileID: 2425384019063371282}
   sfxAudioVolume: 0
   snap: {fileID: 0}
-  softTada: {fileID: 0}
-  tadaA: {fileID: 0}
+  softTada: {fileID: 8300000, guid: e4f30915c6c384780922bfab8bae6398, type: 3}
+  tadaA: {fileID: 8300000, guid: 87bdd68e46af040ff8fb6ea1b3d5cf60, type: 3}
   tadaF: {fileID: 0}
   tadaG: {fileID: 0}
   whacACatBgm: {fileID: 0}
