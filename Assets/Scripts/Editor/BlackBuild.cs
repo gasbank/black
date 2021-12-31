@@ -38,6 +38,11 @@ internal static class BlackBuild {
     public static void PerformAndroidBuild() {
         PerformAndroidBuildInternal(true, false);
     }
+    
+    [UsedImplicitly]
+    public static void PerformAndroidPlayStoreBuild() {
+        PerformAndroidBuildInternal(true, true);
+    }
 
     static void PerformAndroidBuildInternal(bool il2cpp, bool appBundle, bool run = false) {
         AddressableAssetSettings.BuildPlayerContent();
