@@ -41,6 +41,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 71239680c360245f5a85550d2f98570f, type: 3}
   - {fileID: 21300000, guid: d78c05907e2593d4e9605dfb747ff29b, type: 3}
   - {fileID: 21300000, guid: 3718871171e3cf344b2c28cd57fd59fc, type: 3}
+  - {fileID: 21300000, guid: 65e8aa4148432495383d01e41535e6c9, type: 3}
   - {fileID: 21300000, guid: 7d45f56188c3540be9179ae019796e6a, type: 3}
   - {fileID: 21300000, guid: 7b188d61bc12841939fa2789b32f53d9, type: 3}
   - {fileID: 21300000, guid: 68d46d71381c04f16b4ba579c592091c, type: 3}
@@ -116,6 +117,7 @@ SpriteAtlas:
   - white-square-256
   - main_ui_coin
   - main_bottom_deco
+  - UI_06
   - popup_mission_gaugeBG
   - coin
   - tile-flat

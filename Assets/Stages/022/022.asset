@@ -16,5 +16,5 @@ MonoBehaviour:
   rawStageData: {fileID: 4900000, guid: 2decc813ee2cc498dbee9d90d18e9379, type: 3}
   sdfMaterial: {fileID: 2100000, guid: df72c1c7297c94ef0ab4504da3039526, type: 2}
   skipBlackMaterial: {fileID: 2100000, guid: bfe11fa4c918e4949aaa550bdda56c41, type: 2}
-  starCount: 0
+  starCount: 5
   remainTime: 0
