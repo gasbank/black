@@ -91,7 +91,7 @@ public class PaletteButtonGroup : MonoBehaviour
         return paletteIndexbyColor[color];
     }
 
-    public void UpdateColoredCount(uint color, int count)
+    public void UpdateColoredCount(uint color, int count, bool batch)
     {
         var paletteButton = paletteButtonList[GetPaletteIndexByColor(color)];
         
@@ -105,14 +105,16 @@ public class PaletteButtonGroup : MonoBehaviour
 
         if (oldRatio >= 1.0f || newRatio < 1.0f) return;
 
-        if (poofPrefab == null) return;
+        if (batch) return;
         
+        if (poofPrefab == null) return;
+
         // 이번에 칠해서 사라졌다. 펑 효과 보여주자.
         var poof = Instantiate(poofPrefab, GetComponentInParent<Canvas>().transform).GetComponent<Poof>();
         var poofTransform = poof.transform;
         poofTransform.position = paletteButton.transform.position;
         poofTransform.localScale = Vector3.one;
-        
+
         Sound.instance.PlayCorrectlyFinishedMild();
     }
 }

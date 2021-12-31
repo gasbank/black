@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
-[RequireComponent(typeof(Canvas))]
-[RequireComponent(typeof(GraphicRaycaster))]
+[RequireComponent(typeof(CanvasGroup))]
 public class Subcanvas : MonoBehaviour
 {
     // 초기 구동 단계에서 Close()를 부르고 시작하는 경우가 있다. (OrderPlateRect)
@@ -14,7 +13,7 @@ public class Subcanvas : MonoBehaviour
     bool backButtonHandlerPushed;
 
     [SerializeField]
-    Canvas canvas;
+    CanvasGroup canvasGroup;
 
     [SerializeField]
     CanvasScaler canvasScaler;
@@ -42,33 +41,53 @@ public class Subcanvas : MonoBehaviour
         set => forceBackButtonHandler = value;
     }
 
-    public bool IsOpen => canvas.enabled;
+    public bool IsOpen => canvasGroup.alpha > 0;
 
 #if UNITY_EDITOR
     void OnValidate()
     {
-        canvas = GetComponent<Canvas>();
+        canvasGroup = GetComponent<CanvasGroup>();
         canvasScaler = GetComponent<CanvasScaler>();
     }
 #endif
 
     void SendPopupEventMessage()
     {
-        SendMessage(canvas.enabled ? "OpenPopup" : "ClosePopup");
+        SendMessage(IsOpen ? "OpenPopup" : "ClosePopup");
     }
 
     [UsedImplicitly]
     public void Toggle()
     {
-        canvas.enabled = !canvas.enabled;
+        if (IsOpen)
+        {
+            CloseCanvasGroupInternal();
+        }
+        else
+        {
+            OpenCanvasGroupInternal();
+        }
+
         SendPopupEventMessage();
+    }
+
+    void OpenCanvasGroupInternal()
+    {
+        canvasGroup.alpha = 1.0f;
+        canvasGroup.blocksRaycasts = true;
+    }
+
+    void CloseCanvasGroupInternal()
+    {
+        canvasGroup.alpha = 0.0f;
+        canvasGroup.blocksRaycasts = false;
     }
 
     public void Open()
     {
-        if (canvas.enabled == false)
+        if (IsOpen == false)
         {
-            canvas.enabled = true;
+            OpenCanvasGroupInternal();
 
             // Canvas가 숨겨진 상태에서 켜질 때 Canvas Scaler가 한번 작동해줘야하는데,
             // 그러지 못하는 것 같다. 글씨 크기가 조절되지 않는다.
@@ -115,9 +134,9 @@ public class Subcanvas : MonoBehaviour
 
     public void Close()
     {
-        if (canvas.enabled)
+        if (IsOpen)
         {
-            canvas.enabled = false;
+            CloseCanvasGroupInternal();
             SendPopupEventMessage();
             if (backButtonHandlerPushed)
             {
@@ -128,16 +147,14 @@ public class Subcanvas : MonoBehaviour
 
         ForceBackButtonHandler = false;
     }
-    
-    
+
     public void CloseWithClickSound()
     {
         // 실제로 닫혔는지와 상관 없이 유저 인터랙션이 있었으니 소리는 낸다.
         Sound.instance.PlayButtonClick();
-        
+
         Close();
     }
-
 
     void CloseWithDefaultAction()
     {

@@ -154,13 +154,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 // 스테이지 클리어에 진전이 있었다. 보상을 준다.
                 if (newClearedStageId > oldClearedStageId)
                 {
-                    BlackContext.instance.AddPendingGold(1);
-
                     // 관문 스테이지는 추가 골드를 더 준다.
-                    if (newClearedStageId % 5 == 0)
-                    {
-                        BlackContext.instance.AddPendingGold(4);    
-                    }
+                    BlackContext.instance.AddPendingGold(new UInt128(newClearedStageId % 5 == 0 ? 3 : 1));
                     
                     BlackContext.instance.AchievementGathered.MaxBlackLevel = (UInt128)BlackContext.instance.LastClearedStageId.ToInt();
                 }
@@ -315,7 +310,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 if (Verbose) ConDebug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
                 foreach (var pixel in pixelList) SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
 
-                UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint);
+                UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint, false);
                 return true;
             }
 
@@ -326,7 +321,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         return false;
     }
 
-    void UpdatePaletteBySolutionColor(uint fillMinPointUint, uint solutionColorUint)
+    void UpdatePaletteBySolutionColor(uint fillMinPointUint, uint solutionColorUint, bool batch)
     {
         islandLabelSpawner.DestroyLabelByMinPoint(fillMinPointUint);
 
@@ -338,7 +333,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             coloredIslandCount = 1;
 
         coloredIslandCountByColor[solutionColorUint] = coloredIslandCount;
-        paletteButtonGroup.UpdateColoredCount(solutionColorUint, coloredIslandCount);
+        paletteButtonGroup.UpdateColoredCount(solutionColorUint, coloredIslandCount, batch);
     }
 
     bool SetPixelAndUpdateMinPoint(Color32[] bitmap, ref Vector2Int fillMinPoint,
@@ -427,7 +422,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         
         foreach (var minPoint in inColoredMinPoints)
         {
-            UpdatePaletteBySolutionColor(minPoint, stageData.islandDataByMinPoint[minPoint].rgba);
+            UpdatePaletteBySolutionColor(minPoint, stageData.islandDataByMinPoint[minPoint].rgba, true);
         }
     }
 
