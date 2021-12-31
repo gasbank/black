@@ -8,6 +8,12 @@ using UnityEngine.UI;
 public class AchievePopup : MonoBehaviour
 {
     public static AchievePopup instance;
+
+    // 표시 순서 때문에 순서를 정할 목적으로 만든 배열
+    static readonly string[] groupKeyArray =
+    {
+        "lastClearedStageId"
+    };
     
     public RectTransform scrollViewRect;
     
@@ -32,6 +38,12 @@ public class AchievePopup : MonoBehaviour
         var gathered = BlackContext.instance.AchievementGathered;
         var redeemed = BlackContext.instance.AchievementRedeemed;
         var group = Data.achievementOrderedGroup;
+        
+        ConDebug.Log(group);
+        ConDebug.Log(group.Keys.Count);
+        ConDebug.Log(group.Keys);
+        ConDebug.Log(group.Values.Count);
+        ConDebug.Log(group.Values);
         
         // 임시데이터
         group = new Dictionary<ScString, List<AchievementData>>

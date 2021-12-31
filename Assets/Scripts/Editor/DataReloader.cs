@@ -19,6 +19,7 @@ public static class DataReloader
     {
         "Data/StageSequence.xlsx",
         "Data/DailyReward.xlsx",
+        "Data/Achievement.xlsx",
         "Data/StrKo.xlsx",
         "Data/StrEn.xlsx",
     };
