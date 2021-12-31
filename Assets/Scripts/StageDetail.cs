@@ -2,13 +2,14 @@ using ConditionalDebug;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StageDetail : MonoBehaviour
 {
     public static StageDetail instance;
-    
+
     [SerializeField]
     StageButton stageButton;
 
@@ -31,6 +32,7 @@ public class StageDetail : MonoBehaviour
     Text startStageButtonText;
 
     public static bool IsAllCleared => BlackContext.instance.LastClearedStageId >= Data.dataSet.StageSequenceData.Count;
+
     public float StageLockDetailTime
     {
         get => stageLocker.RemainTime;
@@ -151,16 +153,20 @@ public class StageDetail : MonoBehaviour
     {
         Sound.instance.PlayButtonClick();
 
-        if (stageLocker.Locked)
-        {
-            var adContext = new BlackAdContext(stageLocker.Unlock);
-            PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
-        }
-        else
+        if (stageLocker.Locked == false
+#if BLACK_ADMIN
+            || Application.isEditor && Keyboard.current[Key.LeftShift].isPressed
+#endif
+        )
         {
             stageButton.SetStageMetadataToCurrent();
             SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
             SceneManager.LoadScene("Main");
+        }
+        else
+        {
+            var adContext = new BlackAdContext(stageLocker.Unlock);
+            PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
         }
     }
 
