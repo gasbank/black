@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ConditionalDebug;
+using Dirichlet.Numerics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -154,6 +155,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 if (BlackContext.instance.LastClearedStageId > old)
                 {
                     BlackContext.instance.AddPendingGold(1);
+                    BlackContext.instance.AchievementGathered.MaxBlackLevel = (UInt128)BlackContext.instance.LastClearedStageId.ToInt();
                 }
             }
         }

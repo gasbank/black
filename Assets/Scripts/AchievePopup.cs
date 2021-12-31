@@ -82,16 +82,29 @@ public class AchievePopup : MonoBehaviour
                 }
             }},
         };
+
+        ConDebug.Log("MaxBlackLevel");
+        ConDebug.Log(BlackContext.instance.AchievementGathered.MaxBlackLevel);
+        ConDebug.Log(BlackContext.instance.AchievementRedeemed.MaxBlackLevel);
+
+        ConDebug.Log("MaxColoringCombo");
+        ConDebug.Log(BlackContext.instance.AchievementGathered.MaxColoringCombo);
+        ConDebug.Log(BlackContext.instance.AchievementRedeemed.MaxColoringCombo);
         
         var entries = scrollViewRect.GetComponentsInChildren<AchievementEntry>(true);
         UpdateEntryUI(entries[0], group["maxBlackLevel"][0]);
         if (BlackContext.instance.AchievementGathered.MaxBlackLevel >= 1 &&
             BlackContext.instance.AchievementRedeemed.MaxBlackLevel < 1)
             EnableEntryUI(entries[0]);
+        else if (BlackContext.instance.AchievementRedeemed.MaxBlackLevel >= 30)
+            entries[0].gameObject.SetActive(false);
+        
         UpdateEntryUI(entries[1], group["maxColoringCombo"][0]);
         if (BlackContext.instance.AchievementGathered.MaxColoringCombo >= 5 &&
             BlackContext.instance.AchievementRedeemed.MaxColoringCombo < 5)
             EnableEntryUI(entries[1]);
+        else if (BlackContext.instance.AchievementRedeemed.MaxBlackLevel >= 50)
+            entries[1].gameObject.SetActive(false);
     }
 
     private void UpdateEntryUI(AchievementEntry entry, AchievementData data)
@@ -116,7 +129,7 @@ public class AchievePopup : MonoBehaviour
     {
         entry.redeemButton.interactable = true;
     }
-    
+
     public void UpdateAchievementProgress(string updateGroupKey = "")
     {
         UpdateAchievementUI();
