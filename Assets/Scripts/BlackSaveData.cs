@@ -103,4 +103,16 @@ public class BlackSaveData
 
     [Key(31)]
     public List<int> clearedDebrisIndexList;
+
+    [Key(32)]
+    public ScUInt128 maxBlackLevelGathered;
+
+    [Key(33)]
+    public ScUInt128 maxBlackLevelRedeemed;
+
+    [Key(34)]
+    public ScUInt128 maxColoringComboGathered;
+
+    [Key(35)]
+    public ScUInt128 maxColoringComboRedeemed;
 }

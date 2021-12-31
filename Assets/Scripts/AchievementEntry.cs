@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ConditionalDebug;
+using UnityEngine;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
@@ -38,16 +39,20 @@ public class AchievementEntry : MonoBehaviour
         if (redeemButton.interactable == false) return;
 
         // add reward
-        var clonedGameObject = InstantiateLocalized.InstantiateLocalize(rewardGemImage.gameObject,
-            BlackContext.instance.AnimatedIncrementParent, true);
-        BlackContext.instance.AddPendingFreeGem((ulong) achievementData.rewardGem.ToLong());
-        BlackContext.instance.IncreaseGemAnimated(achievementData.rewardGem, clonedGameObject,
-            BlackLogEntry.Type.GemAddAchievement, achievementData.id);
+        // TODO 애니메이션은 다음 빌드에 넣는다
+        // var clonedGameObject = InstantiateLocalized.InstantiateLocalize(rewardGemImage.gameObject,
+        //     BlackContext.instance.AnimatedIncrementParent, true);
+        BlackContext.instance.AddGoldSafe((ulong) achievementData.rewardGem.ToLong());
+        ConDebug.Log((ulong) achievementData.rewardGem.ToLong());
+        // BlackContext.instance.IncreaseGemAnimated(achievementData.rewardGem, clonedGameObject,
+        //     BlackLogEntry.Type.GemAddAchievement, achievementData.id);
         Sound.instance.PlaySoftTada();
 
         // update redeemed stat
         if (achievementData.condition == "maxBlackLevel")
             BlackContext.instance.AchievementRedeemed.MaxBlackLevel = (ulong) achievementData.conditionNewArg.ToLong();
+        else if (achievementData.condition == "maxColoringCombo")
+            BlackContext.instance.AchievementRedeemed.MaxColoringCombo = (ulong) achievementData.conditionNewArg.ToLong();
         else
             Debug.LogErrorFormat("Unknown achievement condition: {0}", achievementData.condition);
 

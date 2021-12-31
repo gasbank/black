@@ -173,6 +173,10 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             sfxAudioVolume = 1.0f,
             muteBgmAudioSource = Sound.instance.BgmAudioSourceActive == false,
             muteSfxAudioSource = Sound.instance.SfxAudioSourceActive == false,
+            maxBlackLevelGathered = BlackContext.instance.AchievementGathered.MaxBlackLevel,
+            maxBlackLevelRedeemed = BlackContext.instance.AchievementRedeemed.MaxBlackLevel,
+            maxColoringComboGathered = BlackContext.instance.AchievementGathered.MaxColoringCombo,
+            maxColoringComboRedeemed = BlackContext.instance.AchievementRedeemed.MaxColoringCombo,
         };
 
         return SaveBlackSaveData(blackSaveData);
@@ -445,6 +449,16 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         context.ApplyPendingGold();
         context.ApplyPendingFreeGem();
+
+        // 업적
+        context.AchievementGathered = new AchievementRecord1(true);
+        context.AchievementRedeemed = new AchievementRecord1(false);
+
+        context.AchievementGathered.MaxBlackLevel = blackSaveData.maxBlackLevelGathered;
+        context.AchievementRedeemed.MaxBlackLevel = blackSaveData.maxBlackLevelRedeemed;
+
+        context.AchievementGathered.MaxColoringCombo = blackSaveData.maxColoringComboGathered;
+        context.AchievementRedeemed.MaxColoringCombo = blackSaveData.maxColoringComboRedeemed;
 
         // === Config ===
         Sound.instance.BgmAudioSourceActive = blackSaveData.muteBgmAudioSource == false;

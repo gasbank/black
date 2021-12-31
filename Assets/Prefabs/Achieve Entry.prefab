@@ -623,7 +623,7 @@ MonoBehaviour:
   achievementRedeemButton: {fileID: 8765671810864603637}
   image: {fileID: 0}
   redeemButton: {fileID: 3891857049413755395}
-  rewardGemImage: {fileID: 0}
+  rewardGemImage: {fileID: 3891857048719671352}
   rewardGemText: {fileID: 3891857048620590299}
 --- !u!1 &3891857049782509093
 GameObject:

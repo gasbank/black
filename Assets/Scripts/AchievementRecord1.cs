@@ -11,6 +11,7 @@ public class AchievementRecord1
     [SerializeField]
     ScUInt128 maxBlackLevel = 0;
 
+    [SerializeField]
     ScUInt128 maxColoringCombo = 0;
 
     public AchievementRecord1(bool leaderboard)
@@ -24,7 +25,7 @@ public class AchievementRecord1
         set
         {
             maxBlackLevel = value;
-            AchievementPopup.instance.UpdateAchievementTab("maxBlackLevel");
+            // AchievementPopup.instance.UpdateAchievementTab("maxBlackLevel");
             AchievePopup.instance.UpdateAchievementProgress("maxBlackLevel");
             if (leaderboard)
                 try

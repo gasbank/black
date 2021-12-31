@@ -49,41 +49,43 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(33)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(35)
             {
                 { typeof(global::ScString[]), 0 },
                 { typeof(global::System.Collections.Generic.Dictionary<global::ScString, global::ScInt>), 1 },
                 { typeof(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>), 2 },
-                { typeof(global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::ScString>>), 3 },
-                { typeof(global::System.Collections.Generic.Dictionary<string, global::LocalUserData>), 4 },
-                { typeof(global::System.Collections.Generic.Dictionary<string, string>), 5 },
-                { typeof(global::System.Collections.Generic.HashSet<global::ScString>), 6 },
-                { typeof(global::System.Collections.Generic.HashSet<uint>), 7 },
-                { typeof(global::System.Collections.Generic.List<global::DailyRewardData>), 8 },
-                { typeof(global::System.Collections.Generic.List<global::ScLong>), 9 },
-                { typeof(global::System.Collections.Generic.List<global::ScString>), 10 },
-                { typeof(global::System.Collections.Generic.List<global::StageSequenceData>), 11 },
-                { typeof(global::System.Collections.Generic.List<int>), 12 },
-                { typeof(global::BlackLanguageCode), 13 },
-                { typeof(global::RewardType), 14 },
-                { typeof(global::AchievementData), 15 },
-                { typeof(global::BlackSaveData), 16 },
-                { typeof(global::DailyRewardData), 17 },
-                { typeof(global::DataSet), 18 },
-                { typeof(global::DataSetHash), 19 },
-                { typeof(global::Dirichlet.Numerics.UInt128), 20 },
-                { typeof(global::GameSaveData), 21 },
-                { typeof(global::LocalUserData), 22 },
-                { typeof(global::NoticeData), 23 },
-                { typeof(global::ScFloat), 24 },
-                { typeof(global::ScInt), 25 },
-                { typeof(global::ScLong), 26 },
-                { typeof(global::ScString), 27 },
-                { typeof(global::ScUInt128), 28 },
-                { typeof(global::StageSaveData), 29 },
-                { typeof(global::StageSequenceData), 30 },
-                { typeof(global::StrBaseData), 31 },
-                { typeof(global::UDateTime), 32 },
+                { typeof(global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::AchievementData>>), 3 },
+                { typeof(global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::ScString>>), 4 },
+                { typeof(global::System.Collections.Generic.Dictionary<string, global::LocalUserData>), 5 },
+                { typeof(global::System.Collections.Generic.Dictionary<string, string>), 6 },
+                { typeof(global::System.Collections.Generic.HashSet<global::ScString>), 7 },
+                { typeof(global::System.Collections.Generic.HashSet<uint>), 8 },
+                { typeof(global::System.Collections.Generic.List<global::AchievementData>), 9 },
+                { typeof(global::System.Collections.Generic.List<global::DailyRewardData>), 10 },
+                { typeof(global::System.Collections.Generic.List<global::ScLong>), 11 },
+                { typeof(global::System.Collections.Generic.List<global::ScString>), 12 },
+                { typeof(global::System.Collections.Generic.List<global::StageSequenceData>), 13 },
+                { typeof(global::System.Collections.Generic.List<int>), 14 },
+                { typeof(global::BlackLanguageCode), 15 },
+                { typeof(global::RewardType), 16 },
+                { typeof(global::AchievementData), 17 },
+                { typeof(global::BlackSaveData), 18 },
+                { typeof(global::DailyRewardData), 19 },
+                { typeof(global::DataSet), 20 },
+                { typeof(global::DataSetHash), 21 },
+                { typeof(global::Dirichlet.Numerics.UInt128), 22 },
+                { typeof(global::GameSaveData), 23 },
+                { typeof(global::LocalUserData), 24 },
+                { typeof(global::NoticeData), 25 },
+                { typeof(global::ScFloat), 26 },
+                { typeof(global::ScInt), 27 },
+                { typeof(global::ScLong), 28 },
+                { typeof(global::ScString), 29 },
+                { typeof(global::ScUInt128), 30 },
+                { typeof(global::StageSaveData), 31 },
+                { typeof(global::StageSequenceData), 32 },
+                { typeof(global::StrBaseData), 33 },
+                { typeof(global::UDateTime), 34 },
             };
         }
 
@@ -100,36 +102,38 @@ namespace MessagePack.Resolvers
                 case 0: return new global::MessagePack.Formatters.ArrayFormatter<global::ScString>();
                 case 1: return new global::MessagePack.Formatters.DictionaryFormatter<global::ScString, global::ScInt>();
                 case 2: return new global::MessagePack.Formatters.DictionaryFormatter<global::ScString, global::StrBaseData>();
-                case 3: return new global::MessagePack.Formatters.DictionaryFormatter<global::ScString, global::System.Collections.Generic.List<global::ScString>>();
-                case 4: return new global::MessagePack.Formatters.DictionaryFormatter<string, global::LocalUserData>();
-                case 5: return new global::MessagePack.Formatters.DictionaryFormatter<string, string>();
-                case 6: return new global::MessagePack.Formatters.HashSetFormatter<global::ScString>();
-                case 7: return new global::MessagePack.Formatters.HashSetFormatter<uint>();
-                case 8: return new global::MessagePack.Formatters.ListFormatter<global::DailyRewardData>();
-                case 9: return new global::MessagePack.Formatters.ListFormatter<global::ScLong>();
-                case 10: return new global::MessagePack.Formatters.ListFormatter<global::ScString>();
-                case 11: return new global::MessagePack.Formatters.ListFormatter<global::StageSequenceData>();
-                case 12: return new global::MessagePack.Formatters.ListFormatter<int>();
-                case 13: return new MessagePack.Formatters.BlackLanguageCodeFormatter();
-                case 14: return new MessagePack.Formatters.RewardTypeFormatter();
-                case 15: return new MessagePack.Formatters.AchievementDataFormatter();
-                case 16: return new MessagePack.Formatters.BlackSaveDataFormatter();
-                case 17: return new MessagePack.Formatters.DailyRewardDataFormatter();
-                case 18: return new MessagePack.Formatters.DataSetFormatter();
-                case 19: return new MessagePack.Formatters.DataSetHashFormatter();
-                case 20: return new MessagePack.Formatters.Dirichlet.Numerics.UInt128Formatter();
-                case 21: return new MessagePack.Formatters.GameSaveDataFormatter();
-                case 22: return new MessagePack.Formatters.LocalUserDataFormatter();
-                case 23: return new MessagePack.Formatters.NoticeDataFormatter();
-                case 24: return new MessagePack.Formatters.ScFloatFormatter();
-                case 25: return new MessagePack.Formatters.ScIntFormatter();
-                case 26: return new MessagePack.Formatters.ScLongFormatter();
-                case 27: return new MessagePack.Formatters.ScStringFormatter();
-                case 28: return new MessagePack.Formatters.ScUInt128Formatter();
-                case 29: return new MessagePack.Formatters.StageSaveDataFormatter();
-                case 30: return new MessagePack.Formatters.StageSequenceDataFormatter();
-                case 31: return new MessagePack.Formatters.StrBaseDataFormatter();
-                case 32: return new MessagePack.Formatters.UDateTimeFormatter();
+                case 3: return new global::MessagePack.Formatters.DictionaryFormatter<global::ScString, global::System.Collections.Generic.List<global::AchievementData>>();
+                case 4: return new global::MessagePack.Formatters.DictionaryFormatter<global::ScString, global::System.Collections.Generic.List<global::ScString>>();
+                case 5: return new global::MessagePack.Formatters.DictionaryFormatter<string, global::LocalUserData>();
+                case 6: return new global::MessagePack.Formatters.DictionaryFormatter<string, string>();
+                case 7: return new global::MessagePack.Formatters.HashSetFormatter<global::ScString>();
+                case 8: return new global::MessagePack.Formatters.HashSetFormatter<uint>();
+                case 9: return new global::MessagePack.Formatters.ListFormatter<global::AchievementData>();
+                case 10: return new global::MessagePack.Formatters.ListFormatter<global::DailyRewardData>();
+                case 11: return new global::MessagePack.Formatters.ListFormatter<global::ScLong>();
+                case 12: return new global::MessagePack.Formatters.ListFormatter<global::ScString>();
+                case 13: return new global::MessagePack.Formatters.ListFormatter<global::StageSequenceData>();
+                case 14: return new global::MessagePack.Formatters.ListFormatter<int>();
+                case 15: return new MessagePack.Formatters.BlackLanguageCodeFormatter();
+                case 16: return new MessagePack.Formatters.RewardTypeFormatter();
+                case 17: return new MessagePack.Formatters.AchievementDataFormatter();
+                case 18: return new MessagePack.Formatters.BlackSaveDataFormatter();
+                case 19: return new MessagePack.Formatters.DailyRewardDataFormatter();
+                case 20: return new MessagePack.Formatters.DataSetFormatter();
+                case 21: return new MessagePack.Formatters.DataSetHashFormatter();
+                case 22: return new MessagePack.Formatters.Dirichlet.Numerics.UInt128Formatter();
+                case 23: return new MessagePack.Formatters.GameSaveDataFormatter();
+                case 24: return new MessagePack.Formatters.LocalUserDataFormatter();
+                case 25: return new MessagePack.Formatters.NoticeDataFormatter();
+                case 26: return new MessagePack.Formatters.ScFloatFormatter();
+                case 27: return new MessagePack.Formatters.ScIntFormatter();
+                case 28: return new MessagePack.Formatters.ScLongFormatter();
+                case 29: return new MessagePack.Formatters.ScStringFormatter();
+                case 30: return new MessagePack.Formatters.ScUInt128Formatter();
+                case 31: return new MessagePack.Formatters.StageSaveDataFormatter();
+                case 32: return new MessagePack.Formatters.StageSequenceDataFormatter();
+                case 33: return new MessagePack.Formatters.StrBaseDataFormatter();
+                case 34: return new MessagePack.Formatters.UDateTimeFormatter();
                 default: return null;
             }
         }
@@ -355,7 +359,7 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(32);
+            writer.WriteArrayHeader(36);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.version, options);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastClearedStageId, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.goldScUInt128, options);
@@ -388,6 +392,10 @@ namespace MessagePack.Formatters
             writer.Write(value.cheatMode);
             writer.Write(value.waiveBan);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.clearedDebrisIndexList, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.maxBlackLevelGathered, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.maxBlackLevelRedeemed, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.maxColoringComboGathered, options);
+            formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.maxColoringComboRedeemed, options);
         }
 
         public global::BlackSaveData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -432,6 +440,10 @@ namespace MessagePack.Formatters
             var __version__ = default(global::ScInt);
             var __waiveBan__ = default(bool);
             var __clearedDebrisIndexList__ = default(global::System.Collections.Generic.List<int>);
+            var __maxBlackLevelGathered__ = default(global::ScUInt128);
+            var __maxBlackLevelRedeemed__ = default(global::ScUInt128);
+            var __maxColoringComboGathered__ = default(global::ScUInt128);
+            var __maxColoringComboRedeemed__ = default(global::ScUInt128);
 
             for (int i = 0; i < length; i++)
             {
@@ -535,6 +547,18 @@ namespace MessagePack.Formatters
                     case 31:
                         __clearedDebrisIndexList__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
                         break;
+                    case 32:
+                        __maxBlackLevelGathered__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 33:
+                        __maxBlackLevelRedeemed__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 34:
+                        __maxColoringComboGathered__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
+                    case 35:
+                        __maxColoringComboRedeemed__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -574,6 +598,10 @@ namespace MessagePack.Formatters
             ____result.version = __version__;
             ____result.waiveBan = __waiveBan__;
             ____result.clearedDebrisIndexList = __clearedDebrisIndexList__;
+            ____result.maxBlackLevelGathered = __maxBlackLevelGathered__;
+            ____result.maxBlackLevelRedeemed = __maxBlackLevelRedeemed__;
+            ____result.maxColoringComboGathered = __maxColoringComboGathered__;
+            ____result.maxColoringComboRedeemed = __maxColoringComboRedeemed__;
             reader.Depth--;
             return ____result;
         }
@@ -684,17 +712,19 @@ namespace MessagePack.Formatters
             this.____keyMapping = new global::MessagePack.Internal.AutomataDictionary()
             {
                 { "DailyRewardData", 0 },
-                { "StageSequenceData", 1 },
-                { "StrChData", 2 },
-                { "StrEnData", 3 },
-                { "StrJaData", 4 },
-                { "StrKoData", 5 },
-                { "StrTwData", 6 },
+                { "AchievementData", 1 },
+                { "StageSequenceData", 2 },
+                { "StrChData", 3 },
+                { "StrEnData", 4 },
+                { "StrJaData", 5 },
+                { "StrKoData", 6 },
+                { "StrTwData", 7 },
             };
 
             this.____stringByteKeys = new byte[][]
             {
                 global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("DailyRewardData"),
+                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("AchievementData"),
                 global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StageSequenceData"),
                 global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrChData"),
                 global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrEnData"),
@@ -713,20 +743,22 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteMapHeader(7);
+            writer.WriteMapHeader(8);
             writer.WriteRaw(this.____stringByteKeys[0]);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::DailyRewardData>>().Serialize(ref writer, value.DailyRewardData, options);
             writer.WriteRaw(this.____stringByteKeys[1]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Serialize(ref writer, value.StageSequenceData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::AchievementData>>>().Serialize(ref writer, value.AchievementData, options);
             writer.WriteRaw(this.____stringByteKeys[2]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrChData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Serialize(ref writer, value.StageSequenceData, options);
             writer.WriteRaw(this.____stringByteKeys[3]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrEnData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrChData, options);
             writer.WriteRaw(this.____stringByteKeys[4]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrJaData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrEnData, options);
             writer.WriteRaw(this.____stringByteKeys[5]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrKoData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrJaData, options);
             writer.WriteRaw(this.____stringByteKeys[6]);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrKoData, options);
+            writer.WriteRaw(this.____stringByteKeys[7]);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrTwData, options);
         }
 
@@ -741,6 +773,7 @@ namespace MessagePack.Formatters
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadMapHeader();
             var __DailyRewardData__ = default(global::System.Collections.Generic.List<global::DailyRewardData>);
+            var __AchievementData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::AchievementData>>);
             var __StageSequenceData__ = default(global::System.Collections.Generic.List<global::StageSequenceData>);
             var __StrChData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
             var __StrEnData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
@@ -764,21 +797,24 @@ namespace MessagePack.Formatters
                         __DailyRewardData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::DailyRewardData>>().Deserialize(ref reader, options);
                         break;
                     case 1:
-                        __StageSequenceData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Deserialize(ref reader, options);
+                        __AchievementData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::System.Collections.Generic.List<global::AchievementData>>>().Deserialize(ref reader, options);
                         break;
                     case 2:
-                        __StrChData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StageSequenceData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Deserialize(ref reader, options);
                         break;
                     case 3:
-                        __StrEnData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StrChData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     case 4:
-                        __StrJaData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StrEnData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     case 5:
-                        __StrKoData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StrJaData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     case 6:
+                        __StrKoData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        break;
+                    case 7:
                         __StrTwData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     default:
@@ -789,6 +825,7 @@ namespace MessagePack.Formatters
 
             var ____result = new global::DataSet();
             ____result.DailyRewardData = __DailyRewardData__;
+            ____result.AchievementData = __AchievementData__;
             ____result.StageSequenceData = __StageSequenceData__;
             ____result.StrChData = __StrChData__;
             ____result.StrEnData = __StrEnData__;

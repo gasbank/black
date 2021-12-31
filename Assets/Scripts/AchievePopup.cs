@@ -16,7 +16,17 @@ public class AchievePopup : MonoBehaviour
     };
     
     public RectTransform scrollViewRect;
-    
+
+    [SerializeField]
+    Canvas canvas;
+
+#if UNITY_EDITOR
+    void OnValidate()
+    {
+        canvas = GetComponent<Canvas>();
+    }
+#endif
+
     [UsedImplicitly]
     void OpenPopup()
     {
@@ -33,17 +43,12 @@ public class AchievePopup : MonoBehaviour
     {
         if (BlackContext.instance == null) return;
         if (Data.dataSet == null) return;
+        if (canvas.enabled == false) return;
         
         // short names
         var gathered = BlackContext.instance.AchievementGathered;
         var redeemed = BlackContext.instance.AchievementRedeemed;
         var group = Data.achievementOrderedGroup;
-        
-        ConDebug.Log(group);
-        ConDebug.Log(group.Keys.Count);
-        ConDebug.Log(group.Keys);
-        ConDebug.Log(group.Values.Count);
-        ConDebug.Log(group.Values);
         
         // 임시데이터
         group = new Dictionary<ScString, List<AchievementData>>
@@ -59,6 +64,7 @@ public class AchievePopup : MonoBehaviour
                     conditionOldArg = 0,
                     conditionNewArg = 30,
                     rewardGem = 1,
+                    rewardGemMultiplier = 1,
                 }
             }},
             {"maxColoringCombo", new List<AchievementData>
@@ -72,13 +78,20 @@ public class AchievePopup : MonoBehaviour
                     conditionOldArg = 0,
                     conditionNewArg = 50,
                     rewardGem = 1,
+                    rewardGemMultiplier = 1,
                 }
             }},
         };
         
         var entries = scrollViewRect.GetComponentsInChildren<AchievementEntry>(true);
         UpdateEntryUI(entries[0], group["maxBlackLevel"][0]);
+        // if (BlackContext.instance.AchievementGathered.MaxBlackLevel >= 3 &&
+        //     BlackContext.instance.AchievementRedeemed.MaxBlackLevel < 3)
+        //     EnableEntryUI(entries[0]);
         UpdateEntryUI(entries[1], group["maxColoringCombo"][0]);
+        // if (BlackContext.instance.AchievementGathered.MaxColoringCombo >= 5 &&
+        //     BlackContext.instance.AchievementRedeemed.MaxColoringCombo < 5)
+        //     EnableEntryUI(entries[1]);
     }
 
     private void UpdateEntryUI(AchievementEntry entry, AchievementData data)
@@ -92,15 +105,20 @@ public class AchievePopup : MonoBehaviour
         entry.achievementDesc.text = data.desc.Localized(data.conditionOldArg.ToLong().Postfixed(),
             data.conditionNewArg.ToLong().Postfixed(), currentValue.Postfixed());
         entry.redeemButton.gameObject.SetActive(true);
-        entry.redeemButton.interactable = true;
+        entry.redeemButton.interactable = false;
         entry.rewardGemText.text = data.RewardGemString;
         entry.achievementData = data;
         entry.rewardGemText.gameObject.SetActive(false);
         entry.rewardGemText.gameObject.SetActive(true);
     }
+
+    private void EnableEntryUI(AchievementEntry entry)
+    {
+        entry.redeemButton.interactable = true;
+    }
     
     public void UpdateAchievementProgress(string updateGroupKey = "")
     {
-        throw new System.NotImplementedException();
+        UpdateAchievementUI();
     }
 }
