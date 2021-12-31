@@ -584,4 +584,15 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
         Sound.instance.PlayButtonClick();
         Open(message, Close);
     }
+    
+    public void OpenSimpleMessageWithClickSoundAndResumeDirector(string message)
+    {
+        Debug.Log(nameof(OpenSimpleMessageWithClickSoundAndResumeDirector));
+        Sound.instance.PlayButtonClick();
+        Open(message, () =>
+        {
+            Close();
+            IntroDirector.instance.ResumeDirector();
+        });
+    }
 }

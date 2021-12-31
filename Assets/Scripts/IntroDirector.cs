@@ -1,10 +1,11 @@
-using System;
 using UnityEngine;
 using UnityEngine.Playables;
 
 [DisallowMultipleComponent]
 public class IntroDirector : MonoBehaviour
 {
+    public static IntroDirector instance;
+    
     [SerializeField]
     PlayableDirector director;
     
@@ -15,7 +16,8 @@ public class IntroDirector : MonoBehaviour
     }
 #endif
 
-    void Start()
+    public void ResumeDirector()
     {
+        director.Resume();
     }
 }

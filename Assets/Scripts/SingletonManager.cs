@@ -79,6 +79,9 @@ public class SingletonManager : MonoBehaviour
 
     [SerializeField]
     TopNotchOffsetGroup[] topNotchOffsetGroupList;
+    
+    [SerializeField]
+    IntroDirector introDirector;
 
     public GameObject ConfigButtonNewImage => configButtonNewImage;
     public TopNotchOffsetGroup[] TopNotchOffsetGroupList => topNotchOffsetGroupList;
@@ -110,6 +113,7 @@ public class SingletonManager : MonoBehaviour
         Admin.instance = admin;
         SaveLoadManager.instance = saveLoadManager;
         BackgroundTimeCompensator.instance = backgroundTimeCompensator;
+        IntroDirector.instance = introDirector;
 
         // 아주 깔끔한 구조는 아니지만, 최대한 기존 코드 안수정하고 하려니까 이렇게 됐다.
         BlackPlatform.instance = blackPlatform;
