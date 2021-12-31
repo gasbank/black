@@ -3,6 +3,8 @@ using Dirichlet.Numerics;
 using UnityEngine;
 
 public delegate void NotifyGoldChange();
+public delegate void NotifyStageUnlock();
+public delegate void NotifyStageLock();
 
 public interface IBlackContext
 {

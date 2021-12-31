@@ -25,25 +25,28 @@ public class StageDetail : MonoBehaviour
     BottomTip bottomTip;
 
     [SerializeField]
-    Subcanvas stageLockerSubcanvas;
+    StageLocker stageLocker;
 
     [SerializeField]
-    Image stageLockerGauge;
-    
-    [SerializeField]
-    Text stageLockerText;
-    
-    [SerializeField]
-    float stageLockInitialTime;
-    
-    [SerializeField]
-    float stageLockRemainTime;
-    
+    Text startStageButtonText;
+
     public static bool IsAllCleared => BlackContext.instance.LastClearedStageId >= Data.dataSet.StageSequenceData.Count;
 
     void Start()
     {
         SetInitialBottomTip();
+    }
+
+    void OnEnable()
+    {
+        stageLocker.OnStageLocked += OnStageLocked;
+        stageLocker.OnStageUnlocked += OnStageUnlocked;
+    }
+
+    void OnDisable()
+    {
+        stageLocker.OnStageLocked -= OnStageLocked;
+        stageLocker.OnStageUnlocked -= OnStageUnlocked;
     }
 
     public async void OpenPopupAfterLoadingAsync()
@@ -121,7 +124,7 @@ public class StageDetail : MonoBehaviour
     void SetInitialBottomTip()
     {
         if (bottomTip == null) return;
-        
+
         if (BlackContext.instance.LastClearedStageId == 0)
         {
             bottomTip.SetMessage("\\이젤을 터치해서 색칠할 그림을 확인해봐요.".Localized());
@@ -140,18 +143,13 @@ public class StageDetail : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    void Update()
+    void OnStageUnlocked()
     {
-        if (stageLockInitialTime <= 0 || stageLockRemainTime <= 0)
-        {
-            stageLockerSubcanvas.Close();
-        }
-        else
-        {
-            stageLockerSubcanvas.Open();
-            stageLockRemainTime = Mathf.Max(0, stageLockRemainTime - Time.deltaTime);
-            stageLockerGauge.fillAmount = stageLockRemainTime / stageLockInitialTime;
-            stageLockerText.text = @"\다음 스테이지 준비중\n{0:F1}초".Localized(stageLockRemainTime);
-        }
+        startStageButtonText.text = @"\바로 시작".Localized();
+    }
+
+    void OnStageLocked()
+    {
+        startStageButtonText.text = @"\광고 시청 후 바로 시작".Localized();
     }
 }
