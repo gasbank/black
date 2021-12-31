@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class PinchZoom : MonoBehaviour
 {
@@ -18,7 +20,7 @@ public class PinchZoom : MonoBehaviour
     [SerializeField]
     Slider zoomSlider;
 
-    public static bool PinchZooming => Input.touchCount == 2;
+    public static bool PinchZooming => Touch.activeTouches.Count == 2;
 
     public float ZoomValue
     {
@@ -29,19 +31,21 @@ public class PinchZoom : MonoBehaviour
     void Update()
     {
         // If there are two touches on the device...
-        if (Input.touchCount == 2 && mainGame.CanInteractPanAndZoom)
+        
+        if (Touch.activeTouches.Count == 2 && mainGame.CanInteractPanAndZoom)
         {
             // Store both touches.
-            var touchZero = Input.GetTouch(0);
-            var touchOne = Input.GetTouch(1);
+            
+            var touchZero = Touch.activeTouches[0];
+            var touchOne = Touch.activeTouches[1];
 
             // Find the position in the previous frame of each touch.
-            var touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-            var touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+            var touchZeroPrevPos = touchZero.screenPosition - touchZero.delta;
+            var touchOnePrevPos = touchOne.screenPosition - touchOne.delta;
 
             // Find the magnitude of the vector (the distance) between the touches in each frame.
             var prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-            var touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+            var touchDeltaMag = (touchZero.screenPosition - touchOne.screenPosition).magnitude;
 
             // Find the difference in the distances between each frame.
             var deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;

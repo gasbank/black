@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class AdminButton : MonoBehaviour
+public class DeactivateOnLiveBuild : MonoBehaviour
 {
 #if UNITY_EDITOR
     void OnValidate()

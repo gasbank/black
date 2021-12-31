@@ -1,5 +1,6 @@
 ﻿using ConditionalDebug;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Screenshot : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class Screenshot : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.F8))
+        if (Keyboard.current[Key.F8].wasReleasedThisFrame)
         {
             ScreenCapture.CaptureScreenshot(filename);
             ConDebug.Log($"Screenshot saved to {filename}");
