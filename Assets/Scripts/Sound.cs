@@ -32,6 +32,12 @@ public class Sound : MonoBehaviour
 
     [SerializeField]
     AudioClip buttonClick;
+    
+    [SerializeField]
+    AudioClip fillOkay;
+    
+    [SerializeField]
+    AudioClip fillError;
 
     [SerializeField]
     AudioClip correctlyFinished;
@@ -336,5 +342,25 @@ public class Sound : MonoBehaviour
     {
         ConDebug.Log($"EnableSfxVolume {b}");
         audioMixer.SetFloat("SfxVolume", b ? 20f * Mathf.Log10(SfxAudioVolume) : -80.0f);
+    }
+
+    public void PlayFillOkay()
+    {
+        if (Verbose) ConDebug.Log(nameof(PlayFillOkay));
+
+        // 게임 처음 로딩 중에 들어오는 건 재생하지 말자
+        if (BlackContext.instance != null && BlackContext.instance.LoadedAtLeastOnce == false) return;
+
+        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.fillOkay);
+    }
+    
+    public void PlayFillError()
+    {
+        if (Verbose) ConDebug.Log(nameof(PlayFillError));
+
+        // 게임 처음 로딩 중에 들어오는 건 재생하지 말자
+        if (BlackContext.instance != null && BlackContext.instance.LoadedAtLeastOnce == false) return;
+
+        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.fillError);
     }
 }

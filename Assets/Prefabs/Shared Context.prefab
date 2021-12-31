@@ -381,6 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   achievementPopup: {fileID: 0}
+  achievePopup: {fileID: 0}
   admin: {fileID: 2425384018333359075}
   backButtonHandler: {fileID: 2425384018834203893}
   backgroundTimeCompensator: {fileID: 2425384019465471565}
@@ -455,6 +456,8 @@ MonoBehaviour:
   bgmType: 0
   blackNew: {fileID: 0}
   buttonClick: {fileID: 0}
+  fillOkay: {fileID: 8300000, guid: b14a6e93e8d434d03a3b51cbcb25d722, type: 3}
+  fillError: {fileID: 8300000, guid: bba6e27a0477b4d758fe00cc689a54c8, type: 3}
   correctlyFinished: {fileID: 0}
   correctlyFinishedMild: {fileID: 0}
   currentNormalBgmIndex: 0
