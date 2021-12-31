@@ -142,9 +142,8 @@ GameObject:
   - component: {fileID: 78393212}
   - component: {fileID: 78393215}
   - component: {fileID: 78393214}
-  - component: {fileID: 78393218}
-  - component: {fileID: 78393217}
   - component: {fileID: 78393216}
+  - component: {fileID: 78393217}
   m_Layer: 5
   m_Name: Museum Debris 01
   m_TagString: Untagged
@@ -300,50 +299,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 78393218}
+  canvasGroup: {fileID: 78393217}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &78393217
-MonoBehaviour:
+--- !u!225 &78393217
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 78393210}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &78393218
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 78393210}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &109176503
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,9 +507,8 @@ GameObject:
   - component: {fileID: 121972914}
   - component: {fileID: 121972917}
   - component: {fileID: 121972916}
-  - component: {fileID: 121972920}
-  - component: {fileID: 121972919}
   - component: {fileID: 121972918}
+  - component: {fileID: 121972919}
   m_Layer: 5
   m_Name: Museum Debris 05
   m_TagString: Untagged
@@ -692,50 +664,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 121972920}
+  canvasGroup: {fileID: 121972919}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &121972919
-MonoBehaviour:
+--- !u!225 &121972919
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 121972912}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &121972920
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 121972912}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &131375455
 GameObject:
   m_ObjectHideFlags: 0
@@ -748,9 +694,8 @@ GameObject:
   - component: {fileID: 131375458}
   - component: {fileID: 131375457}
   - component: {fileID: 131375462}
-  - component: {fileID: 131375461}
-  - component: {fileID: 131375460}
   - component: {fileID: 131375459}
+  - component: {fileID: 131375460}
   m_Layer: 5
   m_Name: Stage Detail
   m_TagString: Untagged
@@ -830,50 +775,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 131375461}
+  canvasGroup: {fileID: 131375460}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 1
   doNotCloseOnBackButton: 1
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 1
---- !u!114 &131375460
-MonoBehaviour:
+--- !u!225 &131375460
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 131375455}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &131375461
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131375455}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!114 &131375462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3897,9 +3816,8 @@ GameObject:
   - component: {fileID: 576895343}
   - component: {fileID: 576895342}
   - component: {fileID: 576895341}
-  - component: {fileID: 576895346}
-  - component: {fileID: 576895345}
   - component: {fileID: 576895344}
+  - component: {fileID: 576895345}
   m_Layer: 5
   m_Name: Config Button New Image
   m_TagString: Untagged
@@ -3977,50 +3895,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 576895346}
+  canvasGroup: {fileID: 576895345}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &576895345
-MonoBehaviour:
+--- !u!225 &576895345
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576895340}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &576895346
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576895340}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &589055969
 GameObject:
   m_ObjectHideFlags: 0
@@ -5563,9 +5455,8 @@ GameObject:
   - component: {fileID: 814069046}
   - component: {fileID: 814069049}
   - component: {fileID: 814069048}
-  - component: {fileID: 814069052}
-  - component: {fileID: 814069051}
   - component: {fileID: 814069050}
+  - component: {fileID: 814069051}
   m_Layer: 5
   m_Name: Museum Debris 12
   m_TagString: Untagged
@@ -5721,50 +5612,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 814069052}
+  canvasGroup: {fileID: 814069051}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &814069051
-MonoBehaviour:
+--- !u!225 &814069051
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 814069044}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &814069052
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 814069044}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &837724707
 GameObject:
   m_ObjectHideFlags: 0
@@ -6561,9 +6426,8 @@ GameObject:
   - component: {fileID: 1025678606}
   - component: {fileID: 1025678609}
   - component: {fileID: 1025678608}
-  - component: {fileID: 1025678612}
-  - component: {fileID: 1025678611}
   - component: {fileID: 1025678610}
+  - component: {fileID: 1025678611}
   m_Layer: 5
   m_Name: Museum Debris 10
   m_TagString: Untagged
@@ -6719,50 +6583,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1025678612}
+  canvasGroup: {fileID: 1025678611}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1025678611
-MonoBehaviour:
+--- !u!225 &1025678611
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1025678604}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1025678612
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1025678604}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1028386286
 GameObject:
   m_ObjectHideFlags: 0
@@ -7017,9 +6855,8 @@ GameObject:
   - component: {fileID: 1051072921}
   - component: {fileID: 1051072923}
   - component: {fileID: 1051072922}
-  - component: {fileID: 1051072926}
-  - component: {fileID: 1051072925}
   - component: {fileID: 1051072924}
+  - component: {fileID: 1051072925}
   m_Layer: 5
   m_Name: Notice Button New Image
   m_TagString: Untagged
@@ -7097,50 +6934,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1051072926}
+  canvasGroup: {fileID: 1051072925}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1051072925
-MonoBehaviour:
+--- !u!225 &1051072925
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1051072920}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1051072926
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1051072920}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1058596800
 GameObject:
   m_ObjectHideFlags: 0
@@ -7152,9 +6963,8 @@ GameObject:
   - component: {fileID: 1058596801}
   - component: {fileID: 1058596803}
   - component: {fileID: 1058596802}
-  - component: {fileID: 1058596806}
-  - component: {fileID: 1058596805}
   - component: {fileID: 1058596804}
+  - component: {fileID: 1058596805}
   m_Layer: 5
   m_Name: Community Config Tab New Image
   m_TagString: Untagged
@@ -7232,50 +7042,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1058596806}
+  canvasGroup: {fileID: 1058596805}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1058596805
-MonoBehaviour:
+--- !u!225 &1058596805
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1058596800}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1058596806
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1058596800}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!114 &1059855755 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2425384018333359075, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
@@ -8287,9 +8071,8 @@ GameObject:
   - component: {fileID: 1238132023}
   - component: {fileID: 1238132026}
   - component: {fileID: 1238132025}
-  - component: {fileID: 1238132029}
-  - component: {fileID: 1238132028}
   - component: {fileID: 1238132027}
+  - component: {fileID: 1238132028}
   m_Layer: 5
   m_Name: Museum Debris 09
   m_TagString: Untagged
@@ -8445,50 +8228,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1238132029}
+  canvasGroup: {fileID: 1238132028}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1238132028
-MonoBehaviour:
+--- !u!225 &1238132028
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1238132021}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1238132029
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238132021}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1258588866
 GameObject:
   m_ObjectHideFlags: 0
@@ -9402,10 +9159,9 @@ GameObject:
   - component: {fileID: 1371517708}
   - component: {fileID: 1371517710}
   - component: {fileID: 1371517709}
-  - component: {fileID: 1371517713}
-  - component: {fileID: 1371517712}
   - component: {fileID: 1371517711}
   - component: {fileID: 1371517714}
+  - component: {fileID: 1371517712}
   m_Layer: 5
   m_Name: Stage Locker
   m_TagString: Untagged
@@ -9485,50 +9241,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1371517713}
+  canvasGroup: {fileID: 1371517712}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1371517712
-MonoBehaviour:
+--- !u!225 &1371517712
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371517707}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1371517713
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1371517707}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &1371517714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9915,6 +9645,7 @@ GameObject:
   - component: {fileID: 1392627616}
   - component: {fileID: 1392627617}
   - component: {fileID: 1392627618}
+  - component: {fileID: 1392627619}
   m_Layer: 5
   m_Name: Stage Star
   m_TagString: Untagged
@@ -9946,7 +9677,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 240, y: 50}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1392627617
 MonoBehaviour:
@@ -9993,6 +9724,20 @@ MonoBehaviour:
   - {fileID: 2068413235}
   - {fileID: 1648374940}
   - {fileID: 1673619773}
+--- !u!114 &1392627619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392627615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1 &1397155100
 GameObject:
   m_ObjectHideFlags: 0
@@ -10119,9 +9864,8 @@ GameObject:
   - component: {fileID: 1414529381}
   - component: {fileID: 1414529384}
   - component: {fileID: 1414529383}
-  - component: {fileID: 1414529387}
-  - component: {fileID: 1414529386}
   - component: {fileID: 1414529385}
+  - component: {fileID: 1414529386}
   m_Layer: 5
   m_Name: Museum Debris 06
   m_TagString: Untagged
@@ -10277,50 +10021,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1414529387}
+  canvasGroup: {fileID: 1414529386}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1414529386
-MonoBehaviour:
+--- !u!225 &1414529386
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414529379}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1414529387
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1414529379}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1418188704
 GameObject:
   m_ObjectHideFlags: 0
@@ -10334,9 +10052,8 @@ GameObject:
   - component: {fileID: 1418188706}
   - component: {fileID: 1418188709}
   - component: {fileID: 1418188708}
-  - component: {fileID: 1418188712}
-  - component: {fileID: 1418188711}
   - component: {fileID: 1418188710}
+  - component: {fileID: 1418188711}
   m_Layer: 5
   m_Name: Museum Debris 04
   m_TagString: Untagged
@@ -10492,50 +10209,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1418188712}
+  canvasGroup: {fileID: 1418188711}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1418188711
-MonoBehaviour:
+--- !u!225 &1418188711
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418188704}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1418188712
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1418188704}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1420286018
 GameObject:
   m_ObjectHideFlags: 0
@@ -11281,10 +10972,9 @@ GameObject:
   - component: {fileID: 1557838491}
   - component: {fileID: 1557838490}
   - component: {fileID: 1557838489}
-  - component: {fileID: 1557838493}
-  - component: {fileID: 1557838494}
   - component: {fileID: 1557838492}
   - component: {fileID: 1557838495}
+  - component: {fileID: 1557838493}
   m_Layer: 5
   m_Name: Admin Button Group
   m_TagString: Untagged
@@ -11396,50 +11086,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1557838493}
+  canvasGroup: {fileID: 1557838493}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!223 &1557838493
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1557838487}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &1557838494
-MonoBehaviour:
+--- !u!225 &1557838493
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557838487}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!114 &1557838495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11465,9 +11129,8 @@ GameObject:
   - component: {fileID: 1568706312}
   - component: {fileID: 1568706315}
   - component: {fileID: 1568706314}
-  - component: {fileID: 1568706318}
-  - component: {fileID: 1568706317}
   - component: {fileID: 1568706316}
+  - component: {fileID: 1568706317}
   m_Layer: 5
   m_Name: Museum Debris 08
   m_TagString: Untagged
@@ -11623,50 +11286,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1568706318}
+  canvasGroup: {fileID: 1568706317}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1568706317
-MonoBehaviour:
+--- !u!225 &1568706317
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1568706310}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1568706318
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568706310}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1583068848
 GameObject:
   m_ObjectHideFlags: 0
@@ -11723,9 +11360,8 @@ GameObject:
   - component: {fileID: 1584783248}
   - component: {fileID: 1584783251}
   - component: {fileID: 1584783250}
-  - component: {fileID: 1584783254}
-  - component: {fileID: 1584783253}
   - component: {fileID: 1584783252}
+  - component: {fileID: 1584783253}
   m_Layer: 5
   m_Name: Museum Debris 11
   m_TagString: Untagged
@@ -11881,50 +11517,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1584783254}
+  canvasGroup: {fileID: 1584783253}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1584783253
-MonoBehaviour:
+--- !u!225 &1584783253
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1584783246}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1584783254
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1584783246}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1595014199
 GameObject:
   m_ObjectHideFlags: 0
@@ -12017,9 +11627,8 @@ GameObject:
   - component: {fileID: 1598436547}
   - component: {fileID: 1598436550}
   - component: {fileID: 1598436549}
-  - component: {fileID: 1598436553}
-  - component: {fileID: 1598436552}
   - component: {fileID: 1598436551}
+  - component: {fileID: 1598436552}
   m_Layer: 5
   m_Name: Museum Debris 02
   m_TagString: Untagged
@@ -12175,50 +11784,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1598436553}
+  canvasGroup: {fileID: 1598436552}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1598436552
-MonoBehaviour:
+--- !u!225 &1598436552
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1598436545}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1598436553
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1598436545}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1598917222
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12718,7 +12301,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 156.75, y: -25}
+  m_AnchoredPosition: {x: 350, y: -36.85}
   m_SizeDelta: {x: 42, y: 42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1648374942
@@ -12972,9 +12555,8 @@ GameObject:
   - component: {fileID: 1682503034}
   - component: {fileID: 1682503037}
   - component: {fileID: 1682503036}
-  - component: {fileID: 1682503040}
-  - component: {fileID: 1682503039}
   - component: {fileID: 1682503038}
+  - component: {fileID: 1682503039}
   m_Layer: 5
   m_Name: Museum Debris 07
   m_TagString: Untagged
@@ -13130,50 +12712,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1682503040}
+  canvasGroup: {fileID: 1682503039}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1682503039
-MonoBehaviour:
+--- !u!225 &1682503039
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682503032}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1682503040
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1682503032}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1684771279
 GameObject:
   m_ObjectHideFlags: 0
@@ -13704,9 +13260,8 @@ GameObject:
   - component: {fileID: 1789881922}
   - component: {fileID: 1789881925}
   - component: {fileID: 1789881924}
-  - component: {fileID: 1789881928}
-  - component: {fileID: 1789881927}
   - component: {fileID: 1789881926}
+  - component: {fileID: 1789881927}
   m_Layer: 5
   m_Name: Museum Debris 13
   m_TagString: Untagged
@@ -13862,50 +13417,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1789881928}
+  canvasGroup: {fileID: 1789881927}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1789881927
-MonoBehaviour:
+--- !u!225 &1789881927
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789881920}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1789881928
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1789881920}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1803514493
 GameObject:
   m_ObjectHideFlags: 0
@@ -14224,9 +13753,8 @@ GameObject:
   - component: {fileID: 1911863854}
   - component: {fileID: 1911863857}
   - component: {fileID: 1911863856}
-  - component: {fileID: 1911863860}
-  - component: {fileID: 1911863859}
   - component: {fileID: 1911863858}
+  - component: {fileID: 1911863859}
   m_Layer: 5
   m_Name: Museum Debris 03
   m_TagString: Untagged
@@ -14382,50 +13910,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 1911863860}
+  canvasGroup: {fileID: 1911863859}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
---- !u!114 &1911863859
-MonoBehaviour:
+--- !u!225 &1911863859
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911863852}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!223 &1911863860
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1911863852}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &1943350345 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7475867359283629512, guid: 86efbc33d7a71fc4facab48c43d9fc9a,
@@ -14694,7 +14196,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 132.25, y: -25}
+  m_AnchoredPosition: {x: 298, y: -36.85}
   m_SizeDelta: {x: 42, y: 42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2068413237
@@ -15037,6 +14539,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Progress Message
+      objectReference: {fileID: 0}
+    - target: {fileID: 3541637054506820329, guid: ea7714d7cb6993b40bee339b04a832ee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3541637054506820333, guid: ea7714d7cb6993b40bee339b04a832ee,
         type: 3}

@@ -3,7 +3,6 @@ using ConditionalDebug;
 using Dirichlet.Numerics;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AchievePopup : MonoBehaviour
 {
@@ -18,12 +17,12 @@ public class AchievePopup : MonoBehaviour
     public RectTransform scrollViewRect;
 
     [SerializeField]
-    Canvas canvas;
+    Subcanvas subcanvas;
 
 #if UNITY_EDITOR
     void OnValidate()
     {
-        canvas = GetComponent<Canvas>();
+        subcanvas = GetComponent<Subcanvas>();
     }
 #endif
 
@@ -39,11 +38,11 @@ public class AchievePopup : MonoBehaviour
 
     }
 
-    public void UpdateAchievementUI()
+    void UpdateAchievementUI()
     {
         if (BlackContext.instance == null) return;
         if (Data.dataSet == null) return;
-        if (canvas.enabled == false) return;
+        if (subcanvas.IsOpen == false) return;
         
         // short names
         var gathered = BlackContext.instance.AchievementGathered;
@@ -107,7 +106,7 @@ public class AchievePopup : MonoBehaviour
             entries[1].gameObject.SetActive(false);
     }
 
-    private void UpdateEntryUI(AchievementEntry entry, AchievementData data)
+    void UpdateEntryUI(AchievementEntry entry, AchievementData data)
     {
         UInt128 currentValue = 0;
         entry.gameObject.SetActive(true);

@@ -210,10 +210,9 @@ GameObject:
   - component: {fileID: 3541637054506820328}
   - component: {fileID: 3541637054506820334}
   - component: {fileID: 3541637054506820332}
-  - component: {fileID: 3541637054506820333}
-  - component: {fileID: 3541637054506820330}
   - component: {fileID: 3541637054506820331}
   - component: {fileID: 6868330657398186973}
+  - component: {fileID: 8815826854443896236}
   m_Layer: 5
   m_Name: Progress Message
   m_TagString: Untagged
@@ -265,44 +264,6 @@ MonoBehaviour:
   messageText: {fileID: 3541637054051211577}
   platformFacebookAdsInit: {fileID: 0}
   subcanvas: {fileID: 3541637054506820331}
---- !u!223 &3541637054506820333
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3541637054506820329}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &3541637054506820330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3541637054506820329}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &3541637054506820331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 3541637054506820333}
+  canvasGroup: {fileID: 8815826854443896236}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
@@ -338,6 +299,18 @@ MonoBehaviour:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &8815826854443896236
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3541637054506820329}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &7831445119305879915
 GameObject:
   m_ObjectHideFlags: 0

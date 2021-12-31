@@ -6,6 +6,7 @@ using Dirichlet.Numerics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ using UnityEngine.UI;
 public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     static bool Verbose => false;
-    
+
     readonly HashSet<uint> coloredMinPoints = new HashSet<uint>();
 
     [SerializeField]
@@ -105,7 +106,11 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     Sound.instance.PlayFillOkay();
 
                     // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
-                    if (IsLabelByMinPointEmpty)
+                    if (IsLabelByMinPointEmpty
+#if BLACK_ADMIN
+                        || (Application.isEditor && Keyboard.current[Key.LeftShift].isPressed)
+#endif
+                    )
                     {
                         StartFinale();
                     }
@@ -113,7 +118,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 else
                 {
                     Sound.instance.PlayFillError();
-                    
+
                     // 칠할 수 없는 경우에는 그에 대한 알림
                     flickerImage.enabled = true;
                     StartCoroutine(nameof(HideFlicker));
@@ -137,10 +142,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (!StageButton.CurrentStageMetadata)
         {
-            if (Verbose) ConDebug.Log("Current stage metadata is not set. Last cleared stage ID will not be updated. (Did you start the play mode from Main scene?)");
+            if (Verbose)
+                ConDebug.Log(
+                    "Current stage metadata is not set. Last cleared stage ID will not be updated. (Did you start the play mode from Main scene?)");
             return;
         }
-    
+
         var stageName = StageButton.CurrentStageMetadata.name;
         for (var i = 0; i < Data.dataSet.StageSequenceData.Count; i++)
         {
@@ -148,7 +155,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 var oldClearedStageId = BlackContext.instance.LastClearedStageId;
                 var newClearedStageId = i + 1;
-                
+
                 BlackContext.instance.LastClearedStageId = Mathf.Max(oldClearedStageId, newClearedStageId);
 
                 // 스테이지 클리어에 진전이 있었다. 보상을 준다.
@@ -156,8 +163,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 {
                     // 관문 스테이지는 추가 골드를 더 준다.
                     BlackContext.instance.AddPendingGold(new UInt128(newClearedStageId % 5 == 0 ? 3 : 1));
-                    
-                    BlackContext.instance.AchievementGathered.MaxBlackLevel = (UInt128)BlackContext.instance.LastClearedStageId.ToInt();
+
+                    BlackContext.instance.AchievementGathered.MaxBlackLevel =
+                        (UInt128) BlackContext.instance.LastClearedStageId.ToInt();
                 }
             }
         }
@@ -299,7 +307,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             if (Verbose)
                 if (pixelList.Count <= 128)
                     foreach (var pixel in pixelList)
-                        if (Verbose) ConDebug.Log($"Fill Pixel: {pixel.x}, {TexSize - pixel.y - 1}");
+                        if (Verbose)
+                            ConDebug.Log($"Fill Pixel: {pixel.x}, {TexSize - pixel.y - 1}");
 
             if (Verbose) ConDebug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
             var solutionColorUint = stageData.islandDataByMinPoint[fillMinPointUint].rgba;
@@ -342,12 +351,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         // 일단 여기서 replacementColor로 변경 해 둬야 이 알고리즘이 작동한다.
         // 진짜 색깔로 칠하는 건 나중에 pixelList에 모아둔 값으로 제대로 한다.
         SetPixel(bitmap, bitmapPoint.x, bitmapPoint.y, replacementColor);
-        
+
 //        if (pixelList.Contains(bitmapPoint))
 //        {
 //            Debug.LogError("pixelList duplicated item should not be inserted.");
 //        }
-        
+
         pixelList.Add(bitmapPoint);
         //tex.SetPixel(bitmapPoint.x, bitmapPoint.y, replacementColor);
         if (pixelList.Count > maxIslandPixelArea)
@@ -417,9 +426,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
 
         StageSaveManager.LoadWipPng(stageName, tex);
-        
+
         if (inColoredMinPoints.Count <= 0) return;
-        
+
         foreach (var minPoint in inColoredMinPoints)
         {
             UpdatePaletteBySolutionColor(minPoint, stageData.islandDataByMinPoint[minPoint].rgba, true);

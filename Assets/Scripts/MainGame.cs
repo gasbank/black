@@ -138,7 +138,7 @@ public class MainGame : MonoBehaviour
         {
             DeactivateTime();
         }
-        
+
         if (Verbose)
         {
             ConDebug.Log($"Tex size: {gridWorld.TexSize}");
@@ -173,13 +173,14 @@ public class MainGame : MonoBehaviour
     public void OnFinishConfirmButton()
     {
         Sound.instance.PlayButtonClick();
-        
+
         if (gridWorld != null) gridWorld.WriteStageSaveData();
 
         if (BlackContext.instance.PendingGold == 1)
         {
-            ConfirmPopup.instance.Open(@"\클리어를 축하합니다. {0}골드를 받았습니다.".Localized(1), () => SceneManager.LoadScene("Stage Selection"));
-            
+            ConfirmPopup.instance.Open(@"\클리어를 축하합니다. {0}골드를 받았습니다.".Localized(1),
+                () => SceneManager.LoadScene("Stage Selection"));
+
             Sound.instance.PlaySoftTada();
         }
         else
@@ -229,7 +230,7 @@ public class MainGame : MonoBehaviour
     {
         timeGroup.gameObject.SetActive(false);
     }
-    
+
     void ActivateTime()
     {
         timeGroup.gameObject.SetActive(true);
@@ -243,5 +244,12 @@ public class MainGame : MonoBehaviour
     public float GetRemainTime()
     {
         return remainTime;
+    }
+
+    public void OpenResetStageConfirmPopup()
+    {
+        ConfirmPopup.instance.OpenYesNoPopup(@"\이 스테이지를 처음부터 새로 시작하겠습니까?".Localized(),
+            ResetStage,
+            ConfirmPopup.instance.Close);
     }
 }

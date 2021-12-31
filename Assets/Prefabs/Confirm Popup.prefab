@@ -296,10 +296,9 @@ GameObject:
   - component: {fileID: 3600738253834969588}
   - component: {fileID: 3600738253834969545}
   - component: {fileID: 3600738253834969544}
-  - component: {fileID: 3600738253834969591}
-  - component: {fileID: 3600738253834969590}
   - component: {fileID: 3600738253834969589}
   - component: {fileID: 3600738253834969546}
+  - component: {fileID: 1030262078118870007}
   m_Layer: 5
   m_Name: Confirm Popup
   m_TagString: Untagged
@@ -365,44 +364,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!223 &3600738253834969591
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3600738253834969587}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &3600738253834969590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3600738253834969587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &3600738253834969589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,7 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButtonHandlerPushed: 0
-  canvas: {fileID: 3600738253834969591}
+  canvasGroup: {fileID: 1030262078118870007}
   canvasScaler: {fileID: 0}
   disableBackButtonHandler: 0
   doNotCloseOnBackButton: 0
@@ -469,6 +430,18 @@ MonoBehaviour:
   titleGroup: {fileID: 0}
   topAnimator: {fileID: 0}
   topImage: {fileID: 0}
+--- !u!225 &1030262078118870007
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3600738253834969587}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &5928933471043057483
 GameObject:
   m_ObjectHideFlags: 0
