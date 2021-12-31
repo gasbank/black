@@ -399,6 +399,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.LastClearedStageId = blackSaveData.lastClearedStageId;
         context.SetGold(blackSaveData.goldScUInt128);
         context.SetDebrisState(blackSaveData.clearedDebrisIndexList);
+        context.SetStageLockRemainTime(blackSaveData.stageLockRemainTime);
 
         // 부정 이용 사용자 걸러낸다.
         // 다만, 부정 이용 사용자가 아닌데 걸러진 경우 개발팀 문의를 통해 풀 수 있다.

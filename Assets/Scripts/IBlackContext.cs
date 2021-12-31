@@ -76,4 +76,5 @@ public interface IBlackContext
     event NotifyGoldChange OnGoldChanged;
     void SetDebrisState(List<int> clearedDebrisIndexList);
     List<int> GetDebrisState();
+    void SetStageLockRemainTime(float stageLockRemainTime);
 }

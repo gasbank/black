@@ -31,7 +31,11 @@ public class StageDetail : MonoBehaviour
     Text startStageButtonText;
 
     public static bool IsAllCleared => BlackContext.instance.LastClearedStageId >= Data.dataSet.StageSequenceData.Count;
-    public float StageLockDetailTime => stageLocker.RemainTime;
+    public float StageLockDetailTime
+    {
+        get => stageLocker.RemainTime;
+        set => stageLocker.RemainTime = value;
+    }
 
     void Start()
     {

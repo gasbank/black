@@ -31,8 +31,12 @@ public class BlackContext : MonoBehaviour, IBlackContext
 
     [SerializeField]
     ScUInt128 gold;
+    
+    [SerializeField]
+    StageDetail stageDetail;
 
     List<int> clearedDebrisIndexList;
+    float stageLockRemainTime;
 
     public bool CheatMode { get; set; }
     public bool WaiveBan { get; set; }
@@ -92,6 +96,18 @@ public class BlackContext : MonoBehaviour, IBlackContext
     public List<int> GetDebrisState()
     {
         return museumImage != null ? museumImage.GetDebrisState() : clearedDebrisIndexList;
+    }
+
+    public void SetStageLockRemainTime(float inStageLockRemainTime)
+    {
+        if (stageDetail != null)
+        {
+            stageDetail.StageLockDetailTime = inStageLockRemainTime;
+        }
+        else
+        {
+            stageLockRemainTime = inStageLockRemainTime;
+        }
     }
 
 

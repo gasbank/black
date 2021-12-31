@@ -21,7 +21,19 @@ public class StageLocker : MonoBehaviour
     float remainTime;
 
     public bool Locked => enabled && initialTime > 0 && remainTime > 0;
-    public float RemainTime => Locked ? remainTime : 0;
+
+    public float RemainTime
+    {
+        get => Locked ? remainTime : 0;
+        set
+        {
+            remainTime = value;
+            if (remainTime > 0)
+            {
+                enabled = true;
+            }
+        }
+    }
 
 #if UNITY_EDITOR
     void OnValidate()
