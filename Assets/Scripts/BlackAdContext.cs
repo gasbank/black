@@ -1,9 +1,11 @@
+using System;
+
 public class BlackAdContext
 {
-    public readonly int value;
-
-    public BlackAdContext(int inValue)
+    public BlackAdContext(Action executeReward)
     {
-        value = inValue;
+        ExecuteReward = executeReward;
     }
+
+    public Action ExecuteReward { get; }
 }

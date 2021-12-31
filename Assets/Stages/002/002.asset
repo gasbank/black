@@ -18,3 +18,4 @@ MonoBehaviour:
   skipBlackMaterial: {fileID: 2100000, guid: 203b7e2c9f1ab7840bb8b1ada7f3c41d, type: 2}
   starCount: 1
   remainTime: 0
+  skipLock: 1

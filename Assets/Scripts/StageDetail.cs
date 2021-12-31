@@ -77,8 +77,15 @@ public class StageDetail : MonoBehaviour
         var stageMetadata = await Addressables.LoadAssetAsync<StageMetadata>(stageMetadataLoc).Task;
 
         ProgressMessage.instance.Close();
-        stageButton.SetStageMetadata(stageMetadata);
+        var resumed = stageButton.SetStageMetadata(stageMetadata);
         subcanvas.Open();
+
+        // 하다가 만 스테이지면 대기 시간 있어선 안된다.
+        // 초반 스테이지는 대기 시간 없다.
+        if (resumed || stageMetadata.SkipLock)
+        {
+            stageLocker.Unlock();
+        }
 
         if (easelExclamationMark != null)
         {
@@ -138,9 +145,18 @@ public class StageDetail : MonoBehaviour
     public void OnStageStartButton()
     {
         Sound.instance.PlayButtonClick();
-        stageButton.SetStageMetadataToCurrent();
-        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
-        SceneManager.LoadScene("Main");
+
+        if (stageLocker.Locked)
+        {
+            var adContext = new BlackAdContext(stageLocker.Unlock);
+            PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
+        }
+        else
+        {
+            stageButton.SetStageMetadataToCurrent();
+            SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
+            SceneManager.LoadScene("Main");
+        }
     }
 
     void OnStageUnlocked()

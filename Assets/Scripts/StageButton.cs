@@ -38,14 +38,19 @@ public class StageButton : MonoBehaviour
 
     void Start()
     {
-        if (updateOnStart) UpdateButtonImage();
+        if (updateOnStart)
+        {
+            UpdateButtonImage();
+        }
     }
 
-    void UpdateButtonImage()
+    bool UpdateButtonImage()
     {
+        var resumed = false;
+        
         if (stageMetadata == null)
         {
-            return;
+            return resumed;
         }
 
         var wipTex2D = new Texture2D(512, 512, TextureFormat.RGB24, true, true);
@@ -54,24 +59,34 @@ public class StageButton : MonoBehaviour
             image.material = Instantiate(image.material);
             image.material.mainTexture = wipTex2D;
             image.sprite = null;
+            resumed = true;
         }
         else
         {
             var blankTex2D = stageMetadata.SkipBlackMaterial.GetTexture(ColorTexture) as Texture2D;
             if (blankTex2D != null)
+            {
                 image.sprite = Sprite.Create(blankTex2D, new Rect(0, 0, blankTex2D.width, blankTex2D.height),
                     Vector2.one / 2);
+            }
             else
+            {
                 Debug.LogError("Skip Black Material's Color Texture is null");
+            }
         }
 
-        if (stageStar != null) stageStar.StarCount = stageMetadata.StarCount;
+        if (stageStar != null)
+        {
+            stageStar.StarCount = stageMetadata.StarCount;
+        }
+
+        return resumed;
     }
 
-    public void SetStageMetadata(StageMetadata inStageMetadata)
+    public bool SetStageMetadata(StageMetadata inStageMetadata)
     {
         stageMetadata = inStageMetadata;
-        UpdateButtonImage();
+        return UpdateButtonImage();
     }
 
     public void SetStageMetadataToCurrent()

@@ -431,7 +431,12 @@ public class Admin : MonoBehaviour
     {
 #if BLACK_ADMIN
         CloseAdminMenu();
-        var adContext = new BlackAdContext(1);
+        var adContext = new BlackAdContext(() =>
+        {
+            ScUInt128 goldAmount = 1;
+            BlackContext.instance.AddGoldSafe(goldAmount);
+            ConfirmPopup.instance.Open(@"\광고 시청 보상으로 {0}골드를 받았습니다.".Localized(goldAmount));
+        });
         PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
 #endif
     }

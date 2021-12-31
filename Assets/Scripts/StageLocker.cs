@@ -20,6 +20,8 @@ public class StageLocker : MonoBehaviour
     [SerializeField]
     float stageLockRemainTime;
 
+    public bool Locked => enabled && stageLockInitialTime > 0 && stageLockRemainTime > 0;
+
 #if UNITY_EDITOR
     void OnValidate()
     {
@@ -35,7 +37,7 @@ public class StageLocker : MonoBehaviour
         var oldStageLockRemainTime = stageLockRemainTime;
         stageLockRemainTime = Mathf.Clamp(stageLockRemainTime - Time.deltaTime, 0, stageLockInitialTime);
 
-        if (stageLockInitialTime <= 0 || (oldStageLockRemainTime > 0 && stageLockRemainTime <= 0))
+        if (stageLockInitialTime <= 0 || stageLockRemainTime <= 0)
         {
             subcanvas.Close();
 
@@ -64,5 +66,10 @@ public class StageLocker : MonoBehaviour
     [UsedImplicitly]
     void ClosePopup()
     {
+    }
+
+    public void Unlock()
+    {
+        stageLockRemainTime = 0;
     }
 }

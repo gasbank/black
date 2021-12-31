@@ -6,9 +6,7 @@ public class PlatformAds : IPlatformAds
     {
         if (adContext is BlackAdContext blackAdContext)
         {
-            var goldAmount = blackAdContext.value;
-            BlackContext.instance.AddGoldSafe(1);
-            ConfirmPopup.instance.Open(@"\광고 시청 보상으로 {0}골드를 받았습니다.".Localized(goldAmount));
+            blackAdContext.ExecuteReward();
         }
         else
         {

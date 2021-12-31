@@ -9211,8 +9211,8 @@ MonoBehaviour:
   subcanvas: {fileID: 1371517711}
   stageLockerGauge: {fileID: 1371517709}
   stageLockerText: {fileID: 1744333209}
-  stageLockInitialTime: 2
-  stageLockRemainTime: 2
+  stageLockInitialTime: 100
+  stageLockRemainTime: 100
 --- !u!1 &1379851203
 GameObject:
   m_ObjectHideFlags: 0
