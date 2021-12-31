@@ -455,11 +455,12 @@ MonoBehaviour:
   bgmAudioVolume: 0
   bgmType: 0
   blackNew: {fileID: 0}
-  buttonClick: {fileID: 0}
+  buttonClick: {fileID: 8300000, guid: 7d0eda09efc5d4ca48fb9b74d867bc83, type: 3}
   fillOkay: {fileID: 8300000, guid: b14a6e93e8d434d03a3b51cbcb25d722, type: 3}
   fillError: {fileID: 8300000, guid: bba6e27a0477b4d758fe00cc689a54c8, type: 3}
   correctlyFinished: {fileID: 0}
-  correctlyFinishedMild: {fileID: 0}
+  correctlyFinishedMild: {fileID: 8300000, guid: 6510910211c8349c792db8776c06709d,
+    type: 3}
   currentNormalBgmIndex: 0
   dingaling: {fileID: 0}
   error: {fileID: 0}

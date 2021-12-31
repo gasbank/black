@@ -116,6 +116,8 @@ public class Subcanvas : MonoBehaviour
                 BackButtonHandler.instance.PopAction();
                 backButtonHandlerPushed = false;
             }
+            
+            Sound.instance.PlayButtonClick();
         }
 
         ForceBackButtonHandler = false;

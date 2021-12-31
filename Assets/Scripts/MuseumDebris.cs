@@ -57,6 +57,8 @@ public class MuseumDebris : MonoBehaviour
     public void OnClick()
     {
         if (toBeClosed) return;
+        
+        Sound.instance.PlayButtonClick();
 
         ConfirmPopup.instance.OpenYesNoPopup(
             @"\잔해를 치울까요? {0}골드가 필요합니다.".Localized(clearPrice),

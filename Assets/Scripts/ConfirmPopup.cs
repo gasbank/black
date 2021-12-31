@@ -546,21 +546,29 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
 
     public void OnButton1()
     {
+        Sound.instance.PlayButtonClick();
+        
         if (IsOpen) onButton1();
     }
 
     public void OnButton2()
     {
+        Sound.instance.PlayButtonClick();
+        
         if (IsOpen) onButton2();
     }
 
     public void OnClaimButton()
     {
+        Sound.instance.PlayButtonClick();
+        
         if (IsOpen) onClaimButton();
     }
 
     public void OnCloseButton()
     {
+        Sound.instance.PlayButtonClick();
+        
         if (IsOpen) onCloseButton();
     }
 

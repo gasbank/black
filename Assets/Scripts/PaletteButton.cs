@@ -22,12 +22,16 @@ public class PaletteButton : MonoBehaviour
     public bool Check
     {
         get => check.activeSelf;
+        // ReSharper disable once ValueParameterNotUsed
         set
         {
             foreach (Transform t in transform.parent)
             {
                 var pb = t.GetComponent<PaletteButton>();
-                if (pb != null) pb.check.SetActive(t == transform);
+                if (pb != null)
+                {
+                    pb.check.SetActive(t == transform);
+                }
             }
         }
     }
@@ -57,5 +61,10 @@ public class PaletteButton : MonoBehaviour
     void Awake()
     {
         ColoredRatio = 0;
+    }
+
+    public void PlayCheckSound()
+    {
+        Sound.instance.PlayButtonClick();
     }
 }
