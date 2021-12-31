@@ -50,8 +50,11 @@ internal static class BlackBuild {
         var isReleaseBuild = Environment.GetEnvironmentVariable("BLACK_DEV_BUILD") != "1";
         var skipArmV7 = Environment.GetEnvironmentVariable("BLACK_SKIP_ARMV7") == "1";
         BuildPlayerOptions options = new BuildPlayerOptions {
-            scenes = Scenes, target = BuildTarget.Android, locationPathName = "./black.apk"
+            scenes = Scenes,
+            target = BuildTarget.Android,
+            locationPathName = appBundle ? string.Empty : "./black.apk",
         };
+
         if (run) {
             options.options |= BuildOptions.AutoRunPlayer;
         }
