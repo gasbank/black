@@ -1,9 +1,11 @@
+using System;
 using System.Threading.Tasks;
 using ConditionalDebug;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StageDetail : MonoBehaviour
 {
@@ -22,6 +24,21 @@ public class StageDetail : MonoBehaviour
     [SerializeField]
     BottomTip bottomTip;
 
+    [SerializeField]
+    Subcanvas stageLockerSubcanvas;
+
+    [SerializeField]
+    Image stageLockerGauge;
+    
+    [SerializeField]
+    Text stageLockerText;
+    
+    [SerializeField]
+    float stageLockInitialTime;
+    
+    [SerializeField]
+    float stageLockRemainTime;
+    
     public static bool IsAllCleared => BlackContext.instance.LastClearedStageId >= Data.dataSet.StageSequenceData.Count;
 
     void Start()
@@ -121,5 +138,20 @@ public class StageDetail : MonoBehaviour
         stageButton.SetStageMetadataToCurrent();
         SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
         SceneManager.LoadScene("Main");
+    }
+
+    void Update()
+    {
+        if (stageLockInitialTime <= 0 || stageLockRemainTime <= 0)
+        {
+            stageLockerSubcanvas.Close();
+        }
+        else
+        {
+            stageLockerSubcanvas.Open();
+            stageLockRemainTime = Mathf.Max(0, stageLockRemainTime - Time.deltaTime);
+            stageLockerGauge.fillAmount = stageLockRemainTime / stageLockInitialTime;
+            stageLockerText.text = @"\다음 스테이지 준비중\n{0:F1}초".Localized(stageLockRemainTime);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageStar : MonoBehaviour
 {
@@ -8,7 +9,6 @@ public class StageStar : MonoBehaviour
 
     public int StarCount
     {
-        get => starList.Count(e => e.activeSelf);
         set
         {
             foreach (var s in starList.Take(value)) s.SetActive(true);
@@ -20,7 +20,11 @@ public class StageStar : MonoBehaviour
 #if UNITY_EDITOR
     void OnValidate()
     {
-        starList = transform.Cast<Transform>().Select(e => e.gameObject).ToArray();
+        starList = transform
+            .Cast<Transform>()
+            .Select(e => e.gameObject)
+            .Where(e => e.TryGetComponent<Image>(out _))
+            .ToArray();
     }
 #endif
 }
