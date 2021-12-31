@@ -41,5 +41,7 @@ public class EaselButton : MonoBehaviour
     public void OnClick()
     {
         stageDetail.OpenPopupAfterLoadingAsync();
+        
+        Sound.instance.PlayButtonClick();
     }
 }

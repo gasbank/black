@@ -464,7 +464,7 @@ MonoBehaviour:
   currentNormalBgmIndex: 0
   dingaling: {fileID: 0}
   error: {fileID: 0}
-  errorBuzzer: {fileID: 0}
+  errorBuzzer: {fileID: 8300000, guid: 31c69360260f34d69b15298c19e4c723, type: 3}
   feverBgm: {fileID: 0}
   gatherStoredMax: {fileID: 0}
   gatherStoredMaxSfxAudioSource: {fileID: 0}
@@ -480,7 +480,7 @@ MonoBehaviour:
   tadaF: {fileID: 0}
   tadaG: {fileID: 0}
   whacACatBgm: {fileID: 0}
-  whooshAir: {fileID: 0}
+  whooshAir: {fileID: 8300000, guid: cd2488952df144788a3ebdd27987be55, type: 3}
   wipeStain: {fileID: 0}
   wipeStainFinish: {fileID: 0}
 --- !u!82 &2425384019063371281

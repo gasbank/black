@@ -1,6 +1,8 @@
-﻿using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 // 참고: https://docs.unity3d.com/ScriptReference/UI.Graphic.html
+[RequireComponent(typeof(CanvasRenderer))]
 public class SkipRenderGraphic : Graphic
 {
     protected override void OnPopulateMesh(VertexHelper vh)

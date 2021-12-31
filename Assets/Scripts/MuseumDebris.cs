@@ -73,6 +73,8 @@ public class MuseumDebris : MonoBehaviour
             ConfirmPopup.instance.Open(
                 @"\골드가 부족합니다.".Localized(),
                 ConfirmPopup.instance.Close);
+            
+            Sound.instance.PlayErrorBuzzer();
         }
         else
         {
@@ -85,8 +87,10 @@ public class MuseumDebris : MonoBehaviour
             poofTransform.localPosition = transform.localPosition;
             poofTransform.localScale = Vector3.one;
 
+            Sound.instance.PlayWhooshAir();
+            
             Close();
-
+            
             ConfirmPopup.instance.Close();
         }
     }

@@ -105,6 +105,14 @@ public class Subcanvas : MonoBehaviour
         }
     }
 
+    public void OpenWithClickSound()
+    {
+        // 실제로 열렸는지와 상관 없이 유저 인터랙션이 있었으니 소리는 낸다.
+        Sound.instance.PlayButtonClick();
+
+        Open();
+    }
+
     public void Close()
     {
         if (canvas.enabled)
@@ -116,12 +124,20 @@ public class Subcanvas : MonoBehaviour
                 BackButtonHandler.instance.PopAction();
                 backButtonHandlerPushed = false;
             }
-            
-            Sound.instance.PlayButtonClick();
         }
 
         ForceBackButtonHandler = false;
     }
+    
+    
+    public void CloseWithClickSound()
+    {
+        // 실제로 닫혔는지와 상관 없이 유저 인터랙션이 있었으니 소리는 낸다.
+        Sound.instance.PlayButtonClick();
+        
+        Close();
+    }
+
 
     void CloseWithDefaultAction()
     {

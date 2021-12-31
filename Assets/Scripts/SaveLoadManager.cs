@@ -169,6 +169,10 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             goldScUInt128 = BlackContext.instance.Gold,
             clearedDebrisIndexList = BlackContext.instance.GetDebrisState(),
             pendingGoldScUInt128 = BlackContext.instance.PendingGold,
+            bgmAudioVolume = 1.0f,
+            sfxAudioVolume = 1.0f,
+            muteBgmAudioSource = Sound.instance.BgmAudioSourceActive == false,
+            muteSfxAudioSource = Sound.instance.SfxAudioSourceActive == false,
         };
 
         return SaveBlackSaveData(blackSaveData);

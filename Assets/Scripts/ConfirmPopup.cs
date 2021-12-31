@@ -374,7 +374,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
             subcanvas.Close();
         }
     }
-
+    
     void IPlatformConfirmPopup.OpenTwoButtonPopup_Update(string text, Action close, Action action)
     {
         BlackPlatform.OpenTwoButtonPopup_Update(text, close, action);
@@ -575,6 +575,13 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
     public void OpenSimpleMessage(string message)
     {
         Debug.Log(nameof(OpenSimpleMessage));
+        Open(message, Close);
+    }
+    
+    public void OpenSimpleMessageWithClickSound(string message)
+    {
+        Debug.Log(nameof(OpenSimpleMessageWithClickSound));
+        Sound.instance.PlayButtonClick();
         Open(message, Close);
     }
 }
