@@ -359,7 +359,7 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(36);
+            writer.WriteArrayHeader(37);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.version, options);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastClearedStageId, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.goldScUInt128, options);
@@ -396,6 +396,7 @@ namespace MessagePack.Formatters
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.maxBlackLevelRedeemed, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.maxColoringComboGathered, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.maxColoringComboRedeemed, options);
+            writer.Write(value.stageLockRemainTime);
         }
 
         public global::BlackSaveData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -444,6 +445,7 @@ namespace MessagePack.Formatters
             var __maxBlackLevelRedeemed__ = default(global::ScUInt128);
             var __maxColoringComboGathered__ = default(global::ScUInt128);
             var __maxColoringComboRedeemed__ = default(global::ScUInt128);
+            var __stageLockRemainTime__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
@@ -559,6 +561,9 @@ namespace MessagePack.Formatters
                     case 35:
                         __maxColoringComboRedeemed__ = formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Deserialize(ref reader, options);
                         break;
+                    case 36:
+                        __stageLockRemainTime__ = reader.ReadSingle();
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -602,6 +607,7 @@ namespace MessagePack.Formatters
             ____result.maxBlackLevelRedeemed = __maxBlackLevelRedeemed__;
             ____result.maxColoringComboGathered = __maxColoringComboGathered__;
             ____result.maxColoringComboRedeemed = __maxColoringComboRedeemed__;
+            ____result.stageLockRemainTime = __stageLockRemainTime__;
             reader.Depth--;
             return ____result;
         }
