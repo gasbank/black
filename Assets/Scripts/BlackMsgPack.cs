@@ -716,19 +716,21 @@ namespace MessagePack.Formatters
             this.____keyMapping = new global::MessagePack.Internal.AutomataDictionary()
             {
                 { "DailyRewardData", 0 },
-                { "AchievementData", 1 },
-                { "StageSequenceData", 2 },
-                { "StrChData", 3 },
-                { "StrEnData", 4 },
-                { "StrJaData", 5 },
-                { "StrKoData", 6 },
-                { "StrTwData", 7 },
+                { "AchievementData_MaxBlackLevel", 1 },
+                { "AchievementData_MaxColoringCombo", 2 },
+                { "StageSequenceData", 3 },
+                { "StrChData", 4 },
+                { "StrEnData", 5 },
+                { "StrJaData", 6 },
+                { "StrKoData", 7 },
+                { "StrTwData", 8 },
             };
 
             this.____stringByteKeys = new byte[][]
             {
                 global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("DailyRewardData"),
-                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("AchievementData"),
+                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("AchievementData_MaxBlackLevel"),
+                global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("AchievementData_MaxColoringCombo"),
                 global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StageSequenceData"),
                 global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrChData"),
                 global::MessagePack.Internal.CodeGenHelpers.GetEncodedStringBytes("StrEnData"),
@@ -747,22 +749,24 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteMapHeader(8);
+            writer.WriteMapHeader(9);
             writer.WriteRaw(this.____stringByteKeys[0]);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::DailyRewardData>>().Serialize(ref writer, value.DailyRewardData, options);
             writer.WriteRaw(this.____stringByteKeys[1]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::AchievementData>>().Serialize(ref writer, value.AchievementData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::AchievementData>>().Serialize(ref writer, value.AchievementData_MaxBlackLevel, options);
             writer.WriteRaw(this.____stringByteKeys[2]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Serialize(ref writer, value.StageSequenceData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::AchievementData>>().Serialize(ref writer, value.AchievementData_MaxColoringCombo, options);
             writer.WriteRaw(this.____stringByteKeys[3]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrChData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Serialize(ref writer, value.StageSequenceData, options);
             writer.WriteRaw(this.____stringByteKeys[4]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrEnData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrChData, options);
             writer.WriteRaw(this.____stringByteKeys[5]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrJaData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrEnData, options);
             writer.WriteRaw(this.____stringByteKeys[6]);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrKoData, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrJaData, options);
             writer.WriteRaw(this.____stringByteKeys[7]);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrKoData, options);
+            writer.WriteRaw(this.____stringByteKeys[8]);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Serialize(ref writer, value.StrTwData, options);
         }
 
@@ -777,7 +781,8 @@ namespace MessagePack.Formatters
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadMapHeader();
             var __DailyRewardData__ = default(global::System.Collections.Generic.List<global::DailyRewardData>);
-            var __AchievementData__ = default(global::System.Collections.Generic.List<global::AchievementData>);
+            var __AchievementData_MaxBlackLevel__ = default(global::System.Collections.Generic.List<global::AchievementData>);
+            var __AchievementData_MaxColoringCombo__ = default(global::System.Collections.Generic.List<global::AchievementData>);
             var __StageSequenceData__ = default(global::System.Collections.Generic.List<global::StageSequenceData>);
             var __StrChData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
             var __StrEnData__ = default(global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>);
@@ -801,24 +806,27 @@ namespace MessagePack.Formatters
                         __DailyRewardData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::DailyRewardData>>().Deserialize(ref reader, options);
                         break;
                     case 1:
-                        __AchievementData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::AchievementData>>().Deserialize(ref reader, options);
+                        __AchievementData_MaxBlackLevel__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::AchievementData>>().Deserialize(ref reader, options);
                         break;
                     case 2:
-                        __StageSequenceData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Deserialize(ref reader, options);
+                        __AchievementData_MaxColoringCombo__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::AchievementData>>().Deserialize(ref reader, options);
                         break;
                     case 3:
-                        __StrChData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StageSequenceData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::StageSequenceData>>().Deserialize(ref reader, options);
                         break;
                     case 4:
-                        __StrEnData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StrChData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     case 5:
-                        __StrJaData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StrEnData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     case 6:
-                        __StrKoData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        __StrJaData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     case 7:
+                        __StrKoData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
+                        break;
+                    case 8:
                         __StrTwData__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<global::ScString, global::StrBaseData>>().Deserialize(ref reader, options);
                         break;
                     default:
@@ -829,7 +837,8 @@ namespace MessagePack.Formatters
 
             var ____result = new global::DataSet();
             ____result.DailyRewardData = __DailyRewardData__;
-            ____result.AchievementData = __AchievementData__;
+            ____result.AchievementData_MaxBlackLevel = __AchievementData_MaxBlackLevel__;
+            ____result.AchievementData_MaxColoringCombo = __AchievementData_MaxColoringCombo__;
             ____result.StageSequenceData = __StageSequenceData__;
             ____result.StrChData = __StrChData__;
             ____result.StrEnData = __StrEnData__;

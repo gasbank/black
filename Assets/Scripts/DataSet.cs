@@ -8,7 +8,8 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 public class DataSet
 {
     public List<DailyRewardData> DailyRewardData;
-    public List<AchievementData> AchievementData;
+    public List<AchievementData> AchievementData_MaxBlackLevel;
+    public List<AchievementData> AchievementData_MaxColoringCombo;
 
     [IgnoreMember]
     public Dictionary<string, IResourceLocation> StageMetadataDict;
