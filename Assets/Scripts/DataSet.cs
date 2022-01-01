@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 public class DataSet
 {
     public List<DailyRewardData> DailyRewardData;
-    public Dictionary<ScString, List<AchievementData>> AchievementData;
+    public List<AchievementData> AchievementData;
 
     [IgnoreMember]
     public Dictionary<string, IResourceLocation> StageMetadataDict;

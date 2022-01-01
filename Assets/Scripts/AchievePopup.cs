@@ -43,12 +43,16 @@ public class AchievePopup : MonoBehaviour
         if (BlackContext.instance == null) return;
         if (Data.dataSet == null) return;
         if (subcanvas.IsOpen == false) return;
+
+        var data = Data.dataSet.AchievementData;
+        ConDebug.Log("Data.dataSet.AchievementData.Count");
+        ConDebug.Log(data.Count);
         
         // short names
         var gathered = BlackContext.instance.AchievementGathered;
         var redeemed = BlackContext.instance.AchievementRedeemed;
         var group = Data.achievementOrderedGroup;
-        
+
         // 임시데이터
         group = new Dictionary<ScString, List<AchievementData>>
         {
