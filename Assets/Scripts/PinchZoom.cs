@@ -73,7 +73,7 @@ public class PinchZoom : MonoBehaviour
     public void Zoom(float scale)
     {
         var newScale = Mathf.Clamp(scale, minScale, maxScale);
-        targetImage.localScale = Vector3.one * newScale;
+        targetImage.localScale = new Vector3(newScale, newScale, 1.0f);
     }
 
     public void ResetZoom()
