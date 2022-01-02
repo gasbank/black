@@ -454,7 +454,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.ApplyPendingFreeGem();
 
         // 업적
-        context.AchievementGathered = new AchievementRecord1(true);
+        context.AchievementGathered = new AchievementRecord1(false);
         context.AchievementRedeemed = new AchievementRecord1(false);
 
         context.AchievementGathered.MaxBlackLevel = blackSaveData.maxBlackLevelGathered;
@@ -704,7 +704,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.SetGold(0);
         context.SetGemZero();
         BlackLogManager.Add(BlackLogEntry.Type.GemToZero, 0, 0);
-        context.AchievementGathered = new AchievementRecord1(true);
+        context.AchievementGathered = new AchievementRecord1(false);
         context.AchievementRedeemed = new AchievementRecord1(false);
         context.UserPseudoId = NewUserPseudoId();
         context.NoticeData = new NoticeData();
