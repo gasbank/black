@@ -12966,7 +12966,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 283344064}
         m_TargetAssemblyTypeName: Subcanvas, Black
-        m_MethodName: Open
+        m_MethodName: OpenWithClickSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
