@@ -500,7 +500,7 @@ public class ConfigPopup : MonoBehaviour
 
     public void OpenCommunity()
     {
-        Application.OpenURL("https://cafe.naver.com/blacktycoon");
+        Application.OpenURL("https://cafe.naver.com/colortycoon");
     }
 
     public void RequestUserReview()

@@ -583,9 +583,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         BlackLogManager.Add(BlackLogEntry.Type.GameCriticalError, 0, 0);
         ChangeLanguageBySystemLanguage();
         ConfirmPopup.instance.OpenTwoButtonPopup(
-            "\\컬러뮤지엄 저장 파일을 불러오는 중 오류가 발생했습니다.\\n더 심각한 데이터 유실을 막기 위해 게임 플레이는 중단됐습니다.\\n문제 해결을 위해서는 게임 진행 상황이 모두 담긴 파일을 업로드해야 합니다.\\n문제 분석 및 수정이 되면 게임을 재개할 수 있습니다.\\n업로드를 진행하시겠습니까?\\n\\n(인터넷 연결이 필요합니다.)"
+            @"\$중대한 오류 안내$"
                 .Localized(), () => UploadSaveFileAsync(exceptionList, st, false),
-            () => AskAgainToReportSaveData(exceptionList, st), "\\중대한 오류 발생".Localized(), "\\예".Localized(),
+            () => AskAgainToReportSaveData(exceptionList, st), @"\중대한 오류 발생".Localized(), "\\예".Localized(),
             "\\아니요".Localized());
     }
 
@@ -593,7 +593,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     {
         ChangeLanguageBySystemLanguage();
         ConfirmPopup.instance.Open(
-            "\\컬러뮤지엄 업데이트가 필요합니다.\\n\\n확인을 눌러 업데이트하세요!\\n\\n저장 파일 버전: {0}\\n클라이언트 지원 버전: {1}".Localized(saveFileVersion,
+            @"\$강제 업데이트 안내$".Localized(saveFileVersion,
                 LatestVersion), () =>
             {
                 // 컬러뮤지엄 앱 상세 페이지로 보낸다.
@@ -646,8 +646,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     static void AskAgainToReportSaveData(List<Exception> exceptionList, string st)
     {
         ConfirmPopup.instance.OpenTwoButtonPopup(
-            "\\진행 상황을 업로드하지 않으면 더이상 게임을 진행할 수 없습니다.\\n\\n업로드가 불가한 증상의 경우 네이버 공식 카페로 이동하여 해결 방법에 대해 문의해 주시기 바랍니다."
-                .Localized(), () =>
+            @"\$업로드 불가 시 게임 진행 불가 안내$".Localized(), () =>
             {
                 ConfigPopup.instance.OpenCommunity();
                 ProcessCriticalLoadError(exceptionList, st);

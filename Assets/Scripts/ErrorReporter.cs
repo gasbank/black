@@ -204,7 +204,7 @@ public class ErrorReporter : MonoBehaviour
                     if (patchTask.IsSuccessStatusCode)
                     {
                         var msg =
-                            "\\업로드가 성공적으로 완료됐습니다.\\n\\n업로드 코드: {0}\\n용량: {1:n0}바이트\\nTS: {2}\\n\\n<color=brown>본 화면의 스크린샷을 찍어 공식 카페에 버그 신고를 부탁 드립니다.</color>\\n\\n업로드된 데이터를 분석 후, 카페를 통해 이후 진행을 안내드리겠습니다.\\n\\n공식 카페로 이동하거나, 안내 받은 복구 코드를 입력하세요."
+                            @"\$저장 데이터 개발팀으로 제출 결과$"
                                 .Localized(errorDeviceId, patchData.Length, saveFile.fields.uploadDate.timestampValue);
                         if (notCriticalError == false)
                             ConfirmPopup.instance.OpenTwoButtonPopup(msg, () => ConfigPopup.instance.OpenCommunity(),
@@ -344,7 +344,7 @@ public class ErrorReporter : MonoBehaviour
                 }
 
                 // 여기까지 왔으면 복구가 제대로 안됐다는 뜻이다.
-                ConfirmPopup.instance.Open("\\복구 코드가 잘못됐거나, 복구 데이터가 존재하지 않습니다.\\n\\n확인을 눌러 처음 화면으로 돌아갑니다.".Localized(),
+                ConfirmPopup.instance.Open(@"\$복구 코드 오류$".Localized(),
                     () => SaveLoadManager.ProcessCriticalLoadError(exceptionList, st));
             }
         }
