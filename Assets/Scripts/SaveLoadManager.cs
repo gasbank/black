@@ -22,7 +22,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         BeforeStage
     }
 
-    const int LatestVersion = 1;
+    const int LatestVersion = 2;
     static readonly string localSaveFileName = "save.dat";
 
     public static SaveLoadManager instance;
@@ -149,7 +149,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         ResetSaveDataSlotAndWrite();
     }
 
-    public bool Save(IBlackContext context, ConfigPopup configPopup, Sound sound, Data data)
+    public bool Save(IBlackContext context, ConfigPopup configPopup, Sound sound, Data data, GridWorld gridWorld)
     {
         // 에디터에서 간혹 게임 플레이 시작할 때 Load도 호출되기도 전에 Save가 먼저 호출되기도 한다.
         // (OnApplicationPause 통해서)
@@ -544,6 +544,18 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
     static void MigrateBlackSaveData(BlackSaveData blackSaveData)
     {
+        if (blackSaveData == null) {
+            throw new ArgumentNullException(nameof(blackSaveData));
+        }
+
+        // Version 1 --> 2
+        // ReSharper disable once InvertIf
+        if (blackSaveData.version == 1) {
+            ConDebug.LogFormat("Upgrading save file version from {0} to {1}", blackSaveData.version,
+                blackSaveData.version + 1);
+
+            blackSaveData.version++;
+        }
     }
 
     static BlackSaveData LoadBlackSaveData()

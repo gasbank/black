@@ -168,7 +168,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     // 관문 스테이지는 추가 골드를 더 준다.
                     RewardGoldAmount = new UInt128(newClearedStageId % 5 == 0 ? 3 : 1);
                     BlackContext.instance.AddPendingGold(RewardGoldAmount);
-                    
+
 
                     BlackContext.instance.AchievementGathered.MaxBlackLevel =
                         (UInt128) BlackContext.instance.LastClearedStageId.ToInt();
@@ -182,7 +182,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             BlackContext.instance.AchievementGathered.MaxColoringCombo = combo;
         }
 
-        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
+        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
     }
 
     public UInt128 RewardGoldAmount { get; private set; }
@@ -477,7 +477,11 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void WriteStageSaveData()
     {
+        // 스테이지 별 진행 상황 데이터
         stageSaveManager.Save(StageName, coloredMinPoints, this, mainGame.GetRemainTime());
+
+        // 전체 저장 데이터
+        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, this);
     }
 
     void OnApplicationQuit()

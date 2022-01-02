@@ -98,6 +98,7 @@ public class ErrorReporter : MonoBehaviour
             LoadSaveDataSafe(ref saveFile.fields.saveData5);
             LoadSaveDataSafe(ref saveFile.fields.saveData6);
             LoadSaveDataSafe(ref saveFile.fields.saveData7);
+            LoadSaveDataSafe(ref saveFile.fields.saveData8);
         }
         catch (Exception e)
         {
@@ -390,6 +391,7 @@ public class ErrorReporter : MonoBehaviour
             public BytesValueData saveData5 = new BytesValueData();
             public BytesValueData saveData6 = new BytesValueData();
             public BytesValueData saveData7 = new BytesValueData();
+            public BytesValueData saveData8 = new BytesValueData();
             public StringValueData stackTraceMessage = new StringValueData();
             public TimestampValueData uploadDate = new TimestampValueData();
             public StringValueData userId = new StringValueData();

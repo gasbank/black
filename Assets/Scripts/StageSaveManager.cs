@@ -20,7 +20,7 @@ public class StageSaveManager : MonoBehaviour
 
     public void Save(string stageName, HashSet<uint> coloredMinPoints, GridWorld gridWorld, float remainTime)
     {
-        SaveStageData(stageName, coloredMinPoints, remainTime);
+        SaveWipStageData(stageName, coloredMinPoints, remainTime);
         SaveWipPngData(stageName, gridWorld);
     }
 
@@ -34,26 +34,30 @@ public class StageSaveManager : MonoBehaviour
         return stageName + ".png";
     }
 
-    static void SaveWipPngData(string stageName, GridWorld gridWorld)
+    static byte[] SaveWipPngData(string stageName, GridWorld gridWorld)
     {
         var bytes = gridWorld.Tex.EncodeToPNG();
         if (bytes != null)
         {
-            FileUtil.SaveAtomically(GetWipPngFileName(stageName), gridWorld.Tex.EncodeToPNG());
+            FileUtil.SaveAtomically(GetWipPngFileName(stageName), bytes);
             ConDebug.Log($"WIP PNG '{GetWipPngFileName(stageName)}' written.");
         }
         else
         {
             ConDebug.LogWarning("No GridWorld.Tex to be saved.");
         }
+
+        return bytes;
     }
 
-    void SaveStageData(string stageName, HashSet<uint> coloredMinPoints, float remainTime)
+    byte[] SaveWipStageData(string stageName, HashSet<uint> coloredMinPoints, float remainTime)
     {
         ConDebug.Log($"Saving save data for '{stageName}'...");
         InitializeMessagePackConditional();
-        FileUtil.SaveAtomically(GetStageSaveFileName(stageName),
-            MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints, remainTime), Data.DefaultOptions));
+        var bytes = MessagePackSerializer.Serialize(CreateWipStageSaveData(stageName, coloredMinPoints, remainTime),
+            Data.DefaultOptions);
+        FileUtil.SaveAtomically(GetStageSaveFileName(stageName), bytes);
+        return bytes;
     }
 
     public static void DeleteSaveFile(string stageName)
@@ -90,12 +94,12 @@ public class StageSaveManager : MonoBehaviour
         catch (FileNotFoundException)
         {
             ConDebug.Log("No save data exist.");
-            return CreateStageSaveData(stageName, new HashSet<uint>(), StageButton.CurrentStageMetadata != null ? StageButton.CurrentStageMetadata.RemainTime : 0);
+            return CreateWipStageSaveData(stageName, new HashSet<uint>(), StageButton.CurrentStageMetadata != null ? StageButton.CurrentStageMetadata.RemainTime : 0);
         }
         catch (IsolatedStorageException)
         {
             ConDebug.Log("No save data exist.");
-            return CreateStageSaveData(stageName, new HashSet<uint>(), StageButton.CurrentStageMetadata != null ? StageButton.CurrentStageMetadata.RemainTime : 0);
+            return CreateWipStageSaveData(stageName, new HashSet<uint>(), StageButton.CurrentStageMetadata != null ? StageButton.CurrentStageMetadata.RemainTime : 0);
         }
     }
 
@@ -114,7 +118,7 @@ public class StageSaveManager : MonoBehaviour
         return false;
     }
 
-    StageSaveData CreateStageSaveData(string stageName, HashSet<uint> coloredMinPoints, float remainTime)
+    StageSaveData CreateWipStageSaveData(string stageName, HashSet<uint> coloredMinPoints, float remainTime)
     {
         var targetImageLocPos = targetImage.transform.localPosition;
         var stageSaveData = new StageSaveData

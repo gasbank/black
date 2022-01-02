@@ -61,6 +61,6 @@ public class AchievementEntry : MonoBehaviour
         // *** 여기서 다시 갱신할 필요는 없다. BlackContext.instance.achievementRedeemed의 프로퍼티가 변경될 때
         // *** 암묵적으로 갱신이 된다. 여기서 하면 같은 일을 두 번 하는 것이다.
         // GetComponentInParent<AchievementPopup>().UpdateAchievementTab();
-        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
+        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
     }
 }

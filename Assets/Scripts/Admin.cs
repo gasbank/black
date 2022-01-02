@@ -256,7 +256,7 @@ public class Admin : MonoBehaviour
     {
         // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
         // 저장 한번 하고
-        saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
+        saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
         // 제출 시작한다.
         await ErrorReporter.instance.UploadSaveFileIncidentAsync(new List<Exception>(), "NO CRITICAL ERROR",
             true);
@@ -268,7 +268,7 @@ public class Admin : MonoBehaviour
         try
         {
             // 저장 한번 하고
-            saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
+            saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
             // 제출 시작한다.
             var reasonPhrase = await BlackLogManager.DumpAndUploadPlayLog("\\플레이 로그 업로드 중...".Localized(), "", "", "");
             if (string.IsNullOrEmpty(reasonPhrase))

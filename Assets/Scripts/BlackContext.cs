@@ -363,7 +363,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
 
     void OnApplicationQuit()
     {
-        SaveLoadManager.instance.Save(this, ConfigPopup.instance, Sound.instance, Data.instance);
+        SaveLoadManager.instance.Save(this, ConfigPopup.instance, Sound.instance, Data.instance, null);
     }
 
     void OnApplicationPause(bool pause)
@@ -380,7 +380,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
         if (pause)
         {
             // 백그라운드 상태가 되기 시작할 때 호출된다.
-            SaveLoadManager.instance.Save(this, ConfigPopup.instance, Sound.instance, Data.instance);
+            SaveLoadManager.instance.Save(this, ConfigPopup.instance, Sound.instance, Data.instance, null);
 
             platformLocalNotification.RegisterAllRepeatingNotifications();
 

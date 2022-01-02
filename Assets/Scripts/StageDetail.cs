@@ -160,7 +160,7 @@ public class StageDetail : MonoBehaviour
         )
         {
             stageButton.SetStageMetadataToCurrent();
-            SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance);
+            SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
             SceneManager.LoadScene("Main");
         }
         else
