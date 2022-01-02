@@ -882,6 +882,7 @@ PlayerSettings:
   cloudServicesEnabled:
     Game Performance: 1
     UNet: 1
+    Unity Ads: 1
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
