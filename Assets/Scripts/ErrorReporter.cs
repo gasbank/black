@@ -232,7 +232,7 @@ public class ErrorReporter : MonoBehaviour
                             var fields = (Dict) ((Dict) ((Dict) recovery.Value)["mapValue"])["fields"];
                             var isValidErrorDeviceId = false;
                             var saveDataBase64 = "";
-                            byte[] saveData = null;
+                            byte[] saveDataBytes = null;
                             var recoveryErrorDeviceId = "";
                             //var serviceValue = service.Value as 
                             foreach (var recoveryItem in fields)
@@ -247,7 +247,7 @@ public class ErrorReporter : MonoBehaviour
                                     saveDataBase64 = ((Dict) recoveryItem.Value)["stringValue"] as string;
                                     if (string.IsNullOrEmpty(saveDataBase64) == false)
                                     {
-                                        saveData = Convert.FromBase64String(saveDataBase64);
+                                        saveDataBytes = Convert.FromBase64String(saveDataBase64);
                                     }
                                 }
 
@@ -256,16 +256,9 @@ public class ErrorReporter : MonoBehaviour
                             ConDebug.LogFormat("Save Data Base64 ({0} bytes): {1}",
                                 saveDataBase64?.Length ?? 0, saveDataBase64);
 
-                            if (isValidErrorDeviceId && saveData != null && saveData.Length > 0)
+                            if (isValidErrorDeviceId && saveDataBytes != null && saveDataBytes.Length > 0)
                             {
-                                // 복구 성공!!
-                                // 새로운 세이브 파일 쓰고, 다시 Splash 신 로드
-                                ConDebug.LogFormat("Writing recovery save data {0} bytes", saveData.Length);
-                                File.WriteAllBytes(SaveLoadManager.SaveFileName, saveData);
-                                // 일반적인 저장 경로가 아니고 파일을 직접 만들어낸 것이라서 수동으로 저장 슬롯 인덱스 증가시켜 줘야
-                                // 다음에 직전에 저장한 슬롯의 저장 데이터를 불러온다.
-                                SaveLoadManager.IncreaseSaveDataSlotAndWrite();
-                                Splash.LoadSplashScene();
+                                RestoreSaveDataAndLoadSplash(saveDataBytes);
                                 break;
                             }
                         }
@@ -332,58 +325,7 @@ public class ErrorReporter : MonoBehaviour
 
                                 if (saveDataBytes.Length > 0)
                                 {
-                                    // 저장 데이터 중 현재 진행 중인 스테이지 관련 필드는 따로 꺼내서
-                                    // 파일로 저장해야 한다.
-                                    byte[] stageSaveDataBytes = null;
-                                    byte[] wipPngBytes = null;
-                                    var stageSaveFileName = string.Empty;
-                                    var wipPngFileName = string.Empty;
-                                    
-                                    var saveData = MessagePackSerializer.Deserialize<BlackSaveData>(saveDataBytes, Data.DefaultOptions);
-                                    if (saveData.wipStageSaveData != null)
-                                    {
-                                        ConDebug.Log("WIP Stage Save Data found.");
-                                        
-                                        stageSaveFileName =
-                                            StageSaveManager.GetStageSaveFileName(saveData.wipStageSaveData.stageName);
-                                        wipPngFileName =
-                                            StageSaveManager.GetWipPngFileName(saveData.wipStageSaveData.stageName);
-
-                                        // PNG 파일은 따로 파일에 쓰게 되므로 StageSaveData에서는 참조 끊는다.
-                                        wipPngBytes = saveData.wipStageSaveData.png;
-                                        saveData.wipStageSaveData.png = null;
-
-                                        stageSaveDataBytes = MessagePackSerializer.Serialize(saveData.wipStageSaveData, Data.DefaultOptions);
-                                    }
-                                    else
-                                    {
-                                        ConDebug.Log("WIP Stage Save Data is empty.");
-                                    }
-                                    
-                                    // 기존 세이브 데이터는 모두 지운다.
-                                    SaveLoadManager.DeleteAllSaveFiles();
-
-                                    ConDebug.Log($"Writing recovery save data {saveDataBytes.Length} bytes as '{SaveLoadManager.SaveFileName}'");
-                                    File.WriteAllBytes(SaveLoadManager.SaveFileName, saveDataBytes);
-
-                                    if (stageSaveDataBytes != null && string.IsNullOrEmpty(stageSaveFileName) == false)
-                                    {
-                                        var path = FileUtil.GetPath(stageSaveFileName);
-                                        ConDebug.Log($"Writing recovery stage save data {stageSaveDataBytes.Length} bytes as '{path}'");
-                                        File.WriteAllBytes(FileUtil.GetPath(stageSaveFileName), stageSaveDataBytes);
-                                    }
-
-                                    if (wipPngBytes != null && string.IsNullOrEmpty(wipPngFileName) == false)
-                                    {
-                                        var path = FileUtil.GetPath(wipPngFileName);
-                                        ConDebug.Log($"Writing recovery PNG save data {wipPngBytes.Length} bytes as '{path}'");
-                                        File.WriteAllBytes(path, wipPngBytes);
-                                    }
-
-                                    // 일반적인 저장 경로가 아니고 파일을 직접 만들어낸 것이라서 수동으로 저장 슬롯 인덱스 증가시켜 줘야
-                                    // 다음에 직전에 저장한 슬롯의 저장 데이터를 불러온다.
-                                    SaveLoadManager.IncreaseSaveDataSlotAndWrite();
-                                    Splash.LoadSplashScene();
+                                    RestoreSaveDataAndLoadSplash(saveDataBytes);
                                     yield break;
                                 }
 
@@ -406,6 +348,62 @@ public class ErrorReporter : MonoBehaviour
             ConfirmPopup.instance.Open(
                 "\\유저 세이브 코드가 잘못됐거나, 복구 데이터가 존재하지 않습니다.\\n\\n확인을 눌러 처음 화면으로 돌아갑니다.".Localized());
         }
+    }
+
+    static void RestoreSaveDataAndLoadSplash(byte[] saveDataBytes)
+    {
+// 저장 데이터 중 현재 진행 중인 스테이지 관련 필드는 따로 꺼내서
+        // 파일로 저장해야 한다.
+        byte[] stageSaveDataBytes = null;
+        byte[] wipPngBytes = null;
+        var stageSaveFileName = string.Empty;
+        var wipPngFileName = string.Empty;
+
+        var saveData = MessagePackSerializer.Deserialize<BlackSaveData>(saveDataBytes, Data.DefaultOptions);
+        if (saveData.wipStageSaveData != null)
+        {
+            ConDebug.Log("WIP Stage Save Data found.");
+
+            stageSaveFileName =
+                StageSaveManager.GetStageSaveFileName(saveData.wipStageSaveData.stageName);
+            wipPngFileName =
+                StageSaveManager.GetWipPngFileName(saveData.wipStageSaveData.stageName);
+
+            // PNG 파일은 따로 파일에 쓰게 되므로 StageSaveData에서는 참조 끊는다.
+            wipPngBytes = saveData.wipStageSaveData.png;
+            saveData.wipStageSaveData.png = null;
+
+            stageSaveDataBytes = MessagePackSerializer.Serialize(saveData.wipStageSaveData, Data.DefaultOptions);
+        }
+        else
+        {
+            ConDebug.Log("WIP Stage Save Data is empty.");
+        }
+
+        // 기존 세이브 데이터는 모두 지운다.
+        SaveLoadManager.DeleteAllSaveFiles();
+
+        ConDebug.Log($"Writing recovery save data {saveDataBytes.Length} bytes as '{SaveLoadManager.SaveFileName}'");
+        File.WriteAllBytes(SaveLoadManager.SaveFileName, saveDataBytes);
+
+        if (stageSaveDataBytes != null && string.IsNullOrEmpty(stageSaveFileName) == false)
+        {
+            var path = FileUtil.GetPath(stageSaveFileName);
+            ConDebug.Log($"Writing recovery stage save data {stageSaveDataBytes.Length} bytes as '{path}'");
+            File.WriteAllBytes(FileUtil.GetPath(stageSaveFileName), stageSaveDataBytes);
+        }
+
+        if (wipPngBytes != null && string.IsNullOrEmpty(wipPngFileName) == false)
+        {
+            var path = FileUtil.GetPath(wipPngFileName);
+            ConDebug.Log($"Writing recovery PNG save data {wipPngBytes.Length} bytes as '{path}'");
+            File.WriteAllBytes(path, wipPngBytes);
+        }
+
+        // 일반적인 저장 경로가 아니고 파일을 직접 만들어낸 것이라서 수동으로 저장 슬롯 인덱스 증가시켜 줘야
+        // 다음에 직전에 저장한 슬롯의 저장 데이터를 불러온다.
+        SaveLoadManager.IncreaseSaveDataSlotAndWrite();
+        Splash.LoadSplashScene();
     }
 
     [Serializable]
