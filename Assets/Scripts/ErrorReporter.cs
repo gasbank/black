@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ConditionalDebug;
+using JetBrains.Annotations;
 using MiniJSON;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -17,18 +18,19 @@ public class ErrorReporter : MonoBehaviour
     public static ErrorReporter instance;
 
     // https://stackoverflow.com/questions/1344221/how-can-i-generate-random-alphanumeric-strings
-    static readonly Random random = new Random();
-    internal static readonly string ERROR_DEVICE_ID_KEY = "errorDeviceId";
+    static readonly Random RandomInstance = new Random();
+    static readonly string ERROR_DEVICE_ID_KEY = "errorDeviceId";
 
     public static string RandomString(int length)
     {
+        // ReSharper disable once StringLiteralTypo
         const string chars = "ACEFGHJKMNQRTUVWXY346"; // L, I, 1, 7, D, 0, O, 2, Z, P, 9, B, 8, S, 5 등 혼란을 주는 글씨는 뺐다.
-        return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+        return new string(Enumerable.Repeat(chars, length).Select(s => s[RandomInstance.Next(s.Length)]).ToArray());
     }
 
-    public static string NewErrorPseudoId()
+    static string NewErrorPseudoId()
     {
-        return string.Format("E{0}-{1}", RandomString(3), RandomString(3));
+        return $"E{RandomString(3)}-{RandomString(3)}";
     }
 
     public string GetOrCreateErrorDeviceId()
@@ -47,7 +49,7 @@ public class ErrorReporter : MonoBehaviour
         ProgressMessage.instance.Open("\\저장 파일 문제 업로드 중...".Localized());
 
         var errorDeviceId = GetOrCreateErrorDeviceId();
-        var url = string.Format("{0}/{1}", uploadSaveFileDbUrl, errorDeviceId);
+        var url = $"{uploadSaveFileDbUrl}/{errorDeviceId}";
         var saveFile = new ErrorFile();
         var uploadDate = DateTime.UtcNow;
         try
@@ -56,6 +58,7 @@ public class ErrorReporter : MonoBehaviour
         }
         catch
         {
+            // ignored
         }
 
         try
@@ -64,6 +67,7 @@ public class ErrorReporter : MonoBehaviour
         }
         catch
         {
+            // ignored
         }
 
         try
@@ -72,6 +76,7 @@ public class ErrorReporter : MonoBehaviour
         }
         catch
         {
+            // ignored
         }
 
         try
@@ -80,104 +85,25 @@ public class ErrorReporter : MonoBehaviour
         }
         catch
         {
+            // ignored
         }
 
         try
         {
-            try
-            {
-                saveFile.fields.saveData.bytesValue =
-                    Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName));
-            }
-            catch
-            {
-                saveFile.fields.saveData.bytesValue = "";
-            }
-
-            SaveLoadManager.DecreaseSaveDataSlotAndWrite();
-            try
-            {
-                saveFile.fields.saveData1.bytesValue =
-                    Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName));
-            }
-            catch
-            {
-                saveFile.fields.saveData1.bytesValue = "";
-            }
-
-            SaveLoadManager.DecreaseSaveDataSlotAndWrite();
-            try
-            {
-                saveFile.fields.saveData.bytesValue =
-                    Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName));
-            }
-            catch
-            {
-                saveFile.fields.saveData.bytesValue = "";
-            }
-
-            SaveLoadManager.DecreaseSaveDataSlotAndWrite();
-            try
-            {
-                saveFile.fields.saveData3.bytesValue =
-                    Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName));
-            }
-            catch
-            {
-                saveFile.fields.saveData3.bytesValue = "";
-            }
-
-            SaveLoadManager.DecreaseSaveDataSlotAndWrite();
-            try
-            {
-                saveFile.fields.saveData4.bytesValue =
-                    Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName));
-            }
-            catch
-            {
-                saveFile.fields.saveData4.bytesValue = "";
-            }
-
-            SaveLoadManager.DecreaseSaveDataSlotAndWrite();
-            try
-            {
-                saveFile.fields.saveData5.bytesValue =
-                    Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName));
-            }
-            catch
-            {
-                saveFile.fields.saveData5.bytesValue = "";
-            }
-
-            SaveLoadManager.DecreaseSaveDataSlotAndWrite();
-            try
-            {
-                saveFile.fields.saveData6.bytesValue =
-                    Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName));
-            }
-            catch
-            {
-                saveFile.fields.saveData6.bytesValue = "";
-            }
-
-            SaveLoadManager.DecreaseSaveDataSlotAndWrite();
-            try
-            {
-                saveFile.fields.saveData7.bytesValue =
-                    Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName));
-            }
-            catch
-            {
-                saveFile.fields.saveData7.bytesValue = "";
-            }
-
-            SaveLoadManager.DecreaseSaveDataSlotAndWrite();
+            LoadSaveDataSafe(ref saveFile.fields.saveData);
+            LoadSaveDataSafe(ref saveFile.fields.saveData1);
+            LoadSaveDataSafe(ref saveFile.fields.saveData2);
+            LoadSaveDataSafe(ref saveFile.fields.saveData3);
+            LoadSaveDataSafe(ref saveFile.fields.saveData4);
+            LoadSaveDataSafe(ref saveFile.fields.saveData5);
+            LoadSaveDataSafe(ref saveFile.fields.saveData6);
+            LoadSaveDataSafe(ref saveFile.fields.saveData7);
         }
         catch (Exception e)
         {
             // 문제가 있는 파일을 업로드하는 것 조차 실패했다. 이건 수가 없네...
             ProgressMessage.instance.Close();
-            ConfirmPopup.instance.Open(string.Format("SAVE FILE UPLOAD FAILED: {0}", e), () =>
+            ConfirmPopup.instance.Open($"SAVE FILE UPLOAD FAILED: {e}", () =>
             {
                 if (notCriticalError == false)
                     Application.Quit();
@@ -189,42 +115,37 @@ public class ErrorReporter : MonoBehaviour
 
         try
         {
-            using (var httpClient = new HttpClient())
+            using var httpClient = new HttpClient();
+            var patchData = JsonUtility.ToJson(saveFile);
+            using var patchContent = new StringContent(patchData);
+            ConDebug.Log($"HttpClient PATCH TO {url}...");
+
+            // PATCH 시작하고 기다린다.
+            var patchTask = await httpClient.PatchAsync(new Uri(url), patchContent);
+
+            ConDebug.Log($"HttpClient Result: {patchTask.ReasonPhrase}");
+
+            if (patchTask.IsSuccessStatusCode)
             {
-                var patchData = JsonUtility.ToJson(saveFile);
-                using (var patchContent = new StringContent(patchData))
-                {
-                    ConDebug.Log($"HttpClient PATCH TO {url}...");
-
-                    // PATCH 시작하고 기다린다.
-                    var patchTask = await httpClient.PatchAsync(new Uri(url), patchContent);
-
-                    ConDebug.Log($"HttpClient Result: {patchTask.ReasonPhrase}");
-
-                    if (patchTask.IsSuccessStatusCode)
-                    {
-                        var msg =
-                            @"\$저장 데이터 개발팀으로 제출 결과$"
-                                .Localized(errorDeviceId, patchData.Length, saveFile.fields.uploadDate.timestampValue);
-                        if (notCriticalError == false)
-                            ConfirmPopup.instance.OpenTwoButtonPopup(msg, () => ConfigPopup.instance.OpenCommunity(),
-                                () => SaveLoadManager.EnterRecoveryCode(exceptionList, st, notCriticalError),
-                                "\\업로드 완료".Localized(), "\\공식 카페 이동".Localized(), "\\복구 코드 입력".Localized());
-                        else
-                            ConfirmPopup.instance.OpenTwoButtonPopup(msg, () => ConfirmPopup.instance.Close(),
-                                () => SaveLoadManager.EnterRecoveryCode(exceptionList, st, notCriticalError),
-                                "\\업로드 완료".Localized(), "\\닫기".Localized(), "\\복구 코드 입력".Localized());
-                    }
-                    else
-                    {
-                        ShortMessage.instance.Show(string.Format("{0}", patchTask.ReasonPhrase));
-                        if (notCriticalError == false) // 다시 안내 팝업 보여주도록 한다.
-                            SaveLoadManager.ProcessCriticalLoadError(exceptionList, st);
-                        else
-                            ConfirmPopup.instance.Open(string.Format("SAVE FILE UPLOAD FAILED: {0}",
-                                patchTask.ReasonPhrase));
-                    }
-                }
+                var msg =
+                    @"\$저장 데이터 개발팀으로 제출 결과$"
+                        .Localized(errorDeviceId, patchData.Length, saveFile.fields.uploadDate.timestampValue);
+                if (notCriticalError == false)
+                    ConfirmPopup.instance.OpenTwoButtonPopup(msg, () => ConfigPopup.instance.OpenCommunity(),
+                        () => SaveLoadManager.EnterRecoveryCode(exceptionList, st, false),
+                        "\\업로드 완료".Localized(), "\\공식 카페 이동".Localized(), "\\복구 코드 입력".Localized());
+                else
+                    ConfirmPopup.instance.OpenTwoButtonPopup(msg, () => ConfirmPopup.instance.Close(),
+                        () => SaveLoadManager.EnterRecoveryCode(exceptionList, st, true),
+                        "\\업로드 완료".Localized(), "\\닫기".Localized(), "\\복구 코드 입력".Localized());
+            }
+            else
+            {
+                ShortMessage.instance.Show($"{patchTask.ReasonPhrase}");
+                if (notCriticalError == false) // 다시 안내 팝업 보여주도록 한다.
+                    SaveLoadManager.ProcessCriticalLoadError(exceptionList, st);
+                else
+                    ConfirmPopup.instance.Open($"SAVE FILE UPLOAD FAILED: {patchTask.ReasonPhrase}");
             }
         }
         catch (Exception e)
@@ -246,12 +167,27 @@ public class ErrorReporter : MonoBehaviour
         }
     }
 
+    void LoadSaveDataSafe(ref ErrorFile.Fields.BytesValueData fieldsSaveData)
+    {
+        try
+        {
+            fieldsSaveData.bytesValue =
+                Convert.ToBase64String(File.ReadAllBytes(SaveLoadManager.LoadFileName));
+        }
+        catch
+        {
+            fieldsSaveData.bytesValue = "";
+        }
+
+        SaveLoadManager.DecreaseSaveDataSlotAndWrite();
+    }
+
     internal void ProcessRecoveryCode(List<Exception> exceptionList, string st, string recoveryCode)
     {
         StartCoroutine(ProcessRecoveryCodeCoro(exceptionList, st, recoveryCode));
     }
 
-    public IEnumerator ProcessRecoveryCodeCoro(List<Exception> exceptionList, string st, string recoveryCode)
+    IEnumerator ProcessRecoveryCodeCoro(List<Exception> exceptionList, string st, string recoveryCode)
     {
         var recoveryDbUrl = ConfigPopup.BaseUrl + "/recovery";
         ProgressMessage.instance.Open("\\복구 코드 확인중...".Localized());
@@ -261,6 +197,7 @@ public class ErrorReporter : MonoBehaviour
         {
             recoveryCode = GetOrCreateErrorDeviceId();
         }
+        // ReSharper disable once StringLiteralTypo
         else if (recoveryCode == "deleteall")
         {
             // 파일 삭제하고 새 게임 시작하는 개발자용 복구 코드
@@ -268,85 +205,89 @@ public class ErrorReporter : MonoBehaviour
             yield break;
         }
 
-        var url = string.Format("{0}/{1}", recoveryDbUrl, recoveryCode);
-        using (var request = UnityWebRequest.Get(url))
+        var url = $"{recoveryDbUrl}/{recoveryCode}";
+        using var request = UnityWebRequest.Get(url);
+        yield return request.SendWebRequest();
+        ProgressMessage.instance.Close();
+        if (request.result == UnityWebRequest.Result.ConnectionError)
         {
-            yield return request.SendWebRequest();
-            ProgressMessage.instance.Close();
-            if (request.result == UnityWebRequest.Result.ConnectionError)
+            ShortMessage.instance.Show("\\복구 정보 수신에 실패했습니다.".Localized(), true);
+        }
+        else
+        {
+            try
             {
-                ShortMessage.instance.Show("\\복구 정보 수신에 실패했습니다.".Localized(), true);
-            }
-            else
-            {
-                try
+                ConDebug.LogFormat("URL Text: {0}", request.downloadHandler.text);
+                if (Json.Deserialize(request.downloadHandler.text) is Dict recoveryDataRoot)
                 {
-                    //ConDebug.LogFormat("URL Text: {0}", request.downloadHandler.text);
-                    var recoveryDataRoot = Json.Deserialize(request.downloadHandler.text) as Dict;
                     foreach (var kv in recoveryDataRoot)
                     {
-                        //ConDebug.LogFormat("root key: {0}", kv.Key);
+                        ConDebug.LogFormat("root key: {0}", kv.Key);
                     }
 
-                    var recoveryData = recoveryDataRoot["fields"] as Dictionary<string, object>;
-                    foreach (var kv in recoveryData)
+                    if (recoveryDataRoot["fields"] is Dict recoveryData)
                     {
-                        //ConDebug.LogFormat("fields key: {0}", kv.Key);
-                    }
-
-                    //ConDebug.LogFormat("serviceData = {0}", serviceData);
-                    foreach (var recovery in recoveryData)
-                    {
-                        var recoveryIndex = 0;
-                        var recoveryIndexParsed = int.TryParse(recovery.Key, out recoveryIndex);
-                        // 이미 받았거나 이상한 항목은 스킵
-                        if (recoveryIndexParsed == false) continue;
-                        var fields = (Dict) ((Dict) ((Dict) recovery.Value)["mapValue"])["fields"];
-                        var isValidErrorDeviceId = false;
-                        var saveDataBase64 = "";
-                        byte[] saveData = null;
-                        var recoveryErrorDeviceId = "";
-                        //var serviceValue = service.Value as 
-                        foreach (var recoveryItem in fields)
-                            if (recoveryItem.Key == "errorDeviceId")
-                            {
-                                recoveryErrorDeviceId = ((Dict) recoveryItem.Value)["stringValue"] as string;
-                                if (recoveryErrorDeviceId == GetOrCreateErrorDeviceId()) isValidErrorDeviceId = true;
-                            }
-                            else if (recoveryItem.Key == "saveData")
-                            {
-                                saveDataBase64 = ((Dict) recoveryItem.Value)["stringValue"] as string;
-                                saveData = Convert.FromBase64String(saveDataBase64);
-                            }
-
-                        ConDebug.LogFormat("Error Device ID: {0}", GetOrCreateErrorDeviceId());
-                        ConDebug.LogFormat("Recovery Error Device ID: {0}", recoveryErrorDeviceId);
-                        ConDebug.LogFormat("Save Data Base64 ({0} bytes): {1}",
-                            saveDataBase64 != null ? saveDataBase64.Length : 0, saveDataBase64);
-
-                        if (isValidErrorDeviceId && saveData != null && saveData.Length > 0)
+                        foreach (var kv in recoveryData)
                         {
-                            // 복구 성공!!
-                            // 새로운 세이브 파일 쓰고, 다시 Splash 신 로드
-                            ConDebug.LogFormat("Writing recovery save data {0} bytes", saveData.Length);
-                            File.WriteAllBytes(SaveLoadManager.SaveFileName, saveData);
-                            // 일반적인 저장 경로가 아니고 파일을 직접 만들어낸 것이라서 수동으로 저장 슬롯 인덱스 증가시켜 줘야
-                            // 다음에 직전에 저장한 슬롯의 저장 데이터를 불러온다.
-                            SaveLoadManager.IncreaseSaveDataSlotAndWrite();
-                            Splash.LoadSplashScene();
-                            break;
+                            ConDebug.LogFormat("fields key: {0}", kv.Key);
+                        }
+
+                        foreach (var recovery in recoveryData)
+                        {
+                            var recoveryIndexParsed = int.TryParse(recovery.Key, out _);
+                            // 이미 받았거나 이상한 항목은 스킵
+                            if (recoveryIndexParsed == false) continue;
+                            var fields = (Dict) ((Dict) ((Dict) recovery.Value)["mapValue"])["fields"];
+                            var isValidErrorDeviceId = false;
+                            var saveDataBase64 = "";
+                            byte[] saveData = null;
+                            var recoveryErrorDeviceId = "";
+                            //var serviceValue = service.Value as 
+                            foreach (var recoveryItem in fields)
+                                if (recoveryItem.Key == "errorDeviceId")
+                                {
+                                    recoveryErrorDeviceId = ((Dict) recoveryItem.Value)["stringValue"] as string;
+                                    if (recoveryErrorDeviceId == GetOrCreateErrorDeviceId())
+                                        isValidErrorDeviceId = true;
+                                }
+                                else if (recoveryItem.Key == "saveData")
+                                {
+                                    saveDataBase64 = ((Dict) recoveryItem.Value)["stringValue"] as string;
+                                    if (string.IsNullOrEmpty(saveDataBase64) == false)
+                                    {
+                                        saveData = Convert.FromBase64String(saveDataBase64);
+                                    }
+                                }
+
+                            ConDebug.LogFormat("Error Device ID: {0}", GetOrCreateErrorDeviceId());
+                            ConDebug.LogFormat("Recovery Error Device ID: {0}", recoveryErrorDeviceId);
+                            ConDebug.LogFormat("Save Data Base64 ({0} bytes): {1}",
+                                saveDataBase64?.Length ?? 0, saveDataBase64);
+
+                            if (isValidErrorDeviceId && saveData != null && saveData.Length > 0)
+                            {
+                                // 복구 성공!!
+                                // 새로운 세이브 파일 쓰고, 다시 Splash 신 로드
+                                ConDebug.LogFormat("Writing recovery save data {0} bytes", saveData.Length);
+                                File.WriteAllBytes(SaveLoadManager.SaveFileName, saveData);
+                                // 일반적인 저장 경로가 아니고 파일을 직접 만들어낸 것이라서 수동으로 저장 슬롯 인덱스 증가시켜 줘야
+                                // 다음에 직전에 저장한 슬롯의 저장 데이터를 불러온다.
+                                SaveLoadManager.IncreaseSaveDataSlotAndWrite();
+                                Splash.LoadSplashScene();
+                                break;
+                            }
                         }
                     }
                 }
-                catch
-                {
-                    // 딱히 할 수 있는 게 없다
-                }
-
-                // 여기까지 왔으면 복구가 제대로 안됐다는 뜻이다.
-                ConfirmPopup.instance.Open(@"\$복구 코드 오류$".Localized(),
-                    () => SaveLoadManager.ProcessCriticalLoadError(exceptionList, st));
             }
+            catch
+            {
+                // 딱히 할 수 있는 게 없다
+            }
+
+            // 여기까지 왔으면 복구가 제대로 안됐다는 뜻이다.
+            ConfirmPopup.instance.Open(@"\$복구 코드 오류$".Localized(),
+                () => SaveLoadManager.ProcessCriticalLoadError(exceptionList, st));
         }
     }
 
@@ -357,79 +298,78 @@ public class ErrorReporter : MonoBehaviour
         StartCoroutine(ProcessUserSaveCodeCoro(userSaveCode, domain));
     }
 
-    public IEnumerator ProcessUserSaveCodeCoro(string userSaveCode, string domain)
+    IEnumerator ProcessUserSaveCodeCoro(string userSaveCode, string domain)
     {
         var saveDbUrl = ConfigPopup.BaseUrl + "/" + domain;
         ProgressMessage.instance.Open("\\유저 세이브 코드 확인중...".Localized());
         userSaveCode = userSaveCode.Trim();
-        var url = string.Format("{0}/{1}", saveDbUrl, userSaveCode);
+        var url = $"{saveDbUrl}/{userSaveCode}";
         ConDebug.LogFormat("URL: {0}", url);
-        using (var request = UnityWebRequest.Get(url))
+        using var request = UnityWebRequest.Get(url);
+        yield return request.SendWebRequest();
+        ProgressMessage.instance.Close();
+        if (request.result == UnityWebRequest.Result.ConnectionError)
         {
-            yield return request.SendWebRequest();
-            ProgressMessage.instance.Close();
-            if (request.result == UnityWebRequest.Result.ConnectionError)
+            ShortMessage.instance.Show("\\복구 정보 수신에 실패했습니다.".Localized(), true);
+        }
+        else
+        {
+            try
             {
-                ShortMessage.instance.Show("\\복구 정보 수신에 실패했습니다.".Localized(), true);
-            }
-            else
-            {
-                try
+                if (Json.Deserialize(request.downloadHandler.text) is Dict userSaveDataRoot)
                 {
-                    var userSaveDataRoot = Json.Deserialize(request.downloadHandler.text) as Dict;
-                    var userSaveDataFields = userSaveDataRoot["fields"] as Dict;
                     // userSaveDataFields는 정렬되어 있지 않다. saveData, saveData, saveData3, ... 순으로
                     // 로드 시도하기 위해서 필터링 및 정렬한다.
-                    foreach (var fieldName in userSaveDataFields.Keys.Where(e => e.StartsWith("saveData"))
-                        .OrderBy(e => e))
-                    {
-                        ConDebug.Log($"Checking save data field name '{fieldName}'...");
-                        var userSaveDataFieldsSaveData = userSaveDataFields[fieldName] as Dict;
-                        if (userSaveDataFieldsSaveData.Keys.Count > 0)
+                    if (userSaveDataRoot["fields"] is Dict userSaveDataFields)
+                        foreach (var fieldName in userSaveDataFields.Keys.Where(e => e.StartsWith("saveData"))
+                            .OrderBy(e => e))
                         {
-                            var userSaveDataFieldsSaveDataStringValue =
-                                (userSaveDataFieldsSaveData.ContainsKey("bytesValue")
-                                    ? userSaveDataFieldsSaveData["bytesValue"]
-                                    : userSaveDataFieldsSaveData["stringValue"]) as string;
-
-                            var saveDataBase64 = userSaveDataFieldsSaveDataStringValue;
-                            var saveData = Convert.FromBase64String(saveDataBase64);
-
-                            ConDebug.LogFormat("Save Data Base64 ({0} bytes): {1}",
-                                saveDataBase64 != null ? saveDataBase64.Length : 0, saveDataBase64);
-
-                            if (saveData.Length > 0)
+                            ConDebug.Log($"Checking save data field name '{fieldName}'...");
+                            if (userSaveDataFields[fieldName] is Dict userSaveDataFieldsSaveData && userSaveDataFieldsSaveData.Keys.Count > 0)
                             {
-                                // 기존 세이브 데이터는 모두 지운다.
-                                SaveLoadManager.DeleteAllSaveFiles();
+                                var userSaveDataFieldsSaveDataStringValue =
+                                    (userSaveDataFieldsSaveData.ContainsKey("bytesValue")
+                                        ? userSaveDataFieldsSaveData["bytesValue"]
+                                        : userSaveDataFieldsSaveData["stringValue"]) as string;
 
-                                ConDebug.LogFormat("Writing recovery save data {0} bytes", saveData.Length);
-                                File.WriteAllBytes(SaveLoadManager.SaveFileName, saveData);
-                                // 일반적인 저장 경로가 아니고 파일을 직접 만들어낸 것이라서 수동으로 저장 슬롯 인덱스 증가시켜 줘야
-                                // 다음에 직전에 저장한 슬롯의 저장 데이터를 불러온다.
-                                SaveLoadManager.IncreaseSaveDataSlotAndWrite();
-                                Splash.LoadSplashScene();
-                                yield break;
+                                var saveDataBase64 = userSaveDataFieldsSaveDataStringValue;
+                                var saveData = Convert.FromBase64String(saveDataBase64 ?? throw new NullReferenceException());
+
+                                ConDebug.LogFormat("Save Data Base64 ({0} bytes): {1}",
+                                    saveDataBase64.Length, saveDataBase64);
+
+                                if (saveData.Length > 0)
+                                {
+                                    // 기존 세이브 데이터는 모두 지운다.
+                                    SaveLoadManager.DeleteAllSaveFiles();
+
+                                    ConDebug.LogFormat("Writing recovery save data {0} bytes", saveData.Length);
+                                    File.WriteAllBytes(SaveLoadManager.SaveFileName, saveData);
+                                    // 일반적인 저장 경로가 아니고 파일을 직접 만들어낸 것이라서 수동으로 저장 슬롯 인덱스 증가시켜 줘야
+                                    // 다음에 직전에 저장한 슬롯의 저장 데이터를 불러온다.
+                                    SaveLoadManager.IncreaseSaveDataSlotAndWrite();
+                                    Splash.LoadSplashScene();
+                                    yield break;
+                                }
+
+                                ConDebug.Log($"Save data field name '{fieldName}' is empty!");
                             }
-
-                            ConDebug.Log($"Save data field name '{fieldName}' is empty!");
+                            else
+                            {
+                                ConDebug.Log($"Save data field name '{fieldName}' is empty!");
+                            }
                         }
-                        else
-                        {
-                            ConDebug.Log($"Save data field name '{fieldName}' is empty!");
-                        }
-                    }
                 }
-                catch (Exception e)
-                {
-                    // 딱히 할 수 있는 게 없다
-                    Debug.LogException(e);
-                }
-
-                // 여기까지 왔으면 복구가 제대로 안됐다는 뜻이다.
-                ConfirmPopup.instance.Open(
-                    "\\유저 세이브 코드가 잘못됐거나, 복구 데이터가 존재하지 않습니다.\\n\\n확인을 눌러 처음 화면으로 돌아갑니다.".Localized());
             }
+            catch (Exception e)
+            {
+                // 딱히 할 수 있는 게 없다
+                Debug.LogException(e);
+            }
+
+            // 여기까지 왔으면 복구가 제대로 안됐다는 뜻이다.
+            ConfirmPopup.instance.Open(
+                "\\유저 세이브 코드가 잘못됐거나, 복구 데이터가 존재하지 않습니다.\\n\\n확인을 눌러 처음 화면으로 돌아갑니다.".Localized());
         }
     }
 
@@ -457,6 +397,7 @@ public class ErrorReporter : MonoBehaviour
             [Serializable]
             public class BytesValueData
             {
+                [UsedImplicitly]
                 public string bytesValue;
             }
 
@@ -469,6 +410,7 @@ public class ErrorReporter : MonoBehaviour
             [Serializable]
             public class StringValueData
             {
+                [UsedImplicitly]
                 public string stringValue;
             }
         }
