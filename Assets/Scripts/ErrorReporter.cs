@@ -91,14 +91,6 @@ public class ErrorReporter : MonoBehaviour
         try
         {
             LoadSaveDataSafe(ref saveFile.fields.saveData);
-            LoadSaveDataSafe(ref saveFile.fields.saveData1);
-            LoadSaveDataSafe(ref saveFile.fields.saveData2);
-            LoadSaveDataSafe(ref saveFile.fields.saveData3);
-            LoadSaveDataSafe(ref saveFile.fields.saveData4);
-            LoadSaveDataSafe(ref saveFile.fields.saveData5);
-            LoadSaveDataSafe(ref saveFile.fields.saveData6);
-            LoadSaveDataSafe(ref saveFile.fields.saveData7);
-            LoadSaveDataSafe(ref saveFile.fields.saveData8);
         }
         catch (Exception e)
         {
@@ -179,8 +171,6 @@ public class ErrorReporter : MonoBehaviour
         {
             fieldsSaveData.bytesValue = "";
         }
-
-        SaveLoadManager.DecreaseSaveDataSlotAndWrite();
     }
 
     internal void ProcessRecoveryCode(List<Exception> exceptionList, string st, string recoveryCode)

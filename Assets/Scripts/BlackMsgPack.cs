@@ -355,7 +355,7 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(37);
+            writer.WriteArrayHeader(38);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.version, options);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastClearedStageId, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.goldScUInt128, options);
@@ -393,6 +393,7 @@ namespace MessagePack.Formatters
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.maxColoringComboGathered, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.maxColoringComboRedeemed, options);
             writer.Write(value.stageLockRemainTime);
+            formatterResolver.GetFormatterWithVerify<global::StageSaveData>().Serialize(ref writer, value.wipStageSaveData, options);
         }
 
         public global::BlackSaveData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -442,6 +443,7 @@ namespace MessagePack.Formatters
             var __maxColoringComboGathered__ = default(global::ScUInt128);
             var __maxColoringComboRedeemed__ = default(global::ScUInt128);
             var __stageLockRemainTime__ = default(float);
+            var __wipStageSaveData__ = default(global::StageSaveData);
 
             for (int i = 0; i < length; i++)
             {
@@ -560,6 +562,9 @@ namespace MessagePack.Formatters
                     case 36:
                         __stageLockRemainTime__ = reader.ReadSingle();
                         break;
+                    case 37:
+                        __wipStageSaveData__ = formatterResolver.GetFormatterWithVerify<global::StageSaveData>().Deserialize(ref reader, options);
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -604,6 +609,7 @@ namespace MessagePack.Formatters
             ____result.maxColoringComboGathered = __maxColoringComboGathered__;
             ____result.maxColoringComboRedeemed = __maxColoringComboRedeemed__;
             ____result.stageLockRemainTime = __stageLockRemainTime__;
+            ____result.wipStageSaveData = __wipStageSaveData__;
             reader.Depth--;
             return ____result;
         }
@@ -1316,13 +1322,14 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(6);
+            writer.WriteArrayHeader(7);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.stageName, options);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.HashSet<uint>>().Serialize(ref writer, value.coloredMinPoints, options);
             writer.Write(value.zoomValue);
             writer.Write(value.targetImageCenterX);
             writer.Write(value.targetImageCenterY);
             writer.Write(value.remainTime);
+            formatterResolver.GetFormatterWithVerify<byte[]>().Serialize(ref writer, value.png, options);
         }
 
         public global::StageSaveData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -1341,6 +1348,7 @@ namespace MessagePack.Formatters
             var __targetImageCenterY__ = default(float);
             var __zoomValue__ = default(float);
             var __remainTime__ = default(float);
+            var __png__ = default(byte[]);
 
             for (int i = 0; i < length; i++)
             {
@@ -1366,6 +1374,9 @@ namespace MessagePack.Formatters
                     case 5:
                         __remainTime__ = reader.ReadSingle();
                         break;
+                    case 6:
+                        __png__ = formatterResolver.GetFormatterWithVerify<byte[]>().Deserialize(ref reader, options);
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -1379,6 +1390,7 @@ namespace MessagePack.Formatters
             ____result.targetImageCenterY = __targetImageCenterY__;
             ____result.zoomValue = __zoomValue__;
             ____result.remainTime = __remainTime__;
+            ____result.png = __png__;
             reader.Depth--;
             return ____result;
         }

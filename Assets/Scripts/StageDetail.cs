@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using ConditionalDebug;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -59,6 +60,7 @@ public class StageDetail : MonoBehaviour
     public async void OpenPopupAfterLoadingAsync()
     {
         var lastClearedStageId = BlackContext.instance.LastClearedStageId;
+        
         ConDebug.Log($"Last Cleared Stage ID: {lastClearedStageId}");
 
         if (lastClearedStageId < 0) lastClearedStageId = 0;
@@ -69,19 +71,14 @@ public class StageDetail : MonoBehaviour
             ConfirmPopup.instance.Open(@"\모든 스테이지를 깼습니다!\n진정한 미술관 재건이 시작되는 다음 업데이트를 기대 해 주세요!".Localized(), ConfirmPopup.instance.Close);
             return;
         }
-
-        var stageMetadataLoc = Data.dataSet.StageMetadataLocList[lastClearedStageId];
-        if (stageMetadataLoc == null)
-        {
-            Debug.LogError($"Stage metadata at index {lastClearedStageId} is null");
-            return;
-        }
-
+        
         stageProgress.ProgressInt = lastClearedStageId % 5;
 
         ProgressMessage.instance.Open("Loading...");
 
-        var stageMetadata = await Addressables.LoadAssetAsync<StageMetadata>(stageMetadataLoc).Task;
+        // 마지막 클리어한 ID는 1-based이고, 아래 함수는 0-based로 작동하므로
+        // 다음으로 플레이할 스테이지를 가져올 때는 그대로 ID를 넘기면 된다.
+        var stageMetadata = await LoadStageMetadataByZeroBasedIndex(lastClearedStageId);
 
         ProgressMessage.instance.Close();
         var resumed = stageButton.SetStageMetadata(stageMetadata);
@@ -117,6 +114,19 @@ public class StageDetail : MonoBehaviour
                 bottomTip.OpenSubcanvas();
             }
         }
+    }
+
+    public static async Task<StageMetadata> LoadStageMetadataByZeroBasedIndex(ScInt zeroBasedIndex)
+    {
+        var stageMetadataLoc = Data.dataSet.StageMetadataLocList[zeroBasedIndex];
+        if (stageMetadataLoc == null)
+        {
+            Debug.LogError($"Stage metadata at index {zeroBasedIndex} (zero-based) is null");
+            return null;
+        }
+
+        var stageMetadata = await Addressables.LoadAssetAsync<StageMetadata>(stageMetadataLoc).Task;
+        return stageMetadata;
     }
 
     [UsedImplicitly]

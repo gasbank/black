@@ -120,8 +120,5 @@ public class BlackSaveData
     public float stageLockRemainTime;
 
     [Key(37)]
-    StageSaveData wipStageSaveData;
-
-    [Key(38)]
-    byte[] wipPngData;
+    public StageSaveData wipStageSaveData;
 }

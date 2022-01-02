@@ -23,4 +23,7 @@ public class StageSaveData
 
     [Key(5)]
     public float remainTime;
+
+    [Key(6)]
+    public byte[] png;
 }

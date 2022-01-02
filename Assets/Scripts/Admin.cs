@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ConditionalDebug;
 using Dirichlet.Numerics;
 using JetBrains.Annotations;
+using MessagePack;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -252,17 +253,75 @@ public class Admin : MonoBehaviour
     }
 
     // 일단 메인 플레이가 되는 상황에서 유저가 저장 데이터를 개발팀에게 제출하고 싶은 경우 쓰는 메뉴
-    public async void ReportSaveData()
+    public async void ReportSaveDataAsync()
     {
         // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
         // 저장 한번 하고
-        saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
+
+        StageSaveData stageSaveData = null;
+
+        ConDebug.Log($"=== {nameof(ReportSaveDataAsync)} ===");
+        ConDebug.Log($"LastClearedStageId: {BlackContext.instance.LastClearedStageId}");
+        var currentStageMetadata = await StageDetail.LoadStageMetadataByZeroBasedIndex(BlackContext.instance.LastClearedStageId);
+        if (currentStageMetadata != null)
+        {
+            ConDebug.Log($"WIP Stage Metadata: {currentStageMetadata.name}");
+            var stageSaveFileName = StageSaveManager.GetStageSaveFileName(currentStageMetadata.name);
+            ConDebug.Log($"WIP Stage Save File Name: {stageSaveFileName}");
+            byte[] stageSaveDataBytes;
+            try
+            {
+                stageSaveDataBytes = File.ReadAllBytes(FileUtil.GetPath(stageSaveFileName));
+                ConDebug.Log($"WIP Stage Save File Size: {stageSaveDataBytes.Length} bytes");
+            }
+            catch (Exception e)
+            {
+                stageSaveDataBytes = null;
+                Debug.LogWarning(e);
+            }
+            
+            if (stageSaveDataBytes != null)
+            {
+                var wipPngFileName = StageSaveManager.GetWipPngFileName(currentStageMetadata.name);
+                ConDebug.Log($"WIP PNG Save File Name: {wipPngFileName}");
+                byte[] wipPngBytes;
+                try
+                {
+                    wipPngBytes = File.ReadAllBytes(FileUtil.GetPath(wipPngFileName));
+                    ConDebug.Log($"WIP PNG File Size: {wipPngBytes.Length} bytes");
+                }
+                catch (Exception e)
+                {
+                    wipPngBytes = null;
+                    Debug.LogWarning(e);
+                }
+
+                try
+                {
+                    ConDebug.Log("Deserializing WIP stage save data...");
+                    stageSaveData =
+                        MessagePackSerializer.Deserialize<StageSaveData>(stageSaveDataBytes, Data.DefaultOptions);
+                    stageSaveData.png = wipPngBytes;
+                    ConDebug.Log("DONE!");
+                }
+                catch
+                {
+                    stageSaveData = null;
+                }
+            }
+        }
+        else
+        {
+            ConDebug.Log($"Current Stage Metadata: ??? Empty ???");
+        }
+        
+        saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, stageSaveData);
         // 제출 시작한다.
         await ErrorReporter.instance.UploadSaveFileIncidentAsync(new List<Exception>(), "NO CRITICAL ERROR",
             true);
     }
 
-    public async void ReportPlayLog()
+    public async void ReportPlayLogAsync()
     {
         // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
         try

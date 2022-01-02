@@ -515,12 +515,12 @@ public class ConfigPopup : MonoBehaviour
 
     public void ReportSaveData()
     {
-        if (Admin.instance != null) Admin.instance.ReportSaveData();
+        if (Admin.instance != null) Admin.instance.ReportSaveDataAsync();
     }
 
     public void ReportPlayLog()
     {
-        if (Admin.instance != null) Admin.instance.ReportPlayLog();
+        if (Admin.instance != null) Admin.instance.ReportPlayLogAsync();
     }
 
     public void OpenPrivacyPolicy()

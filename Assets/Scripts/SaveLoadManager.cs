@@ -149,7 +149,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         ResetSaveDataSlotAndWrite();
     }
 
-    public bool Save(IBlackContext context, ConfigPopup configPopup, Sound sound, Data data, GridWorld gridWorld)
+    public bool Save(IBlackContext context, ConfigPopup configPopup, Sound sound, Data data, StageSaveData wipStageSaveData)
     {
         // 에디터에서 간혹 게임 플레이 시작할 때 Load도 호출되기도 전에 Save가 먼저 호출되기도 한다.
         // (OnApplicationPause 통해서)
@@ -178,6 +178,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             maxColoringComboGathered = BlackContext.instance.AchievementGathered.MaxColoringCombo,
             maxColoringComboRedeemed = BlackContext.instance.AchievementRedeemed.MaxColoringCombo,
             //stageLockRemainTime = StageDetail.instance.StageLockDetailTime,
+            wipStageSaveData = wipStageSaveData,
         };
 
         return SaveBlackSaveData(blackSaveData);

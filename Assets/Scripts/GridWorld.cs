@@ -481,9 +481,14 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         stageSaveManager.Save(StageName, coloredMinPoints, this, mainGame.GetRemainTime());
 
         // 전체 저장 데이터
-        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, this);
+        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
     }
 
+    public StageSaveData CreateWipStageSaveData()
+    {
+        return stageSaveManager.CreateWipStageSaveData(StageName, coloredMinPoints, mainGame.GetRemainTime(), Tex.EncodeToPNG());
+    }
+    
     void OnApplicationQuit()
     {
         WriteStageSaveData();
