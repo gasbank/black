@@ -48,4 +48,14 @@ public class AchievementRecord1
             AchievePopup.instance.UpdateAchievementProgress("maxColoringCombo");
         }
     }
+
+    public UInt128 GetValue(string key)
+    {
+        return key switch
+        {
+            "MaxBlackLevel" => MaxBlackLevel,
+            "MaxColoringCombo" => MaxColoringCombo,
+            _ => throw new NotImplementedException()
+        };
+    }
 }
