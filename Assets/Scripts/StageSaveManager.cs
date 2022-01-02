@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 public class StageSaveManager : MonoBehaviour
 {
-    static readonly string GameName = "game";
-
     [SerializeField]
     PinchZoom pinchZoom;
 
@@ -23,7 +21,6 @@ public class StageSaveManager : MonoBehaviour
     public void Save(string stageName, HashSet<uint> coloredMinPoints, GridWorld gridWorld, float remainTime)
     {
         SaveStageData(stageName, coloredMinPoints, remainTime);
-        SaveGameData(gridWorld);
         SaveWipPngData(stageName, gridWorld);
     }
 
@@ -57,14 +54,6 @@ public class StageSaveManager : MonoBehaviour
         InitializeMessagePackConditional();
         FileUtil.SaveAtomically(GetStageSaveFileName(stageName),
             MessagePackSerializer.Serialize(CreateStageSaveData(stageName, coloredMinPoints, remainTime), Data.DefaultOptions));
-    }
-
-    static void SaveGameData(GridWorld gridWorld)
-    {
-        ConDebug.Log("Saving game data...");
-        InitializeMessagePackConditional();
-        FileUtil.SaveAtomically(GameName,
-            MessagePackSerializer.Serialize(CreateGameSaveData(gridWorld), Data.DefaultOptions));
     }
 
     public static void DeleteSaveFile(string stageName)
@@ -138,14 +127,5 @@ public class StageSaveManager : MonoBehaviour
             remainTime = remainTime,
         };
         return stageSaveData;
-    }
-
-    static GameSaveData CreateGameSaveData(GridWorld gridWorld)
-    {
-        var gameSaveData = new GameSaveData
-        {
-            gold = gridWorld.Gold
-        };
-        return gameSaveData;
     }
 }

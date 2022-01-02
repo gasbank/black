@@ -49,7 +49,7 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(34)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(33)
             {
                 { typeof(global::ScString[]), 0 },
                 { typeof(global::System.Collections.Generic.Dictionary<global::ScString, global::ScInt>), 1 },
@@ -73,18 +73,17 @@ namespace MessagePack.Resolvers
                 { typeof(global::DataSet), 19 },
                 { typeof(global::DataSetHash), 20 },
                 { typeof(global::Dirichlet.Numerics.UInt128), 21 },
-                { typeof(global::GameSaveData), 22 },
-                { typeof(global::LocalUserData), 23 },
-                { typeof(global::NoticeData), 24 },
-                { typeof(global::ScFloat), 25 },
-                { typeof(global::ScInt), 26 },
-                { typeof(global::ScLong), 27 },
-                { typeof(global::ScString), 28 },
-                { typeof(global::ScUInt128), 29 },
-                { typeof(global::StageSaveData), 30 },
-                { typeof(global::StageSequenceData), 31 },
-                { typeof(global::StrBaseData), 32 },
-                { typeof(global::UDateTime), 33 },
+                { typeof(global::LocalUserData), 22 },
+                { typeof(global::NoticeData), 23 },
+                { typeof(global::ScFloat), 24 },
+                { typeof(global::ScInt), 25 },
+                { typeof(global::ScLong), 26 },
+                { typeof(global::ScString), 27 },
+                { typeof(global::ScUInt128), 28 },
+                { typeof(global::StageSaveData), 29 },
+                { typeof(global::StageSequenceData), 30 },
+                { typeof(global::StrBaseData), 31 },
+                { typeof(global::UDateTime), 32 },
             };
         }
 
@@ -120,18 +119,17 @@ namespace MessagePack.Resolvers
                 case 19: return new MessagePack.Formatters.DataSetFormatter();
                 case 20: return new MessagePack.Formatters.DataSetHashFormatter();
                 case 21: return new MessagePack.Formatters.Dirichlet.Numerics.UInt128Formatter();
-                case 22: return new MessagePack.Formatters.GameSaveDataFormatter();
-                case 23: return new MessagePack.Formatters.LocalUserDataFormatter();
-                case 24: return new MessagePack.Formatters.NoticeDataFormatter();
-                case 25: return new MessagePack.Formatters.ScFloatFormatter();
-                case 26: return new MessagePack.Formatters.ScIntFormatter();
-                case 27: return new MessagePack.Formatters.ScLongFormatter();
-                case 28: return new MessagePack.Formatters.ScStringFormatter();
-                case 29: return new MessagePack.Formatters.ScUInt128Formatter();
-                case 30: return new MessagePack.Formatters.StageSaveDataFormatter();
-                case 31: return new MessagePack.Formatters.StageSequenceDataFormatter();
-                case 32: return new MessagePack.Formatters.StrBaseDataFormatter();
-                case 33: return new MessagePack.Formatters.UDateTimeFormatter();
+                case 22: return new MessagePack.Formatters.LocalUserDataFormatter();
+                case 23: return new MessagePack.Formatters.NoticeDataFormatter();
+                case 24: return new MessagePack.Formatters.ScFloatFormatter();
+                case 25: return new MessagePack.Formatters.ScIntFormatter();
+                case 26: return new MessagePack.Formatters.ScLongFormatter();
+                case 27: return new MessagePack.Formatters.ScStringFormatter();
+                case 28: return new MessagePack.Formatters.ScUInt128Formatter();
+                case 29: return new MessagePack.Formatters.StageSaveDataFormatter();
+                case 30: return new MessagePack.Formatters.StageSequenceDataFormatter();
+                case 31: return new MessagePack.Formatters.StrBaseDataFormatter();
+                case 32: return new MessagePack.Formatters.UDateTimeFormatter();
                 default: return null;
             }
         }
@@ -919,57 +917,6 @@ namespace MessagePack.Formatters
 
             var ____result = new global::DataSetHash();
             ____result.Hash = __Hash__;
-            reader.Depth--;
-            return ____result;
-        }
-    }
-
-    public sealed class GameSaveDataFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::GameSaveData>
-    {
-
-
-        public void Serialize(ref MessagePackWriter writer, global::GameSaveData value, global::MessagePack.MessagePackSerializerOptions options)
-        {
-            if (value == null)
-            {
-                writer.WriteNil();
-                return;
-            }
-
-            IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(1);
-            formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.gold, options);
-        }
-
-        public global::GameSaveData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
-        {
-            if (reader.TryReadNil())
-            {
-                return null;
-            }
-
-            options.Security.DepthStep(ref reader);
-            IFormatterResolver formatterResolver = options.Resolver;
-            var length = reader.ReadArrayHeader();
-            var __gold__ = default(global::ScInt);
-
-            for (int i = 0; i < length; i++)
-            {
-                var key = i;
-
-                switch (key)
-                {
-                    case 0:
-                        __gold__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
-                        break;
-                    default:
-                        reader.Skip();
-                        break;
-                }
-            }
-
-            var ____result = new global::GameSaveData();
-            ____result.gold = __gold__;
             reader.Depth--;
             return ____result;
         }
