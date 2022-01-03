@@ -13,12 +13,19 @@ public class IslandLabel : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI text;
 
+    [SerializeField]
+    TextMeshProUGUI textMark;
+
     public RectTransform Rt => rt;
 
     public string Text
     {
-        get => text.text;
-        set => text.text = value;
+        set
+        {
+            text.text = value;
+            // ReSharper disable once StringLiteralTypo
+            textMark.text = $"<mark=#ffffffff>{value}</mark>";
+        }
     }
 
     public bool BackgroundImageActive
