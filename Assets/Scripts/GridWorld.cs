@@ -38,6 +38,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public Image flickerImage;
 
     [SerializeField]
+    public Text comboText;
+
+    [SerializeField]
     ScInt gold = 0;
 
     [SerializeField]
@@ -100,12 +103,13 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 if (Fill(localPoint))
                 {
-                    BlackContext.instance.StageCombo++;
-
                     // 특별 코인 획득 연출 - 아직 완성되지 않은 기능이므로 런칭스펙에서는 빼자.
                     //StartAnimateFillCoin(localPoint);
 
                     Sound.instance.PlayFillOkay();
+
+                    BlackContext.instance.StageCombo++;
+                    StartCoroutine(nameof(ShowCombo), BlackContext.instance.StageCombo);
 
                     // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
                     if (IsLabelByMinPointEmpty
@@ -453,6 +457,34 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         yield return new WaitForSeconds(0.0f);
         flickerImage.enabled = false;
+    }
+
+    IEnumerator ShowCombo(ScInt combo)
+    {
+        var text = Instantiate(comboText, comboText.transform.parent, false);
+        text.text = $"{BlackContext.instance.StageCombo} Combo{(BlackContext.instance.StageCombo == 1 ? "" : "s")}";
+        var position = comboText.transform.position;
+        text.transform.position = position;
+        text.enabled = true;
+
+        float duration = 0.65f; //0.5 secs
+        float shift = 0.6f;
+        float currentTime = 0f;
+        while(currentTime < duration)
+        {
+            float alpha = Mathf.Lerp(1f, 0f, currentTime/duration);
+            text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+            text.transform.position = new Vector3(
+                position.x, 
+                position.y + shift * (1f - alpha),
+                position.z);
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        text.enabled = false;
+        Destroy(text);
+        yield break;
     }
 
     void StartAnimateFillCoin(Vector2 localPoint)
