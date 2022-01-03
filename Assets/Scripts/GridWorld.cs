@@ -467,8 +467,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         text.transform.position = position;
         text.enabled = true;
 
-        float duration = 0.65f; //0.5 secs
-        float shift = 0.6f;
+        float duration = 0.60f;
+        float shift = 0.7f;
         float currentTime = 0f;
         while(currentTime < duration)
         {
