@@ -6,7 +6,7 @@ Texture2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NotoSansKR-Regular SDF (Numbers) Atlas
+  m_Name: NotoSansKR-Regular SDF (ASCII) Atlas
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -161,9 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: NotoSansKR-Regular SDF (ASCII)
   m_EditorClassIdentifier: 
-  hashCode: -1078437925
+  hashCode: -31154150
   material: {fileID: -238229890907393936}
-  materialHashCode: -1676352997
+  materialHashCode: -1699401606
   m_Version: 1.1.0
   m_SourceFontFileGUID: 7a515f82c6ff41c36a5b1393dbebe67f
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 7a515f82c6ff41c36a5b1393dbebe67f,
@@ -2681,14 +2681,14 @@ MonoBehaviour:
     packingMode: 0
     atlasWidth: 512
     atlasHeight: 512
-    characterSetSelectionMode: 0
-    characterSequence: 32 - 126, 160, 8203, 8230, 9633
-    referencedFontAssetGUID: 
+    characterSetSelectionMode: 6
+    characterSequence: 20-7E,A0,2026,25A1
+    referencedFontAssetGUID: 721c173b4e48e524ca9448380f82a788
     referencedTextAssetGUID: 
     fontStyle: 0
     fontStyleModifier: 0
     renderMode: 32806
-    includeFontFeatures: 1
+    includeFontFeatures: 0
   m_FontWeightTable:
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}
