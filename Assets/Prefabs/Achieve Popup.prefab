@@ -368,7 +368,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 729117575547784394}
         m_TargetAssemblyTypeName: Subcanvas, Black
-        m_MethodName: Close
+        m_MethodName: CloseWithClickSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -592,7 +592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollViewRect: {fileID: 729117575272288070}
-  canvas: {fileID: 0}
+  subcanvas: {fileID: 729117575547784394}
 --- !u!225 &966556293819154274
 CanvasGroup:
   m_ObjectHideFlags: 0
