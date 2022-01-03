@@ -35,6 +35,9 @@ public class BlackContext : MonoBehaviour, IBlackContext
     [SerializeField]
     StageDetail stageDetail;
 
+    [SerializeField]
+    GameObject achievementNewImage;
+
     List<int> clearedDebrisIndexList;
     float stageLockRemainTime;
 
@@ -76,7 +79,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
         get => pendingFreeGem;
         set => pendingFreeGem = value;
     }
-    
+
     public event NotifyGoldChange OnGoldChanged;
     public void SetDebrisState(List<int> inClearedDebrisIndexList)
     {
@@ -257,7 +260,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
 
     public ScInt StageCombo { get; set; } = 0;
 
-    public GameObject AchievementNewImage { get; } = null;
+    public GameObject AchievementNewImage => achievementNewImage;
     public AchievementRecord1 AchievementGathered { get; set; }
     public AchievementRecord1 AchievementRedeemed { get; set; }
     public ScLong LastDailyRewardRedeemedIndex { get; set; } = 0;

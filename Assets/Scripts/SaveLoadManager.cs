@@ -463,6 +463,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.AchievementGathered.MaxColoringCombo = blackSaveData.maxColoringComboGathered;
         context.AchievementRedeemed.MaxColoringCombo = blackSaveData.maxColoringComboRedeemed;
 
+        AchievePopup.instance.UpdateAchievementProgress();
+
         // === Config ===
         Sound.instance.BgmAudioSourceActive = blackSaveData.muteBgmAudioSource == false;
         Sound.instance.SfxAudioSourceActive = blackSaveData.muteSfxAudioSource == false;

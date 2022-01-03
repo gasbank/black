@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using ConditionalDebug;
 using Dirichlet.Numerics;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AchievePopup : MonoBehaviour
 {
@@ -42,6 +42,8 @@ public class AchievePopup : MonoBehaviour
 
     void UpdateAchievementUI(List<Tuple<AchievementData, bool>> achievements)
     {
+        if (subcanvas.IsOpen == false) return;
+
         var entries = scrollViewRect.GetComponentsInChildren<AchievementEntry>(true);
 
         for (var idx = 0; idx < achievements.Count; idx++)
@@ -84,7 +86,6 @@ public class AchievePopup : MonoBehaviour
 
         if (BlackContext.instance == null) return;
         if (Data.dataSet == null) return;
-        if (subcanvas.IsOpen == false) return;
 
         var achievementsDict = new Dictionary<string, List<AchievementData>>
         {
@@ -111,7 +112,9 @@ public class AchievePopup : MonoBehaviour
             achievements.Add(new Tuple<AchievementData, bool>(result.Item1, true));
             achievementsDict.Remove(key);
         }
-        
+
+        BlackContext.instance.AchievementNewImage.GetComponent<Image>().enabled = achievements.Count > 0;
+
         foreach (var key in priority)
         {
             if (!achievementsDict.ContainsKey(key)) continue;
