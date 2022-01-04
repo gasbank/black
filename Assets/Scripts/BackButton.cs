@@ -3,8 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class BackButton : MonoBehaviour
 {
-    public void GoToStageSelection()
+    public void GoToLobby()
     {
-        SceneManager.LoadScene("Stage Selection");
+        SceneManager.LoadScene("Lobby");
     }
 }

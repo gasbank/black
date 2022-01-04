@@ -22,7 +22,7 @@ public class BgmSelector : MonoBehaviour
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().name == "Stage Selection")
+        if (SceneManager.GetActiveScene().name == "Lobby")
         {
             bgmSource.clip = lobbyBgm;
         }

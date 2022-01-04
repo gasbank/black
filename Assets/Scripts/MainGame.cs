@@ -61,7 +61,7 @@ public class MainGame : MonoBehaviour
 
         if (gridWorld == null) return;
 
-        // Stage Selection 신에서 넘어왔다면 이 조건문이 만족할 것이다.
+        // Lobby 신에서 넘어왔다면 이 조건문이 만족할 것이다.
         if (StageButton.CurrentStageMetadata != null)
         {
             stageMetadata = StageButton.CurrentStageMetadata;
@@ -165,11 +165,11 @@ public class MainGame : MonoBehaviour
         gridWorld.DeleteSaveFileAndReloadScene();
     }
 
-    public void LoadStageSelectionScene()
+    public void LoadLobbyScene()
     {
         if (gridWorld != null) gridWorld.WriteStageSaveData();
 
-        SceneManager.LoadScene("Stage Selection");
+        SceneManager.LoadScene("Lobby");
     }
 
     public void OnFinishConfirmButton()
@@ -181,13 +181,13 @@ public class MainGame : MonoBehaviour
         if (gridWorld.RewardGoldAmount > 0)
         {
             ConfirmPopup.instance.Open(@"\클리어를 축하합니다. {0}골드를 받았습니다.".Localized(gridWorld.RewardGoldAmount),
-                () => SceneManager.LoadScene("Stage Selection"));
+                () => SceneManager.LoadScene("Lobby"));
 
             Sound.instance.PlaySoftTada();
         }
         else
         {
-            SceneManager.LoadScene("Stage Selection");
+            SceneManager.LoadScene("Lobby");
         }
     }
 
@@ -219,7 +219,7 @@ public class MainGame : MonoBehaviour
                 DeactivateTime();
                 gridWorld.DeleteSaveFile();
                 ConfirmPopup.instance.Open("제한 시간이 지났습니다. 처음부터 다시 시작해야합니다.",
-                    () => SceneManager.LoadScene("Stage Selection"));
+                    () => SceneManager.LoadScene("Lobby"));
             }
         }
     }

@@ -26,7 +26,7 @@ public class Splash : MonoBehaviour
 
     static int splashStartCount;
 
-    static readonly string SplashSceneName = "Stage Selection";
+    static readonly string SplashSceneName = "Lobby";
 
 #if UNITY_ANDROID || UNITY_IOS
 // 해상도 조절 없다.
