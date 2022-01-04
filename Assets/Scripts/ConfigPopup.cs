@@ -167,8 +167,7 @@ public class ConfigPopup : MonoBehaviour
 
     void Start()
     {
-        UpdateServiceText();
-        UpdateLanguageDropdownText();
+        UpdateAllStates();
     }
 
     void Update()
@@ -182,12 +181,18 @@ public class ConfigPopup : MonoBehaviour
     [UsedImplicitly]
     void OpenPopup()
     {
+        UpdateAllStates();
+        if (topAnimator) topAnimator.SetTrigger(Appear);
+        if (logoutButton) logoutButton.gameObject.SetActive(Application.isEditor || Application.platform == RuntimePlatform.Android);
+    }
+
+    void UpdateAllStates()
+    {
+        UpdateLanguageDropdownText();
         UpdateSoundToggleStates();
         UpdateSoundSliderStates();
         UpdateServiceText();
         UpdateEtcGroupVisibility();
-        if (topAnimator) topAnimator.SetTrigger(Appear);
-        if (logoutButton) logoutButton.gameObject.SetActive(Application.isEditor || Application.platform == RuntimePlatform.Android);
     }
 
     [UsedImplicitly]

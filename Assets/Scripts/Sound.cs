@@ -13,6 +13,8 @@ public class Sound : MonoBehaviour
         WhacACat
     }
 
+    const float MutedVolume = -80.0f;
+
     public static Sound instance;
 
     [SerializeField]
@@ -115,14 +117,14 @@ public class Sound : MonoBehaviour
 
     public bool BgmAudioSourceActive
     {
-        get => bgmAudioSource.enabled;
-        set => bgmAudioSource.enabled = value;
+        get => audioMixer.GetFloat("BgmVolume", out var v) && v >= 0;
+        set => audioMixer.SetFloat("BgmVolume", value ? 0 : MutedVolume);
     }
 
     public bool SfxAudioSourceActive
     {
-        get => sfxAudioSource.enabled;
-        set => sfxAudioSource.enabled = value;
+        get => audioMixer.GetFloat("SfxVolume", out var v) && v >= 0;
+        set => audioMixer.SetFloat("SfxVolume", value ? 0 : MutedVolume);
     }
 
     public bool GatherStoredMaxSfxEnabled { get; set; }
@@ -323,7 +325,7 @@ public class Sound : MonoBehaviour
         if (Time.timeScale != 1) Debug.LogError("Time.timeScale expected to be 1 at this moment!");
 
         Time.timeScale = 0;
-        audioMixer.SetFloat("MasterVolume", -80.0f);
+        audioMixer.SetFloat("MasterVolume", MutedVolume);
     }
 
     public void ResumeToNormalTimeAndResumeAudioMixer()
@@ -335,13 +337,13 @@ public class Sound : MonoBehaviour
     public void EnableBgmVolume(bool b)
     {
         ConDebug.Log($"EnableBgmVolume {b}");
-        audioMixer.SetFloat("BgmVolume", b ? 20f * Mathf.Log10(BgmAudioVolume) : -80.0f);
+        audioMixer.SetFloat("BgmVolume", b ? 20f * Mathf.Log10(BgmAudioVolume) : MutedVolume);
     }
 
     public void EnableSfxVolume(bool b)
     {
         ConDebug.Log($"EnableSfxVolume {b}");
-        audioMixer.SetFloat("SfxVolume", b ? 20f * Mathf.Log10(SfxAudioVolume) : -80.0f);
+        audioMixer.SetFloat("SfxVolume", b ? 20f * Mathf.Log10(SfxAudioVolume) : MutedVolume);
     }
 
     public void PlayFillOkay()
