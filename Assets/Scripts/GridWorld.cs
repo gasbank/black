@@ -101,7 +101,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, eventData.position, Camera.main,
                 out var localPoint))
             {
-                if (Fill(localPoint))
+                var fillResult = Fill(localPoint);
+                
+                if (fillResult == FillResult.Good)
                 {
                     // 특별 코인 획득 연출 - 아직 완성되지 않은 기능이므로 런칭스펙에서는 빼자.
                     //StartAnimateFillCoin(localPoint);
@@ -125,11 +127,14 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 {
                     BlackContext.instance.StageCombo = 0;
 
-                    Sound.instance.PlayFillError();
+                    if (fillResult == FillResult.WrongColor)
+                    {
+                        Sound.instance.PlayFillError();
 
-                    // 칠할 수 없는 경우에는 그에 대한 알림
-                    flickerImage.enabled = true;
-                    StartCoroutine(nameof(HideFlicker));
+                        // 칠할 수 없는 경우에는 그에 대한 알림
+                        flickerImage.enabled = true;
+                        StartCoroutine(nameof(HideFlicker));
+                    }
                 }
 
                 if (Verbose) ConDebug.Log($"Local position = {localPoint}");
@@ -388,35 +393,58 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         return true;
     }
 
-    bool Fill(Vector2 localPoint)
+    enum FillResult
     {
-        if (paletteButtonGroup.CurrentPaletteColor != Color.white)
-        {
-            var rect = rt.rect;
-            var w = rect.width;
-            var h = rect.height;
-
-            if (Verbose) ConDebug.Log($"w={w} / h={h}");
-
-            var ix = (int) ((localPoint.x + w / 2) / w * tex.width);
-            var iy = (int) ((localPoint.y + h / 2) / h * tex.height);
-            return FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
-        }
-
-        return false;
+        Good,
+        Outline,
+        WrongColor,
+        AlreadyFilled,
+        NoPaletteSelected,
     }
 
-    bool FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint)
+    FillResult Fill(Vector2 localPoint)
     {
-        var bitmap = tex.GetPixels32();
-        var result = FloodFill(bitmap, bitmapPoint, Color.white, paletteButtonGroup.CurrentPaletteColorUint, false);
-        if (result)
+        var rect = rt.rect;
+        var w = rect.width;
+        var h = rect.height;
+
+        if (Verbose) ConDebug.Log($"w={w} / h={h}");
+
+        var ix = (int) ((localPoint.x + w / 2) / w * tex.width);
+        var iy = (int) ((localPoint.y + h / 2) / h * tex.height);
+        return FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
+    }
+
+    FillResult FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint)
+    {
+        if (paletteButtonGroup.CurrentPaletteColor == Color.white)
         {
-            tex.SetPixels32(bitmap);
-            tex.Apply();
+            return FillResult.NoPaletteSelected;
+        }
+        
+        var bitmap = tex.GetPixels32();
+
+        var bitmapPointColor = GetPixel(bitmap, bitmapPoint.x, bitmapPoint.y);
+
+        if (bitmapPointColor == Color.black)
+        {
+            return FillResult.Outline;
         }
 
-        return result;
+        if (bitmapPointColor != Color.white)
+        {
+            return FillResult.AlreadyFilled;
+        }
+        
+        var result = FloodFill(bitmap, bitmapPoint, Color.white, paletteButtonGroup.CurrentPaletteColorUint, false);
+        
+        if (!result) return FillResult.WrongColor;
+        
+        tex.SetPixels32(bitmap);
+        tex.Apply();
+
+        return FillResult.Good;
+
     }
 
     public int[] CountWhiteAndBlackInBitmap()
