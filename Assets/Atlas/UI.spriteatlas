@@ -76,6 +76,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c94c14f5c0b1f4b73a06ff8d5f727182, type: 3}
   - {fileID: 21300000, guid: 3672ff064c5274704b505603003dc8b6, type: 3}
   - {fileID: 21300000, guid: b1b74e9662f114ca9abcabddefd610b2, type: 3}
+  - {fileID: 21300000, guid: 526a8ea6c8767489ab4d7c5af1b6b289, type: 3}
   - {fileID: 21300000, guid: 157686d6fc8df412e9d8da79d52bf9bb, type: 3}
   - {fileID: 21300000, guid: 3eec0007aff1f40ab9e3c4ec857144c2, type: 3}
   - {fileID: 21300000, guid: 2d746a07ab86d4848b3cea96eb9c60ab, type: 3}
@@ -158,6 +159,7 @@ SpriteAtlas:
   - white-circle-64
   - popup_icon_star
   - Icon_top_gold
+  - Icon_select2
   - popup_bg_all
   - popup_icon_close
   - main_trophy_mold_check

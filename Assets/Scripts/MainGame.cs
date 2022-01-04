@@ -195,9 +195,11 @@ public class MainGame : MonoBehaviour
     {
         if (gridWorld != null) gridWorld.WriteStageSaveData();
 
+        // ReSharper disable once Unity.LoadSceneUnknownSceneName
         SceneManager.LoadScene("Museum");
     }
 
+    // ReSharper disable once UnusedMember.Global
     public void AchievePopup(bool show)
     {
         if (show) achieveGroup.Show();

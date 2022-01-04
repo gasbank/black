@@ -2751,6 +2751,7 @@ GameObject:
   - component: {fileID: 897666720}
   - component: {fileID: 897666723}
   - component: {fileID: 897666724}
+  - component: {fileID: 897666725}
   m_Layer: 5
   m_Name: Palette Group
   m_TagString: Untagged
@@ -2877,6 +2878,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &897666725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897666718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06cf0f96cc3394681aa619d1bd630fde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollRect: {fileID: 897666722}
 --- !u!1 &943064216
 GameObject:
   m_ObjectHideFlags: 0
