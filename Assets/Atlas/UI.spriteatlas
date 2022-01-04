@@ -157,5 +157,5 @@ SpriteAtlas:
   - Icon_new
   - UI_02
   m_RenderDataMap: {}
-  m_Tag: UI (High Quality)
+  m_Tag: UI
   m_IsVariant: 0

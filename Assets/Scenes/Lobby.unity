@@ -14678,7 +14678,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2046667413}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1428292514}
+        m_TargetAssemblyTypeName: ConfirmPopup, Black
+        m_MethodName: OpenSimpleMessageWithClickSound
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "\uBBF8\uC220\uAD00 \uAFB8\uBBF8\uAE30\uB294 \uD604\uC7AC
+            \uAC1C\uBC1C \uC911\uC785\uB2C8\uB2E4!"
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2046667413
 MonoBehaviour:
   m_ObjectHideFlags: 0
