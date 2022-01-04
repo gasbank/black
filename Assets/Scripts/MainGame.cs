@@ -15,6 +15,8 @@ public class MainGame : MonoBehaviour
 
     static readonly int ColorTexture = Shader.PropertyToID("ColorTexture");
 
+    public static MainGame instance;
+
     [SerializeField]
     GridWorld gridWorld;
 
@@ -165,7 +167,7 @@ public class MainGame : MonoBehaviour
         gridWorld.DeleteSaveFileAndReloadScene();
     }
 
-    public void LoadLobbyScene()
+    public void GoToLobby()
     {
         if (gridWorld != null) gridWorld.WriteStageSaveData();
 

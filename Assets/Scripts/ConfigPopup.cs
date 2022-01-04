@@ -183,7 +183,8 @@ public class ConfigPopup : MonoBehaviour
     {
         UpdateAllStates();
         if (topAnimator) topAnimator.SetTrigger(Appear);
-        if (logoutButton) logoutButton.gameObject.SetActive(Application.isEditor || Application.platform == RuntimePlatform.Android);
+        if (logoutButton)
+            logoutButton.gameObject.SetActive(Application.isEditor || Application.platform == RuntimePlatform.Android);
     }
 
     void UpdateAllStates()
@@ -573,5 +574,35 @@ public class ConfigPopup : MonoBehaviour
     public void Logout()
     {
         Platform.instance.Logout();
+    }
+
+    public void GoToLobby()
+    {
+        Sound.instance.PlayButtonClick();
+
+        if (SceneManager.GetActiveScene().name == "Lobby")
+        {
+            ConfirmPopup.instance.Open("여기가 미술관 화면입니다.");
+        }
+        else
+        {
+            ConfirmPopup.instance.OpenYesNoPopup("미술관 화면으로 돌아가시겠습니까?\n스테이지 진행 상태는 저장됩니다.",
+                () => { MainGame.instance.GoToLobby(); }, ConfirmPopup.instance.Close);
+        }
+    }
+
+    public void ResetStage()
+    {
+        Sound.instance.PlayButtonClick();
+        
+        if (SceneManager.GetActiveScene().name == "Lobby")
+        {
+            ConfirmPopup.instance.Open("스테이지 진행 중이 아닙니다.");
+        }
+        else
+        {
+            ConfirmPopup.instance.OpenYesNoPopup("현재 스테이지를 다시 시작하겠습니까?\n제한 시간도 초기화됩니다.",
+                () => { MainGame.instance.ResetStage(); }, ConfirmPopup.instance.Close);
+        }
     }
 }
