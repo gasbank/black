@@ -90,6 +90,16 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 95b96f4e7a86c45a988bbd57b1b41571, type: 3}
   - {fileID: 21300000, guid: 5111868e97deb4bf987e18c9f1a95cab, type: 3}
   - {fileID: 21300000, guid: 7bdc110f1901742ad88718d40a962f0b, type: 3}
+  - {fileID: 21300016, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
+  - {fileID: 21300018, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
+  - {fileID: 21300004, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
+  - {fileID: 21300006, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
+  - {fileID: 21300000, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
+  - {fileID: 21300002, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
+  - {fileID: 21300012, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
+  - {fileID: 21300014, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
+  - {fileID: 21300008, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
+  - {fileID: 21300010, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
   - {fileID: 21300000, guid: 8ec510ef3f0be419fa603e5effaf1bcc, type: 3}
   - {fileID: 21300000, guid: 0fce24ff2c42442949bcd415f44bdb3c, type: 3}
   m_PackedSpriteNamesToIndex:
@@ -134,6 +144,16 @@ SpriteAtlas:
   - Icon_top_my
   - Icon_noti
   - popup_icon_gold
+  - poof_8
+  - poof_9
+  - poof_2
+  - poof_3
+  - poof_0
+  - poof_1
+  - poof_6
+  - poof_7
+  - poof_4
+  - poof_5
   - Icon_new
   - UI_02
   m_RenderDataMap: {}
