@@ -1409,9 +1409,12 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(2);
+            writer.WriteArrayHeader(5);
             writer.Write(value.stageId);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.stageName, options);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.artist, options);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.title, options);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.desc, options);
         }
 
         public global::StageSequenceData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -1426,6 +1429,9 @@ namespace MessagePack.Formatters
             var length = reader.ReadArrayHeader();
             var __stageId__ = default(int);
             var __stageName__ = default(string);
+            var __artist__ = default(string);
+            var __title__ = default(string);
+            var __desc__ = default(string);
 
             for (int i = 0; i < length; i++)
             {
@@ -1439,6 +1445,15 @@ namespace MessagePack.Formatters
                     case 1:
                         __stageName__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
+                    case 2:
+                        __artist__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 3:
+                        __title__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 4:
+                        __desc__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -1448,6 +1463,9 @@ namespace MessagePack.Formatters
             var ____result = new global::StageSequenceData();
             ____result.stageId = __stageId__;
             ____result.stageName = __stageName__;
+            ____result.artist = __artist__;
+            ____result.title = __title__;
+            ____result.desc = __desc__;
             reader.Depth--;
             return ____result;
         }
