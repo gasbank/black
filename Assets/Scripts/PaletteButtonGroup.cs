@@ -135,6 +135,16 @@ public class PaletteButtonGroup : MonoBehaviour
 
     void EnsurePaletteCheck(int paletteIndex)
     {
+        if (paletteIndex < 0 || paletteIndex >= paletteButtonList.Count)
+        {
+            return;
+        }
+
+        if (paletteButtonList[paletteIndex].Check == false)
+        {
+            return;
+        }
+        
         for (var i = paletteIndex + 1; i < paletteButtonList.Count; i++)
         {
             if (!paletteButtonList[i].gameObject.activeSelf) continue;
