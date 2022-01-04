@@ -58,12 +58,14 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 7b188d61bc12841939fa2789b32f53d9, type: 3}
   - {fileID: 21300000, guid: 68d46d71381c04f16b4ba579c592091c, type: 3}
   - {fileID: 21300000, guid: 1aeae0917b2aa49f0905f4bc767251e6, type: 3}
+  - {fileID: 21300000, guid: 7480efe170387420eabea1a319f8ff6e, type: 3}
   - {fileID: 21300000, guid: db654902386abdd4ca6f81f40bab89dd, type: 3}
   - {fileID: 21300000, guid: 3b368e5284e9b4f31ab20b9a80851f88, type: 3}
   - {fileID: 21300000, guid: e5424a825680644ccb2198788f7ff2aa, type: 3}
   - {fileID: 21300000, guid: b2ffe8927f1db459f93b05003fa443a8, type: 3}
   - {fileID: 21300000, guid: 6c5beea2e76c34698a463f620c60247a, type: 3}
   - {fileID: 21300000, guid: 946f4983e0698e34bbca6c81f27551dc, type: 3}
+  - {fileID: 21300000, guid: 718dda04113c94d7d8707df659e9ca2e, type: 3}
   - {fileID: 21300000, guid: 7748c05433b5341f2883b0e2807a73b5, type: 3}
   - {fileID: 21300000, guid: 423f2764e2e4a9c45b9266b35fbf4126, type: 3}
   - {fileID: 21300000, guid: 92137ea46e6f3de4c8b66745168f8009, type: 3}
@@ -138,12 +140,14 @@ SpriteAtlas:
   - coin
   - tile-flat
   - medal
+  - Icon_select
   - SideMenu_UI_slot_bg
   - white-circle-256-sliced
   - popup_icon_Result
   - mango
   - popup_bg_top
   - main_ui_coin_bg
+  - Icon_lock
   - Icon_noti_bg
   - bg_01_06
   - SideMenu_ui_ScrollBar
