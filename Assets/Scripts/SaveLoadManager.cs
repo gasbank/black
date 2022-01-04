@@ -739,9 +739,12 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             ConfigPopup.instance.IsNotchOn = false;
         }
 
+        Sound.instance.BgmAudioSourceActive = true;
+        Sound.instance.SfxAudioSourceActive = true;
+
         // 아마 상단 노치가 필요한 모델은 하단도 필요하겠지...?
         ConfigPopup.instance.IsBottomNotchOn = ConfigPopup.instance.IsNotchOn;
-
+        
         if (Application.isMobilePlatform == false) ConfigPopup.instance.IsPerformanceModeOn = true;
 
         BlackLogManager.Add(BlackLogEntry.Type.GameReset, 0, 0);

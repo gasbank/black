@@ -14149,6 +14149,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8571118579143478484, guid: 66640613ae5d84b1c832fe3108e61603,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -4650636603360878077, guid: a4cd4af2e42d33949848c0868a742a73,
+        type: 2}
     - target: {fileID: 8571118579143478485, guid: 66640613ae5d84b1c832fe3108e61603,
         type: 3}
       propertyPath: m_RootOrder
@@ -14204,6 +14210,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8571118579143478487, guid: 66640613ae5d84b1c832fe3108e61603,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -4650636603360878077, guid: a4cd4af2e42d33949848c0868a742a73,
+        type: 2}
     - target: {fileID: 8571118579143478506, guid: 66640613ae5d84b1c832fe3108e61603,
         type: 3}
       propertyPath: m_SceneBindings.Array.data[0].value
