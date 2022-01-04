@@ -2,8 +2,8 @@
 Sheet: 'MaxBlackLevel' (column count: 20)
 [AchievementData_MaxBlackLevel],,,,,,,,,,,,,,,,,,,,
 id,sprite,name,desc,condition,conditionOldArg,conditionNewArg,rewardGemMultiplier,baseRewardGem,rewardGem,isPlatformAchievement,androidAchievementKey,iosAchievementKey,achievement title,achievement description,platform achievement icon,Seq,rewardGem_Formula,Power,StepSize,
-100001,Sprites/su/su_00_000,\나는야 화가!,\채색의 달인이 되었다,maxBlackLevel,0,2,1,1,1,False,,,,,,1,1,1.5,2,
+100001,Sprites/su/su_00_000,\나는야 화가!,\채색의 달인이 되었다,maxBlackLevel,0,30,1,1,1,False,,,,,,1,1,1.5,30,
 Sheet: 'MaxColoringCombo' (column count: 20)
 [AchievementData_MaxColoringCombo],,,,,,,,,,,,,,,,,,,,
 id,sprite,name,desc,condition,conditionOldArg,conditionNewArg,rewardGemMultiplier,baseRewardGem,rewardGem,isPlatformAchievement,androidAchievementKey,iosAchievementKey,achievement title,achievement description,platform achievement icon,Seq,rewardGem_Formula,Power,StepSize,
-200001,Sprites/su/su_00_000,\색칠 {1} 콤보,\{1}번 연속 색칠 성공! 대단한 집중력!,maxColoringCombo,0,5,1,1,1,False,,,,,,1,1,1.5,5,
+200001,Sprites/su/su_00_000,\색칠 {1} 콤보,\{1}번 연속 색칠 성공! 대단한 집중력!,maxColoringCombo,0,50,1,1,1,False,,,,,,1,1,1.5,50,
