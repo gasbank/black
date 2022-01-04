@@ -127,11 +127,11 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 {
                     BlackContext.instance.StageCombo = 0;
 
+                    // 잘못된 팔레트 버튼으로 칠하려고 했을 때만 오류로 표시
                     if (fillResult == FillResult.WrongColor)
                     {
                         Sound.instance.PlayFillError();
 
-                        // 칠할 수 없는 경우에는 그에 대한 알림
                         flickerImage.enabled = true;
                         StartCoroutine(nameof(HideFlicker));
                     }
@@ -252,6 +252,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     static bool ColorMatch(Color32 a, Color32 b)
     {
         return a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a;
+    }
+    
+    bool CheckRange(Color32[] bitmap, int x, int y)
+    {
+        var index = x + y * TexSize;
+        return index >= 0 && index < bitmap.Length;
     }
 
     Color32 GetPixel(Color32[] bitmap, int x, int y)
@@ -400,19 +406,31 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         WrongColor,
         AlreadyFilled,
         NoPaletteSelected,
+        OutsideOfCanvas,
     }
 
     FillResult Fill(Vector2 localPoint)
     {
-        var rect = rt.rect;
-        var w = rect.width;
-        var h = rect.height;
+        try
+        {
+            var rect = rt.rect;
+            var w = rect.width;
+            var h = rect.height;
 
-        if (Verbose) ConDebug.Log($"w={w} / h={h}");
+            if (Verbose) ConDebug.Log($"w={w} / h={h}");
 
-        var ix = (int) ((localPoint.x + w / 2) / w * tex.width);
-        var iy = (int) ((localPoint.y + h / 2) / h * tex.height);
-        return FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
+            var ix = (int) ((localPoint.x + w / 2) / w * tex.width);
+            var iy = (int) ((localPoint.y + h / 2) / h * tex.height);
+            return FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
+        }
+        catch (IndexOutOfRangeException)
+        {
+            return FillResult.OutsideOfCanvas;
+        }
+        catch (KeyNotFoundException)
+        {
+            return FillResult.OutsideOfCanvas;
+        }
     }
 
     FillResult FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint)
@@ -424,6 +442,11 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         
         var bitmap = tex.GetPixels32();
 
+        if (CheckRange(bitmap, bitmapPoint.x, bitmapPoint.y) == false)
+        {
+            return FillResult.OutsideOfCanvas;
+        }
+        
         var bitmapPointColor = GetPixel(bitmap, bitmapPoint.x, bitmapPoint.y);
 
         if (bitmapPointColor == Color.black)
