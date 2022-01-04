@@ -114,7 +114,9 @@ public class MainGame : MonoBehaviour
 
         gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
         gridWorld.StageName = stageMetadata.name;
-        nameplateGroup.DescText = stageMetadata.FriendlyStageName;
+        nameplateGroup.ArtistText = stageMetadata.StageSequenceData.artist;
+        nameplateGroup.TitleText = stageMetadata.StageSequenceData.title;
+        nameplateGroup.DescText = stageMetadata.StageSequenceData.desc;
 
         targetImage.SetTargetImageMaterial(skipBlackMaterial);
 
