@@ -149,7 +149,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         ResetSaveDataSlotAndWrite();
     }
 
-    public bool Save(IBlackContext context, ConfigPopup configPopup, Sound sound, Data data, StageSaveData wipStageSaveData)
+    public static bool Save(IBlackContext context, ConfigPopup configPopup, Sound sound, Data data, StageSaveData wipStageSaveData)
     {
         // 에디터에서 간혹 게임 플레이 시작할 때 Load도 호출되기도 전에 Save가 먼저 호출되기도 한다.
         // (OnApplicationPause 통해서)
@@ -179,6 +179,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             maxColoringComboRedeemed = BlackContext.instance.AchievementRedeemed.MaxColoringCombo,
             //stageLockRemainTime = StageDetail.instance.StageLockDetailTime,
             wipStageSaveData = wipStageSaveData,
+            performanceMode = ConfigPopup.instance.IsPerformanceModeOn,
         };
 
         return SaveBlackSaveData(blackSaveData);
@@ -480,6 +481,9 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         ConfigPopup.instance.IsAlwaysOnOn = blackSaveData.alwaysOn;
         ConfigPopup.instance.IsBigScreenOn = blackSaveData.bigScreen;
 
+        // 토글 콜백은 값이 변경됐을 때만 호출되므로, 강제로 한번 호출해준다.
+        ConfigPopup.SetPerformanceMode(ConfigPopup.instance.IsPerformanceModeOn);
+
         if (context.CheatMode) BlackLogManager.Add(BlackLogEntry.Type.GameCheatEnabled, 0, 0);
 
         switch (blackSaveData.languageCode)
@@ -744,8 +748,11 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         // 아마 상단 노치가 필요한 모델은 하단도 필요하겠지...?
         ConfigPopup.instance.IsBottomNotchOn = ConfigPopup.instance.IsNotchOn;
-        
-        if (Application.isMobilePlatform == false) ConfigPopup.instance.IsPerformanceModeOn = true;
+
+        if (Application.isMobilePlatform == false)
+        {
+            ConfigPopup.instance.IsPerformanceModeOn = true;
+        }
 
         BlackLogManager.Add(BlackLogEntry.Type.GameReset, 0, 0);
     }

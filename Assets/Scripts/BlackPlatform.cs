@@ -169,7 +169,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
 
     public void SaveBeforeCloudSave()
     {
-        saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
+        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
     }
 
     public RemoteSaveDictionary DeserializeSaveData(byte[] bytes)

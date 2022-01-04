@@ -315,7 +315,7 @@ public class Admin : MonoBehaviour
             ConDebug.Log($"Current Stage Metadata: ??? Empty ???");
         }
         
-        saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, stageSaveData);
+        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, stageSaveData);
         // 제출 시작한다.
         await ErrorReporter.instance.UploadSaveFileIncidentAsync(new List<Exception>(), "NO CRITICAL ERROR",
             true);
@@ -327,7 +327,7 @@ public class Admin : MonoBehaviour
         try
         {
             // 저장 한번 하고
-            saveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
+            SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
             // 제출 시작한다.
             var reasonPhrase = await BlackLogManager.DumpAndUploadPlayLog("\\플레이 로그 업로드 중...".Localized(), "", "", "");
             if (string.IsNullOrEmpty(reasonPhrase))

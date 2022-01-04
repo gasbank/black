@@ -191,7 +191,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             BlackContext.instance.AchievementGathered.MaxColoringCombo = combo;
         }
 
-        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
+        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
     }
 
     public UInt128 RewardGoldAmount { get; private set; }
@@ -564,7 +564,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         stageSaveManager.Save(StageName, coloredMinPoints, this, mainGame.GetRemainTime());
 
         // 전체 저장 데이터
-        SaveLoadManager.instance.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
+        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
     }
 
     public StageSaveData CreateWipStageSaveData()
