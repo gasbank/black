@@ -385,7 +385,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
             // 백그라운드 상태가 되기 시작할 때 호출된다.
             SaveLoadManager.instance.Save(this, ConfigPopup.instance, Sound.instance, Data.instance, null);
 
-            platformLocalNotification.RegisterAllRepeatingNotifications();
+            PlatformLocalNotification.RegisterAllRepeatingNotifications();
 
             // 게임이 제대로 시작한 이후부터만 백그라운드 처리 보상이 작동해도 된다.
             if (LoadedAtLeastOnce) BackgroundTimeCompensator.instance.BeginBackgroundState(this);
@@ -394,7 +394,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
         {
             // 백그라운드 상태가 끝나고 호출된다.
             // 게임이 최초로 실행되는 단계에서도 한번 호출되는 것 같다.
-            platformLocalNotification.RemoveAllRepeatingNotifications();
+            PlatformLocalNotification.RemoveAllRepeatingNotifications();
 
             // 게임이 제대로 시작한 이후부터만 백그라운드 처리 보상이 작동해도 된다.
             if (LoadedAtLeastOnce) BackgroundTimeCompensator.instance.EndBackgroundState(this);
