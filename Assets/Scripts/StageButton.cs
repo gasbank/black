@@ -77,7 +77,7 @@ public class StageButton : MonoBehaviour
 
         if (stageStar != null)
         {
-            stageStar.StarCount = stageMetadata.StarCount;
+            stageStar.StarCount = stageMetadata.StageSequenceData.starCount;
         }
 
         return resumed;

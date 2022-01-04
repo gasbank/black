@@ -75,12 +75,12 @@ public class Data : MonoBehaviour
     {
         var stageAssetLocList = await Addressables.LoadResourceLocationsAsync("Stage", typeof(StageMetadata)).Task;
 
-        newDataSet.StageMetadataDict = stageAssetLocList.ToDictionary(e => e.PrimaryKey, e => e);
+        newDataSet.StageMetadataLocDict = stageAssetLocList.ToDictionary(e => e.PrimaryKey, e => e);
         newDataSet.StageMetadataLocList = new List<IResourceLocation>();
 
         foreach (var seq in newDataSet.StageSequenceData)
         {
-            if (newDataSet.StageMetadataDict.TryGetValue(seq.stageName, out var stageMetadata))
+            if (newDataSet.StageMetadataLocDict.TryGetValue(seq.stageName, out var stageMetadata))
             {
                 if (Verbose)
                 {

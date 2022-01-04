@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +8,27 @@ public class NameplateGroup : MonoBehaviour
     CanvasGroup canvasGroup;
 
     [SerializeField]
-    Text text;
+    Text artistText;
+    
+    [SerializeField]
+    Text titleText;
+    
+    [SerializeField]
+    Text descText;
 
-    public string Text
+    public string ArtistText
     {
-        set => text.text = value;
+        set => artistText.text = value;
+    }
+    
+    public string TitleText
+    {
+        set => titleText.text = value;
+    }
+    
+    public string DescText
+    {
+        set => descText.text = value;
     }
 
 #if UNITY_EDITOR

@@ -36,7 +36,10 @@ public class BgmSelector : MonoBehaviour
             }
         }
 
-        bgmSource.Play();
+        if (bgmSource.isActiveAndEnabled)
+        {
+            bgmSource.Play();
+        }
     }
 
     static int GetCurrentStageIndex()

@@ -91,12 +91,12 @@ public class StageSaveManager : MonoBehaviour
         catch (FileNotFoundException)
         {
             ConDebug.Log("No save data exist.");
-            return CreateWipStageSaveData(stageName, new HashSet<uint>(), StageButton.CurrentStageMetadata != null ? StageButton.CurrentStageMetadata.RemainTime : 0, null);
+            return CreateWipStageSaveData(stageName, new HashSet<uint>(), StageButton.CurrentStageMetadata != null ? StageButton.CurrentStageMetadata.StageSequenceData.remainTime : 0, null);
         }
         catch (IsolatedStorageException)
         {
             ConDebug.Log("No save data exist.");
-            return CreateWipStageSaveData(stageName, new HashSet<uint>(), StageButton.CurrentStageMetadata != null ? StageButton.CurrentStageMetadata.RemainTime : 0, null);
+            return CreateWipStageSaveData(stageName, new HashSet<uint>(), StageButton.CurrentStageMetadata != null ? StageButton.CurrentStageMetadata.StageSequenceData.remainTime : 0, null);
         }
     }
 

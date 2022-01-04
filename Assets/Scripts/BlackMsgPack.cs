@@ -1409,12 +1409,15 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(5);
+            writer.WriteArrayHeader(8);
             writer.Write(value.stageId);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.stageName, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.artist, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.title, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.desc, options);
+            writer.Write(value.starCount);
+            writer.Write(value.remainTime);
+            writer.Write(value.skipLock);
         }
 
         public global::StageSequenceData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -1432,6 +1435,9 @@ namespace MessagePack.Formatters
             var __artist__ = default(string);
             var __title__ = default(string);
             var __desc__ = default(string);
+            var __starCount__ = default(int);
+            var __remainTime__ = default(float);
+            var __skipLock__ = default(bool);
 
             for (int i = 0; i < length; i++)
             {
@@ -1454,6 +1460,15 @@ namespace MessagePack.Formatters
                     case 4:
                         __desc__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
+                    case 5:
+                        __starCount__ = reader.ReadInt32();
+                        break;
+                    case 6:
+                        __remainTime__ = reader.ReadSingle();
+                        break;
+                    case 7:
+                        __skipLock__ = reader.ReadBoolean();
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -1466,6 +1481,9 @@ namespace MessagePack.Formatters
             ____result.artist = __artist__;
             ____result.title = __title__;
             ____result.desc = __desc__;
+            ____result.starCount = __starCount__;
+            ____result.remainTime = __remainTime__;
+            ____result.skipLock = __skipLock__;
             reader.Depth--;
             return ____result;
         }

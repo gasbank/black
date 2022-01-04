@@ -78,7 +78,7 @@ public class StageDetail : MonoBehaviour
 
         // 마지막 클리어한 ID는 1-based이고, 아래 함수는 0-based로 작동하므로
         // 다음으로 플레이할 스테이지를 가져올 때는 그대로 ID를 넘기면 된다.
-        var stageMetadata = await LoadStageMetadataByZeroBasedIndex(lastClearedStageId);
+        var stageMetadata = await LoadStageMetadataByZeroBasedIndexAsync(lastClearedStageId);
 
         ProgressMessage.instance.Close();
         var resumed = stageButton.SetStageMetadata(stageMetadata);
@@ -86,7 +86,7 @@ public class StageDetail : MonoBehaviour
 
         // 하다가 만 스테이지면 대기 시간 있어선 안된다.
         // 초반 스테이지는 대기 시간 없다.
-        if (resumed || stageMetadata.SkipLock)
+        if (resumed || stageMetadata.StageSequenceData.skipLock)
         {
             stageLocker.Unlock();
         }
@@ -116,7 +116,7 @@ public class StageDetail : MonoBehaviour
         }
     }
 
-    public static async Task<StageMetadata> LoadStageMetadataByZeroBasedIndex(ScInt zeroBasedIndex)
+    public static async Task<StageMetadata> LoadStageMetadataByZeroBasedIndexAsync(ScInt zeroBasedIndex)
     {
         var stageMetadataLoc = Data.dataSet.StageMetadataLocList[zeroBasedIndex];
         if (stageMetadataLoc == null)
@@ -126,6 +126,13 @@ public class StageDetail : MonoBehaviour
         }
 
         var stageMetadata = await Addressables.LoadAssetAsync<StageMetadata>(stageMetadataLoc).Task;
+        if (stageMetadata == null)
+        {
+            Debug.LogError($"Stage metadata with zero based index {zeroBasedIndex} is null");
+            return null;
+        }
+
+        stageMetadata.StageIndex = zeroBasedIndex;
         return stageMetadata;
     }
 

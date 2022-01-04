@@ -114,7 +114,7 @@ public class MainGame : MonoBehaviour
 
         gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
         gridWorld.StageName = stageMetadata.name;
-        nameplateGroup.Text = stageMetadata.FriendlyStageName;
+        nameplateGroup.DescText = stageMetadata.FriendlyStageName;
 
         targetImage.SetTargetImageMaterial(skipBlackMaterial);
 
@@ -128,9 +128,9 @@ public class MainGame : MonoBehaviour
 
         var counts = gridWorld.CountWhiteAndBlackInBitmap();
 
-        remainTime = stageMetadata.RemainTime;
+        remainTime = stageMetadata.StageSequenceData.remainTime;
 
-        if (stageMetadata.RemainTime > 0)
+        if (stageMetadata.StageSequenceData.remainTime > 0)
         {
             ActivateTime();
         }

@@ -19,4 +19,13 @@ public class StageSequenceData
     
     [Key(4)]
     public string desc;
+    
+    [Key(5)]
+    public int starCount;
+
+    [Key(6)]
+    public float remainTime;
+    
+    [Key(7)]
+    public bool skipLock;
 }

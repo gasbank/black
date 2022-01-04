@@ -13,24 +13,17 @@ public class StageMetadata : ScriptableObject
 
     [SerializeField]
     Material skipBlackMaterial;
-
-    [SerializeField]
-    int starCount;
-
-    [SerializeField]
-    float remainTime;
-
-    [SerializeField]
-    bool skipLock;
+    
+    public int StageIndex { get; set; }
 
     public Material SkipBlackMaterial => skipBlackMaterial;
     public Material SdfMaterial => sdfMaterial;
     public TextAsset RawStageData => rawStageData;
     public string FriendlyStageName => friendlyStageName;
-    public int StarCount => starCount;
-    public float RemainTime => remainTime;
-    public bool SkipLock => skipLock;
 
+    public StageSequenceData StageSequenceData => Data.dataSet.StageSequenceData[StageIndex];
+
+#if UNITY_EDITOR
     public static StageMetadata Create(Material skipBlackMat, Material sdfMat, TextAsset stageData, string stageName)
     {
         var asset = CreateInstance<StageMetadata>();
@@ -40,4 +33,5 @@ public class StageMetadata : ScriptableObject
         asset.friendlyStageName = stageName;
         return asset;
     }
+#endif
 }
