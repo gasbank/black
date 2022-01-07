@@ -91,6 +91,9 @@ public class ComboEffect : MonoBehaviour
                 break;
         }
 
+        size.x *= 2;
+        size.y *= 2;
+
         var nums = new List<int>();
         while (combo > 0)
         {
@@ -106,7 +109,7 @@ public class ComboEffect : MonoBehaviour
             elem.sprite = numSprite[nums[idx]];
             elem.rectTransform.sizeDelta = size;
             elem.rectTransform.anchoredPosition = new Vector3(
-                comboPos.x - (60 + (size.x - 3) * (nums.Count - idx)),
+                comboPos.x - (103 + (size.x - 3) * (nums.Count - idx)),
                 comboPos.y
             );
 
