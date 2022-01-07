@@ -38,7 +38,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public Image flickerImage;
 
     [SerializeField]
-    public Text comboText;
+    public ComboEffect comboEffector;
 
     [SerializeField]
     ScInt gold = 0;
@@ -111,7 +111,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     Sound.instance.PlayFillOkay();
 
                     BlackContext.instance.StageCombo++;
-                    StartCoroutine(nameof(ShowCombo), BlackContext.instance.StageCombo);
+                    comboEffector.Play(BlackContext.instance.StageCombo);
 
                     // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
                     if (IsLabelByMinPointEmpty
@@ -508,34 +508,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         yield return new WaitForSeconds(0.0f);
         flickerImage.enabled = false;
-    }
-
-    IEnumerator ShowCombo(ScInt combo)
-    {
-        var text = Instantiate(comboText, comboText.transform.parent, false);
-        text.text = $"{BlackContext.instance.StageCombo} Combo{(BlackContext.instance.StageCombo == 1 ? "" : "s")}";
-        var position = comboText.transform.position;
-        text.transform.position = position;
-        text.enabled = true;
-
-        float duration = 0.60f;
-        float shift = 0.7f;
-        float currentTime = 0f;
-        while(currentTime < duration)
-        {
-            float alpha = Mathf.Lerp(1f, 0f, currentTime/duration);
-            text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
-            text.transform.position = new Vector3(
-                position.x, 
-                position.y + shift * (1f - alpha),
-                position.z);
-            currentTime += Time.deltaTime;
-            yield return null;
-        }
-
-        text.enabled = false;
-        Destroy(text);
-        yield break;
     }
 
     void StartAnimateFillCoin(Vector2 localPoint)
