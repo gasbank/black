@@ -193,6 +193,11 @@ public class MainGame : MonoBehaviour
         }
     }
 
+    public void ToggleComboAdminMode()
+    {
+        BlackContext.instance.ComboAdminMode = !BlackContext.instance.ComboAdminMode;
+    }
+
     public void LoadMuseumScene()
     {
         if (gridWorld != null) gridWorld.WriteStageSaveData();

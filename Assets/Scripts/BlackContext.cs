@@ -41,6 +41,8 @@ public class BlackContext : MonoBehaviour, IBlackContext
     List<int> clearedDebrisIndexList;
     float stageLockRemainTime;
 
+    bool comboAdminMode = false;
+
     public bool CheatMode { get; set; }
     public bool WaiveBan { get; set; }
 
@@ -58,6 +60,12 @@ public class BlackContext : MonoBehaviour, IBlackContext
     {
         get => pendingGold;
         private set => pendingGold = value;
+    }
+
+    public bool ComboAdminMode
+    {
+        get => comboAdminMode;
+        set => comboAdminMode = value;
     }
 
     public void RefreshGoldText()

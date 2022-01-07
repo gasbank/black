@@ -47,6 +47,7 @@ public interface IBlackContext
     bool IsBigPopupOpened { get; set; }
     Transform AnimatedIncrementParent { get; set; }
     ScInt  StageCombo { get; set; }
+    bool ComboAdminMode { get; set; }
     void RefreshGoldText();
     void UpdateLastTouchTime();
     void AddFreeGem(UInt128 delta);
