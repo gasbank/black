@@ -64,7 +64,7 @@ Shader "Unlit/NewUnlitShader"
                 int paletteIndex = a1 & ((1 << 6) - 1);
                 int islandIndex = (a1 >> 6) | (a2 << 2);
                 
-                fixed4 col = _Palette[paletteIndex];
+                float4 col = _Palette[paletteIndex];
                 
                 col.a = 1 - abs(islandIndex - _IslandIndex);
                 //col.a = 1;
