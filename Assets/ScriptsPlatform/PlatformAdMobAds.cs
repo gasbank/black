@@ -37,7 +37,7 @@ public class PlatformAdMobAds : MonoBehaviour
         Debug.LogError("HandleFailedToLoad");
         // 유저에게 광고를 못불러왔다는 걸 굳이 게임 시작할 때 보여줄 필요는 없지...
         //PlatformInterface.instance.shortMessage.Show("\\광고 불러오기를 실패했습니다.".Localized());
-        
+        lastErrorMessage = errorMessage;
     }
 
     static void ShowAdsErrorPopup()
