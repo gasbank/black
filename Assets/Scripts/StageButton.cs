@@ -43,11 +43,11 @@ public class StageButton : MonoBehaviour
     {
         if (updateOnStart)
         {
-            UpdateButtonImage();
+            UpdateButtonImage(false);
         }
     }
 
-    bool UpdateButtonImage()
+    bool UpdateButtonImage(bool resizeToThumbnail)
     {
         var resumed = false;
         
@@ -59,6 +59,11 @@ public class StageButton : MonoBehaviour
         var wipTex2D = new Texture2D(512, 512, TextureFormat.RGB24, true, true);
         if (StageSaveManager.LoadWipPng(stageMetadata.name, wipTex2D))
         {
+            if (resizeToThumbnail)
+            {
+                wipTex2D.Resize(256, 256);
+            }
+
             image.material = Instantiate(image.material);
             image.material.mainTexture = wipTex2D;
             image.sprite = null;
@@ -86,10 +91,10 @@ public class StageButton : MonoBehaviour
         return resumed;
     }
 
-    public bool SetStageMetadata(StageMetadata inStageMetadata)
+    public bool SetStageMetadata(StageMetadata inStageMetadata, bool resizeToThumbnail = false)
     {
         stageMetadata = inStageMetadata;
-        return UpdateButtonImage();
+        return UpdateButtonImage(resizeToThumbnail);
     }
 
     public void SetStageMetadataToCurrent()

@@ -14,6 +14,9 @@ public class ProfilePopup : MonoBehaviour
 
     [SerializeField]
     Transform stageImageParent;
+
+    [SerializeField]
+    int cachedLastClearedStageId;
     
 #if UNITY_EDITOR
     void OnValidate()
@@ -25,17 +28,22 @@ public class ProfilePopup : MonoBehaviour
     [UsedImplicitly]
     async void OpenPopup()
     {
-        stageImageParent.DestroyImmediateAllChildren();
+        if (cachedLastClearedStageId == BlackContext.instance.LastClearedStageId)
+        {
+            return;
+        }
         
+        stageImageParent.DestroyImmediateAllChildren();
+
         var pngFiles = Directory.GetFiles(Application.persistentDataPath, "*.png")
             .OrderBy(e => e, StringComparer.Ordinal);
-        
+
         foreach (var pngFile in pngFiles)
         {
             Debug.Log(pngFile);
 
             var stageName = Path.GetFileNameWithoutExtension(pngFile);
-            
+
             var stageId = int.Parse(stageName, NumberStyles.Any);
 
             var stageMetadata = await StageDetail.LoadStageMetadataByZeroBasedIndexAsync(stageId - 1);
@@ -45,11 +53,13 @@ public class ProfilePopup : MonoBehaviour
                 if (stageMetadata.StageIndex + 1 <= BlackContext.instance.LastClearedStageId)
                 {
                     var stageButton = Instantiate(stageImagePrefab, stageImageParent).GetComponent<StageButton>();
-                    stageButton.SetStageMetadata(stageMetadata);
+                    stageButton.SetStageMetadata(stageMetadata, true);
                     stageButton.Unlock();
                 }
             }
         }
+
+        cachedLastClearedStageId = BlackContext.instance.LastClearedStageId;
     }
 
     [UsedImplicitly]
