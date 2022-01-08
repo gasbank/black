@@ -87,15 +87,18 @@ public class PlatformAdMobAdsInit : MonoBehaviour
     }
 
     void HandleAdFailedToLoad(object sender, AdFailedToLoadEventArgs args) {
+        var errorMessage = args.LoadAdError.GetMessage();
         PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdFailedToLoad)}");
-        PlatformInterface.instance.logger.Log($"    Message: {args.LoadAdError.GetMessage()}");
-        UnityMainThreadDispatcher.Instance().Enqueue(PlatformAdMobAds.HandleFailedToLoad);
+        PlatformInterface.instance.logger.Log($"    Message: {errorMessage}");
+        UnityMainThreadDispatcher.Instance().Enqueue(() => PlatformAdMobAds.HandleFailedToLoad(errorMessage));
     }
     
-    void HandleAdFailedToShow(object sender, AdErrorEventArgs args) {
+    void HandleAdFailedToShow(object sender, AdErrorEventArgs args)
+    {
+        var errorMessage = args.AdError.GetMessage();
         PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdFailedToShow)}");
-        PlatformInterface.instance.logger.Log($"    Message: {args.AdError.GetMessage()}");
-        UnityMainThreadDispatcher.Instance().Enqueue(PlatformAdMobAds.HandleFailedToLoad);
+        PlatformInterface.instance.logger.Log($"    Message: {errorMessage}");
+        UnityMainThreadDispatcher.Instance().Enqueue(() => PlatformAdMobAds.HandleFailedToLoad(errorMessage));
     }
 
     void HandleAdOpening(object sender, EventArgs args) {

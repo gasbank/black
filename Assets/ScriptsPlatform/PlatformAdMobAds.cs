@@ -8,6 +8,8 @@ public class PlatformAdMobAds : MonoBehaviour
     object adContext;
 #endif
 
+    static string lastErrorMessage;
+
     public void TryShowRewardedAd(object adContext)
     {
 #if GOOGLE_MOBILE_ADS
@@ -30,15 +32,16 @@ public class PlatformAdMobAds : MonoBehaviour
 #endif
     }
 
-    internal static void HandleFailedToLoad()
+    internal static void HandleFailedToLoad(string errorMessage)
     {
         Debug.LogError("HandleFailedToLoad");
         // 유저에게 광고를 못불러왔다는 걸 굳이 게임 시작할 때 보여줄 필요는 없지...
         //PlatformInterface.instance.shortMessage.Show("\\광고 불러오기를 실패했습니다.".Localized());
+        
     }
 
     static void ShowAdsErrorPopup()
     {
-        PlatformInterface.instance.confirmPopup.Open(PlatformInterface.instance.text.Str_AdMobError);
+        PlatformInterface.instance.confirmPopup.Open(PlatformInterface.instance.text.Str_AdMobError + "\n" + lastErrorMessage);
     }
 }
