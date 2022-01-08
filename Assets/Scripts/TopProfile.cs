@@ -49,12 +49,20 @@ public class TopProfile : MonoBehaviour
     {
         if (Authenticated)
         {
-            nickname.text = Social.localUser.userName;
+            if (nickname != null)
+            {
+                nickname.text = Social.localUser.userName;
+            }
+
             rawImage.texture = Social.localUser.image;
         }
         else
         {
-            nickname.text = "\\(오프라인)".Localized();
+            if (nickname != null)
+            {
+                nickname.text = "\\(오프라인)".Localized();
+            }
+
             rawImage.texture = null;
         }
     }
