@@ -74,7 +74,7 @@ public class StageDetail : MonoBehaviour
         
         stageProgress.ProgressInt = lastClearedStageId % 5;
 
-        ProgressMessage.instance.Open("Loading...");
+        ProgressMessage.instance.Open(@"\그림을 준비하는 중...".Localized());
 
         // 마지막 클리어한 ID는 1-based이고, 아래 함수는 0-based로 작동하므로
         // 다음으로 플레이할 스테이지를 가져올 때는 그대로 ID를 넘기면 된다.
