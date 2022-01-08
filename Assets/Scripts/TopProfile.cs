@@ -13,6 +13,9 @@ public class TopProfile : MonoBehaviour
     [SerializeField]
     bool lastAuthenticated;
 
+    [SerializeField]
+    Texture2D defaultTex;
+    
     static bool Authenticated => Social.localUser != null && Social.localUser.authenticated;
 
 #if UNITY_EDITOR
@@ -54,7 +57,7 @@ public class TopProfile : MonoBehaviour
                 nickname.text = Social.localUser.userName;
             }
 
-            rawImage.texture = Social.localUser.image;
+            rawImage.texture = Social.localUser.image != null ? Social.localUser.image : defaultTex;
         }
         else
         {
@@ -63,7 +66,7 @@ public class TopProfile : MonoBehaviour
                 nickname.text = "\\(오프라인)".Localized();
             }
 
-            rawImage.texture = null;
+            rawImage.texture = defaultTex;
         }
     }
 }
