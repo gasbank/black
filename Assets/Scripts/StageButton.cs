@@ -21,6 +21,9 @@ public class StageButton : MonoBehaviour
     [SerializeField]
     bool updateOnStart;
 
+    [SerializeField]
+    StageLocker stageLocker;
+
     public static StageMetadata CurrentStageMetadata { get; private set; }
 
     public void GoToMain()
@@ -98,5 +101,10 @@ public class StageButton : MonoBehaviour
         }
         
         CurrentStageMetadata = stageMetadata;
+    }
+
+    public void Unlock()
+    {
+        stageLocker.Unlock();
     }
 }

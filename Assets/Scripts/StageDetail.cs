@@ -118,6 +118,12 @@ public class StageDetail : MonoBehaviour
 
     public static async Task<StageMetadata> LoadStageMetadataByZeroBasedIndexAsync(ScInt zeroBasedIndex)
     {
+        if (zeroBasedIndex < 0 || zeroBasedIndex >= Data.dataSet.StageMetadataLocList.Count)
+        {
+            Debug.LogError($"Stage index {zeroBasedIndex} (zero-based) is out of range");
+            return null;
+        }
+        
         var stageMetadataLoc = Data.dataSet.StageMetadataLocList[zeroBasedIndex];
         if (stageMetadataLoc == null)
         {
