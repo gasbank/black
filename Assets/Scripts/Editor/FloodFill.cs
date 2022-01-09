@@ -146,38 +146,48 @@ namespace black_dev_tools
             {
                 var n = q.Dequeue();
                 var nc = GetPixel(bitmap, n.x, n.y);
-                if (ColorIsNotAndNotBlack(nc, replacementColor) == false) continue;
-                Vector2Int w = n, e = new Vector2Int(n.x + 1, n.y);
-                while (w.x >= 0 && ColorIsNotAndNotBlack(GetPixel(bitmap, w.x, w.y), replacementColor))
+                if (ColorIsNotAndNotBlack(nc, replacementColor) == false)
                 {
-                    var oldColor = SetPixel(bitmap, w.x, w.y, replacementColor);
-                    setPixelCallback?.Invoke(islandIndex, w.x, w.y);
-                    Program.IncreaseCountOfDictionaryValue(originalColors, oldColor);
-                    UpdateFillMinPoint(ref fillMinPoint, w);
-                    points.Add(w);
-                    pixelArea++;
-                    if (w.y > 0 && ColorIsNotAndNotBlack(GetPixel(bitmap, w.x, w.y - 1), replacementColor))
-                        q.Enqueue(new Vector2Int(w.x, w.y - 1));
-                    if (w.y < bitmap.Height - 1 &&
-                        ColorIsNotAndNotBlack(GetPixel(bitmap, w.x, w.y + 1), replacementColor))
-                        q.Enqueue(new Vector2Int(w.x, w.y + 1));
-                    w.x--;
+                    continue;
                 }
 
-                while (e.x <= bitmap.Width - 1 && ColorIsNotAndNotBlack(GetPixel(bitmap, e.x, e.y), replacementColor))
                 {
-                    var oldColor = SetPixel(bitmap, e.x, e.y, replacementColor);
-                    setPixelCallback?.Invoke(islandIndex, w.x, w.y);
-                    Program.IncreaseCountOfDictionaryValue(originalColors, oldColor);
-                    UpdateFillMinPoint(ref fillMinPoint, e);
-                    points.Add(e);
-                    pixelArea++;
-                    if (e.y > 0 && ColorIsNotAndNotBlack(GetPixel(bitmap, e.x, e.y - 1), replacementColor))
-                        q.Enqueue(new Vector2Int(e.x, e.y - 1));
-                    if (e.y < bitmap.Height - 1 &&
-                        ColorIsNotAndNotBlack(GetPixel(bitmap, e.x, e.y + 1), replacementColor))
-                        q.Enqueue(new Vector2Int(e.x, e.y + 1));
-                    e.x++;
+                    var w = n;
+                    while (w.x >= 0 && ColorIsNotAndNotBlack(GetPixel(bitmap, w.x, w.y), replacementColor))
+                    {
+                        var oldColor = SetPixel(bitmap, w.x, w.y, replacementColor);
+                        setPixelCallback?.Invoke(islandIndex, w.x, w.y);
+                        Program.IncreaseCountOfDictionaryValue(originalColors, oldColor);
+                        UpdateFillMinPoint(ref fillMinPoint, w);
+                        points.Add(w);
+                        pixelArea++;
+                        if (w.y > 0 && ColorIsNotAndNotBlack(GetPixel(bitmap, w.x, w.y - 1), replacementColor))
+                            q.Enqueue(new Vector2Int(w.x, w.y - 1));
+                        if (w.y < bitmap.Height - 1 &&
+                            ColorIsNotAndNotBlack(GetPixel(bitmap, w.x, w.y + 1), replacementColor))
+                            q.Enqueue(new Vector2Int(w.x, w.y + 1));
+                        w.x--;
+                    }
+                }
+
+                {
+                    var e = new Vector2Int(n.x + 1, n.y);
+                    while (e.x <= bitmap.Width - 1 &&
+                           ColorIsNotAndNotBlack(GetPixel(bitmap, e.x, e.y), replacementColor))
+                    {
+                        var oldColor = SetPixel(bitmap, e.x, e.y, replacementColor);
+                        setPixelCallback?.Invoke(islandIndex, e.x, e.y);
+                        Program.IncreaseCountOfDictionaryValue(originalColors, oldColor);
+                        UpdateFillMinPoint(ref fillMinPoint, e);
+                        points.Add(e);
+                        pixelArea++;
+                        if (e.y > 0 && ColorIsNotAndNotBlack(GetPixel(bitmap, e.x, e.y - 1), replacementColor))
+                            q.Enqueue(new Vector2Int(e.x, e.y - 1));
+                        if (e.y < bitmap.Height - 1 &&
+                            ColorIsNotAndNotBlack(GetPixel(bitmap, e.x, e.y + 1), replacementColor))
+                            q.Enqueue(new Vector2Int(e.x, e.y + 1));
+                        e.x++;
+                    }
                 }
             }
 

@@ -121,6 +121,12 @@ internal static class StageEditorUtil
 
         var fsnbTexPath = Path.Combine(stageDir, $"{metadataName}-OTB-FSNB.png");
         var fsnbTex = AssetDatabase.LoadAssetAtPath<Texture2D>(fsnbTexPath);
+        
+        var a1TexPath = Path.Combine(stageDir, $"{metadataName}-OTB-FSNB-DIT-A1.png");
+        var a1Tex = AssetDatabase.LoadAssetAtPath<Texture2D>(a1TexPath);
+        
+        var a2TexPath = Path.Combine(stageDir, $"{metadataName}-OTB-FSNB-DIT-A2.png");
+        var a2Tex = AssetDatabase.LoadAssetAtPath<Texture2D>(a2TexPath);
 
         var sdfPresetPath = "Assets/Presets/TextureImporter-SDF.preset";
 
@@ -128,6 +134,9 @@ internal static class StageEditorUtil
 
         var fsnbPresetPath = "Assets/Presets/TextureImporter-FSNB.preset";
         var fsnbPreset = AssetDatabase.LoadAssetAtPath<Preset>(fsnbPresetPath);
+        
+        var a1A2PresetPath = "Assets/Presets/TextureImporter-A1A2.preset";
+        var a1A2Preset = AssetDatabase.LoadAssetAtPath<Preset>(a1A2PresetPath);
 
         if (sdfPreset == null)
         {
@@ -162,6 +171,14 @@ internal static class StageEditorUtil
         var fsnbImporter = AssetImporter.GetAtPath(fsnbTexPath);
         Debug.Log(fsnbTex);
         Debug.Log(fsnbPreset.ApplyTo(fsnbImporter));
+        
+        var a1Importer = AssetImporter.GetAtPath(a1TexPath);
+        Debug.Log(a1Tex);
+        Debug.Log(a1A2Preset.ApplyTo(a1Importer));
+        
+        var a2Importer = AssetImporter.GetAtPath(a2TexPath);
+        Debug.Log(a2Tex);
+        Debug.Log(a1A2Preset.ApplyTo(a2Importer));
 
         var skipBlackMatPresetPath = "Assets/Presets/Material-SkipBlack.preset";
         var skipBlackMatPreset = AssetDatabase.LoadAssetAtPath<Preset>(skipBlackMatPresetPath);

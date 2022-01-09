@@ -405,7 +405,7 @@ namespace black_dev_tools
                 throw new ArgumentOutOfRangeException(nameof(paletteIndex));
             }
 
-            a1 = (byte) (paletteIndex | ((islandIndex & 0x4) << 6));
+            a1 = (byte) (paletteIndex | ((islandIndex & ((1 << 2) - 1)) << 6));
             a2 = (byte) (islandIndex >> 2);
         }
 
