@@ -34,6 +34,7 @@ namespace black_dev_tools
         static readonly Rgba32 Black = Rgba32.ParseHex("000000ff");
         static readonly Rgba32 Red = Rgba32.ParseHex("ff0000ff");
         static readonly Rgba32 White = Rgba32.ParseHex("ffffffff");
+        static readonly Rgba32 AllZeros = Rgba32.ParseHex("00000000");
 
         public static void Main(string[] args)
         {
@@ -252,13 +253,13 @@ namespace black_dev_tools
                 var bytesFileName = ExecuteDetermineIsland(fotsFileName, rasapFileName);
 
                 // 색칠 테스트. 첫 데이터를 얻기 위한 것으로 오류 메시지는 경고로 무시해도 된다.
-                var ditFileName = ExecuteDetermineIslandTest(fsnbFileName, bytesFileName, true);
+                var ditFileName = ExecuteDetermineIslandTest(fsnbFileName, bytesFileName, true, false);
 
                 // DIT 파일이 최종 컬러링 완성 시의 이미지이다. 이걸로 최종적으로 데이터를 다시 뽑는다.
                 bytesFileName = ExecuteDetermineIsland(ditFileName, rasapFileName);
 
                 //두 번째 테스트. 여기서 오류가 나면 뭔가 이상한거다.
-                ExecuteDetermineIslandTest(fsnbFileName, bytesFileName, false);
+                ExecuteDetermineIslandTest(fsnbFileName, bytesFileName, false, true);
 
                 var bbFileName = ExecuteBoxBlur(fsnbFileName, 1);
                 ExecuteSdf(bbFileName);
@@ -286,11 +287,13 @@ namespace black_dev_tools
 
         // 섬 데이터와 외곽선 데이터를 이용해 색칠을 자동으로 해 본다.
         // 색칠 후 이미지에 문제가 없는지 확인하기 위한 테스트 과정이다.
-        static string ExecuteDetermineIslandTest(string sourceFileName, string bytesFileName, bool errorAsWarning)
+        static string ExecuteDetermineIslandTest(string sourceFileName, string bytesFileName, bool errorAsWarning, bool writeA1A2Tex)
         {
             Logger.WriteLine($"Running {nameof(ExecuteDetermineIslandTest)}");
 
             var targetFileName = AppendToFileName(sourceFileName, "-DIT");
+            var a1TexFileName = AppendToFileName(targetFileName, "-A1");
+            var a2TexFileName = AppendToFileName(targetFileName, "-A2");
             StageData stageData;
             using (var bytesFileStream = new FileStream(bytesFileName, FileMode.Open))
             {
@@ -308,14 +311,31 @@ namespace black_dev_tools
                 }
             }
 
+            var colorUintArray = stageData.CreateColorUintArray();
+            var colorUintDict = new Dictionary<uint, int>();
+            for (var i = 0; i < colorUintArray.Length; i++)
+            {
+                colorUintDict[colorUintArray[i]] = i + 1; // Palette Index 0은 외곽선 용으로 예비한다.
+            }
+
             using (var image = Image.Load<Rgba32>(sourceFileName))
             {
+                var a1Tex = new Image<Rgba32>(image.Width, image.Height, AllZeros);
+                var a2Tex = new Image<Rgba32>(image.Width, image.Height, AllZeros);
+
+                var islandIndex = 1; // Island Index 0은 외곽선 용으로 예비한다.
                 foreach (var island in stageData.islandDataByMinPoint)
                 {
                     var minPoint = UInt32ToVector2Int(island.Key);
                     var targetColor = UInt32ToRgba32(island.Value.rgba);
+                    var paletteIndex = colorUintDict[island.Value.rgba];
                     var fillMinPoint = FloodFill.ExecuteFillIf(image, minPoint, White, targetColor, out var pixelArea,
-                        out _, out _);
+                        out _, out _, islandIndex, (islandIndexCallback, fx, fy) =>
+                        {
+                            GetAlpha8Pair(islandIndexCallback, paletteIndex, out var a1, out var a2);
+                            a1Tex[fx, fy] = new Rgba32 {A = a1};
+                            a2Tex[fx, fy] = new Rgba32 {A = a2};
+                        });
 
                     if (fillMinPoint == new Vector2Int(image.Width, image.Height))
                     {
@@ -342,6 +362,8 @@ namespace black_dev_tools
                                 $"Logic error in ExecuteDetermineIslandTest()! Pixel area {pixelArea} expected to be {island.Value.pixelArea}");
                         }
                     }
+
+                    islandIndex++;
                 }
 
                 using (var stream = new FileStream(targetFileName, FileMode.Create))
@@ -349,9 +371,42 @@ namespace black_dev_tools
                     image.SaveAsPng(stream);
                     stream.Close();
                 }
+
+                if (writeA1A2Tex)
+                {
+                    using (var stream = new FileStream(a1TexFileName, FileMode.Create))
+                    {
+                        a1Tex.SaveAsPng(stream);
+                        stream.Close();
+                    }
+
+                    using (var stream = new FileStream(a2TexFileName, FileMode.Create))
+                    {
+                        a2Tex.SaveAsPng(stream);
+                        stream.Close();
+                    }
+                }
             }
 
             return targetFileName;
+        }
+
+        // paletteIndex에 6-bit -> 최대 64개 팔레트
+        // islandIndex에 10-bit -> 최대 1024개 섬
+        static void GetAlpha8Pair(int islandIndex, int paletteIndex, out byte a1, out byte a2)
+        {
+            if (islandIndex <= 0 || islandIndex >= (2 << 9))
+            {
+                throw new ArgumentOutOfRangeException(nameof(islandIndex));
+            }
+            
+            if (paletteIndex <= 0 || paletteIndex >= (2 << 5))
+            {
+                throw new ArgumentOutOfRangeException(nameof(paletteIndex));
+            }
+
+            a1 = (byte) (paletteIndex | ((islandIndex & 0x4) << 6));
+            a2 = (byte) (islandIndex >> 2);
         }
 
         // 입력 이미지로 섬 데이터를 만든다.

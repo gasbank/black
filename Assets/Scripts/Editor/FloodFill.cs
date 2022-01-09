@@ -134,7 +134,7 @@ namespace black_dev_tools
 
         public static Vector2Int ExecuteFillIf(Image<Rgba32> bitmap, Vector2Int pt, Rgba32 beforeColor,
             Rgba32 replacementColor, out int pixelArea, out List<Vector2Int> points,
-            out Dictionary<Rgba32, int> originalColors)
+            out Dictionary<Rgba32, int> originalColors, int islandIndex, System.Action<int, int, int> setPixelCallback)
         {
             points = new List<Vector2Int>();
             originalColors = new Dictionary<Rgba32, int>();
@@ -151,6 +151,7 @@ namespace black_dev_tools
                 while (w.x >= 0 && ColorIsNotAndNotBlack(GetPixel(bitmap, w.x, w.y), replacementColor))
                 {
                     var oldColor = SetPixel(bitmap, w.x, w.y, replacementColor);
+                    setPixelCallback?.Invoke(islandIndex, w.x, w.y);
                     Program.IncreaseCountOfDictionaryValue(originalColors, oldColor);
                     UpdateFillMinPoint(ref fillMinPoint, w);
                     points.Add(w);
@@ -166,6 +167,7 @@ namespace black_dev_tools
                 while (e.x <= bitmap.Width - 1 && ColorIsNotAndNotBlack(GetPixel(bitmap, e.x, e.y), replacementColor))
                 {
                     var oldColor = SetPixel(bitmap, e.x, e.y, replacementColor);
+                    setPixelCallback?.Invoke(islandIndex, w.x, w.y);
                     Program.IncreaseCountOfDictionaryValue(originalColors, oldColor);
                     UpdateFillMinPoint(ref fillMinPoint, e);
                     points.Add(e);

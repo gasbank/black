@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 [Serializable]
 public class StageData
@@ -9,4 +10,10 @@ public class StageData
 
     // Min Point 별 섬 데이터
     public Dictionary<uint, IslandData> islandDataByMinPoint = new Dictionary<uint, IslandData>();
+
+    public uint[] CreateColorUintArray() => islandDataByMinPoint
+        .Select(e => e.Value.rgba)
+        .Distinct()
+        .OrderBy(e => e)
+        .ToArray();
 }

@@ -58,12 +58,11 @@ public class PaletteButtonGroup : MonoBehaviour
         }
     }
 
-    public void CreatePalette(StageData stageData)
+    public void CreatePalette(StageData inStageData)
     {
         DestroyAllPaletteButtons();
 
-        var colorUintArray = stageData.islandDataByMinPoint.Select(e => e.Value.rgba).Distinct().OrderBy(e => e)
-            .ToArray();
+        var colorUintArray = inStageData.CreateColorUintArray();
         var paletteIndex = 0;
         paletteButtonList.Clear();
         foreach (var colorUint in colorUintArray)
@@ -84,7 +83,7 @@ public class PaletteButtonGroup : MonoBehaviour
             paletteButtonList[0].Check = true;
         }
 
-        this.stageData = stageData;
+        stageData = inStageData;
     }
 
     void DestroyAllPaletteButtons()
