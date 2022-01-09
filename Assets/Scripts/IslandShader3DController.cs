@@ -1,13 +1,13 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class IslandShaderController : MonoBehaviour
+public class IslandShader3DController : MonoBehaviour
 {
     [SerializeField]
-    RawImage rawImage;
+    MeshRenderer rawImage;
 
     [SerializeField]
     [Range(0, 4)]
@@ -59,8 +59,8 @@ public class IslandShaderController : MonoBehaviour
         var a1Tex = stageMetadata.A1Tex;
         var a2Tex = stageMetadata.A2Tex;
 
-        rawImage.materialForRendering.SetTexture(A1Tex, a1Tex);
-        rawImage.materialForRendering.SetTexture(A2Tex, a2Tex);
+        rawImage.material.SetTexture(A1Tex, a1Tex);
+        rawImage.material.SetTexture(A2Tex, a2Tex);
 
         using var stream = new MemoryStream(stageMetadata.RawStageData.bytes);
         var formatter = new BinaryFormatter();
@@ -79,7 +79,7 @@ public class IslandShaderController : MonoBehaviour
         else
         {
             var paletteArray = colorUintArray.Select(BlackConvert.GetColor).ToArray();
-            rawImage.materialForRendering.SetColorArray(Palette, paletteArray);
+            rawImage.material.SetColorArray(Palette, paletteArray);
 
 //            rawImage.material.SetColorArray(Palette, new List<Color>
 //            {
@@ -87,19 +87,25 @@ public class IslandShaderController : MonoBehaviour
 //            });
         }
 
-        rawImage.materialForRendering.SetInt(IslandIndex, 0);
+        rawImage.material.SetInt(IslandIndex, 0);
         
-        InvokeRepeating(nameof(IncreaseIslandIndex), 5.0f, 0.01f);
+        //InvokeRepeating(nameof(IncreaseIslandIndex), 1.0f, 0.01f);
     }
 
     void Update()
     {
-        rawImage.materialForRendering.SetFloat(FullRender, fullRender ? 1 : 0);
-        rawImage.materialForRendering.SetFloat(SingleIsland, singleIsland ? 1 : 0);
+        IncreaseIslandIndex();
+        rawImage.material.SetFloat(FullRender, fullRender ? 1 : 0);
+        rawImage.material.SetFloat(SingleIsland, singleIsland ? 1 : 0);
     }
 
     void IncreaseIslandIndex()
     {
+        if (stageData == null)
+        {
+            return;
+        }
+        
         islandIndex = (islandIndex + 1) % (1 + stageData.islandDataByMinPoint.Count); // 첫 번째 섬은 언제나 외곽선 전용이다.
         rawImage.material.SetInt(IslandIndex, islandIndex);
     }
