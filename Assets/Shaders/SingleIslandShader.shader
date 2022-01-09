@@ -8,9 +8,9 @@ Shader "Unlit/NewUnlitShader"
     SubShader
     {
         Tags {
-            //"Queue" = "Transparent"
-             //"RenderType"="Transparent"
-             "RenderType"="Opaque"
+            "Queue" = "Transparent"
+             "RenderType"="Transparent"
+             //"RenderType"="Opaque"
           }
         LOD 100
         

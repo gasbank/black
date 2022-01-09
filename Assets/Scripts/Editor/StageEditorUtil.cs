@@ -199,11 +199,16 @@ internal static class StageEditorUtil
         AssetDatabase.CreateAsset(sdfMat, Path.Combine(stageDir, $"{stageName}-SDF.mat"));
 
         var stageMetadataPath = Path.Combine(stageDir, $"{stageName}.asset");
-        var oldStageMetadata = AssetDatabase.LoadAssetAtPath<StageMetadata>(stageMetadataPath);
-        if (oldStageMetadata == null)
+        var stageMetadata = AssetDatabase.LoadAssetAtPath<StageMetadata>(stageMetadataPath);
+        if (stageMetadata == null)
         {
-            var stageMetadata = StageMetadata.Create(skipBlackMat, sdfMat, rawStageData, stageName);
-            AssetDatabase.CreateAsset(stageMetadata, stageMetadataPath);
+            var newStageMetadata = StageMetadata.Create();
+            StageMetadata.SetValues(newStageMetadata, skipBlackMat, sdfMat, rawStageData, stageName, a1Tex, a2Tex);
+            AssetDatabase.CreateAsset(newStageMetadata, stageMetadataPath);
+        }
+        else
+        {
+            StageMetadata.SetValues(stageMetadata, skipBlackMat, sdfMat, rawStageData, stageName, a1Tex, a2Tex);
         }
 
         Debug.Log($"{stageName} stage created.");
