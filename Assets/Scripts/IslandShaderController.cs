@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -15,7 +14,7 @@ public class IslandShaderController : MonoBehaviour
     int islandIndex;
 
     [SerializeField]
-    StageMetadata stageMetadata;
+    AssetReferenceStageMetadata stageMetadataRef;
 
     static readonly int A1Tex = Shader.PropertyToID("_A1Tex");
     static readonly int A2Tex = Shader.PropertyToID("_A2Tex");
@@ -24,7 +23,7 @@ public class IslandShaderController : MonoBehaviour
     StageData stageData;
 
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
 //        var a1Tex = new Texture2D(2, 2, TextureFormat.Alpha8, false, false);
 //        a1Tex.SetPixel(0, 0, new Color32(0, 0, 0, 0 | 0));
@@ -44,11 +43,15 @@ public class IslandShaderController : MonoBehaviour
 //        a2Tex.wrapMode = TextureWrapMode.Clamp;
 //        a2Tex.Apply();
 
+
+        var stageMetadata = await stageMetadataRef.LoadAssetAsync().Task;
+
+
         var a1Tex = stageMetadata.A1Tex;
         var a2Tex = stageMetadata.A2Tex;
 
-        rawImage.material.SetTexture(A1Tex, a1Tex);
-        rawImage.material.SetTexture(A2Tex, a2Tex);
+        rawImage.materialForRendering.SetTexture(A1Tex, a1Tex);
+        rawImage.materialForRendering.SetTexture(A2Tex, a2Tex);
 
         using var stream = new MemoryStream(stageMetadata.RawStageData.bytes);
         var formatter = new BinaryFormatter();
@@ -67,7 +70,7 @@ public class IslandShaderController : MonoBehaviour
         else
         {
             var paletteArray = colorUintArray.Select(BlackConvert.GetColor).ToArray();
-            rawImage.material.SetColorArray(Palette, paletteArray);
+            rawImage.materialForRendering.SetColorArray(Palette, paletteArray);
 
 //            rawImage.material.SetColorArray(Palette, new List<Color>
 //            {
@@ -75,7 +78,7 @@ public class IslandShaderController : MonoBehaviour
 //            });
         }
 
-        rawImage.material.SetInt(IslandIndex, 0);
+        rawImage.materialForRendering.SetInt(IslandIndex, 0);
         InvokeRepeating(nameof(IncreaseIslandIndex), 5.0f, 0.01f);
     }
 

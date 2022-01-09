@@ -8022,7 +8022,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rawImage: {fileID: 1318484719}
   islandIndex: 0
-  stageMetadata: {fileID: 11400000, guid: 6efd9c035edff42bf99871ba944d8a88, type: 2}
+  stageMetadataRef:
+    m_AssetGUID: 6efd9c035edff42bf99871ba944d8a88
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
 --- !u!114 &1318484719
 MonoBehaviour:
   m_ObjectHideFlags: 0
