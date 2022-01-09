@@ -12,7 +12,7 @@ public class StageSaveManager : MonoBehaviour
     PinchZoom pinchZoom;
 
     [SerializeField]
-    Image targetImage;
+    RawImage targetImage;
 
     static void InitializeMessagePackConditional()
     {

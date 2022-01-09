@@ -8,7 +8,7 @@ public class TargetImage : MonoBehaviour
     IslandLabelSpawner islandLabelSpawner;
 
     [SerializeField]
-    Image targetImage;
+    RawImage targetImage;
 
     [SerializeField]
     Image targetImageOutine;

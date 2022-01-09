@@ -21,6 +21,9 @@ public class IslandShader3DController : MonoBehaviour
     
     [SerializeField]
     bool singleIsland;
+
+    [SerializeField]
+    TargetImageQuadCamera targetImageQuadCamera;
     
     StageData stageData;
 
@@ -32,7 +35,7 @@ public class IslandShader3DController : MonoBehaviour
     static readonly int SingleIsland = Shader.PropertyToID("_SingleIsland");
 
     // Start is called before the first frame update
-    async void Start()
+    async void LoadStageMetadataRefAsync(AssetReferenceStageMetadata inStageMetadataRef)
     {
 //        var a1Tex = new Texture2D(2, 2, TextureFormat.Alpha8, false, false);
 //        a1Tex.SetPixel(0, 0, new Color32(0, 0, 0, 0 | 0));
@@ -53,9 +56,12 @@ public class IslandShader3DController : MonoBehaviour
 //        a2Tex.Apply();
 
 
-        var stageMetadata = await stageMetadataRef.LoadAssetAsync().Task;
+        var stageMetadata = await inStageMetadataRef.LoadAssetAsync().Task;
+        Initialize(stageMetadata);
+    }
 
-
+    public void Initialize(StageMetadata stageMetadata)
+    {
         var a1Tex = stageMetadata.A1Tex;
         var a2Tex = stageMetadata.A2Tex;
 
@@ -87,14 +93,22 @@ public class IslandShader3DController : MonoBehaviour
 //            });
         }
 
-        rawImage.material.SetInt(IslandIndex, 0);
+        SetIslandIndex(0);
         
+        targetImageQuadCamera.ClearCameraOnce();
+
         //InvokeRepeating(nameof(IncreaseIslandIndex), 1.0f, 0.01f);
+    }
+
+    public void SetIslandIndex(int inIslandIndex)
+    {
+        islandIndex = inIslandIndex;
+        rawImage.material.SetInt(IslandIndex, islandIndex);
     }
 
     void Update()
     {
-        IncreaseIslandIndex();
+        //IncreaseIslandIndex();
         rawImage.material.SetFloat(FullRender, fullRender ? 1 : 0);
         rawImage.material.SetFloat(SingleIsland, singleIsland ? 1 : 0);
     }
@@ -106,7 +120,6 @@ public class IslandShader3DController : MonoBehaviour
             return;
         }
         
-        islandIndex = (islandIndex + 1) % (1 + stageData.islandDataByMinPoint.Count); // 첫 번째 섬은 언제나 외곽선 전용이다.
-        rawImage.material.SetInt(IslandIndex, islandIndex);
+        SetIslandIndex((islandIndex + 1) % (1 + stageData.islandDataByMinPoint.Count)); // 첫 번째 섬은 언제나 외곽선 전용이다.
     }
 }

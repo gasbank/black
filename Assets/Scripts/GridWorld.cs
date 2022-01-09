@@ -68,6 +68,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField]
     MainGame mainGame;
 
+    [SerializeField]
+    IslandShader3DController islandShader3DController;
+    
     public Texture2D Tex => tex;
 
     public int TexSize => tex.width;
@@ -101,7 +104,19 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, eventData.position, Camera.main,
                 out var localPoint))
             {
-                var fillResult = Fill(localPoint);
+                var a1Tex = mainGame.StageMetadata.A1Tex;
+                var a2Tex = mainGame.StageMetadata.A2Tex;
+                
+                ConvertLocalPointToIxy(localPoint, out var ix, out var iy);
+                var a1f = a1Tex.GetPixel(ix, iy);
+                var a2f = a2Tex.GetPixel(ix, iy);
+                Debug.Log($"Local Point: {localPoint}, IXY: ({ix},{iy}), A1f={a1f}, A2f={a2f}");
+                var a1 = (int) (a1f.a * 255);
+                var a2 = (int) (a2f.a * 255);
+                var islandIndex = ((a1 >> 6) & 0x3) | (a2 << 2);
+                islandShader3DController.SetIslandIndex(islandIndex);
+
+                var fillResult = FillResult.Good; // Fill(localPoint);
                 
                 if (fillResult == FillResult.Good)
                 {
@@ -414,14 +429,8 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         try
         {
-            var rect = rt.rect;
-            var w = rect.width;
-            var h = rect.height;
+            ConvertLocalPointToIxy(localPoint, out var ix, out var iy);
 
-            if (Verbose) ConDebug.Log($"w={w} / h={h}");
-
-            var ix = (int) ((localPoint.x + w / 2) / w * tex.width);
-            var iy = (int) ((localPoint.y + h / 2) / h * tex.height);
             return FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
         }
         catch (IndexOutOfRangeException)
@@ -432,6 +441,18 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             return FillResult.OutsideOfCanvas;
         }
+    }
+
+    void ConvertLocalPointToIxy(Vector2 localPoint, out int ix, out int iy)
+    {
+        var rect = rt.rect;
+        var w = rect.width;
+        var h = rect.height;
+
+        ix = (int) ((localPoint.x + w / 2) / w * tex.width);
+        iy = (int) ((localPoint.y + h / 2) / h * tex.height);
+
+        if (Verbose) ConDebug.Log($"w={w} / h={h}");
     }
 
     FillResult FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint)

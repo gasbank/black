@@ -55,6 +55,11 @@ public class MainGame : MonoBehaviour
     [SerializeField]
     float remainTime;
 
+    [SerializeField]
+    IslandShader3DController islandShader3DController;
+
+    public StageMetadata StageMetadata => stageMetadata;
+
     public bool CanInteractPanAndZoom => islandLabelSpawner.IsLabelByMinPointEmpty == false;
 
     async void Start()
@@ -120,7 +125,8 @@ public class MainGame : MonoBehaviour
         nameplateGroup.TitleText = stageMetadata.StageSequenceData.title;
         nameplateGroup.DescText = stageMetadata.StageSequenceData.desc;
 
-        targetImage.SetTargetImageMaterial(skipBlackMaterial);
+        //targetImage.SetTargetImageMaterial(skipBlackMaterial);
+        islandShader3DController.Initialize(stageMetadata);
 
         targetImageOutline.material = stageMetadata.SdfMaterial;
         // SDF 머티리얼 없으면 아예 이 이미지는 안보이게 하자.
