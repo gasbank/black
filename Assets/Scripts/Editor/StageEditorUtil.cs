@@ -209,6 +209,7 @@ internal static class StageEditorUtil
         else
         {
             StageMetadata.SetValues(stageMetadata, skipBlackMat, sdfMat, rawStageData, stageName, a1Tex, a2Tex);
+            EditorUtility.SetDirty(stageMetadata);
         }
 
         Debug.Log($"{stageName} stage created.");
