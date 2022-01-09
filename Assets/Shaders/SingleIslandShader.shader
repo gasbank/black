@@ -2,6 +2,7 @@ Shader "Unlit/NewUnlitShader"
 {
     Properties
     {
+        _MainTex ("Main", 2D) = "white" {}
         _A1Tex ("A1 Texture", 2D) = "white" {}
         _A2Tex ("A2 Texture", 2D) = "white" {}
     }
@@ -41,6 +42,7 @@ Shader "Unlit/NewUnlitShader"
                 float4 vertex : SV_POSITION;
             };
 
+            sampler2D _MainTex; // 안쓰지만 없으면 경고 메시지 나오니까 보기 싫어서 넣어 둔다.
             sampler2D_float _A1Tex;
             sampler2D_float _A2Tex;
             float4 _A1Tex_ST;

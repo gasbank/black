@@ -75,6 +75,7 @@ public class IslandShaderController : MonoBehaviour
 //            });
         }
 
+        rawImage.material.SetInt(IslandIndex, 0);
         InvokeRepeating(nameof(IncreaseIslandIndex), 5.0f, 0.01f);
     }
 
