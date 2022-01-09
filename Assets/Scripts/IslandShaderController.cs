@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -16,11 +17,20 @@ public class IslandShaderController : MonoBehaviour
     [SerializeField]
     AssetReferenceStageMetadata stageMetadataRef;
 
+    [SerializeField]
+    bool fullRender;
+    
+    [SerializeField]
+    bool singleIsland;
+    
+    StageData stageData;
+
     static readonly int A1Tex = Shader.PropertyToID("_A1Tex");
     static readonly int A2Tex = Shader.PropertyToID("_A2Tex");
     static readonly int Palette = Shader.PropertyToID("_Palette");
     static readonly int IslandIndex = Shader.PropertyToID("_IslandIndex");
-    StageData stageData;
+    static readonly int FullRender = Shader.PropertyToID("_FullRender");
+    static readonly int SingleIsland = Shader.PropertyToID("_SingleIsland");
 
     // Start is called before the first frame update
     async void Start()
@@ -79,7 +89,14 @@ public class IslandShaderController : MonoBehaviour
         }
 
         rawImage.materialForRendering.SetInt(IslandIndex, 0);
+        
         InvokeRepeating(nameof(IncreaseIslandIndex), 5.0f, 0.01f);
+    }
+
+    void Update()
+    {
+        rawImage.materialForRendering.SetFloat(FullRender, fullRender ? 1 : 0);
+        rawImage.materialForRendering.SetFloat(SingleIsland, singleIsland ? 1 : 0);
     }
 
     void IncreaseIslandIndex()

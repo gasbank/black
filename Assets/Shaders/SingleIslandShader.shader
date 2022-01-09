@@ -48,6 +48,8 @@ Shader "Unlit/NewUnlitShader"
             float4 _A1Tex_ST;
             float4 _Palette[64];
             int _IslandIndex;
+            float _FullRender;
+            float _SingleIsland;
 
             v2f vert (appdata v)
             {
@@ -68,8 +70,9 @@ Shader "Unlit/NewUnlitShader"
                 
                 float4 col = _Palette[paletteIndex];
                 
-                col.a = 1 - abs(islandIndex - _IslandIndex);
-                //col.a = 1;
+                //col.a = lerp(1 - abs(islandIndex - _IslandIndex), 1, _AlphaAdd);
+                col.a = lerp(lerp(islandIndex <= _IslandIndex ? 1 : 0, 1 - abs(islandIndex - _IslandIndex), _SingleIsland), 1, _FullRender);
+                
                 
                 // apply fog
                 //UNITY_APPLY_FOG(i.fogCoord, col);
