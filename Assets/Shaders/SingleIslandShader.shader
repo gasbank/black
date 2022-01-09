@@ -41,8 +41,8 @@ Shader "Unlit/NewUnlitShader"
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _A1Tex;
-            sampler2D _A2Tex;
+            sampler2D_float _A1Tex;
+            sampler2D_float _A2Tex;
             float4 _A1Tex_ST;
             float4 _Palette[64];
             int _IslandIndex;
