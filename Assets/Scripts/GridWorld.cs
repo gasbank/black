@@ -201,12 +201,14 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 }
                 else
                 {
-                    if (!BlackContext.instance.ComboAdminMode)
-                        BlackContext.instance.StageCombo = 0;
-
                     // 잘못된 팔레트 버튼으로 칠하려고 했을 때만 오류로 표시
                     if (fillResult == FillResult.WrongColor)
                     {
+                        if (!BlackContext.instance.ComboAdminMode)
+                        {
+                            BlackContext.instance.StageCombo = 0;
+                        }
+
                         Sound.instance.PlayFillError();
 
                         flickerImage.enabled = true;
