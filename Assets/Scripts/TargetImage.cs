@@ -35,25 +35,8 @@ public class TargetImage : MonoBehaviour
 
     public void ToggleDebugView()
     {
-        var alphaOffset = targetImage.material.GetFloat("AlphaOffset");
-        var activateOutline = false;
-        if (alphaOffset == 0)
-        {
-            // 디버그 렌더링
-            alphaOffset = 1;
-            activateOutline = false;
-            ConDebug.Log("Start debug view...");
-        }
-        else
-        {
-            // 일반 렌더링
-            alphaOffset = 0;
-            activateOutline = true;
-            ConDebug.Log("Start normal view...");
-        }
-
-        targetImage.material.SetFloat("AlphaOffset", alphaOffset);
-        targetImageOutine.gameObject.SetActive(activateOutline);
-        islandLabelSpawner.SetLabelBackgroundImageActive(activateOutline == false);
+        var newState = targetImageOutine.gameObject.activeSelf == false;
+        targetImageOutine.gameObject.SetActive(newState);   
+        islandLabelSpawner.SetLabelBackgroundImageActive(newState == false);
     }
 }
