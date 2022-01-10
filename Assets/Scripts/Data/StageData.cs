@@ -22,14 +22,15 @@ public class StageData
             MinPoint = minPoint;
             IslandData = islandData;
         }
-        
+
         public readonly uint MinPoint;
         public readonly IslandData IslandData;
     }
 
     public List<MinPointIslandData> CachedIslandDataList =>
         cachedIslandDataList ??
-        (cachedIslandDataList = islandDataByMinPoint.ToList().Select(e => new MinPointIslandData(e.Key, e.Value)).ToList());
+        (cachedIslandDataList = islandDataByMinPoint.OrderBy(e => e.Key).ToList()
+            .Select(e => new MinPointIslandData(e.Key, e.Value)).ToList());
 
     public uint[] CachedPaletteArray =>
         cachedColorUintArray ??
