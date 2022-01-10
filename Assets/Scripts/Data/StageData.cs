@@ -11,6 +11,30 @@ public class StageData
     // Min Point 별 섬 데이터
     public Dictionary<uint, IslandData> islandDataByMinPoint = new Dictionary<uint, IslandData>();
 
+    List<MinPointIslandData> cachedIslandDataList;
+
+    uint[] cachedColorUintArray;
+
+    public struct MinPointIslandData
+    {
+        public MinPointIslandData(uint minPoint, IslandData islandData)
+        {
+            MinPoint = minPoint;
+            IslandData = islandData;
+        }
+        
+        public readonly uint MinPoint;
+        public readonly IslandData IslandData;
+    }
+
+    public List<MinPointIslandData> CachedIslandDataList =>
+        cachedIslandDataList ??
+        (cachedIslandDataList = islandDataByMinPoint.ToList().Select(e => new MinPointIslandData(e.Key, e.Value)).ToList());
+
+    public uint[] CachedPaletteArray =>
+        cachedColorUintArray ??
+        (cachedColorUintArray = CreateColorUintArray());
+
     public uint[] CreateColorUintArray() => islandDataByMinPoint
         .Select(e => e.Value.rgba)
         .Distinct()

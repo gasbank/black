@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ConditionalDebug;
 using Dirichlet.Numerics;
 using TMPro;
@@ -108,16 +109,68 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 var a2Tex = mainGame.StageMetadata.A2Tex;
                 
                 ConvertLocalPointToIxy(localPoint, out var ix, out var iy);
-                var a1f = a1Tex.GetPixel(ix, iy);
-                var a2f = a2Tex.GetPixel(ix, iy);
-                Debug.Log($"Local Point: {localPoint}, IXY: ({ix},{iy}), A1f={a1f}, A2f={a2f}");
-                var a1 = (int) (a1f.a * 255);
-                var a2 = (int) (a2f.a * 255);
+                var a1Float = a1Tex.GetPixel(ix, iy);
+                var a2Float = a2Tex.GetPixel(ix, iy);
+                Debug.Log($"Local Point: {localPoint}, IXY: ({ix},{iy}), A1f={a1Float}, A2f={a2Float}");
+                var a1 = (int) (a1Float.a * 255);
+                var a2 = (int) (a2Float.a * 255);
+                var paletteIndex = a1 & ((1 << 6) - 1);
                 var islandIndex = ((a1 >> 6) & 0x3) | (a2 << 2);
-                islandShader3DController.SetIslandIndex(islandIndex);
-
-                var fillResult = FillResult.Good; // Fill(localPoint);
                 
+                var fillResult = FillResult.NotDetermined;
+
+                if (islandIndex == 0 && paletteIndex == 0)
+                {
+                    fillResult = FillResult.Outline;
+                }
+                else
+                {
+                    if (islandIndex <= 0 || islandIndex >= 1 + stageData.CachedIslandDataList.Count)
+                    {
+                        Debug.LogError("Out of range island index. [LOGIC ERROR]");
+                        fillResult = FillResult.OutsideOfCanvas;
+                    }
+
+                    if (paletteIndex <= 0 || paletteIndex >= 1 + stageData.CachedPaletteArray.Length)
+                    {
+                        Debug.LogError("Out of range island index. [LOGIC ERROR]");
+                        fillResult = FillResult.OutsideOfCanvas;
+                    }
+                }
+
+                if (fillResult == FillResult.NotDetermined)
+                {
+                    if (islandIndex > 0 && paletteIndex > 0)
+                    {
+                        // 유저가 선택한 칸의 정답 색상
+                        var solutionColorUint = stageData.CachedIslandDataList[islandIndex - 1].IslandData.rgba;
+                        
+                        // 유저가 선택한 칸의 Min Point
+                        var fillMinPointUint = stageData.CachedIslandDataList[islandIndex - 1].MinPoint;
+                        
+                        // 유저가 선택한 팔레트 색상
+                        var currentColorUint = paletteButtonGroup.CurrentPaletteColorUint;
+                        
+                        if (solutionColorUint == currentColorUint)
+                        {
+                            fillResult = FillResult.Good;
+                            
+                            // 실제로 채우기 렌더링한다.
+                            islandShader3DController.SetIslandIndex(islandIndex);
+                    
+                            UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint, false);
+                        }
+                        else
+                        {
+                            fillResult = FillResult.WrongColor;
+                        }
+                    }
+                    else
+                    {
+                        fillResult = FillResult.Outline;
+                    }
+                }
+
                 if (fillResult == FillResult.Good)
                 {
                     // 특별 코인 획득 연출 - 아직 완성되지 않은 기능이므로 런칭스펙에서는 빼자.
@@ -417,6 +470,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     enum FillResult
     {
+        NotDetermined,
         Good,
         Outline,
         WrongColor,

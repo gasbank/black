@@ -76,7 +76,13 @@ Shader "Unlit/NewUnlitShader"
                 paletteUv.x = (paletteIndex + 0.5f) / 64.0f;
                 paletteUv.y = 0;
                 float4 col = tex2D(_PaletteTex, paletteUv);
-                col.a = lerp(lerp(islandIndex <= _IslandIndex ? 1 : 0, 1 - abs(islandIndex - _IslandIndex), _SingleIsland), 1, _FullRender);
+                
+                // FULL VERSION
+                //col.a = lerp(lerp(islandIndex <= _IslandIndex ? 1 : 0, 1 - abs(islandIndex - _IslandIndex), _SingleIsland), 1, _FullRender);
+                
+                // OPTIMIZED VERSION
+                col.a = 1 - abs(islandIndex - _IslandIndex);
+                
                 return col;
             }
             ENDCG

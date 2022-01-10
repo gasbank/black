@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -15,7 +16,21 @@ public class TargetImageQuadCamera : MonoBehaviour
     }
 #endif
 
-    public void ClearCameraOnce() => clearOnce = false;
+    void Start()
+    {
+        RenderOneFrame();
+    }
+
+    public void RenderOneFrame()
+    {
+        cam.enabled = true;
+    }
+
+    public void ClearCameraOnce()
+    {
+        clearOnce = false;
+        RenderOneFrame();
+    }
 
     void OnPreRender()
     {
@@ -26,6 +41,8 @@ public class TargetImageQuadCamera : MonoBehaviour
 
     void OnPostRender()
     {
+        cam.enabled = false;
+        
         if (clearOnce) return;
         
         cam.clearFlags = CameraClearFlags.Nothing;

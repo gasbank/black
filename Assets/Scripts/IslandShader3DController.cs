@@ -88,5 +88,6 @@ public class IslandShader3DController : MonoBehaviour
     {
         islandIndex = inIslandIndex;
         rawImage.material.SetInt(IslandIndex, islandIndex);
+        targetImageQuadCamera.RenderOneFrame();
     }
 }
