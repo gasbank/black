@@ -40,6 +40,8 @@ public class PaletteButtonGroup : MonoBehaviour
         }
     }
 
+    public const uint InvalidPaletteColor = 0xffffffff;
+
     public uint CurrentPaletteColorUint
     {
         get
@@ -54,7 +56,7 @@ public class PaletteButtonGroup : MonoBehaviour
                 }
             }
 
-            return 0xffffffff;
+            return InvalidPaletteColor;
         }
     }
 

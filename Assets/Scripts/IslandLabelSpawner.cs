@@ -93,6 +93,11 @@ public class IslandLabelSpawner : MonoBehaviour
         }
     }
 
+    public bool ContainsMinPoint(uint minPointUint)
+    {
+        return labelByMinPoint.ContainsKey(minPointUint);
+    }
+
     public void DestroyLabelByMinPoint(uint minPointUint)
     {
         if (labelByMinPoint.TryGetValue(minPointUint, out var label))

@@ -119,7 +119,7 @@ public class MainGame : MonoBehaviour
         var colorTexture = Instantiate((Texture2D) skipBlackMaterial.GetTexture(ColorTexture));
         skipBlackMaterial.SetTexture(ColorTexture, colorTexture);
 
-        gridWorld.LoadTexture(colorTexture, stageData, maxIslandPixelArea);
+        gridWorld.LoadTexture(colorTexture, stageData);
         gridWorld.StageName = stageMetadata.name;
         nameplateGroup.ArtistText = stageMetadata.StageSequenceData.artist;
         nameplateGroup.TitleText = stageMetadata.StageSequenceData.title;

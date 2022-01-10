@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using ConditionalDebug;
 using Dirichlet.Numerics;
 using TMPro;
@@ -46,9 +45,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     [SerializeField]
     IslandLabelSpawner islandLabelSpawner;
-
-    [SerializeField]
-    int maxIslandPixelArea;
 
     [SerializeField]
     PaletteButtonGroup paletteButtonGroup;
@@ -105,6 +101,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, eventData.position, Camera.main,
                 out var localPoint))
             {
+                // 유저가 선택한 팔레트 색상
+                var currentColorUint = paletteButtonGroup.CurrentPaletteColorUint;
+
                 var a1Tex = mainGame.StageMetadata.A1Tex;
                 var a2Tex = mainGame.StageMetadata.A2Tex;
                 
@@ -118,8 +117,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 var islandIndex = ((a1 >> 6) & 0x3) | (a2 << 2);
                 
                 var fillResult = FillResult.NotDetermined;
-
-                if (islandIndex == 0 && paletteIndex == 0)
+                
+                if (currentColorUint == PaletteButtonGroup.InvalidPaletteColor)
+                {
+                    fillResult = FillResult.NoPaletteSelected;
+                }
+                else if (islandIndex == 0 && paletteIndex == 0)
                 {
                     fillResult = FillResult.Outline;
                 }
@@ -148,17 +151,22 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                         // 유저가 선택한 칸의 Min Point
                         var fillMinPointUint = stageData.CachedIslandDataList[islandIndex - 1].MinPoint;
                         
-                        // 유저가 선택한 팔레트 색상
-                        var currentColorUint = paletteButtonGroup.CurrentPaletteColorUint;
-                        
                         if (solutionColorUint == currentColorUint)
                         {
-                            fillResult = FillResult.Good;
-                            
-                            // 실제로 채우기 렌더링한다.
-                            islandShader3DController.SetIslandIndex(islandIndex);
-                    
-                            UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint, false);
+                            if (islandLabelSpawner.ContainsMinPoint(fillMinPointUint))
+                            {
+                                fillResult = FillResult.Good;
+
+                                // 실제로 채우기 렌더링한다.
+                                islandShader3DController.SetIslandIndex(islandIndex);
+
+                                UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint, false);
+                            }
+                            else
+                            {
+                                // 이미 올바르게 칠해진 칸이다.
+                                fillResult = FillResult.AlreadyFilled;
+                            }
                         }
                         else
                         {
@@ -279,11 +287,10 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         flickerImage.enabled = false;
     }
 
-    public void LoadTexture(Texture2D inputTexture, StageData inStageData, int inMaxIslandPixelArea)
+    public void LoadTexture(Texture2D inputTexture, StageData inStageData)
     {
         tex = inputTexture;
         stageData = inStageData;
-        maxIslandPixelArea = inMaxIslandPixelArea;
     }
 
     // 팔레트 정보 채워지고 난 뒤에 진행 상황 불러와야
@@ -317,117 +324,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         StageSaveManager.DeleteSaveFile(StageName);
     }
-
-    static bool ColorMatch(Color32 a, Color32 b)
-    {
-        return a.r == b.r && a.g == b.g && a.b == b.b && a.a == b.a;
-    }
     
-    bool CheckRange(Color32[] bitmap, int x, int y)
-    {
-        var index = x + y * TexSize;
-        return index >= 0 && index < bitmap.Length;
-    }
-
-    Color32 GetPixel(Color32[] bitmap, int x, int y)
-    {
-        return bitmap[x + y * TexSize];
-    }
-
-    void SetPixel(Color32[] bitmap, int x, int y, Color c)
-    {
-        bitmap[x + y * TexSize] = c;
-    }
-
-    void UpdateFillMinPoint(ref Vector2Int fillMinPoint, Vector2Int bitmapPoint)
-    {
-        // *** 주의 ***
-        // min point 값은 플레이어가 입력한 좌표에서 Y축이 반전된 좌표계이다.
-        var invertedBitmapPoint = BlackConvert.GetInvertedY(bitmapPoint, TexSize);
-        if (fillMinPoint.x > invertedBitmapPoint.x ||
-            fillMinPoint.x == invertedBitmapPoint.x && fillMinPoint.y > invertedBitmapPoint.y)
-        {
-            fillMinPoint.x = invertedBitmapPoint.x;
-            fillMinPoint.y = invertedBitmapPoint.y;
-        }
-    }
-
-    bool FloodFill(Color32[] bitmap, Vector2Int bitmapPoint, Color32 targetColor, uint replacementColorUint,
-        bool forceSolutionColor)
-    {
-        var q = new Queue<Vector2Int>();
-        q.Enqueue(bitmapPoint);
-        var fillMinPoint = new Vector2Int(TexSize, TexSize);
-        ICollection<Vector2Int> pixelList = new List<Vector2Int>();
-        var replacementColor = BlackConvert.GetColor(replacementColorUint);
-        while (q.Count > 0)
-        {
-            var n = q.Dequeue();
-            if (!ColorMatch(GetPixel(bitmap, n.x, n.y), targetColor))
-                continue;
-            Vector2Int w = n, e = new Vector2Int(n.x + 1, n.y);
-            while (w.x >= 0 && ColorMatch(GetPixel(bitmap, w.x, w.y), targetColor))
-            {
-                if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, w) == false)
-                    // ERROR
-                    return false;
-
-                if (w.y > 0 && ColorMatch(GetPixel(bitmap, w.x, w.y - 1), targetColor))
-                    q.Enqueue(new Vector2Int(w.x, w.y - 1));
-                if (w.y < TexSize - 1 && ColorMatch(GetPixel(bitmap, w.x, w.y + 1), targetColor))
-                    q.Enqueue(new Vector2Int(w.x, w.y + 1));
-                w.x--;
-            }
-
-            while (e.x <= TexSize - 1 && ColorMatch(GetPixel(bitmap, e.x, e.y), targetColor))
-            {
-                if (SetPixelAndUpdateMinPoint(bitmap, ref fillMinPoint, pixelList, replacementColor, e) == false)
-                    // ERROR
-                    return false;
-
-                if (e.y > 0 && ColorMatch(GetPixel(bitmap, e.x, e.y - 1), targetColor))
-                    q.Enqueue(new Vector2Int(e.x, e.y - 1));
-                if (e.y < TexSize - 1 && ColorMatch(GetPixel(bitmap, e.x, e.y + 1), targetColor))
-                    q.Enqueue(new Vector2Int(e.x, e.y + 1));
-                e.x++;
-            }
-        }
-
-        if (Verbose) ConDebug.Log($"FloodFill algorithm found {pixelList.Count} pixels to be flooded.");
-        if (Verbose) ConDebug.Log($"Starting from {bitmapPoint} and found {fillMinPoint} as a min point.");
-
-        if (pixelList.Count > 0)
-        {
-            // 이 지점부터 fillMinPoint는 유효한 값을 가진다.
-            var fillMinPointUint = BlackConvert.GetP(fillMinPoint);
-
-            // 디버그 출력
-            if (Verbose)
-                if (pixelList.Count <= 128)
-                    foreach (var pixel in pixelList)
-                        if (Verbose)
-                            ConDebug.Log($"Fill Pixel: {pixel.x}, {TexSize - pixel.y - 1}");
-
-            if (Verbose) ConDebug.Log($"Fill Min Point: {fillMinPoint.x}, {fillMinPoint.y}");
-            var solutionColorUint = stageData.islandDataByMinPoint[fillMinPointUint].rgba;
-            if (Verbose) ConDebug.Log($"Solution Color (uint): {solutionColorUint} (0x{solutionColorUint:X8})");
-            if (forceSolutionColor || solutionColorUint == replacementColorUint)
-            {
-                var solutionColor = BlackConvert.GetColor32(solutionColorUint);
-                if (Verbose) ConDebug.Log($"Solution Color RGB: {solutionColor.r},{solutionColor.g},{solutionColor.b}");
-                foreach (var pixel in pixelList) SetPixel(bitmap, pixel.x, pixel.y, solutionColor);
-
-                UpdatePaletteBySolutionColor(fillMinPointUint, solutionColorUint, false);
-                return true;
-            }
-
-            // 틀리면 다시 흰색으로 칠해야 한다.
-            foreach (var pixel in pixelList) SetPixel(bitmap, pixel.x, pixel.y, Color.white);
-        }
-
-        return false;
-    }
-
     void UpdatePaletteBySolutionColor(uint fillMinPointUint, uint solutionColorUint, bool batch)
     {
         islandLabelSpawner.DestroyLabelByMinPoint(fillMinPointUint);
@@ -443,31 +340,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         paletteButtonGroup.UpdateColoredCount(solutionColorUint, coloredIslandCount, batch);
     }
 
-    bool SetPixelAndUpdateMinPoint(Color32[] bitmap, ref Vector2Int fillMinPoint,
-        ICollection<Vector2Int> pixelList, Color replacementColor, Vector2Int bitmapPoint)
-    {
-        // 일단 여기서 replacementColor로 변경 해 둬야 이 알고리즘이 작동한다.
-        // 진짜 색깔로 칠하는 건 나중에 pixelList에 모아둔 값으로 제대로 한다.
-        SetPixel(bitmap, bitmapPoint.x, bitmapPoint.y, replacementColor);
-
-//        if (pixelList.Contains(bitmapPoint))
-//        {
-//            Debug.LogError("pixelList duplicated item should not be inserted.");
-//        }
-
-        pixelList.Add(bitmapPoint);
-        //tex.SetPixel(bitmapPoint.x, bitmapPoint.y, replacementColor);
-        if (pixelList.Count > maxIslandPixelArea)
-        {
-            Debug.LogError(
-                $"CRITICAL LOGIC ERROR: TOO BIG ISLAND. Allowed pixel area is {maxIslandPixelArea}, but this time {pixelList.Count}!!! Bug. FloodFill() aborted.");
-            //return false;
-        }
-
-        UpdateFillMinPoint(ref fillMinPoint, bitmapPoint);
-        return true;
-    }
-
     enum FillResult
     {
         NotDetermined,
@@ -477,24 +349,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         AlreadyFilled,
         NoPaletteSelected,
         OutsideOfCanvas,
-    }
-
-    FillResult Fill(Vector2 localPoint)
-    {
-        try
-        {
-            ConvertLocalPointToIxy(localPoint, out var ix, out var iy);
-
-            return FloodFillVec2IntAndApplyWithCurrentPaletteColor(new Vector2Int(ix, iy));
-        }
-        catch (IndexOutOfRangeException)
-        {
-            return FillResult.OutsideOfCanvas;
-        }
-        catch (KeyNotFoundException)
-        {
-            return FillResult.OutsideOfCanvas;
-        }
     }
 
     void ConvertLocalPointToIxy(Vector2 localPoint, out int ix, out int iy)
@@ -507,43 +361,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         iy = (int) ((localPoint.y + h / 2) / h * tex.height);
 
         if (Verbose) ConDebug.Log($"w={w} / h={h}");
-    }
-
-    FillResult FloodFillVec2IntAndApplyWithCurrentPaletteColor(Vector2Int bitmapPoint)
-    {
-        if (paletteButtonGroup.CurrentPaletteColor == Color.white)
-        {
-            return FillResult.NoPaletteSelected;
-        }
-        
-        var bitmap = tex.GetPixels32();
-
-        if (CheckRange(bitmap, bitmapPoint.x, bitmapPoint.y) == false)
-        {
-            return FillResult.OutsideOfCanvas;
-        }
-        
-        var bitmapPointColor = GetPixel(bitmap, bitmapPoint.x, bitmapPoint.y);
-
-        if (bitmapPointColor == Color.black)
-        {
-            return FillResult.Outline;
-        }
-
-        if (bitmapPointColor != Color.white)
-        {
-            return FillResult.AlreadyFilled;
-        }
-        
-        var result = FloodFill(bitmap, bitmapPoint, Color.white, paletteButtonGroup.CurrentPaletteColorUint, false);
-        
-        if (!result) return FillResult.WrongColor;
-        
-        tex.SetPixels32(bitmap);
-        tex.Apply();
-
-        return FillResult.Good;
-
     }
 
     public int[] CountWhiteAndBlackInBitmap()
