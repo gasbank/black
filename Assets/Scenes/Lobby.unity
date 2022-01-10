@@ -7207,7 +7207,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Set Last Cleared Stage ID
 --- !u!222 &1123613569
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13757,7 +13757,7 @@ GameObject:
   - component: {fileID: 2078375188}
   - component: {fileID: 2078375187}
   m_Layer: 5
-  m_Name: Button (7)
+  m_Name: Set Last Cleared Stage ID
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13826,7 +13826,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2078375188}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1059855755}
+        m_TargetAssemblyTypeName: Admin, Black
+        m_MethodName: SetLastClearedStageId
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2078375188
 MonoBehaviour:
   m_ObjectHideFlags: 0

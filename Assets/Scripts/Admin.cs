@@ -499,4 +499,21 @@ public class Admin : MonoBehaviour
         PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
 #endif
     }
+    
+    public void SetLastClearedStageId()
+    {
+#if BLACK_ADMIN
+        ConfirmPopup.instance.OpenInputFieldPopup("Last Cleared Stage ID",
+            () =>
+            {
+                if (int.TryParse(ConfirmPopup.instance.InputFieldText, out var stageId))
+                {
+                    BlackContext.instance.LastClearedStageId = stageId;
+                }
+                ConfirmPopup.instance.Close();
+            },
+            ConfirmPopup.instance.Close, "ADMIN", Header.Normal, BlackContext.instance.LastClearedStageId.ToString(), "");
+        CloseAdminMenu();
+#endif
+    }
 }
