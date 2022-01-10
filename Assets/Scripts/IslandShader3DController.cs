@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -9,10 +10,6 @@ public class IslandShader3DController : MonoBehaviour
     MeshRenderer rawImage;
 
     [SerializeField]
-    [Range(0, 4)]
-    int islandIndex;
-
-    [SerializeField]
     bool fullRender;
     
     [SerializeField]
@@ -20,7 +17,7 @@ public class IslandShader3DController : MonoBehaviour
 
     [SerializeField]
     TargetImageQuadCamera targetImageQuadCamera;
-    
+
     StageData stageData;
 
     static readonly int A1Tex = Shader.PropertyToID("_A1Tex");
@@ -76,18 +73,25 @@ public class IslandShader3DController : MonoBehaviour
             rawImage.material.SetTexture(PaletteTex, paletteTex);
         }
 
-        SetIslandIndex(0);
-        
+        for (var i = 0; i < 1; i++)
+        {
+            EnqueueIslandIndex(i);
+        }
+
         rawImage.material.SetFloat(FullRender, fullRender ? 1 : 0);
         rawImage.material.SetFloat(SingleIsland, singleIsland ? 1 : 0);
         
         targetImageQuadCamera.ClearCameraOnce();
     }
 
-    public void SetIslandIndex(int inIslandIndex)
+    public void SetIslandIndex(int islandIndex)
     {
-        islandIndex = inIslandIndex;
         rawImage.material.SetInt(IslandIndex, islandIndex);
         targetImageQuadCamera.RenderOneFrame();
+    }
+
+    public void EnqueueIslandIndex(int islandIndex)
+    {
+        targetImageQuadCamera.EnqueueIslandIndex(islandIndex);
     }
 }
