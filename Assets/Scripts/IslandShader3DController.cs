@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -12,9 +11,6 @@ public class IslandShader3DController : MonoBehaviour
     [SerializeField]
     [Range(0, 4)]
     int islandIndex;
-
-    [SerializeField]
-    AssetReferenceStageMetadata stageMetadataRef;
 
     [SerializeField]
     bool fullRender;
@@ -33,32 +29,7 @@ public class IslandShader3DController : MonoBehaviour
     static readonly int IslandIndex = Shader.PropertyToID("_IslandIndex");
     static readonly int FullRender = Shader.PropertyToID("_FullRender");
     static readonly int SingleIsland = Shader.PropertyToID("_SingleIsland");
-
-    // Start is called before the first frame update
-    async void LoadStageMetadataRefAsync(AssetReferenceStageMetadata inStageMetadataRef)
-    {
-//        var a1Tex = new Texture2D(2, 2, TextureFormat.Alpha8, false, false);
-//        a1Tex.SetPixel(0, 0, new Color32(0, 0, 0, 0 | 0));
-//        a1Tex.SetPixel(1, 0, new Color32(0, 0, 0, 1 | (1 << 6)));
-//        a1Tex.SetPixel(0, 1, new Color32(0, 0, 0, 2 | (2 << 6)));
-//        a1Tex.SetPixel(1, 1, new Color32(0, 0, 0, 3 | (3 << 6)));
-//        a1Tex.filterMode = FilterMode.Point;
-//        a1Tex.wrapMode = TextureWrapMode.Clamp;
-//        a1Tex.Apply();
-//        
-//        var a2Tex = new Texture2D(2, 2, TextureFormat.Alpha8, false, false);
-//        a2Tex.SetPixel(0, 0, new Color32(0,0,0,0));
-//        a2Tex.SetPixel(1, 0, new Color32(0,0,0,0));
-//        a2Tex.SetPixel(0, 1, new Color32(0,0,0,0));
-//        a2Tex.SetPixel(1, 1, new Color32(0,0,0,0));
-//        a2Tex.filterMode = FilterMode.Point;
-//        a2Tex.wrapMode = TextureWrapMode.Clamp;
-//        a2Tex.Apply();
-
-
-        var stageMetadata = await inStageMetadataRef.LoadAssetAsync().Task;
-        Initialize(stageMetadata);
-    }
+    static readonly int PaletteTex = Shader.PropertyToID("_PaletteTex");
 
     public void Initialize(StageMetadata stageMetadata)
     {
@@ -86,40 +57,36 @@ public class IslandShader3DController : MonoBehaviour
         {
             var paletteArray = colorUintArray.Select(BlackConvert.GetColor).ToArray();
             rawImage.material.SetColorArray(Palette, paletteArray);
+            
+            var paletteTex = new Texture2D(64, 1, TextureFormat.RGBA32, false);
+            Color[] paddedPaletteArray;
+            if (paletteArray.Length < 64)
+            {
+                paddedPaletteArray = paletteArray.Concat(Enumerable.Repeat(Color.black, 64 - paletteArray.Length)).ToArray();
+            }
+            else
+            {
+                paddedPaletteArray = paletteArray;
+            }
+            paletteTex.SetPixels(paddedPaletteArray);
+            paletteTex.filterMode = FilterMode.Point;
+            paletteTex.wrapMode = TextureWrapMode.Clamp;
+            paletteTex.Apply();
 
-//            rawImage.material.SetColorArray(Palette, new List<Color>
-//            {
-//                Color.red, Color.green, Color.blue, Color.white
-//            });
+            rawImage.material.SetTexture(PaletteTex, paletteTex);
         }
 
         SetIslandIndex(0);
         
+        rawImage.material.SetFloat(FullRender, fullRender ? 1 : 0);
+        rawImage.material.SetFloat(SingleIsland, singleIsland ? 1 : 0);
+        
         targetImageQuadCamera.ClearCameraOnce();
-
-        //InvokeRepeating(nameof(IncreaseIslandIndex), 1.0f, 0.01f);
     }
 
     public void SetIslandIndex(int inIslandIndex)
     {
         islandIndex = inIslandIndex;
         rawImage.material.SetInt(IslandIndex, islandIndex);
-    }
-
-    void Update()
-    {
-        //IncreaseIslandIndex();
-        rawImage.material.SetFloat(FullRender, fullRender ? 1 : 0);
-        rawImage.material.SetFloat(SingleIsland, singleIsland ? 1 : 0);
-    }
-
-    void IncreaseIslandIndex()
-    {
-        if (stageData == null)
-        {
-            return;
-        }
-        
-        SetIslandIndex((islandIndex + 1) % (1 + stageData.islandDataByMinPoint.Count)); // 첫 번째 섬은 언제나 외곽선 전용이다.
     }
 }
