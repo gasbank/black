@@ -9,12 +9,18 @@ Shader "Unlit/NewUnlitShader"
     }
     SubShader
     {
-        Tags {
-            "Queue" = "Transparent"
-             "RenderType"="Transparent"
-             //"RenderType"="Opaque"
-      }
-        LOD 100
+        Tags
+        {
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
+            "PreviewType"="Plane"
+            "CanUseSpriteAtlas"="True"
+        }
+        
+        Cull Off
+        Lighting Off
+        ZWrite Off
         
         Blend SrcAlpha OneMinusSrcAlpha // Traditional transparency
 
