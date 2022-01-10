@@ -182,7 +182,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 if (fillResult == FillResult.Good)
                 {
                     // 특별 코인 획득 연출 - 아직 완성되지 않은 기능이므로 런칭스펙에서는 빼자.
-                    //StartAnimateFillCoin(localPoint);
+                    StartAnimateFillCoin(localPoint);
 
                     Sound.instance.PlayFillOkay();
 
