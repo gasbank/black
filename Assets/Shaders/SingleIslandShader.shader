@@ -62,20 +62,14 @@ Shader "Unlit/NewUnlitShader"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                int a1 = tex2D(_A1Tex, i.uv).a * 255;
-                int a2 = tex2D(_A2Tex, i.uv).a * 255;
+                float a1 = tex2D(_A1Tex, i.uv).a * 255.0f;
+                float a2 = tex2D(_A2Tex, i.uv).a * 255.0f;
                 
-                int paletteIndex = a1 & ((1 << 6) - 1);
-                int islandIndex = (a1 >> 6) | (a2 << 2);
+                int paletteIndex = (int)fmod(a1, 64.0f);
+                int islandIndex = (int)((a1 / 64.0f) + (a2 * 4.0f));
                 
                 float4 col = _Palette[paletteIndex];
-                
-                //col.a = lerp(1 - abs(islandIndex - _IslandIndex), 1, _AlphaAdd);
                 col.a = lerp(lerp(islandIndex <= _IslandIndex ? 1 : 0, 1 - abs(islandIndex - _IslandIndex), _SingleIsland), 1, _FullRender);
-                
-                
-                // apply fog
-                //UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
             ENDCG
