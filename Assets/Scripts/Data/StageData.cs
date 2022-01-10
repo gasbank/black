@@ -29,7 +29,7 @@ public class StageData
 
     public List<MinPointIslandData> CachedIslandDataList =>
         cachedIslandDataList ??
-        (cachedIslandDataList = islandDataByMinPoint.OrderBy(e => e.Key).ToList()
+        (cachedIslandDataList = islandDataByMinPoint.ToList()
             .Select(e => new MinPointIslandData(e.Key, e.Value)).ToList());
 
     public uint[] CachedPaletteArray =>
