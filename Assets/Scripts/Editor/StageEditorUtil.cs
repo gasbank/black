@@ -54,16 +54,43 @@ internal static class StageEditorUtil
             return;
         }
 
-        var assetPathParent = Path.GetDirectoryName(assetPath);
-        var stageName = Path.GetFileNameWithoutExtension(assetPathParent);
+        var assetDirName = Path.GetDirectoryName(assetPath);
+        if (string.IsNullOrEmpty(assetDirName))
+        {
+            Debug.LogError("Asset path error");
+            return;
+        }
+        
+        var stageName = Path.GetFileNameWithoutExtension(assetDirName);
 
         if (showConfirm && !EditorUtility.DisplayDialog($"Import New Stage: {stageName}",
                 "This takes about 30-60 seconds to finish. Proceed?", "Proceed", "Cancel"))
         {
             return;
         }
-
-        Program.Main(new[] {"dit", assetPath, "30", "", "", stageName});
+        
+        var stageMetadataPath = Path.Combine(assetDirName, $"{stageName}.asset");
+        var stageMetadata = AssetDatabase.LoadAssetAtPath<StageMetadata>(stageMetadataPath);
+        var outlineThreshold = 30;
+        var maxPaletteCount = 30;
+        if (stageMetadata != null)
+        {
+            outlineThreshold = stageMetadata.OutlineThreshold;
+        }
+        
+        Debug.Log($"Max palette count: {maxPaletteCount}");
+        Debug.Log($"Outline threshold: {outlineThreshold}");
+        
+        Program.Main(new[]
+        {
+            /* 00 */ "dit",
+            /* 01 */ assetPath,
+            /* 02 */ maxPaletteCount.ToString(),
+            /* 03 */ "",
+            /* 04 */ "",
+            /* 05 */ stageName,
+            /* 06 */ outlineThreshold.ToString(),
+        });
 
         AssetDatabase.Refresh();
 

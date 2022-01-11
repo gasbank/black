@@ -17,12 +17,17 @@ public class StageMetadata : ScriptableObject
     [SerializeField]
     Texture2D a2Tex;
 
+    // 외곽선(블랙)으로 칠 색상의 최대치. 숫자가 커질수록 애매하게 검은 색상도 완전한 검은색으로 취급된다. 
+    [SerializeField]
+    int outlineThreshold = 30;
+
     public int StageIndex { get; set; }
 
     public Material SdfMaterial => sdfMaterial;
     public TextAsset RawStageData => rawStageData;
     public Texture2D A1Tex => a1Tex;
     public Texture2D A2Tex => a2Tex;
+    public int OutlineThreshold => outlineThreshold;
 
     public StageSequenceData StageSequenceData => Data.dataSet.StageSequenceData[StageIndex];
 

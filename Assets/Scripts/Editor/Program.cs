@@ -58,11 +58,11 @@ namespace black_dev_tools
         {
             try
             {
-                ProcessSingleFile(args, 20);
+                ProcessSingleFile(args, int.Parse(args[6]));
             }
             catch (IslandCountException)
             {
-                ProcessSingleFile(args, 30);
+                ProcessSingleFile(args, int.Parse(args[6]) + 10);
             }
             catch (DirectoryNotFoundException e)
             {
@@ -390,6 +390,7 @@ namespace black_dev_tools
                     {
                         if (errorAsWarning)
                         {
+                            // 이번엔 오류로 안친다.
                             Logger.WriteLine("Logic error in ExecuteDetermineIslandTest()! Invalid fillMinPoint");
                         }
                         else
@@ -402,6 +403,7 @@ namespace black_dev_tools
                     {
                         if (errorAsWarning)
                         {
+                            // 이번엔 오류로 안친다.
                             Logger.WriteLine(
                                 $"Logic error in ExecuteDetermineIslandTest()! Pixel area {pixelArea} expected to be {island.Value.pixelArea}");
                         }
@@ -626,6 +628,7 @@ namespace black_dev_tools
             var targetFileName = AppendToFileName(sourceFileName, "-Q");
 
             var quOpts = new QuantizerOptions {MaxColors = maxColor};
+            //var quantizer = new OctreeQuantizer(quOpts);
             var quantizer = new WuQuantizer(quOpts);
             var config = Configuration.Default;
             var pixelQuantizer = quantizer.CreatePixelSpecificQuantizer<Rgba32>(config);
