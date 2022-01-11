@@ -53,7 +53,7 @@ public class ProfilePopup : MonoBehaviour
                 if (stageMetadata.StageIndex + 1 <= BlackContext.instance.LastClearedStageId)
                 {
                     var stageButton = Instantiate(stageImagePrefab, stageImageParent).GetComponent<StageButton>();
-                    stageButton.SetStageMetadata(stageMetadata, true);
+                    stageButton.SetStageMetadata(stageMetadata);
                     stageButton.Unlock();
                 }
             }

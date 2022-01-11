@@ -182,9 +182,15 @@ public class ConfigPopup : MonoBehaviour
     void OpenPopup()
     {
         UpdateAllStates();
-        if (topAnimator) topAnimator.SetTrigger(Appear);
+        if (topAnimator != null)
+        {
+            topAnimator.SetTrigger(Appear);
+        }
+
         if (logoutButton)
+        {
             logoutButton.gameObject.SetActive(Application.isEditor || Application.platform == RuntimePlatform.Android);
+        }
     }
 
     void UpdateAllStates()

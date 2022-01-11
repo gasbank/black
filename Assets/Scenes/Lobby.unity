@@ -679,6 +679,7 @@ MonoBehaviour:
   bottomTip: {fileID: 0}
   stageLocker: {fileID: 1371517714}
   startStageButtonText: {fileID: 1625376952}
+  islandShader3DController: {fileID: 1928841656}
 --- !u!1 &152717751
 GameObject:
   m_ObjectHideFlags: 0
@@ -12203,6 +12204,40 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1696911667
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4450411005420098105, guid: 9caf9fd1d4b5fce4f99cc0b6fcbc1f84,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450411005420098105, guid: 9caf9fd1d4b5fce4f99cc0b6fcbc1f84,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450411005420098105, guid: 9caf9fd1d4b5fce4f99cc0b6fcbc1f84,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450411005420098105, guid: 9caf9fd1d4b5fce4f99cc0b6fcbc1f84,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450411005420098108, guid: 9caf9fd1d4b5fce4f99cc0b6fcbc1f84,
+        type: 3}
+      propertyPath: m_Name
+      value: Camera (Target Image Quad)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9caf9fd1d4b5fce4f99cc0b6fcbc1f84, type: 3}
 --- !u!1 &1728296759
 GameObject:
   m_ObjectHideFlags: 0
@@ -13226,6 +13261,18 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1928841656 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4450411004898373476, guid: 9caf9fd1d4b5fce4f99cc0b6fcbc1f84,
+    type: 3}
+  m_PrefabInstance: {fileID: 1696911667}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3e9f213f5032b4a8830676ae48d1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1938468018
 GameObject:
   m_ObjectHideFlags: 0
@@ -14630,7 +14677,8 @@ PrefabInstance:
       propertyPath: stageStar
       value: 
       objectReference: {fileID: 1392627618}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4218441011526792390, guid: 564bc9a6f572c466c930b34fac454578, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 564bc9a6f572c466c930b34fac454578, type: 3}
 --- !u!1001 &7475867358837369472
 PrefabInstance:

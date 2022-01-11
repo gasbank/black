@@ -37,7 +37,8 @@ public class StageSaveManager : MonoBehaviour
     {
         ConDebug.Log($"Saving save data for '{stageName}'...");
         InitializeMessagePackConditional();
-        var bytes = MessagePackSerializer.Serialize(CreateWipStageSaveData(stageName, coloredMinPoints, remainTime, null),
+        var bytes = MessagePackSerializer.Serialize(
+            CreateWipStageSaveData(stageName, coloredMinPoints, remainTime, null),
             Data.DefaultOptions);
         FileUtil.SaveAtomically(GetStageSaveFileName(stageName), bytes);
     }
@@ -53,7 +54,7 @@ public class StageSaveManager : MonoBehaviour
         File.Delete(wipPngPath);
     }
 
-    public StageSaveData Load(string stageName)
+    public static StageSaveData Load(string stageName)
     {
         try
         {
@@ -62,27 +63,37 @@ public class StageSaveManager : MonoBehaviour
             var bytes = File.ReadAllBytes(FileUtil.GetPath(GetStageSaveFileName(stageName)));
             ConDebug.Log($"{bytes.Length} bytes loaded.");
             var stageSaveData = MessagePackSerializer.Deserialize<StageSaveData>(bytes, Data.DefaultOptions);
-
-            var targetImageTransform = targetImage.transform;
-            var targetImageLocPos = targetImageTransform.localPosition;
-            
-            targetImageTransform.localPosition = new Vector3(stageSaveData.targetImageCenterX,
-                stageSaveData.targetImageCenterY, targetImageLocPos.z);
-            
-            pinchZoom.ZoomValue = stageSaveData.zoomValue;
-            
             return stageSaveData;
         }
         catch (FileNotFoundException)
         {
             ConDebug.Log("No save data exist.");
-            return CreateWipStageSaveData(stageName, new HashSet<uint>(), StageButton.CurrentStageMetadata != null ? StageButton.CurrentStageMetadata.StageSequenceData.remainTime : 0, null);
+            return null;
         }
         catch (IsolatedStorageException)
         {
             ConDebug.Log("No save data exist.");
-            return CreateWipStageSaveData(stageName, new HashSet<uint>(), StageButton.CurrentStageMetadata != null ? StageButton.CurrentStageMetadata.StageSequenceData.remainTime : 0, null);
+            return null;
         }
+    }
+
+    public StageSaveData CreateStageSaveData(string stageName)
+    {
+        return CreateWipStageSaveData(stageName, new HashSet<uint>(),
+            StageButton.CurrentStageMetadata != null
+                ? StageButton.CurrentStageMetadata.StageSequenceData.remainTime
+                : 0, null);
+    }
+
+    public void RestoreCameraState(StageSaveData stageSaveData)
+    {
+        var targetImageTransform = targetImage.transform;
+        var targetImageLocPos = targetImageTransform.localPosition;
+
+        targetImageTransform.localPosition = new Vector3(stageSaveData.targetImageCenterX,
+            stageSaveData.targetImageCenterY, targetImageLocPos.z);
+
+        pinchZoom.ZoomValue = stageSaveData.zoomValue;
     }
 
     public static bool LoadWipPng(string stageName, Texture2D tex)

@@ -32,6 +32,9 @@ public class StageDetail : MonoBehaviour
     [SerializeField]
     Text startStageButtonText;
 
+    [SerializeField]
+    IslandShader3DController islandShader3DController;
+
     public static bool IsAllCleared => BlackContext.instance.LastClearedStageId >= Data.dataSet.StageSequenceData.Count;
 
     public float StageLockDetailTime
@@ -79,6 +82,31 @@ public class StageDetail : MonoBehaviour
         // 마지막 클리어한 ID는 1-based이고, 아래 함수는 0-based로 작동하므로
         // 다음으로 플레이할 스테이지를 가져올 때는 그대로 ID를 넘기면 된다.
         var stageMetadata = await LoadStageMetadataByZeroBasedIndexAsync(lastClearedStageId);
+
+        if (stageMetadata == null)
+        {
+            // 중대 문제
+            Debug.LogError("Stage metadata is null");
+            return;
+        }
+        
+        islandShader3DController.Initialize(stageMetadata);
+        
+        var stageSaveData = StageSaveManager.Load(stageMetadata.name);
+        if (stageSaveData != null)
+        {
+            foreach (var minPoint in stageSaveData.coloredMinPoints)
+            {
+                if (stageMetadata.StageData.islandDataByMinPoint.TryGetValue(minPoint, out var islandData))
+                {
+                    islandShader3DController.EnqueueIslandIndex(islandData.index);
+                }
+                else
+                {
+                    Debug.LogError($"Island data (min point = {minPoint} cannot be found in StageData.");
+                }
+            }
+        }
 
         ProgressMessage.instance.Close();
         var resumed = stageButton.SetStageMetadata(stageMetadata);

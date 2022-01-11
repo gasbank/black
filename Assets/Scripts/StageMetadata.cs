@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 public class StageMetadata : ScriptableObject
 {
@@ -22,6 +25,22 @@ public class StageMetadata : ScriptableObject
     public Texture2D A2Tex => a2Tex;
 
     public StageSequenceData StageSequenceData => Data.dataSet.StageSequenceData[StageIndex];
+
+    // [NonSerialized] 속성을 안붙이면 cachedStageData가 null이 아니면서 내용물이 다 텅 빈 상태가 되기도 한다...
+    // 왜지...?
+    [NonSerialized]
+    StageData cachedStageData;
+
+    public StageData StageData => cachedStageData ??= LoadStageData();
+
+    StageData LoadStageData()
+    {
+        using var stream = new MemoryStream(RawStageData.bytes);
+        var formatter = new BinaryFormatter();
+        var stageData = (StageData) formatter.Deserialize(stream);
+        stream.Close();
+        return stageData;
+    }
 
 #if UNITY_EDITOR
     public static StageMetadata Create()

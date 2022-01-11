@@ -73,10 +73,7 @@ public class IslandShader3DController : MonoBehaviour
             rawImage.material.SetTexture(PaletteTex, paletteTex);
         }
 
-        for (var i = 0; i < 1; i++)
-        {
-            EnqueueIslandIndex(i);
-        }
+        EnqueueIslandIndex(0);
 
         rawImage.material.SetFloat(FullRender, fullRender ? 1 : 0);
         rawImage.material.SetFloat(SingleIsland, singleIsland ? 1 : 0);

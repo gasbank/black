@@ -301,8 +301,9 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         try
         {
-            var stageSaveData = stageSaveManager.Load(StageName);
-            LoadBatchFill(StageName, stageSaveData.coloredMinPoints);
+            var stageSaveData = StageSaveManager.Load(StageName) ?? stageSaveManager.CreateStageSaveData(StageName);
+            stageSaveManager.RestoreCameraState(stageSaveData);
+            RestorePaletteAndFillState(stageSaveData.coloredMinPoints);
             mainGame.SetRemainTime(stageSaveData.remainTime);
             if (IsLabelByMinPointEmpty)
             {
@@ -365,19 +366,18 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (Verbose) ConDebug.Log($"w={w} / h={h}");
     }
 
-    void LoadBatchFill(string stageName, HashSet<uint> inColoredMinPoints)
+    void RestorePaletteAndFillState(HashSet<uint> inColoredMinPoints)
     {
         if (Verbose)
         {
             ConDebug.Log($"Starting batch fill of {inColoredMinPoints.Count} points");
         }
 
-        //StageSaveManager.LoadWipPng(stageName, tex);
-
         if (inColoredMinPoints.Count <= 0) return;
         
         foreach (var minPoint in inColoredMinPoints)
         {
+            Debug.Log($"XXX: {minPoint}");
             if (stageData.islandDataByMinPoint.TryGetValue(minPoint, out var islandData))
             {
                 islandShader3DController.EnqueueIslandIndex(islandData.index);
