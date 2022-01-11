@@ -270,11 +270,28 @@ namespace black_dev_tools
 //                {
 //                    File.Delete(rasapFileName);
 //                }
-//                File.Delete(otbFileName);
-//                File.Delete(qFileName);
-//                File.Delete(fotsFileName);
-//                File.Delete(ditFileName);
-//                File.Delete(bbFileName);
+
+                var artifactsDirName = Path.GetDirectoryName(ChangeToArtifactsPath(bbFileName));
+                if (string.IsNullOrEmpty(artifactsDirName))
+                {
+                    throw  new ArgumentNullException();
+                }
+                
+                try
+                {
+                    Directory.Delete(artifactsDirName, true);
+                }
+                catch (DirectoryNotFoundException)
+                {
+                }
+
+                MoveOrOverwriteToArtifactsDirectory(bbFileName);
+                MoveOrOverwriteToArtifactsDirectory(ditFileName);
+                MoveOrOverwriteToArtifactsDirectory(fotsFileName);
+                MoveOrOverwriteToArtifactsDirectory(fsnbFileName);
+                MoveOrOverwriteToArtifactsDirectory(otbFileName);
+                MoveOrOverwriteToArtifactsDirectory(qFileName);
+                MoveOrOverwriteToArtifactsDirectory(rasapFileName);
             }
             else
             {
@@ -283,6 +300,36 @@ namespace black_dev_tools
             }
 
             Logger.WriteLine("Completed.");
+        }
+
+        static void MoveOrOverwriteToArtifactsDirectory(string path)
+        {
+            var artifactsPath = ChangeToArtifactsPath(path);
+            var artifactsDirName = Path.GetDirectoryName(artifactsPath);
+            if (string.IsNullOrEmpty(artifactsDirName))
+            {
+                throw new ArgumentNullException();
+            }
+            
+            Directory.CreateDirectory(artifactsDirName);
+            File.Delete(artifactsPath);
+            File.Move(path, artifactsPath);
+        }
+
+        static string ChangeToArtifactsPath(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentNullException();
+            }
+            
+            var dirName = Path.GetDirectoryName(path);
+            if (string.IsNullOrEmpty(dirName))
+            {
+                throw new ArgumentNullException();
+            }
+
+            return Path.Combine(dirName, "Artifacts~", Path.GetFileName(path));
         }
 
         // 섬 데이터와 외곽선 데이터를 이용해 색칠을 자동으로 해 본다.
@@ -324,7 +371,9 @@ namespace black_dev_tools
                 var a2Tex = new Image<Rgba32>(image.Width, image.Height, AllZeros);
 
                 var islandIndex = 1; // Island Index 0은 외곽선 용으로 예비한다.
-                foreach (var island in stageData.islandDataByMinPoint)
+                
+                // dictionary의 이터레이션 순서에 의존하면 안되고, island data에서 지정한 index 순서로 하자.
+                foreach (var island in stageData.islandDataByMinPoint.OrderBy(e => e.Value.index))
                 {
                     var minPoint = UInt32ToVector2Int(island.Key);
                     var targetColor = UInt32ToRgba32(island.Value.rgba);
@@ -509,15 +558,15 @@ namespace black_dev_tools
 
                 if (islandColorByMinPoint.Count < 1) throw new IslandCountException();
 
-                var islandIndex = 0;
-                foreach (var kv in islandColorByMinPoint)
+                var islandIndex = 1; // 0번째 island는 외곽선을 위해 예비한 값이다.
+                foreach (var kv in islandColorByMinPoint.OrderBy(kv => Vector2IntToUInt32(kv.Key)))
                 {
                     Logger.WriteLine(
                         $"Island #{islandIndex} fillMinPoint={kv.Key}, color={kv.Value}, area={islandPixelAreaByMinPoint[kv.Key]}");
                     islandIndex++;
                 }
 
-                var colorCountIndex = 0;
+                var colorCountIndex = 1; // 0 번째 컬러는 외곽선을 위해 예비한 블랙 값이다.
                 foreach (var kv in pixelCountByColor)
                 {
                     islandCountByColor.TryGetValue(kv.Key, out var islandCount);
@@ -536,15 +585,18 @@ namespace black_dev_tools
                 }
 
                 var stageData = new StageData();
-                foreach (var kv in islandPixelAreaByMinPoint)
+                var islandIndex2 = 1;
+                foreach (var kv in islandPixelAreaByMinPoint.OrderBy(kv => Vector2IntToUInt32(kv.Key)))
                 {
                     var p = Vector2IntToUInt32(kv.Key);
                     stageData.islandDataByMinPoint[p] = new IslandData
                     {
+                        index = islandIndex2,
                         pixelArea = islandPixelAreaByMinPoint[kv.Key],
                         rgba = Rgba32ToUInt32(islandColorByMinPoint[kv.Key]),
                         maxRect = maxRectByMinPoint[p]
                     };
+                    islandIndex2++;
                 }
 
                 var outputPath = Path.ChangeExtension(startFileName, "bytes");

@@ -70,7 +70,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     
     public Texture2D Tex => tex;
 
-    public int TexSize => tex.width;
+    public int TexSize => Tex.width;
 
     public string StageName { get; set; } = "TestStage";
 
@@ -359,27 +359,10 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         var w = rect.width;
         var h = rect.height;
 
-        ix = (int) ((localPoint.x + w / 2) / w * tex.width);
-        iy = (int) ((localPoint.y + h / 2) / h * tex.height);
+        ix = (int) ((localPoint.x + w / 2) / w * Tex.width);
+        iy = (int) ((localPoint.y + h / 2) / h * Tex.height);
 
         if (Verbose) ConDebug.Log($"w={w} / h={h}");
-    }
-
-    public int[] CountWhiteAndBlackInBitmap()
-    {
-        var bitmap = tex.GetPixels32();
-        var blackCount = 0;
-        var whiteCount = 0;
-        var otherCount = 0;
-        foreach (var b in bitmap)
-            if (b == Color.white)
-                whiteCount++;
-            else if (b == Color.black)
-                blackCount++;
-            else
-                otherCount++;
-
-        return new[] {blackCount, whiteCount, otherCount};
     }
 
     void LoadBatchFill(string stageName, HashSet<uint> inColoredMinPoints)
@@ -389,13 +372,21 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             ConDebug.Log($"Starting batch fill of {inColoredMinPoints.Count} points");
         }
 
-        StageSaveManager.LoadWipPng(stageName, tex);
+        //StageSaveManager.LoadWipPng(stageName, tex);
 
         if (inColoredMinPoints.Count <= 0) return;
-
+        
         foreach (var minPoint in inColoredMinPoints)
         {
-            UpdatePaletteBySolutionColor(minPoint, stageData.islandDataByMinPoint[minPoint].rgba, true);
+            if (stageData.islandDataByMinPoint.TryGetValue(minPoint, out var islandData))
+            {
+                islandShader3DController.EnqueueIslandIndex(islandData.index);
+                UpdatePaletteBySolutionColor(minPoint, islandData.rgba, true);
+            }
+            else
+            {
+                Debug.LogError($"Island data (min point = {minPoint} cannot be found in StageData.");
+            }
         }
     }
 
@@ -434,11 +425,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
     }
 
-    public StageSaveData CreateWipStageSaveData()
-    {
-        return stageSaveManager.CreateWipStageSaveData(StageName, coloredMinPoints, mainGame.GetRemainTime(), Tex.EncodeToPNG());
-    }
-    
     void OnApplicationQuit()
     {
         WriteStageSaveData();

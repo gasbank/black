@@ -71,16 +71,16 @@ public class StageButton : MonoBehaviour
         }
         else
         {
-            var blankTex2D = stageMetadata.SkipBlackMaterial.GetTexture(ColorTexture) as Texture2D;
-            if (blankTex2D != null)
-            {
-                image.sprite = Sprite.Create(blankTex2D, new Rect(0, 0, blankTex2D.width, blankTex2D.height),
-                    Vector2.one / 2);
-            }
-            else
-            {
-                Debug.LogError("Skip Black Material's Color Texture is null");
-            }
+//            var blankTex2D = stageMetadata.SkipBlackMaterial.GetTexture(ColorTexture) as Texture2D;
+//            if (blankTex2D != null)
+//            {
+//                image.sprite = Sprite.Create(blankTex2D, new Rect(0, 0, blankTex2D.width, blankTex2D.height),
+//                    Vector2.one / 2);
+//            }
+//            else
+//            {
+//                Debug.LogError("Skip Black Material's Color Texture is null");
+//            }
         }
 
         if (stageStar != null)

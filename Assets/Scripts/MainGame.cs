@@ -115,11 +115,12 @@ public class MainGame : MonoBehaviour
             ConDebug.Log($"Max island pixel area: {maxIslandPixelArea}");
         }
 
-        var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
-        var colorTexture = Instantiate((Texture2D) skipBlackMaterial.GetTexture(ColorTexture));
-        skipBlackMaterial.SetTexture(ColorTexture, colorTexture);
+        //var skipBlackMaterial = Instantiate(stageMetadata.SkipBlackMaterial);
+        //var colorTexture = Instantiate((Texture2D) skipBlackMaterial.GetTexture(ColorTexture));
+        //skipBlackMaterial.SetTexture(ColorTexture, colorTexture);
 
-        gridWorld.LoadTexture(colorTexture, stageData);
+        gridWorld.LoadTexture(stageMetadata.A1Tex, stageData);
+        
         gridWorld.StageName = stageMetadata.name;
         nameplateGroup.ArtistText = stageMetadata.StageSequenceData.artist;
         nameplateGroup.TitleText = stageMetadata.StageSequenceData.title;
@@ -136,8 +137,6 @@ public class MainGame : MonoBehaviour
 
         islandLabelSpawner.CreateAllLabels(stageData);
 
-        var counts = gridWorld.CountWhiteAndBlackInBitmap();
-
         remainTime = stageMetadata.StageSequenceData.remainTime;
 
         if (stageMetadata.StageSequenceData.remainTime > 0)
@@ -152,9 +151,6 @@ public class MainGame : MonoBehaviour
         if (Verbose)
         {
             ConDebug.Log($"Tex size: {gridWorld.TexSize}");
-            ConDebug.Log($"Black count: {counts[0]}");
-            ConDebug.Log($"White count: {counts[1]}");
-            ConDebug.Log($"Other count: {counts[2]}");
             ConDebug.Log($"CanInteractPanAndZoom = {CanInteractPanAndZoom}");
         }
 

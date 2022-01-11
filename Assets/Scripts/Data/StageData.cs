@@ -28,13 +28,12 @@ public class StageData
     }
 
     public List<MinPointIslandData> CachedIslandDataList =>
-        cachedIslandDataList ??
-        (cachedIslandDataList = islandDataByMinPoint.ToList()
-            .Select(e => new MinPointIslandData(e.Key, e.Value)).ToList());
+        cachedIslandDataList ??= islandDataByMinPoint
+            .Select(e => new MinPointIslandData(e.Key, e.Value))
+            .ToList();
 
     public uint[] CachedPaletteArray =>
-        cachedColorUintArray ??
-        (cachedColorUintArray = CreateColorUintArray());
+        cachedColorUintArray ??= CreateColorUintArray();
 
     public uint[] CreateColorUintArray() => islandDataByMinPoint
         .Select(e => e.Value.rgba)

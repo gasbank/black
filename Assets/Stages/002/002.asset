@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b23da9edfa09124e9e96153e459fd51, type: 3}
   m_Name: 002
   m_EditorClassIdentifier: 
-  friendlyStageName: 002
   rawStageData: {fileID: 4900000, guid: 2e4504e88719435468729a94b94b7c53, type: 3}
   sdfMaterial: {fileID: 2100000, guid: 1393396297312f2478675c1a8dd7d5c8, type: 2}
-  skipBlackMaterial: {fileID: 2100000, guid: 203b7e2c9f1ab7840bb8b1ada7f3c41d, type: 2}
   a1Tex: {fileID: 2800000, guid: c9ae3c5cd74a83243a907803456d6e27, type: 3}
   a2Tex: {fileID: 2800000, guid: 7b262b232d0a2e34c959adcdcff5439b, type: 3}

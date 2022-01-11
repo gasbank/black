@@ -156,22 +156,12 @@ internal static class StageEditorUtil
             return;
         }
 
-        if (fsnbTex == null)
-        {
-            Debug.LogError($"FSNB Texture not found on path '{fsnbTexPath}'");
-            return;
-        }
-
         Debug.Log(rawStageData);
 
         var sdfImporter = AssetImporter.GetAtPath(sdfTexPath);
         Debug.Log(sdfTex);
         Debug.Log(sdfPreset.ApplyTo(sdfImporter));
 
-        var fsnbImporter = AssetImporter.GetAtPath(fsnbTexPath);
-        Debug.Log(fsnbTex);
-        Debug.Log(fsnbPreset.ApplyTo(fsnbImporter));
-        
         var a1Importer = AssetImporter.GetAtPath(a1TexPath);
         Debug.Log(a1Tex);
         Debug.Log(a1A2Preset.ApplyTo(a1Importer));
@@ -179,15 +169,6 @@ internal static class StageEditorUtil
         var a2Importer = AssetImporter.GetAtPath(a2TexPath);
         Debug.Log(a2Tex);
         Debug.Log(a1A2Preset.ApplyTo(a2Importer));
-
-        var skipBlackMatPresetPath = "Assets/Presets/Material-SkipBlack.preset";
-        var skipBlackMatPreset = AssetDatabase.LoadAssetAtPath<Preset>(skipBlackMatPresetPath);
-
-        var skipBlackMat = new Material(Shader.Find("Specular"));
-        skipBlackMatPreset.ApplyTo(skipBlackMat);
-        skipBlackMat.SetTexture(ColorTexture, fsnbTex);
-        EditorUtility.SetDirty(skipBlackMat);
-        AssetDatabase.CreateAsset(skipBlackMat, Path.Combine(stageDir, $"{stageName}.mat"));
 
         var sdfMatPresetPath = "Assets/Presets/Material-SDF.preset";
         var sdfBlackMatPreset = AssetDatabase.LoadAssetAtPath<Preset>(sdfMatPresetPath);
@@ -203,12 +184,12 @@ internal static class StageEditorUtil
         if (stageMetadata == null)
         {
             var newStageMetadata = StageMetadata.Create();
-            StageMetadata.SetValues(newStageMetadata, skipBlackMat, sdfMat, rawStageData, stageName, a1Tex, a2Tex);
+            StageMetadata.SetValues(newStageMetadata, sdfMat, rawStageData, a1Tex, a2Tex);
             AssetDatabase.CreateAsset(newStageMetadata, stageMetadataPath);
         }
         else
         {
-            StageMetadata.SetValues(stageMetadata, skipBlackMat, sdfMat, rawStageData, stageName, a1Tex, a2Tex);
+            StageMetadata.SetValues(stageMetadata, sdfMat, rawStageData, a1Tex, a2Tex);
             EditorUtility.SetDirty(stageMetadata);
         }
 

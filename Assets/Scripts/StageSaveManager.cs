@@ -21,7 +21,6 @@ public class StageSaveManager : MonoBehaviour
     public void Save(string stageName, HashSet<uint> coloredMinPoints, GridWorld gridWorld, float remainTime)
     {
         SaveWipStageData(stageName, coloredMinPoints, remainTime);
-        SaveWipPngData(stageName, gridWorld);
     }
 
     public static string GetStageSaveFileName(string stageName)
@@ -32,20 +31,6 @@ public class StageSaveManager : MonoBehaviour
     public static string GetWipPngFileName(string stageName)
     {
         return stageName + ".png";
-    }
-
-    static void SaveWipPngData(string stageName, GridWorld gridWorld)
-    {
-        var bytes = gridWorld.Tex.EncodeToPNG();
-        if (bytes != null)
-        {
-            FileUtil.SaveAtomically(GetWipPngFileName(stageName), bytes);
-            ConDebug.Log($"WIP PNG '{GetWipPngFileName(stageName)}' written.");
-        }
-        else
-        {
-            ConDebug.LogWarning("No GridWorld.Tex to be saved.");
-        }
     }
 
     void SaveWipStageData(string stageName, HashSet<uint> coloredMinPoints, float remainTime)
@@ -115,7 +100,7 @@ public class StageSaveManager : MonoBehaviour
         return false;
     }
 
-    public StageSaveData CreateWipStageSaveData(string stageName, HashSet<uint> coloredMinPoints, float remainTime,
+    StageSaveData CreateWipStageSaveData(string stageName, HashSet<uint> coloredMinPoints, float remainTime,
         byte[] png)
     {
         var targetImageLocPos = targetImage.transform.localPosition;
