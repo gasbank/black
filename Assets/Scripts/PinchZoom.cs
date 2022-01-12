@@ -8,10 +8,10 @@ using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 public class PinchZoom : MonoBehaviour
 {
     [SerializeField]
-    float maxScale = 5.0f;
+    float maxScale = 7.0f;
 
     [SerializeField]
-    float minScale = 0.5f;
+    float minScale = 1.0f;
 
     [SerializeField]
     Transform targetImage;
@@ -63,7 +63,7 @@ public class PinchZoom : MonoBehaviour
         var deltaMagnitudeDiff = newMultiTouchDistance - lastMultiTouchDistance;
 
         // Slider 콜백을 유도한다.
-        ZoomValue = Mathf.Clamp(ZoomValue + deltaMagnitudeDiff / 200.0f, minScale, maxScale);
+        ZoomValue = Mathf.Clamp(ZoomValue + deltaMagnitudeDiff / (250.0f * 250.0f), minScale, maxScale);
 
         // Set the last distance calculation
         lastMultiTouchDistance = newMultiTouchDistance;
@@ -73,7 +73,7 @@ public class PinchZoom : MonoBehaviour
     public void Zoom(float scale)
     {
         var newScale = Mathf.Clamp(scale, minScale, maxScale);
-        targetImage.localScale = Vector3.one * newScale;
+        targetImage.localScale = newScale * newScale * Vector3.one;
     }
 
     public void ResetZoom()
