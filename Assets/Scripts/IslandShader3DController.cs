@@ -7,21 +7,20 @@ using UnityEngine.UI;
 public class IslandShader3DController : MonoBehaviour
 {
     [SerializeField]
-    StageMetadata stageMetadata;
-
-    [SerializeField]
-    Material targetMaterial;
-
-    [SerializeField]
     bool fullRender;
 
     [SerializeField]
     TargetImageQuadCamera targetImageQuadCamera;
 
     [SerializeField]
+    MeshRenderer targetMeshRenderer;
+    
+    [SerializeField]
     RawImage targetRawImage;
 
     StageData stageData;
+    
+    Material targetMaterial;
 
     static readonly int A1Tex = Shader.PropertyToID("_A1Tex");
     static readonly int A2Tex = Shader.PropertyToID("_A2Tex");
@@ -30,26 +29,35 @@ public class IslandShader3DController : MonoBehaviour
     static readonly int FullRender = Shader.PropertyToID("_FullRender");
     static readonly int PaletteTex = Shader.PropertyToID("_PaletteTex");
 
-    public void Initialize(StageMetadata inStageMetadata)
-    {
-        stageMetadata = inStageMetadata;
-        
-        if (stageMetadata != null)
+    public void Initialize(StageMetadata stageMetadata)
+    {   
+        // Material 인스턴스 런타임에 복제 생성한다.
+
+        if (targetMeshRenderer != null)
         {
-            targetMaterial = Instantiate(targetMaterial);
-            if (targetRawImage != null)
-            {
-                targetRawImage.material = targetMaterial;
-            }
+            targetMeshRenderer.material = Instantiate(targetMeshRenderer.material);
+            targetMaterial = targetMeshRenderer.material;
+        }
+        
+        if (targetRawImage != null)
+        {
+            targetRawImage.material = Instantiate(targetRawImage.material);
+            targetMaterial = targetRawImage.material;
         }
 
-        var a1Tex = inStageMetadata.A1Tex;
-        var a2Tex = inStageMetadata.A2Tex;
+        if (targetMaterial == null)
+        {
+            Debug.LogError("Target material null");
+            return;
+        }
+
+        var a1Tex = stageMetadata.A1Tex;
+        var a2Tex = stageMetadata.A2Tex;
 
         targetMaterial.SetTexture(A1Tex, a1Tex);
         targetMaterial.SetTexture(A2Tex, a2Tex);
 
-        using var stream = new MemoryStream(inStageMetadata.RawStageData.bytes);
+        using var stream = new MemoryStream(stageMetadata.RawStageData.bytes);
         var formatter = new BinaryFormatter();
         stageData = (StageData) formatter.Deserialize(stream);
         stream.Close();
