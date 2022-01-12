@@ -302,6 +302,14 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         try
         {
             var stageSaveData = StageSaveManager.Load(StageName) ?? stageSaveManager.CreateStageSaveData(StageName);
+            
+            // 이미 모두 다 칠한 상태인데, 재플레이 기능으로 들어온거라면 복원할 필요 없다. 
+            if (stageData.islandDataByMinPoint.Count <= stageSaveData.coloredMinPoints.Count
+                && StageButton.CurrentStageMetadataReplay)
+            {
+                stageSaveData = stageSaveManager.CreateStageSaveData(StageName);
+            }
+            
             stageSaveManager.RestoreCameraState(stageSaveData);
             RestorePaletteAndFillState(stageSaveData.coloredMinPoints);
             mainGame.SetRemainTime(stageSaveData.remainTime);

@@ -20,6 +20,7 @@ public class StageButton : MonoBehaviour
     StageLocker stageLocker;
 
     public static StageMetadata CurrentStageMetadata { get; private set; }
+    public static bool CurrentStageMetadataReplay { get; private set; }
 
     public void GoToMain()
     {
@@ -80,12 +81,13 @@ public class StageButton : MonoBehaviour
             return;
         }
         
-        SetCurrentStageMetadataForce(stageMetadata);
+        SetCurrentStageMetadataForce(stageMetadata, false);
     }
 
-    public static void SetCurrentStageMetadataForce(StageMetadata stageMetadata)
+    public static void SetCurrentStageMetadataForce(StageMetadata stageMetadata, bool replay)
     {
         CurrentStageMetadata = stageMetadata;
+        CurrentStageMetadataReplay = replay;
     }
 
     public void Unlock()
