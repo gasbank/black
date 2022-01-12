@@ -1,22 +1,25 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IslandShader3DController : MonoBehaviour
 {
     [SerializeField]
-    MeshRenderer rawImage;
+    StageMetadata stageMetadata;
+
+    [SerializeField]
+    Material targetMaterial;
 
     [SerializeField]
     bool fullRender;
-    
-    [SerializeField]
-    bool singleIsland;
 
     [SerializeField]
     TargetImageQuadCamera targetImageQuadCamera;
+
+    [SerializeField]
+    RawImage targetRawImage;
 
     StageData stageData;
 
@@ -25,18 +28,28 @@ public class IslandShader3DController : MonoBehaviour
     static readonly int Palette = Shader.PropertyToID("_Palette");
     static readonly int IslandIndex = Shader.PropertyToID("_IslandIndex");
     static readonly int FullRender = Shader.PropertyToID("_FullRender");
-    static readonly int SingleIsland = Shader.PropertyToID("_SingleIsland");
     static readonly int PaletteTex = Shader.PropertyToID("_PaletteTex");
 
-    public void Initialize(StageMetadata stageMetadata)
+    public void Initialize(StageMetadata inStageMetadata)
     {
-        var a1Tex = stageMetadata.A1Tex;
-        var a2Tex = stageMetadata.A2Tex;
+        stageMetadata = inStageMetadata;
+        
+        if (stageMetadata != null)
+        {
+            targetMaterial = Instantiate(targetMaterial);
+            if (targetRawImage != null)
+            {
+                targetRawImage.material = targetMaterial;
+            }
+        }
 
-        rawImage.material.SetTexture(A1Tex, a1Tex);
-        rawImage.material.SetTexture(A2Tex, a2Tex);
+        var a1Tex = inStageMetadata.A1Tex;
+        var a2Tex = inStageMetadata.A2Tex;
 
-        using var stream = new MemoryStream(stageMetadata.RawStageData.bytes);
+        targetMaterial.SetTexture(A1Tex, a1Tex);
+        targetMaterial.SetTexture(A2Tex, a2Tex);
+
+        using var stream = new MemoryStream(inStageMetadata.RawStageData.bytes);
         var formatter = new BinaryFormatter();
         stageData = (StageData) formatter.Deserialize(stream);
         stream.Close();
@@ -53,42 +66,52 @@ public class IslandShader3DController : MonoBehaviour
         else
         {
             var paletteArray = colorUintArray.Select(BlackConvert.GetColor).ToArray();
-            rawImage.material.SetColorArray(Palette, paletteArray);
-            
+            targetMaterial.SetColorArray(Palette, paletteArray);
+
             var paletteTex = new Texture2D(64, 1, TextureFormat.RGBA32, false);
             Color[] paddedPaletteArray;
             if (paletteArray.Length < 64)
             {
-                paddedPaletteArray = paletteArray.Concat(Enumerable.Repeat(Color.black, 64 - paletteArray.Length)).ToArray();
+                paddedPaletteArray = paletteArray.Concat(Enumerable.Repeat(Color.black, 64 - paletteArray.Length))
+                    .ToArray();
             }
             else
             {
                 paddedPaletteArray = paletteArray;
             }
+
             paletteTex.SetPixels(paddedPaletteArray);
             paletteTex.filterMode = FilterMode.Point;
             paletteTex.wrapMode = TextureWrapMode.Clamp;
             paletteTex.Apply();
 
-            rawImage.material.SetTexture(PaletteTex, paletteTex);
+            targetMaterial.SetTexture(PaletteTex, paletteTex);
         }
 
         EnqueueIslandIndex(0);
 
-        rawImage.material.SetFloat(FullRender, fullRender ? 1 : 0);
-        rawImage.material.SetFloat(SingleIsland, singleIsland ? 1 : 0);
-        
-        targetImageQuadCamera.ClearCameraOnce();
+        targetMaterial.SetFloat(FullRender, fullRender ? 1 : 0);
+
+        if (targetImageQuadCamera != null)
+        {
+            targetImageQuadCamera.ClearCameraOnce();
+        }
     }
 
     public void SetIslandIndex(int islandIndex)
     {
-        rawImage.material.SetInt(IslandIndex, islandIndex);
-        targetImageQuadCamera.RenderOneFrame();
+        targetMaterial.SetInt(IslandIndex, islandIndex);
+        if (targetImageQuadCamera)
+        {
+            targetImageQuadCamera.RenderOneFrame();
+        }
     }
 
     public void EnqueueIslandIndex(int islandIndex)
     {
-        targetImageQuadCamera.EnqueueIslandIndex(islandIndex);
+        if (targetImageQuadCamera != null)
+        {
+            targetImageQuadCamera.EnqueueIslandIndex(islandIndex);
+        }
     }
 }

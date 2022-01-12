@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c3e9f213f5032b4a8830676ae48d1ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rawImage: {fileID: 4450411004898373474}
+  targetMaterial: {fileID: 2100000, guid: ca9b3678145a6b54894bbe82627e7a76, type: 2}
   fullRender: 0
   singleIsland: 1
   targetImageQuadCamera: {fileID: 4450411005420098107}

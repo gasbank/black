@@ -1,12 +1,28 @@
 Shader "Unlit/NewUnlitShader"
 {
+
     Properties
     {
-        _MainTex ("Main", 2D) = "white" {}
-        _A1Tex ("A1 Texture", 2D) = "white" {}
-        _A2Tex ("A2 Texture", 2D) = "white" {}
-        _PaletteTex ("Palette Texture", 2D) = "white" {}
+        //_MainTex ("Main", 2D) = "white" {}
+        //_A1Tex ("A1 Texture", 2D) = "white" {}
+        //_A2Tex ("A2 Texture", 2D) = "white" {}
+        //_PaletteTex ("Palette Texture", 2D) = "white" {}
+        
+        /*
+        _StencilComp ("Stencil Comparison", Float) = 8
+        _Stencil ("Stencil ID", Float) = 0
+        _StencilOp ("Stencil Operation", Float) = 0
+        _StencilWriteMask ("Stencil Write Mask", Float) = 255
+        _StencilReadMask ("Stencil Read Mask", Float) = 255
+        
+        
+        _ColorMask ("Color Mask", Float) = 15
+
+        [Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
+        */
+        
     }
+    
     SubShader
     {
         Tags
@@ -17,20 +33,30 @@ Shader "Unlit/NewUnlitShader"
             "PreviewType"="Plane"
             "CanUseSpriteAtlas"="True"
         }
-        
+        /*
+        Stencil
+        {
+            Ref [_Stencil]
+            Comp [_StencilComp]
+            Pass [_StencilOp]
+            ReadMask [_StencilReadMask]
+            WriteMask [_StencilWriteMask]
+        }
+        */
         Cull Off
         Lighting Off
         ZWrite Off
-        
+        //ZTest [unity_GUIZTestMode]
         Blend SrcAlpha OneMinusSrcAlpha // Traditional transparency
-
+        //ColorMask [_ColorMask]
+        
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
-            #pragma multi_compile_fog
+            //#pragma multi_compile_fog
 
             #include "UnityCG.cginc"
             
@@ -58,7 +84,6 @@ Shader "Unlit/NewUnlitShader"
             float4 _Palette[64];
             int _IslandIndex;
             float _FullRender;
-            float _SingleIsland;
 
             v2f vert (appdata v)
             {
@@ -87,7 +112,7 @@ Shader "Unlit/NewUnlitShader"
                 //col.a = lerp(lerp(islandIndex <= _IslandIndex ? 1 : 0, 1 - abs(islandIndex - _IslandIndex), _SingleIsland), 1, _FullRender);
                 
                 // OPTIMIZED VERSION
-                col.a = 1 - abs(islandIndex - _IslandIndex);
+                col.a = 1 - saturate(abs(islandIndex - _IslandIndex)) + _FullRender;
                 
                 return col;
             }

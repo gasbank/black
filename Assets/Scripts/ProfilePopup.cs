@@ -1,10 +1,5 @@
-using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 [DisallowMultipleComponent]
 public class ProfilePopup : MonoBehaviour
@@ -17,6 +12,9 @@ public class ProfilePopup : MonoBehaviour
 
     [SerializeField]
     int cachedLastClearedStageId;
+
+    [SerializeField]
+    GameObject fullStageImagePrefab;
     
 #if UNITY_EDITOR
     void OnValidate()
@@ -35,28 +33,19 @@ public class ProfilePopup : MonoBehaviour
         
         stageImageParent.DestroyImmediateAllChildren();
 
-        var pngFiles = Directory.GetFiles(Application.persistentDataPath, "*.png")
-            .OrderBy(e => e, StringComparer.Ordinal);
-
-        foreach (var pngFile in pngFiles)
+        for (var i = 1; i <= BlackContext.instance.LastClearedStageId; i++)
         {
-            Debug.Log(pngFile);
+            var islandShader3DController = Instantiate(fullStageImagePrefab, stageImageParent)
+                .GetComponent<IslandShader3DController>();
 
-            var stageName = Path.GetFileNameWithoutExtension(pngFile);
+            var stageMetadata = await StageDetail.LoadStageMetadataByZeroBasedIndexAsync(i - 1);
 
-            var stageId = int.Parse(stageName, NumberStyles.Any);
-
-            var stageMetadata = await StageDetail.LoadStageMetadataByZeroBasedIndexAsync(stageId - 1);
-
-            if (stageMetadata != null)
+            if (stageMetadata == null)
             {
-                if (stageMetadata.StageIndex + 1 <= BlackContext.instance.LastClearedStageId)
-                {
-                    var stageButton = Instantiate(stageImagePrefab, stageImageParent).GetComponent<StageButton>();
-                    stageButton.SetStageMetadata(stageMetadata);
-                    stageButton.Unlock();
-                }
+                Debug.LogError($"Stage metadata not found for zero based index {i - 1}");
             }
+            
+            islandShader3DController.Initialize(stageMetadata);
         }
 
         cachedLastClearedStageId = BlackContext.instance.LastClearedStageId;
