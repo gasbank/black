@@ -13222,10 +13222,10 @@ MonoBehaviour:
   backButtonHandlerPushed: 0
   canvasGroup: {fileID: 1799480003}
   canvasScaler: {fileID: 0}
-  disableBackButtonHandler: 0
-  doNotCloseOnBackButton: 0
+  disableBackButtonHandler: 1
+  doNotCloseOnBackButton: 1
   forceBackButtonHandler: 0
-  ignoreBackButtonHandler: 0
+  ignoreBackButtonHandler: 1
 --- !u!225 &1799480003
 CanvasGroup:
   m_ObjectHideFlags: 0

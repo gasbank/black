@@ -18,7 +18,7 @@ public class BackButtonHandler : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current[Key.Backspace].wasPressedThisFrame)
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             CallBackButtonAction();
         }
