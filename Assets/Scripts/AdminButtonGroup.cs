@@ -4,6 +4,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AdminButtonGroup : MonoBehaviour
 {
+    [SerializeField]
+    Subcanvas subcanvas;
+    
 #if UNITY_EDITOR
     void OnValidate()
     {
@@ -19,5 +22,10 @@ public class AdminButtonGroup : MonoBehaviour
     [UsedImplicitly]
     void ClosePopup()
     {
+    }
+
+    public void Close()
+    {
+        subcanvas.Close();
     }
 }

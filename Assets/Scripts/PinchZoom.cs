@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.UI;
@@ -18,6 +19,12 @@ public class PinchZoom : MonoBehaviour
 
     [SerializeField]
     Slider zoomSlider;
+
+    [SerializeField]
+    float sensitivity = 0.001f;
+
+    [SerializeField]
+    AdminButtonGroup adminButtonGroup;
 
     float lastMultiTouchDistance;
 
@@ -63,7 +70,7 @@ public class PinchZoom : MonoBehaviour
         var deltaMagnitudeDiff = newMultiTouchDistance - lastMultiTouchDistance;
 
         // Slider 콜백을 유도한다.
-        ZoomValue = Mathf.Clamp(ZoomValue + deltaMagnitudeDiff / (250.0f * 250.0f), minScale, maxScale);
+        ZoomValue = Mathf.Clamp(ZoomValue + deltaMagnitudeDiff * sensitivity, minScale, maxScale);
 
         // Set the last distance calculation
         lastMultiTouchDistance = newMultiTouchDistance;
@@ -79,5 +86,17 @@ public class PinchZoom : MonoBehaviour
     public void ResetZoom()
     {
         ZoomValue = minScale;
+    }
+
+    public void OpenSensitivityPopup()
+    {
+        adminButtonGroup.Close();
+        ConfirmPopup.instance.OpenInputFieldPopup("Pinch Zoom Sensitivity", () =>
+            {
+                float.TryParse(ConfirmPopup.instance.InputFieldText, out sensitivity);
+                ConfirmPopup.instance.Close();
+            }, ConfirmPopup.instance.Close, "Configure", Header.Normal,
+            sensitivity.ToString(CultureInfo.InvariantCulture),
+            string.Empty);
     }
 }
