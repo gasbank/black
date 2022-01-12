@@ -1760,7 +1760,7 @@ MonoBehaviour:
   minScale: 1
   targetImage: {fileID: 519181980}
   zoomSlider: {fileID: 1771707429}
-  sensitivity: 0.001
+  sensitivity: 0.0025
   adminButtonGroup: {fileID: 1509605502}
 --- !u!1 &589030465
 GameObject:
