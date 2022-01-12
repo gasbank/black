@@ -80,6 +80,11 @@ public class StageButton : MonoBehaviour
             return;
         }
         
+        SetCurrentStageMetadataForce(stageMetadata);
+    }
+
+    public static void SetCurrentStageMetadataForce(StageMetadata stageMetadata)
+    {
         CurrentStageMetadata = stageMetadata;
     }
 
