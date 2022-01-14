@@ -4,6 +4,12 @@ using UnityEngine.SceneManagement;
 [DisallowMultipleComponent]
 public class FullStageImageButton : MonoBehaviour
 {
+    [SerializeField]
+    IslandShader3DController islandShader3DController;
+
+    [SerializeField]
+    StageDetailPopup stageDetailPopupForReplay;
+
 #if UNITY_EDITOR
     void OnValidate()
     {
@@ -16,21 +22,13 @@ public class FullStageImageButton : MonoBehaviour
         Sound.instance.PlayButtonClick();
 
         var stageIndex = transform.GetSiblingIndex();
-
-        await StageDetail.instance.OpenPopupAfterLoadingAsync(stageIndex);
+        
+        await stageDetailPopupForReplay.OpenPopupAfterLoadingAsync(stageIndex);
     }
 
-    public async void OnClickXXX()
+    public void Initialize(StageMetadata stageMetadata, StageDetailPopup inStageDetailPopupForReplay)
     {
-        var stageMetadata = await StageDetail.LoadStageMetadataByZeroBasedIndexAsync(transform.GetSiblingIndex());
-        if (stageMetadata == null)
-        {
-            Debug.LogError("StageMetadata null");
-            return;
-        }
-
-        var stageTitle = Data.dataSet.StageSequenceData[stageMetadata.StageIndex].title;
-
-        
+        stageDetailPopupForReplay = inStageDetailPopupForReplay;
+        islandShader3DController.Initialize(stageMetadata);
     }
 }

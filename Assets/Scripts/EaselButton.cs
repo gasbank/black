@@ -1,11 +1,13 @@
 using System;
 using ConditionalDebug;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EaselButton : MonoBehaviour
 {
+    [FormerlySerializedAs("stageDetail")]
     [SerializeField]
-    StageDetail stageDetail;
+    StageDetailPopup stageDetailPopup;
 
     [SerializeField]
     MuseumImage museumImage;
@@ -36,7 +38,7 @@ public class EaselButton : MonoBehaviour
     void UpdateExclamationMark()
     {
         exclamationMark.gameObject.SetActive(museumImage.IsAnyExclamationMarkShown == false &&
-                                             StageDetail.IsAllCleared == false);
+                                             StageDetailPopup.IsAllCleared == false);
     }
 
     public async void OnClick()
@@ -46,6 +48,6 @@ public class EaselButton : MonoBehaviour
         var lastClearedStageId = BlackContext.instance.LastClearedStageId;
         ConDebug.Log($"Last Cleared Stage ID: {lastClearedStageId}");
         
-        await stageDetail.OpenPopupAfterLoadingAsync(lastClearedStageId);
+        await stageDetailPopup.OpenPopupAfterLoadingAsync(lastClearedStageId);
     }
 }

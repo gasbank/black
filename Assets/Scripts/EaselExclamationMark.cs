@@ -13,6 +13,6 @@ public class EaselExclamationMark : MonoBehaviour
 
     void Start()
     {
-        gameObject.SetActive(StageDetail.IsAllCleared == false);
+        gameObject.SetActive(StageDetailPopup.IsAllCleared == false);
     }
 }

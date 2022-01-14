@@ -21,9 +21,6 @@ public class StageLocker : MonoBehaviour
     [SerializeField]
     float remainTime;
 
-    [SerializeField]
-    bool unlockForce;
-
     public bool Locked => enabled && initialTime > 0 && remainTime > 0;
 
     public float RemainTime
@@ -51,16 +48,23 @@ public class StageLocker : MonoBehaviour
 
     void Update()
     {
-        var oldStageLockRemainTime = remainTime;
-        remainTime = Mathf.Clamp(remainTime - Time.deltaTime, 0, initialTime);
+        var newRemainTime = Mathf.Clamp(remainTime - Time.deltaTime, 0, initialTime);
+        
+        OnRemainTimeChange(newRemainTime);
+    }
 
-        if (initialTime <= 0 || remainTime <= 0 || unlockForce)
+    void OnRemainTimeChange(float newRemainTime)
+    {
+        var oldRemainTime = remainTime; 
+        remainTime = newRemainTime;
+
+        if (initialTime <= 0 || remainTime <= 0)
         {
             ChangeToUnlocked();
         }
         else
         {
-            ChangeToLocked(oldStageLockRemainTime);
+            ChangeToLocked(oldRemainTime);
         }
     }
 
@@ -74,7 +78,6 @@ public class StageLocker : MonoBehaviour
         subcanvas.Open();
         gauge.fillAmount = remainTime / initialTime;
         text.text = @"\다음 스테이지 준비중\n{0:F1}초".Localized(remainTime);
-        unlockForce = false;
     }
 
     void ChangeToUnlocked()
@@ -84,8 +87,6 @@ public class StageLocker : MonoBehaviour
         OnStageUnlocked?.Invoke();
 
         enabled = false;
-
-        unlockForce = false;
     }
 
     [UsedImplicitly]
@@ -98,16 +99,10 @@ public class StageLocker : MonoBehaviour
     {
     }
 
-    public void UnlockWithRemainTimeReset()
+    public void Unlock()
     {
         ConDebug.LogTrace();
         remainTime = 0;
-        unlockForce = false;
-    }
-
-    public void UnlockWithoutRemainTimeReset()
-    {
-        unlockForce = true;
     }
 
     public void Lock()

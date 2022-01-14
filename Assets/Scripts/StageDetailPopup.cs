@@ -6,9 +6,10 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StageDetail : MonoBehaviour
+public class StageDetailPopup : MonoBehaviour
 {
-    public static StageDetail instance;
+    // 본 컴포넌트는 리플레이용과 새 스테이지 언락용 별개로 쓰고 있으므로 싱글턴 패턴 쓰지 않는다.
+    //public static StageDetailPopup instance;
 
     [SerializeField]
     StageButton stageButton;
@@ -117,13 +118,9 @@ public class StageDetail : MonoBehaviour
 
         // 하다가 만 스테이지면 대기 시간 있어선 안된다.
         // 초반 스테이지는 대기 시간 없다.
-        if (replay)
+        if (replay || resumed || stageMetadata.StageSequenceData.skipLock)
         {
-            stageLocker.UnlockWithoutRemainTimeReset();
-        }
-        else if (resumed || stageMetadata.StageSequenceData.skipLock)
-        {
-            stageLocker.UnlockWithRemainTimeReset();
+            stageLocker.Unlock();
         }
         else
         {
@@ -239,7 +236,7 @@ public class StageDetail : MonoBehaviour
         }
         else
         {
-            var adContext = new BlackAdContext(stageLocker.UnlockWithRemainTimeReset);
+            var adContext = new BlackAdContext(stageLocker.Unlock);
             PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
         }
     }

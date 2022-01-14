@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ConditionalDebug;
 using Dirichlet.Numerics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BlackContext : MonoBehaviour, IBlackContext
 {
@@ -32,14 +33,18 @@ public class BlackContext : MonoBehaviour, IBlackContext
     [SerializeField]
     ScUInt128 gold;
     
+    [FormerlySerializedAs("stageDetail")]
     [SerializeField]
-    StageDetail stageDetail;
+    StageDetailPopup stageDetailPopup;
 
     [SerializeField]
     GameObject achievementNewImage;
+    
+    [SerializeField]
+    float stageLockRemainTime;
 
     List<int> clearedDebrisIndexList;
-    float stageLockRemainTime;
+    
 
     bool comboAdminMode = false;
 
@@ -113,9 +118,9 @@ public class BlackContext : MonoBehaviour, IBlackContext
     {
         stageLockRemainTime = inStageLockRemainTime;
         
-        if (stageDetail != null)
+        if (stageDetailPopup != null)
         {
-            stageDetail.StageLockDetailTime = inStageLockRemainTime;
+            stageDetailPopup.StageLockDetailTime = inStageLockRemainTime;
         }
     }
 

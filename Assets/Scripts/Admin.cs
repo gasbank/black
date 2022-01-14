@@ -262,7 +262,7 @@ public class Admin : MonoBehaviour
 
         ConDebug.Log($"=== {nameof(ReportSaveDataAsync)} ===");
         ConDebug.Log($"LastClearedStageId: {BlackContext.instance.LastClearedStageId}");
-        var currentStageMetadata = await StageDetail.LoadStageMetadataByZeroBasedIndexAsync(BlackContext.instance.LastClearedStageId);
+        var currentStageMetadata = await StageDetailPopup.LoadStageMetadataByZeroBasedIndexAsync(BlackContext.instance.LastClearedStageId);
         if (currentStageMetadata != null)
         {
             ConDebug.Log($"WIP Stage Metadata: {currentStageMetadata.name}");

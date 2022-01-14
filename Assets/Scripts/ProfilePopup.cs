@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
 public class ProfilePopup : MonoBehaviour
@@ -13,8 +14,12 @@ public class ProfilePopup : MonoBehaviour
     [SerializeField]
     int cachedLastClearedStageId;
 
+    [FormerlySerializedAs("fullStageImagePrefab")]
     [SerializeField]
-    GameObject fullStageImagePrefab;
+    GameObject fullStageImageButtonPrefab;
+
+    [SerializeField]
+    StageDetailPopup stageDetailPopupForReplay;
     
 #if UNITY_EDITOR
     void OnValidate()
@@ -35,17 +40,17 @@ public class ProfilePopup : MonoBehaviour
 
         for (var i = 1; i <= BlackContext.instance.LastClearedStageId; i++)
         {
-            var islandShader3DController = Instantiate(fullStageImagePrefab, stageImageParent)
-                .GetComponent<IslandShader3DController>();
+            var fullStageImageButton = Instantiate(fullStageImageButtonPrefab, stageImageParent)
+                .GetComponent<FullStageImageButton>();
 
-            var stageMetadata = await StageDetail.LoadStageMetadataByZeroBasedIndexAsync(i - 1);
+            var stageMetadata = await StageDetailPopup.LoadStageMetadataByZeroBasedIndexAsync(i - 1);
 
             if (stageMetadata == null)
             {
                 Debug.LogError($"Stage metadata not found for zero based index {i - 1}");
             }
             
-            islandShader3DController.Initialize(stageMetadata);
+            fullStageImageButton.Initialize(stageMetadata, stageDetailPopupForReplay);
         }
 
         cachedLastClearedStageId = BlackContext.instance.LastClearedStageId;
