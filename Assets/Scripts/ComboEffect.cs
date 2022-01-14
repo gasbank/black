@@ -150,30 +150,6 @@ public class ComboEffect : MonoBehaviour
 
         Destroy(obj.gameObject);
         yield break;
-// var text = Instantiate(comboText, comboText.transform.parent, false);
-//         obj.text = $"{BlackContext.instance.StageCombo} Combo{(BlackContext.instance.StageCombo == 1 ? "" : "s")}";
-//         var position = comboText.transform.position;
-//         text.transform.position = position;
-//         text.enabled = true;
-//         
-//         float duration = 0.60f;
-//         float shift = 0.7f;
-//         float currentTime = 0f;
-//         while(currentTime < duration)
-//         {
-//             float alpha = Mathf.Lerp(1f, 0f, currentTime/duration);
-//             text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
-//             text.transform.position = new Vector3(
-//                 position.x, 
-//                 position.y + shift * (1f - alpha),
-//                 position.z);
-//             currentTime += Time.deltaTime;
-//             yield return null;
-//         }
-//         
-//         text.enabled = false;
-//         Destroy(text);
-//         yield break;
     }
     
     public void Play(ScInt combo)
