@@ -66,4 +66,9 @@ public class TargetImageQuadCamera : MonoBehaviour
     {
         islandIndexQueue.Enqueue(islandIndex);
     }
+
+    public void ClearQueue()
+    {
+        islandIndexQueue.Clear();
+    }
 }

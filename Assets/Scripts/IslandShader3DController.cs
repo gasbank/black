@@ -96,7 +96,7 @@ public class IslandShader3DController : MonoBehaviour
             targetMaterial.SetTexture(PaletteTex, paletteTex);
         }
 
-        EnqueueIslandIndex(0);
+        ClearAndEnqueueIslandIndex(0);
 
         targetMaterial.SetFloat(FullRender, fullRender ? 1 : 0);
 
@@ -112,6 +112,15 @@ public class IslandShader3DController : MonoBehaviour
         if (targetImageQuadCamera)
         {
             targetImageQuadCamera.RenderOneFrame();
+        }
+    }
+
+    void ClearAndEnqueueIslandIndex(int islandIndex)
+    {
+        if (targetImageQuadCamera != null)
+        {
+            targetImageQuadCamera.ClearQueue();
+            targetImageQuadCamera.EnqueueIslandIndex(islandIndex);
         }
     }
 
