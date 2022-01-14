@@ -57,6 +57,9 @@ public class MainGame : MonoBehaviour
 
     [SerializeField]
     IslandShader3DController islandShader3DController;
+    
+    [SerializeField]
+    SinglePaletteRenderer singlePaletteRenderer;
 
     public StageMetadata StageMetadata => stageMetadata;
 
@@ -127,7 +130,15 @@ public class MainGame : MonoBehaviour
         nameplateGroup.DescText = stageMetadata.StageSequenceData.desc;
 
         //targetImage.SetTargetImageMaterial(skipBlackMaterial);
+        
+        // 플레이어가 색칠한 칸을 하나씩 렌더링하는 컴포넌트
+        // 화면에 보여지는 것은 색칠된 칸이 모두 누적된 형태다.
+        // 이를 위해 Render Texture 이용
         islandShader3DController.Initialize(stageMetadata);
+        
+        // 플레이어가 선택한 팔레트에 해당하는 모든 칸을 특정 색깔로 그리는 컴포넌트
+        // 게임을 더 편-안-하게 플레이할 수 있도록 해 준다.
+        singlePaletteRenderer.Initialize(stageMetadata);
 
         targetImageOutline.material = stageMetadata.SdfMaterial;
         // SDF 머티리얼 없으면 아예 이 이미지는 안보이게 하자.
@@ -264,5 +275,12 @@ public class MainGame : MonoBehaviour
         ConfirmPopup.instance.OpenYesNoPopup(@"\이 스테이지를 처음부터 새로 시작하겠습니까?".Localized(),
             ResetStage,
             ConfirmPopup.instance.Close);
+    }
+
+    public void OnPaletteChange(int paletteButtonIndex)
+    {
+        Debug.Log($"Palette Change Notification {paletteButtonIndex}");
+        // 셰이더 상 팔레트 인덱스는 0번째가 외곽선 용이다. 하나 더해서 넘겨줘야한다.
+        singlePaletteRenderer.SetPaletteIndex(paletteButtonIndex + 1);
     }
 }

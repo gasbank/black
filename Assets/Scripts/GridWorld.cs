@@ -385,7 +385,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         
         foreach (var minPoint in inColoredMinPoints)
         {
-            Debug.Log($"XXX: {minPoint}");
             if (stageData.islandDataByMinPoint.TryGetValue(minPoint, out var islandData))
             {
                 islandShader3DController.EnqueueIslandIndex(islandData.index);

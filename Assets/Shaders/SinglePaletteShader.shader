@@ -1,15 +1,15 @@
 //
-// _IslandIndex로 지정한 한칸만 렌더링하거나,
-// _FullRender를 이용해 모든 색칠이 완성된 이미지를 렌더링하거나
+// _PaletteIndex로 지정한 팔레트 색상의 모든 칸을
+// _RenderColor로 지정한 색상으로 한번에 렌더링
 //
-Shader "Black/Single Island Shader"
+Shader "Black/Single Palette Shader"
 {
+
     Properties
     {
         _MainTex ("Main", 2D) = "white" {}
         _A1Tex ("A1 Texture", 2D) = "white" {}
         _A2Tex ("A2 Texture", 2D) = "white" {}
-        _PaletteTex ("Palette Texture", 2D) = "white" {}
         _FullRender ("Full Render", Float) = 0
         
         _StencilComp ("Stencil Comparison", Float) = 8
@@ -80,12 +80,10 @@ Shader "Black/Single Island Shader"
             sampler2D _MainTex; // 안쓰지만 없으면 경고 메시지 나오니까 보기 싫어서 넣어 둔다.
             sampler2D_float _A1Tex;
             sampler2D_float _A2Tex;
-            sampler2D_float _PaletteTex;
             
             float4 _A1Tex_ST;
-            float4 _Palette[64];
-            int _IslandIndex;
-            float _FullRender;
+            float4 _RenderColor;
+            int _PaletteIndex;
 
             v2f vert (appdata v)
             {
@@ -102,19 +100,10 @@ Shader "Black/Single Island Shader"
                 float a2 = tex2D(_A2Tex, i.uv).a * 255.0f;
                 
                 float paletteIndex = fmod(a1, 64.0f);
-                int islandIndex = (int)((a1 / 64.0f) + (a2 * 4.0f));
+
+                float4 col = _RenderColor;
                 
-                //float4 col = _Palette[paletteIndex];
-                float2 paletteUv;
-                paletteUv.x = (paletteIndex + 0.5f) / 64.0f;
-                paletteUv.y = 0;
-                float4 col = tex2D(_PaletteTex, paletteUv);
-                
-                // FULL VERSION
-                //col.a = lerp(lerp(islandIndex <= _IslandIndex ? 1 : 0, 1 - abs(islandIndex - _IslandIndex), _SingleIsland), 1, _FullRender);
-                
-                // OPTIMIZED VERSION
-                col.a = 1 - saturate(abs(islandIndex - _IslandIndex)) + _FullRender;
+                col.a = 1 - saturate(abs(paletteIndex - _PaletteIndex));
                 
                 return col;
             }

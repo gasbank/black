@@ -30,10 +30,20 @@ public class PaletteButton : MonoBehaviour
                 var pb = t.GetComponent<PaletteButton>();
                 if (pb != null)
                 {
-                    pb.check.SetActive(t == transform);
+                    var active = t == transform;
+                    pb.check.SetActive(active);
+                    if (active)
+                    {
+                        pb.NotifyPaletteChange();            
+                    }
                 }
             }
         }
+    }
+
+    void NotifyPaletteChange()
+    {
+        MainGame.instance.OnPaletteChange(int.Parse(colorNumberText.text) - 1);
     }
 
     public float ColoredRatio
