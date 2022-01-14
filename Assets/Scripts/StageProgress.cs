@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,9 @@ public class StageProgress : MonoBehaviour
     [SerializeField]
     Color inactiveColor;
 
+    [SerializeField]
+    Subcanvas subcanvas;
+
     public int ProgressInt
     {
         get => progressInt;
@@ -42,14 +46,36 @@ public class StageProgress : MonoBehaviour
     void UpdateProgress()
     {
         progressInt = Mathf.Clamp(progressInt, 0, stageProgressDotList.Length);
-        
+
         for (var i = 0; i < stageProgressDotList.Length; i++)
         {
             var dot = stageProgressDotList[i];
             dot.SetColor(i < progressInt ? activeColor : inactiveColor);
             stageProgressDotList[i].SetAnimActive(i == progressInt);
         }
-        
+
         progressBar.fillAmount = (float) progressInt / ProgressStep;
+    }
+
+    public void Show(bool b)
+    {
+        if (b)
+        {
+            subcanvas.Open();
+        }
+        else
+        {
+            subcanvas.Close();
+        }
+    }
+
+    [UsedImplicitly]
+    void OpenPopup()
+    {
+    }
+
+    [UsedImplicitly]
+    void ClosePopup()
+    {
     }
 }

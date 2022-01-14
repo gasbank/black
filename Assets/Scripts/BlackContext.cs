@@ -111,16 +111,13 @@ public class BlackContext : MonoBehaviour, IBlackContext
 
     public void SetStageLockRemainTime(float inStageLockRemainTime)
     {
+        stageLockRemainTime = inStageLockRemainTime;
+        
         if (stageDetail != null)
         {
             stageDetail.StageLockDetailTime = inStageLockRemainTime;
         }
-        else
-        {
-            stageLockRemainTime = inStageLockRemainTime;
-        }
     }
-
 
     public void AddFreeGem(UInt128 delta)
     {

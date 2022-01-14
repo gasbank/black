@@ -1,3 +1,4 @@
+using ConditionalDebug;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,9 @@ public class StageLocker : MonoBehaviour
     [SerializeField]
     float remainTime;
 
+    [SerializeField]
+    bool unlockForce;
+
     public bool Locked => enabled && initialTime > 0 && remainTime > 0;
 
     public float RemainTime
@@ -30,7 +34,7 @@ public class StageLocker : MonoBehaviour
             remainTime = value;
             if (remainTime > 0)
             {
-                enabled = true;
+                Lock();
             }
         }
     }
@@ -50,25 +54,38 @@ public class StageLocker : MonoBehaviour
         var oldStageLockRemainTime = remainTime;
         remainTime = Mathf.Clamp(remainTime - Time.deltaTime, 0, initialTime);
 
-        if (initialTime <= 0 || remainTime <= 0)
+        if (initialTime <= 0 || remainTime <= 0 || unlockForce)
         {
-            subcanvas.Close();
-
-            OnStageUnlocked?.Invoke();
-
-            enabled = false;
+            ChangeToUnlocked();
         }
         else
         {
-            if (oldStageLockRemainTime <= 0 && remainTime > 0)
-            {
-                OnStageLocked?.Invoke();
-            }
-
-            subcanvas.Open();
-            gauge.fillAmount = remainTime / initialTime;
-            text.text = @"\다음 스테이지 준비중\n{0:F1}초".Localized(remainTime);
+            ChangeToLocked(oldStageLockRemainTime);
         }
+    }
+
+    void ChangeToLocked(float oldStageLockRemainTime)
+    {
+        if (oldStageLockRemainTime <= 0 && remainTime > 0)
+        {
+            OnStageLocked?.Invoke();
+        }
+
+        subcanvas.Open();
+        gauge.fillAmount = remainTime / initialTime;
+        text.text = @"\다음 스테이지 준비중\n{0:F1}초".Localized(remainTime);
+        unlockForce = false;
+    }
+
+    void ChangeToUnlocked()
+    {
+        subcanvas.Close();
+
+        OnStageUnlocked?.Invoke();
+
+        enabled = false;
+
+        unlockForce = false;
     }
 
     [UsedImplicitly]
@@ -81,8 +98,20 @@ public class StageLocker : MonoBehaviour
     {
     }
 
-    public void Unlock()
+    public void UnlockWithRemainTimeReset()
     {
+        ConDebug.LogTrace();
         remainTime = 0;
+        unlockForce = false;
+    }
+
+    public void UnlockWithoutRemainTimeReset()
+    {
+        unlockForce = true;
+    }
+
+    public void Lock()
+    {
+        enabled = true;
     }
 }

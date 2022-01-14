@@ -14,7 +14,14 @@ public class FullStageImageButton : MonoBehaviour
     public async void OnClick()
     {
         Sound.instance.PlayButtonClick();
-        
+
+        var stageIndex = transform.GetSiblingIndex();
+
+        await StageDetail.instance.OpenPopupAfterLoadingAsync(stageIndex);
+    }
+
+    public async void OnClickXXX()
+    {
         var stageMetadata = await StageDetail.LoadStageMetadataByZeroBasedIndexAsync(transform.GetSiblingIndex());
         if (stageMetadata == null)
         {
@@ -24,12 +31,6 @@ public class FullStageImageButton : MonoBehaviour
 
         var stageTitle = Data.dataSet.StageSequenceData[stageMetadata.StageIndex].title;
 
-        ConfirmPopup.instance.OpenYesNoPopup(@"\'{0}' 스테이지를 다시 시작할까요?\n\n설정 메뉴에서 언제든지 미술관으로 돌아올 수 있습니다.".Localized(stageTitle),
-            () =>
-            {
-                StageButton.SetCurrentStageMetadataForce(stageMetadata, true);
-                SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
-                SceneManager.LoadScene("Main");
-            }, ConfirmPopup.instance.Close);
+        
     }
 }

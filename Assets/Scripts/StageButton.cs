@@ -73,7 +73,9 @@ public class StageButton : MonoBehaviour
         return UpdateButtonImage();
     }
 
-    public void SetStageMetadataToCurrent()
+    public StageMetadata GetStageMetadata() => stageMetadata;
+
+    public void SetStageMetadataToCurrent(bool replay)
     {
         if (stageMetadata == null)
         {
@@ -81,17 +83,7 @@ public class StageButton : MonoBehaviour
             return;
         }
         
-        SetCurrentStageMetadataForce(stageMetadata, false);
-    }
-
-    public static void SetCurrentStageMetadataForce(StageMetadata stageMetadata, bool replay)
-    {
         CurrentStageMetadata = stageMetadata;
         CurrentStageMetadataReplay = replay;
-    }
-
-    public void Unlock()
-    {
-        stageLocker.Unlock();
     }
 }

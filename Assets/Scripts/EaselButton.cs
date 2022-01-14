@@ -1,4 +1,5 @@
 using System;
+using ConditionalDebug;
 using UnityEngine;
 
 public class EaselButton : MonoBehaviour
@@ -38,10 +39,13 @@ public class EaselButton : MonoBehaviour
                                              StageDetail.IsAllCleared == false);
     }
 
-    public void OnClick()
+    public async void OnClick()
     {
-        stageDetail.OpenPopupAfterLoadingAsync();
-        
         Sound.instance.PlayButtonClick();
+
+        var lastClearedStageId = BlackContext.instance.LastClearedStageId;
+        ConDebug.Log($"Last Cleared Stage ID: {lastClearedStageId}");
+        
+        await stageDetail.OpenPopupAfterLoadingAsync(lastClearedStageId);
     }
 }

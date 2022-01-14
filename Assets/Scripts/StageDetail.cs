@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using ConditionalDebug;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -35,6 +34,9 @@ public class StageDetail : MonoBehaviour
     [SerializeField]
     IslandShader3DController islandShader3DController;
 
+    [SerializeField]
+    bool replay;
+
     public static bool IsAllCleared => BlackContext.instance.LastClearedStageId >= Data.dataSet.StageSequenceData.Count;
 
     public float StageLockDetailTime
@@ -60,28 +62,29 @@ public class StageDetail : MonoBehaviour
         stageLocker.OnStageUnlocked -= OnStageUnlocked;
     }
 
-    public async void OpenPopupAfterLoadingAsync()
+    // stageId가 아니라 stageIndex로 받는 점을 유의한다.
+    // lastClearedStageId를 인자로 넣으면 다음으로 플레이 할 판으로 설정된다.
+    public async Task OpenPopupAfterLoadingAsync(int stageIndex)
     {
-        var lastClearedStageId = BlackContext.instance.LastClearedStageId;
+        if (stageIndex < 0) stageIndex = 0;
+
+        // 한번 깼던 판 다시 꺠려고 하는 것인가?
+        replay = stageIndex + 1 <= BlackContext.instance.LastClearedStageId;
         
-        ConDebug.Log($"Last Cleared Stage ID: {lastClearedStageId}");
-
-        if (lastClearedStageId < 0) lastClearedStageId = 0;
-
-        if (IsAllCleared)
+        if (IsAllCleared && replay == false)
         {
             //Debug.LogError("lastClearedStageId exceeds Data.dataSet.StageMetadataList count.");
             ConfirmPopup.instance.Open(@"\모든 스테이지를 깼습니다!\n진정한 미술관 재건이 시작되는 다음 업데이트를 기대 해 주세요!".Localized(), ConfirmPopup.instance.Close);
             return;
         }
         
-        stageProgress.ProgressInt = lastClearedStageId % 5;
+        stageProgress.ProgressInt = stageIndex % 5;
 
         ProgressMessage.instance.Open(@"\그림을 준비하는 중...".Localized());
 
         // 마지막 클리어한 ID는 1-based이고, 아래 함수는 0-based로 작동하므로
         // 다음으로 플레이할 스테이지를 가져올 때는 그대로 ID를 넘기면 된다.
-        var stageMetadata = await LoadStageMetadataByZeroBasedIndexAsync(lastClearedStageId);
+        var stageMetadata = await LoadStageMetadataByZeroBasedIndexAsync(stageIndex);
 
         if (stageMetadata == null)
         {
@@ -114,10 +117,20 @@ public class StageDetail : MonoBehaviour
 
         // 하다가 만 스테이지면 대기 시간 있어선 안된다.
         // 초반 스테이지는 대기 시간 없다.
-        if (resumed || stageMetadata.StageSequenceData.skipLock)
+        if (replay)
         {
-            stageLocker.Unlock();
+            stageLocker.UnlockWithoutRemainTimeReset();
         }
+        else if (resumed || stageMetadata.StageSequenceData.skipLock)
+        {
+            stageLocker.UnlockWithRemainTimeReset();
+        }
+        else
+        {
+            stageLocker.Lock();
+        }
+        
+        stageProgress.Show(replay == false);
 
         if (easelExclamationMark != null)
         {
@@ -210,15 +223,33 @@ public class StageDetail : MonoBehaviour
 #endif
         )
         {
-            stageButton.SetStageMetadataToCurrent();
-            SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
-            SceneManager.LoadScene("Main");
+            if (replay)
+            {
+                var stageMetadata = stageButton.GetStageMetadata();
+                var stageTitle = Data.dataSet.StageSequenceData[stageMetadata.StageIndex].title;
+                
+                ConfirmPopup.instance.OpenYesNoPopup(
+                    @"\'{0}' 스테이지를 시작할까요?\n\n설정 메뉴에서 언제든지 미술관으로 돌아올 수 있습니다.".Localized(stageTitle),
+                    GoToMain, ConfirmPopup.instance.Close);
+            }
+            else
+            {
+                GoToMain();
+            }
         }
         else
         {
-            var adContext = new BlackAdContext(stageLocker.Unlock);
+            var adContext = new BlackAdContext(stageLocker.UnlockWithRemainTimeReset);
             PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
         }
+    }
+
+    void GoToMain()
+    {
+        stageButton.SetStageMetadataToCurrent(replay);
+        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance,
+            null);
+        SceneManager.LoadScene("Main");
     }
 
     void OnStageUnlocked()

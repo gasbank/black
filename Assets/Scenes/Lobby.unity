@@ -680,6 +680,7 @@ MonoBehaviour:
   stageLocker: {fileID: 1371517714}
   startStageButtonText: {fileID: 1625376952}
   islandShader3DController: {fileID: 1928841656}
+  replay: 0
 --- !u!1 &152717751
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +772,8 @@ GameObject:
   - component: {fileID: 155765524}
   - component: {fileID: 155765523}
   - component: {fileID: 155765525}
+  - component: {fileID: 155765527}
+  - component: {fileID: 155765526}
   m_Layer: 5
   m_Name: Stage Progress
   m_TagString: Untagged
@@ -867,6 +870,38 @@ MonoBehaviour:
   - {fileID: 207989880}
   activeColor: {r: 0.99607843, g: 0.80784315, b: 0.3764706, a: 1}
   inactiveColor: {r: 0.4666667, g: 0.4666667, b: 0.47058827, a: 1}
+  subcanvas: {fileID: 155765526}
+--- !u!114 &155765526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155765521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dcdac4f883e04a8eadc0deaf034b4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backButtonHandlerPushed: 0
+  canvasGroup: {fileID: 155765527}
+  canvasScaler: {fileID: 0}
+  disableBackButtonHandler: 1
+  doNotCloseOnBackButton: 1
+  forceBackButtonHandler: 0
+  ignoreBackButtonHandler: 1
+--- !u!225 &155765527
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155765521}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &194036143
 GameObject:
   m_ObjectHideFlags: 0
@@ -10334,6 +10369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 003ad1f3753a7394882be4bebfa22d24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subcanvas: {fileID: 0}
 --- !u!1 &1568706310
 GameObject:
   m_ObjectHideFlags: 0
@@ -14089,6 +14125,11 @@ PrefabInstance:
       propertyPath: configPopup
       value: 
       objectReference: {fileID: 628729669}
+    - target: {fileID: 2425384018903423699, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
+        type: 3}
+      propertyPath: stageDetail
+      value: 
+      objectReference: {fileID: 131375462}
     - target: {fileID: 2425384018903423699, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
         type: 3}
       propertyPath: achievePopup
