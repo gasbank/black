@@ -8,7 +8,7 @@ public class PaletteButton : MonoBehaviour
     GameObject check;
 
     [SerializeField]
-    TextMeshProUGUI colorNumberText;
+    Text colorNumberText;
 
     [SerializeField]
     uint colorUint;
