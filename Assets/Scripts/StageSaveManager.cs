@@ -12,7 +12,7 @@ public class StageSaveManager : MonoBehaviour
     PinchZoom pinchZoom;
 
     [SerializeField]
-    RawImage targetImage;
+    Transform targetImage;
 
     static void InitializeMessagePackConditional()
     {
@@ -87,7 +87,7 @@ public class StageSaveManager : MonoBehaviour
 
     public void RestoreCameraState(StageSaveData stageSaveData)
     {
-        var targetImageTransform = targetImage.transform;
+        var targetImageTransform = targetImage;
         var targetImageLocPos = targetImageTransform.localPosition;
 
         targetImageTransform.localPosition = new Vector3(stageSaveData.targetImageCenterX,
@@ -114,7 +114,7 @@ public class StageSaveManager : MonoBehaviour
     StageSaveData CreateWipStageSaveData(string stageName, HashSet<uint> coloredMinPoints, float remainTime,
         byte[] png)
     {
-        var targetImageLocPos = targetImage.transform.localPosition;
+        var targetImageLocPos = targetImage.localPosition;
         var stageSaveData = new StageSaveData
         {
             stageName = stageName,

@@ -11699,7 +11699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pinchZoom: {fileID: 519181981}
-  targetImage: {fileID: 1109312036}
+  targetImage: {fileID: 1643267983}
 --- !u!4 &1598385019
 Transform:
   m_ObjectHideFlags: 0

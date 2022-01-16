@@ -35,11 +35,14 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (Touch.activeTouches.Count != 1)
+        if (Application.isEditor == false)
         {
-            return;
+            if (Touch.activeTouches.Count != 1)
+            {
+                return;
+            }
         }
-        
+
         if (panning && mainGame.CanInteractPanAndZoom)
         {
             RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main,
