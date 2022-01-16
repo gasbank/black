@@ -49,7 +49,7 @@ public static class IosPostProcessBuild
             pbxProject.AddCapability(target, PBXCapabilityType.GameCenter);
             pbxProject.AddCapability(target, PBXCapabilityType.InAppPurchase);
             // Facebook Audience Network에서 필요로 한다.
-            pbxProject.AddBuildProperty(target, "OTHER_LDFLAGS", "-lxml2 -ObjC");
+            pbxProject.AddBuildProperty(target, "OTHER_LDFLAGS", "-ObjC");
 
             pbxProject.AddFile(Path.Combine(Application.dataPath, "GoogleService-Info.plist"),
                 "GoogleService-Info.plist");
