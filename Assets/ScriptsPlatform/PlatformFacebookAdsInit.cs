@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using AudienceNetwork;
+#if BLACK_FACEBOOK
 using Facebook.Unity;
+#endif
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -33,7 +35,9 @@ public class PlatformFacebookAdsInit : MonoBehaviour
         if (init == false)
         {
             init = true;
+#if BLACK_FACEBOOK
             if (Application.isEditor == false) FB.Init(OnInitComplete, OnHideUnity);
+#endif
         }
 
         if (Application.isEditor == false)
@@ -48,10 +52,14 @@ public class PlatformFacebookAdsInit : MonoBehaviour
     void OnInitComplete()
     {
         if (Application.isEditor == false)
+        {
+#if BLACK_FACEBOOK
             FB.LogAppEvent("init completed", null, new Dictionary<string, object>
             {
                 {AppEventParameterName.Description, "PlatformFacebookInit FB Init completed"}
             });
+#endif
+        }
     }
 
     public void LoadAndShowRewardedVideo()
