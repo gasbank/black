@@ -57,6 +57,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3b368e5284e9b4f31ab20b9a80851f88, type: 3}
   - {fileID: 21300000, guid: e5424a825680644ccb2198788f7ff2aa, type: 3}
   - {fileID: 21300000, guid: 6c5beea2e76c34698a463f620c60247a, type: 3}
+  - {fileID: 21300000, guid: f54acf53611d9470285ed506f7424ddd, type: 3}
   - {fileID: 21300000, guid: 718dda04113c94d7d8707df659e9ca2e, type: 3}
   - {fileID: 21300000, guid: 7748c05433b5341f2883b0e2807a73b5, type: 3}
   - {fileID: 21300000, guid: 423f2764e2e4a9c45b9266b35fbf4126, type: 3}
@@ -115,6 +116,7 @@ SpriteAtlas:
   - white-circle-256-sliced
   - popup_icon_Result
   - popup_bg_top
+  - checkerboard-128x128
   - Icon_lock
   - Icon_noti_bg
   - bg_01_06

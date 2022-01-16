@@ -10,6 +10,7 @@ Shader "Black/Single Palette Shader"
         _MainTex ("Main", 2D) = "white" {}
         _A1Tex ("A1 Texture", 2D) = "white" {}
         _A2Tex ("A2 Texture", 2D) = "white" {}
+        _RenderColorTex ("Render Color Texture", 2D) = "red" {}
         _FullRender ("Full Render", Float) = 0
         
         _StencilComp ("Stencil Comparison", Float) = 8
@@ -73,13 +74,14 @@ Shader "Black/Single Palette Shader"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
+                float2 screenPos : TEXCOORD1;
                 float4 vertex : SV_POSITION;
             };
 
             sampler2D _MainTex; // 안쓰지만 없으면 경고 메시지 나오니까 보기 싫어서 넣어 둔다.
             sampler2D_float _A1Tex;
             sampler2D_float _A2Tex;
+            sampler2D _RenderColorTex;
             
             float4 _A1Tex_ST;
             float4 _RenderColor;
@@ -90,7 +92,7 @@ Shader "Black/Single Palette Shader"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _A1Tex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
+                o.screenPos = ComputeScreenPos(o.vertex);
                 return o;
             }
 
@@ -101,7 +103,11 @@ Shader "Black/Single Palette Shader"
                 
                 float paletteIndex = fmod(a1, 64.0f);
 
-                float4 col = _RenderColor;
+                //float4 col = _RenderColor;
+                
+                float2 sp = i.screenPos.xy * _ScreenParams.xy;
+                
+                float4 col = tex2D(_RenderColorTex, sp / 50);
                 
                 col.a = 1 - saturate(abs(paletteIndex - _PaletteIndex));
                 
