@@ -40,8 +40,4 @@
   <SKAdNetworkIdentifier>8c4e2ghe7u.skadnetwork</SKAdNetworkIdentifier>
   <SKAdNetworkIdentifier>zq492l623r.skadnetwork</SKAdNetworkIdentifier>
   <SKAdNetworkIdentifier>3qcr597p9d.skadnetwork</SKAdNetworkIdentifier>
-
-  <!-- https://developers.facebook.com/docs/setting-up/platform-setup/ios/SKAdNetwork -->
-  <SKAdNetworkIdentifier>v9wttpbfk9.skadnetwork</SKAdNetworkIdentifier>
-  <SKAdNetworkIdentifier>n38lu8286q.skadnetwork</SKAdNetworkIdentifier>
 </SKAdNetworkItems>

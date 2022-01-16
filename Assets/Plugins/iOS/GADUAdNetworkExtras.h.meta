@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: f6190f2d34454c59917a4c1305f171d3
+guid: 1c0d8a6c9b36440eaa4c01518670217f
 labels:
 - gvh
 - gvh_version-6.1.2
-- gvhp_exportpath-Plugins/Android/googlemobileads-unity.aar
+- gvhp_exportpath-Plugins/iOS/GADUAdNetworkExtras.h
 timeCreated: 1480838400
 PluginImporter:
   serializedVersion: 1
@@ -12,7 +12,7 @@ PluginImporter:
   isPreloaded: 0
   platformData:
     Android:
-      enabled: 1
+      enabled: 0
       settings:
         CPU: AnyCPU
     Any:
@@ -67,7 +67,7 @@ PluginImporter:
       settings:
         CPU: AnyCPU
     iOS:
-      enabled: 0
+      enabled: 1
       settings:
         CompileFlags:
         FrameworkDependencies:
