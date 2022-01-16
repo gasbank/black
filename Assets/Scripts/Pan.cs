@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    static bool panningMutex;
-
     [SerializeField]
     Vector3 beginDragTargetPosition;
 
@@ -25,9 +24,8 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (PinchZoom.PinchZooming == false && panningMutex == false)
+        if (PinchZoom.PinchZooming == false)
         {
-            panningMutex = true;
             panning = true;
             RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main,
                 out beginDragWorldPosition);
@@ -37,6 +35,11 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (Touch.activeTouches.Count != 1)
+        {
+            return;
+        }
+        
         if (panning && mainGame.CanInteractPanAndZoom)
         {
             RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main,
@@ -56,11 +59,7 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (panningMutex)
-        {
-            panningMutex = false;
-            panning = false;
-        }
+        panning = false;
     }
 
 #if UNITY_EDITOR
