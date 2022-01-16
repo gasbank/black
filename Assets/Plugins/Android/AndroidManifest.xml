@@ -13,24 +13,7 @@
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
     </activity>
     <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5072035175916776~8203064749" />
-    <activity android:name="com.facebook.unity.FBUnityLoginActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-    <activity android:name="com.facebook.unity.FBUnityDialogsActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-    <activity android:name="com.facebook.unity.FBUnityAppLinkActivity" android:exported="true" />
-    <activity android:name="com.facebook.unity.FBUnityDeepLinkingActivity" android:exported="true" />
-    <activity android:name="com.facebook.unity.FBUnityGameRequestActivity" />
-    <activity android:name="com.facebook.unity.FBUnityCreateGameGroupActivity" />
-    <activity android:name="com.facebook.unity.FBUnityJoinGameGroupActivity" />
-    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="fbxxxxxx" />
-    <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled" android:value="true" />
-    <meta-data android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled" android:value="true" />
-    <provider android:name="com.facebook.FacebookContentProvider" android:authorities="com.facebook.app.FacebookContentProviderxxxxxx" android:exported="true" />
-    <activity android:name="com.facebook.unity.AppInviteDialogActivity" />
-    <activity android:name="com.facebook.unity.FBUnityGamingServicesFriendFinderActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
     <!-- FCM 백그라운드 상태에서 메시지 받을 수 있도록 추가 https://firebase.google.com/docs/cloud-messaging/unity/client -->
     <service android:name="com.google.firebase.messaging.MessageForwardingService" android:permission="android.permission.BIND_JOB_SERVICE" android:exported="false" />
   </application>
-  <queries>
-    <provider android:authorities="com.facebook.katana.provider.PlatformProvider" /> <!-- allows app to access Facebook app features -->
-    <provider android:authorities="com.facebook.orca.provider.PlatformProvider" /> <!-- allows sharing to Messenger app -->
-  </queries>
 </manifest>
