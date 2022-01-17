@@ -43,7 +43,7 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
             }
         }
 
-        if (panning && mainGame.CanInteractPanAndZoom)
+        if (panning && (mainGame == null || mainGame.CanInteractPanAndZoom))
         {
             RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main,
                 out var dragWorldPosition);
