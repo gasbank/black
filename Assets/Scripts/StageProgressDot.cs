@@ -19,7 +19,11 @@ public class StageProgressDot : MonoBehaviour
 
     public void SetAnimActive(bool active)
     {
-        animator.Play(active ? "Active" : "Inactive");
+        // OnValidate()를 통해서도 호출되기 때문에 체크!
+        if (Application.isPlaying)
+        {
+            animator.Play(active ? "Active" : "Inactive");
+        }
     }
 
     public void SetColor(Color color)
