@@ -78,6 +78,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f3fd1b97354f741e689778da5590ff05, type: 3}
   - {fileID: 21300000, guid: edb738d71b3b444f3ab00d6621a65079, type: 3}
   - {fileID: 21300000, guid: 3c7626f796a8b45bfa206eee5edb9bdc, type: 3}
+  - {fileID: 21300000, guid: 74c7b90820fbd624a9b89c6f0789ddad, type: 3}
   - {fileID: 21300000, guid: 3acf2f3882a0c423680ca99f6af9b36a, type: 3}
   - {fileID: 21300000, guid: 0e4c4068992323e4cbea0eb69599e9f3, type: 3}
   - {fileID: 21300000, guid: 16a77488ea33b42389d5a55f618cc282, type: 3}
@@ -92,11 +93,13 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 42dde13c5690d4629ac6e39c5212f29b, type: 3}
   - {fileID: 21300000, guid: f72fbe4c54a724e03a4b3088da4ac2e8, type: 3}
   - {fileID: 21300000, guid: 48a10d5c9aae049eea2c6cae11d13996, type: 3}
+  - {fileID: 21300000, guid: 4d75682d2ecf36d4183b9a45b0461897, type: 3}
   - {fileID: 21300000, guid: a7ec3a4d8390bd64d92fd5d60ef4a673, type: 3}
   - {fileID: 21300000, guid: 7216f49dd2c2641d7836040c4dad630b, type: 3}
   - {fileID: 21300000, guid: e0b69ffd4599c4bbf8653824832aba41, type: 3}
   - {fileID: 21300000, guid: 95b96f4e7a86c45a988bbd57b1b41571, type: 3}
   - {fileID: 21300000, guid: 5111868e97deb4bf987e18c9f1a95cab, type: 3}
+  - {fileID: 21300000, guid: 9e7dd7ce130184045bc2d6b40003b156, type: 3}
   - {fileID: 21300000, guid: 7bdc110f1901742ad88718d40a962f0b, type: 3}
   - {fileID: 21300016, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
   - {fileID: 21300018, guid: 02f7336fb216bdd46869435ae7bf33d2, type: 3}
@@ -140,6 +143,7 @@ SpriteAtlas:
   - popup_icon_box
   - popup_bg_center
   - img_loading02
+  - talk_bg
   - star
   - white-circle-256
   - popup_mission_gaugeBar
@@ -154,11 +158,13 @@ SpriteAtlas:
   - Icon_und_bg
   - Icon_und_play
   - img_loading01
+  - fairy_01
   - SideMenu_UI_slot_ Lock
   - Icon_und_home
   - white-circle-64-sliced
   - Icon_top_my
   - Icon_noti
+  - fairy_02
   - popup_icon_gold
   - poof_8
   - poof_9
