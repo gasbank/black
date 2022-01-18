@@ -574,20 +574,20 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
 
     public void OpenSimpleMessage(string message)
     {
-        Debug.Log(nameof(OpenSimpleMessage));
+        ConDebug.Log(nameof(OpenSimpleMessage));
         Open(message, Close);
     }
     
     public void OpenSimpleMessageWithClickSound(string message)
     {
-        Debug.Log(nameof(OpenSimpleMessageWithClickSound));
+        ConDebug.Log(nameof(OpenSimpleMessageWithClickSound));
         Sound.instance.PlayButtonClick();
         Open(message, Close);
     }
     
     public void OpenSimpleMessageWithClickSoundAndResumeDirector(string message)
     {
-        Debug.Log(nameof(OpenSimpleMessageWithClickSoundAndResumeDirector));
+        ConDebug.Log(nameof(OpenSimpleMessageWithClickSoundAndResumeDirector));
         Sound.instance.PlayButtonClick();
         Open(message, () =>
         {

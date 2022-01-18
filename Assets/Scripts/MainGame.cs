@@ -279,7 +279,7 @@ public class MainGame : MonoBehaviour
 
     public void OnPaletteChange(int paletteButtonIndex)
     {
-        Debug.Log($"Palette Change Notification {paletteButtonIndex}");
+        ConDebug.Log($"Palette Change Notification {paletteButtonIndex}");
         // 셰이더 상 팔레트 인덱스는 0번째가 외곽선 용이다. 하나 더해서 넘겨줘야한다.
         singlePaletteRenderer.SetPaletteIndex(paletteButtonIndex + 1);
     }

@@ -51,6 +51,7 @@ SpriteAtlas:
   m_PackedSprites:
   - {fileID: 21300000, guid: 71239680c360245f5a85550d2f98570f, type: 3}
   - {fileID: 21300000, guid: 1e6f8ed0e02d54e95b4b7a1bf3f2d417, type: 3}
+  - {fileID: 21300000, guid: 1d3a5de08aa0148faa52c7e60d329d43, type: 3}
   - {fileID: 21300000, guid: 64468241ef0bb4a4ca60622fb3bff002, type: 3}
   - {fileID: 21300000, guid: 65e8aa4148432495383d01e41535e6c9, type: 3}
   - {fileID: 21300000, guid: 7d45f56188c3540be9179ae019796e6a, type: 3}
@@ -58,6 +59,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e5424a825680644ccb2198788f7ff2aa, type: 3}
   - {fileID: 21300000, guid: 6c5beea2e76c34698a463f620c60247a, type: 3}
   - {fileID: 21300000, guid: f54acf53611d9470285ed506f7424ddd, type: 3}
+  - {fileID: 21300000, guid: 35232ab39806e47eaae9036ae00c32a5, type: 3}
   - {fileID: 21300000, guid: 718dda04113c94d7d8707df659e9ca2e, type: 3}
   - {fileID: 21300000, guid: 7748c05433b5341f2883b0e2807a73b5, type: 3}
   - {fileID: 21300000, guid: 423f2764e2e4a9c45b9266b35fbf4126, type: 3}
@@ -68,6 +70,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3672ff064c5274704b505603003dc8b6, type: 3}
   - {fileID: 21300000, guid: b1b74e9662f114ca9abcabddefd610b2, type: 3}
   - {fileID: 21300000, guid: 526a8ea6c8767489ab4d7c5af1b6b289, type: 3}
+  - {fileID: 21300000, guid: df295dc6639854b59b8b9f117a7ebb6b, type: 3}
   - {fileID: 21300000, guid: 157686d6fc8df412e9d8da79d52bf9bb, type: 3}
   - {fileID: 21300000, guid: 3eec0007aff1f40ab9e3c4ec857144c2, type: 3}
   - {fileID: 21300000, guid: 3a1cd337094bb44a68132a22f6623f05, type: 3}
@@ -110,6 +113,7 @@ SpriteAtlas:
   m_PackedSpriteNamesToIndex:
   - white-square-256
   - Icon_back
+  - popup_bg_mission_btn
   - Icon_profile
   - UI_06
   - popup_mission_gaugeBG
@@ -117,6 +121,7 @@ SpriteAtlas:
   - popup_icon_Result
   - popup_bg_top
   - checkerboard-128x128
+  - popup_bg_mission_bg1
   - Icon_lock
   - Icon_noti_bg
   - bg_01_06
@@ -127,6 +132,7 @@ SpriteAtlas:
   - popup_icon_star
   - Icon_top_gold
   - Icon_select2
+  - popup_bg_mission_bg2
   - popup_bg_all
   - popup_icon_close
   - popup_mission_btnoff

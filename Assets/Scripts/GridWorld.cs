@@ -110,7 +110,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 ConvertLocalPointToIxy(localPoint, out var ix, out var iy);
                 var a1Float = a1Tex.GetPixel(ix, iy);
                 var a2Float = a2Tex.GetPixel(ix, iy);
-                Debug.Log($"Local Point: {localPoint}, IXY: ({ix},{iy}), A1f={a1Float}, A2f={a2Float}");
+                ConDebug.Log($"Local Point: {localPoint}, IXY: ({ix},{iy}), A1f={a1Float}, A2f={a2Float}");
                 var a1 = (int) (a1Float.a * 255);
                 var a2 = (int) (a2Float.a * 255);
                 var paletteIndex = a1 & ((1 << 6) - 1);

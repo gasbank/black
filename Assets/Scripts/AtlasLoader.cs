@@ -1,3 +1,4 @@
+using ConditionalDebug;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -25,9 +26,9 @@ public class AtlasLoader : MonoBehaviour
         SpriteAtlasManager.atlasRequested -= RequestAtlas;
     }
 
-    void RequestAtlas(string tag, System.Action<SpriteAtlas> callback)
+    void RequestAtlas(string atlasTag, System.Action<SpriteAtlas> callback)
     {
-        Debug.Log($"Atlas loading request ignored intentionally. Tag={tag}", this);
+        ConDebug.Log($"Atlas loading request ignored intentionally. Tag={atlasTag}", this);
         callback(null);
     }
 }
