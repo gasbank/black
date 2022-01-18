@@ -34,6 +34,9 @@ public class Admin : MonoBehaviour
     [SerializeField]
     GameObject spawnButton;
 
+    [SerializeField]
+    Image toggleAdUnitIdMode;
+
     void OnEnable()
     {
         if (BlackContext.instance != null)
@@ -41,6 +44,11 @@ public class Admin : MonoBehaviour
             BlackContext.instance.CheatMode = true;
             BlackLogManager.Add(BlackLogEntry.Type.GameCheatEnabled, 0, 0);
         }
+    }
+
+    void Start()
+    {
+        UpdateAdminState();
     }
 
     public void DeleteSaveFileAndReloadScene()
@@ -515,5 +523,23 @@ public class Admin : MonoBehaviour
             ConfirmPopup.instance.Close, "ADMIN", Header.Normal, BlackContext.instance.LastClearedStageId.ToString(), "");
         CloseAdminMenu();
 #endif
+    }
+    
+    public static bool IsAdUnitIdModeTest => PlayerPrefs.GetInt("AD_UNIT_ID_MODE", 0) != 0;
+
+    public void ToggleAdUnitIdMode()
+    {
+        PlayerPrefs.SetInt("AD_UNIT_ID_MODE", IsAdUnitIdModeTest ? 0 : 1);
+        PlayerPrefs.Save();
+
+        UpdateAdminState();
+    }
+
+    void UpdateAdminState()
+    {
+        if (toggleAdUnitIdMode != null)
+        {
+            toggleAdUnitIdMode.color = IsAdUnitIdModeTest ? Color.yellow : Color.white;
+        }
     }
 }

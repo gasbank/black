@@ -29,9 +29,9 @@ public class PlatformAdMobAdsInit : MonoBehaviour
 
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(status => { });
-
+        
         var testDeviceList = new List<string> {
-            "85fa748f8cae1b3212c1124dd5ef8aa9" // iPhone 6s
+            //"751709a03251817c6a3d7d3f7072ec57" // iPhone 6s
         };
         var requestConfiguration = new RequestConfiguration.Builder().SetTestDeviceIds(testDeviceList).build();
         MobileAds.SetRequestConfiguration(requestConfiguration);

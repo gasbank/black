@@ -310,25 +310,46 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         return appId;
     }
 
+    // Ad Unit ID는 테스트용과 실서비스 용이 있다.
+    // 그런데 좀 복잡하다.
+    // 
+    // 테스트기기 등록된 경우에는 실서비스 용을 써야 테스트 광고가 나온다.
+    // (1) 실제 유저 기기인 경우에는 실서비스 용을 쓰면 된다.
+    // (2) 개발 기기인 경우에는 두 가지로 나뉜다.
+    //     (A) 테스트 기기 등록되었다면 실서비스용 Ad Unit ID를 써야된다.
+    //     (B) 테스트 기기 등록되어있지 않다면 테스트용 Ad Unit ID를 써야한다.
+    //
+    // 테스트 기기 등록을 위한 ID는 앱 재설치로도 바뀔 수 있으니, 자주 바뀐다고 봐야 한다.
+    // (사실 언제 바뀌는지 정확히 모르겠다.)
+    // 실서비스용 & 실사용자 대상으로 작동에는 문제 없지만 개발 과정 중엔
+    // 어드민 커맨드로 Ad Unit ID를 실서비스용과 테스트용으로 토글링할 수 있도록 해서 쓰자.
     public string GetAdMobRewardVideoAdUnitId()
     {
-#if BLACK_ADMIN
-#if UNITY_ANDROID
-        var adUnitId = "ca-app-pub-3940256099942544/5224354917";
-#elif UNITY_IOS
-        string adUnitId = "ca-app-pub-3940256099942544/5224354917";
-#else
-        string adUnitId = "unexpected_platform";
-#endif
-#else
-#if UNITY_ANDROID
-        var adUnitId = "ca-app-pub-5072035175916776/7928389116";
-#elif UNITY_IOS
-        string adUnitId = "ca-app-pub-5072035175916776/4851266226";
-#else
-        string adUnitId = "unexpected_platform";
-#endif
-#endif
+        var adUnitId = "unexpected_platform";
+
+        if (Admin.IsAdUnitIdModeTest)
+        {
+            adUnitId = Application.platform switch
+            {
+                // https://developers.google.com/admob/unity/test-ads#android
+                RuntimePlatform.Android => "ca-app-pub-3940256099942544/5224354917",
+                
+                // https://developers.google.com/admob/unity/test-ads#ios
+                RuntimePlatform.IPhonePlayer => "ca-app-pub-3940256099942544/1712485313",
+                
+                _ => adUnitId
+            };
+        }
+        else
+        {
+            adUnitId = Application.platform switch
+            {
+                RuntimePlatform.Android => "ca-app-pub-5072035175916776/7928389116",
+                RuntimePlatform.IPhonePlayer => "ca-app-pub-5072035175916776/4851266226",
+                _ => adUnitId
+            };
+        }
+
         return adUnitId;
     }
 
@@ -344,7 +365,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         return PLACEMENT_ID;
     }
 
-    // ReSharper disable once RedundantExplicitArrayCreation
+// ReSharper disable once RedundantExplicitArrayCreation
     public string[] FacebookAdsTestDeviceIdList => new string[]
     {
 #if BLACK_DEBUG
@@ -364,7 +385,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         }
     }
 
-    // Application.platform으로 체크하면 에디터 환경에서 처리가 지저분해지니 이렇게 하자.
+// Application.platform으로 체크하면 에디터 환경에서 처리가 지저분해지니 이렇게 하자.
 #if UNITY_ANDROID
     public string UnityAdsGameId => "unsupported platform";
     public bool UnityAdsUseAds => true;
@@ -376,7 +397,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     public bool UnityAdsUseAds => false;
 #endif
 
-    // iOS에서는 지금 UnityAds가 테스트 모드로 작동 안한다. 컴파일러 프래그 조건이 이모양!
+// iOS에서는 지금 UnityAds가 테스트 모드로 작동 안한다. 컴파일러 프래그 조건이 이모양!
 #if BLACK_ADMIN && UNITY_ANDROID
     public bool UnityAdsUseTestMode => true;
 #else
