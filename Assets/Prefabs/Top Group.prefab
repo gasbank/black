@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1571342117478129598}
   - component: {fileID: 1571342117478129597}
-  - component: {fileID: 1571342117478129596}
   - component: {fileID: 1571342117478129599}
   - component: {fileID: 6739927309382282443}
+  - component: {fileID: 3497545266062596133}
   m_Layer: 5
   m_Name: Profile Icon Mask
   m_TagString: Untagged
@@ -48,19 +48,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1571342117478129593}
   m_CullTransparentMesh: 1
---- !u!114 &1571342117478129596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571342117478129593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 0
 --- !u!114 &1571342117478129599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 64468241ef0bb4a4ca60622fb3bff002, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0e4c4068992323e4cbea0eb69599e9f3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -107,6 +94,19 @@ MonoBehaviour:
   nickname: {fileID: 0}
   lastAuthenticated: 0
   defaultTex: {fileID: 2800000, guid: 64468241ef0bb4a4ca60622fb3bff002, type: 3}
+--- !u!114 &3497545266062596133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571342117478129593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
 --- !u!1 &1571342119089296474
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +143,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1571342119089296473
 CanvasRenderer:
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 64468241ef0bb4a4ca60622fb3bff002, type: 3}
+  m_Texture: {fileID: 2800000, guid: 3c7626f796a8b45bfa206eee5edb9bdc, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -223,7 +223,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1571342119089296472}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Subcanvas, Black
+        m_MethodName: OpenWithClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8659993156080867810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1693,7 +1705,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Subcanvas, Black
-        m_MethodName: Open
+        m_MethodName: OpenWithClickSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
