@@ -4,7 +4,6 @@ using System.IO.IsolatedStorage;
 using ConditionalDebug;
 using MessagePack;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class StageSaveManager : MonoBehaviour
 {
@@ -18,7 +17,7 @@ public class StageSaveManager : MonoBehaviour
     {
     }
 
-    public void Save(string stageName, HashSet<uint> coloredMinPoints, GridWorld gridWorld, float remainTime)
+    public void Save(string stageName, HashSet<uint> coloredMinPoints, float remainTime)
     {
         SaveWipStageData(stageName, coloredMinPoints, remainTime);
     }
@@ -94,21 +93,6 @@ public class StageSaveManager : MonoBehaviour
             stageSaveData.targetImageCenterY, targetImageLocPos.z);
 
         pinchZoom.ZoomValue = stageSaveData.zoomValue;
-    }
-
-    public static bool LoadWipPng(string stageName, Texture2D tex)
-    {
-        try
-        {
-            var bytesPng = File.ReadAllBytes(FileUtil.GetPath(GetWipPngFileName(stageName)));
-            tex.LoadImage(bytesPng);
-            return true;
-        }
-        catch (FileNotFoundException)
-        {
-        }
-
-        return false;
     }
 
     StageSaveData CreateWipStageSaveData(string stageName, HashSet<uint> coloredMinPoints, float remainTime,

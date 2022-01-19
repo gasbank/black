@@ -261,7 +261,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     RewardGoldAmount = new UInt128(newClearedStageId % 5 == 0 ? 3 : 1);
                     BlackContext.instance.AddPendingGold(RewardGoldAmount);
 
-
                     BlackContext.instance.AchievementGathered.MaxBlackLevel =
                         (UInt128) BlackContext.instance.LastClearedStageId.ToInt();
                 }
@@ -430,7 +429,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public void WriteStageSaveData()
     {
         // 스테이지 별 진행 상황 데이터
-        stageSaveManager.Save(StageName, coloredMinPoints, this, mainGame.GetRemainTime());
+        stageSaveManager.Save(StageName, coloredMinPoints, mainGame.GetRemainTime());
 
         // 전체 저장 데이터
         SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);

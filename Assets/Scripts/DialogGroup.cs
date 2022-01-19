@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -26,9 +27,19 @@ public class DialogGroup : MonoBehaviour
     }
 #endif
 
-    public async void StartDialogAsync() => await StartDialogInternalAsync(); 
+    async void Start()
+    {
+        if (BlackContext.instance.LastClearedStageId == 3 && BlackContext.instance.LastClearedStageIdEvent < 3)
+        {
+            await StartFairyDialogInternalAsync();
+        }
 
-    async Task StartDialogInternalAsync()
+        BlackContext.instance.LastClearedStageIdEvent = BlackContext.instance.LastClearedStageId;
+    }
+
+    public async void StartFairyDialogAsync() => await StartFairyDialogInternalAsync(); 
+
+    async Task StartFairyDialogInternalAsync()
     {
         subcanvas.Open();
         talkTypewriter.ClearText();

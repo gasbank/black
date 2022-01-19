@@ -310,7 +310,8 @@ public class ErrorReporter : MonoBehaviour
                             .OrderBy(e => e))
                         {
                             ConDebug.Log($"Checking save data field name '{fieldName}'...");
-                            if (userSaveDataFields[fieldName] is Dict userSaveDataFieldsSaveData && userSaveDataFieldsSaveData.Keys.Count > 0)
+                            if (userSaveDataFields[fieldName] is Dict userSaveDataFieldsSaveData &&
+                                userSaveDataFieldsSaveData.Keys.Count > 0)
                             {
                                 var userSaveDataFieldsSaveDataStringValue =
                                     (userSaveDataFieldsSaveData.ContainsKey("bytesValue")
@@ -318,7 +319,8 @@ public class ErrorReporter : MonoBehaviour
                                         : userSaveDataFieldsSaveData["stringValue"]) as string;
 
                                 var saveDataBase64 = userSaveDataFieldsSaveDataStringValue;
-                                var saveDataBytes = Convert.FromBase64String(saveDataBase64 ?? throw new NullReferenceException());
+                                var saveDataBytes =
+                                    Convert.FromBase64String(saveDataBase64 ?? throw new NullReferenceException());
 
                                 ConDebug.LogFormat("Save Data Base64 ({0} bytes): {1}",
                                     saveDataBase64.Length, saveDataBase64);
@@ -352,7 +354,7 @@ public class ErrorReporter : MonoBehaviour
 
     static void RestoreSaveDataAndLoadSplash(byte[] saveDataBytes)
     {
-// 저장 데이터 중 현재 진행 중인 스테이지 관련 필드는 따로 꺼내서
+        // 저장 데이터 중 현재 진행 중인 스테이지 관련 필드는 따로 꺼내서
         // 파일로 저장해야 한다.
         byte[] stageSaveDataBytes = null;
         byte[] wipPngBytes = null;

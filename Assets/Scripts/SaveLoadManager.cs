@@ -22,7 +22,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         BeforeStage
     }
 
-    const int LatestVersion = 2;
+    const int LatestVersion = 3;
     static readonly string localSaveFileName = "save.dat";
 
     public static SaveLoadManager instance;
@@ -166,6 +166,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         {
             version = LatestVersion,
             lastClearedStageId = BlackContext.instance.LastClearedStageId,
+            lastClearedStageIdEvent = BlackContext.instance.LastClearedStageIdEvent,
             goldScUInt128 = BlackContext.instance.Gold,
             clearedDebrisIndexList = BlackContext.instance.GetDebrisState(),
             pendingGoldScUInt128 = BlackContext.instance.PendingGold,
@@ -399,6 +400,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.UserPseudoId = blackSaveData.userPseudoId;
         context.LastConsumedServiceIndex = blackSaveData.lastConsumedServiceIndex;
         context.LastClearedStageId = blackSaveData.lastClearedStageId;
+        context.LastClearedStageIdEvent = blackSaveData.lastClearedStageIdEvent;
         context.SetGold(blackSaveData.goldScUInt128);
         context.SetDebrisState(blackSaveData.clearedDebrisIndexList);
         context.SetStageLockRemainTime(blackSaveData.stageLockRemainTime);
@@ -549,17 +551,25 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         return true;
     }
 
+    // ReSharper disable once InvertIf
     static void MigrateBlackSaveData(BlackSaveData blackSaveData)
     {
         if (blackSaveData == null) {
             throw new ArgumentNullException(nameof(blackSaveData));
         }
 
-        // Version 1 --> 2
-        // ReSharper disable once InvertIf
         if (blackSaveData.version == 1) {
             ConDebug.LogFormat("Upgrading save file version from {0} to {1}", blackSaveData.version,
                 blackSaveData.version + 1);
+
+            blackSaveData.version++;
+        }
+        
+        if (blackSaveData.version == 2) {
+            ConDebug.LogFormat("Upgrading save file version from {0} to {1}", blackSaveData.version,
+                blackSaveData.version + 1);
+
+            blackSaveData.lastClearedStageIdEvent = 0;
 
             blackSaveData.version++;
         }

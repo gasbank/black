@@ -33,6 +33,7 @@ public interface IBlackContext
     Dictionary<string, LocalUserData> LocalUserDict { get; set; }
 
     ScInt LastClearedStageId { get; set; }
+    ScInt LastClearedStageIdEvent { get; set; }
     List<ScFloat> StageClearTimeList { get; set; }
     bool NextStagePurchased { get; set; }
     ScInt CoinAmount { get; set; }

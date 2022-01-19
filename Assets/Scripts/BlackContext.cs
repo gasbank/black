@@ -14,6 +14,9 @@ public class BlackContext : MonoBehaviour, IBlackContext
 
     [SerializeField]
     ScInt lastClearedStageId;
+    
+    [SerializeField]
+    ScInt lastClearedStageIdEvent;
 
     [SerializeField]
     ScUInt128 paidGem;
@@ -300,6 +303,12 @@ public class BlackContext : MonoBehaviour, IBlackContext
     {
         get => lastClearedStageId;
         set => lastClearedStageId = value;
+    }
+    
+    public ScInt LastClearedStageIdEvent
+    {
+        get => lastClearedStageIdEvent;
+        set => lastClearedStageIdEvent = value;
     }
 
     public List<ScFloat> StageClearTimeList { get; set; }

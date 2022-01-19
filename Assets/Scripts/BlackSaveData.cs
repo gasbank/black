@@ -29,7 +29,7 @@ public class BlackSaveData
 
     [Key(1)]
     public ScInt lastClearedStageId;
-
+    
     [Key(22)]
     public ScInt lastConsumedServiceIndex = 0;
 
@@ -121,4 +121,7 @@ public class BlackSaveData
 
     [Key(37)]
     public StageSaveData wipStageSaveData;
+    
+    [Key(38)]
+    public ScInt lastClearedStageIdEvent;
 }

@@ -355,7 +355,7 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(38);
+            writer.WriteArrayHeader(39);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.version, options);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastClearedStageId, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.goldScUInt128, options);
@@ -394,6 +394,7 @@ namespace MessagePack.Formatters
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.maxColoringComboRedeemed, options);
             writer.Write(value.stageLockRemainTime);
             formatterResolver.GetFormatterWithVerify<global::StageSaveData>().Serialize(ref writer, value.wipStageSaveData, options);
+            formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastClearedStageIdEvent, options);
         }
 
         public global::BlackSaveData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -444,6 +445,7 @@ namespace MessagePack.Formatters
             var __maxColoringComboRedeemed__ = default(global::ScUInt128);
             var __stageLockRemainTime__ = default(float);
             var __wipStageSaveData__ = default(global::StageSaveData);
+            var __lastClearedStageIdEvent__ = default(global::ScInt);
 
             for (int i = 0; i < length; i++)
             {
@@ -565,6 +567,9 @@ namespace MessagePack.Formatters
                     case 37:
                         __wipStageSaveData__ = formatterResolver.GetFormatterWithVerify<global::StageSaveData>().Deserialize(ref reader, options);
                         break;
+                    case 38:
+                        __lastClearedStageIdEvent__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -610,6 +615,7 @@ namespace MessagePack.Formatters
             ____result.maxColoringComboRedeemed = __maxColoringComboRedeemed__;
             ____result.stageLockRemainTime = __stageLockRemainTime__;
             ____result.wipStageSaveData = __wipStageSaveData__;
+            ____result.lastClearedStageIdEvent = __lastClearedStageIdEvent__;
             reader.Depth--;
             return ____result;
         }
