@@ -670,7 +670,7 @@ MonoBehaviour:
   goldClaimImageSprite: {fileID: 0}
   skipRenderGraphic: {fileID: 0}
   subcanvas: {fileID: 3600738253834969589}
-  title: {fileID: 0}
+  title: {fileID: 1330059355037702627}
   titleGroup: {fileID: 0}
   topAnimator: {fileID: 0}
   topImage: {fileID: 0}

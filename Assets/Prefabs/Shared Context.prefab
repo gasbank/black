@@ -137,6 +137,8 @@ MonoBehaviour:
       s1: 1812734171829306504
   lastClearedStageId:
     value: 716899590
+  lastClearedStageIdEvent:
+    value: 0
   paidGem:
     value:
       s0: 6922071743758026897
@@ -155,8 +157,9 @@ MonoBehaviour:
     value:
       s0: 6922071743758026897
       s1: 1812734171829306504
-  stageDetail: {fileID: 0}
+  stageDetailPopup: {fileID: 0}
   achievementNewImage: {fileID: 0}
+  stageLockRemainTime: 0
 --- !u!1 &2425384018534074547
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,6 +410,7 @@ MonoBehaviour:
   sound: {fileID: 2425384019063371284}
   topNotchOffsetGroupList: []
   introDirector: {fileID: 0}
+  mainGame: {fileID: 0}
 --- !u!1 &2425384019063371285
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +475,7 @@ MonoBehaviour:
   feverBgm: {fileID: 0}
   gatherStoredMax: {fileID: 0}
   gatherStoredMaxSfxAudioSource: {fileID: 0}
-  jingleAchievement: {fileID: 0}
+  jingleAchievement: {fileID: 8300000, guid: 29e123bbdd3b7dc45a27bdd9ca25fabf, type: 3}
   longTada: {fileID: 0}
   normalBgms: []
   rubberImpact: {fileID: 0}
@@ -486,6 +490,8 @@ MonoBehaviour:
   whooshAir: {fileID: 8300000, guid: cd2488952df144788a3ebdd27987be55, type: 3}
   wipeStain: {fileID: 0}
   wipeStainFinish: {fileID: 0}
+  microTick: {fileID: 8300000, guid: 3da7ab92601b81246bc89d2ee05b8b3e, type: 3}
+  popup: {fileID: 8300000, guid: 08a539c3651030f41b415ae91463c8c5, type: 3}
 --- !u!82 &2425384019063371281
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1363,6 +1369,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8565fe475ebd3d4fb9a0263e064ec6f, type: 3}
+--- !u!4 &2425384018333359074 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3953899335288545544, guid: f8565fe475ebd3d4fb9a0263e064ec6f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1691000046338554602}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2425384018333359075 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3953899335288545545, guid: f8565fe475ebd3d4fb9a0263e064ec6f,
@@ -1375,9 +1387,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fa1e1aee64773d438fb4e98c8c85153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &2425384018333359074 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3953899335288545544, guid: f8565fe475ebd3d4fb9a0263e064ec6f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1691000046338554602}
-  m_PrefabAsset: {fileID: 0}

@@ -484,35 +484,99 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
         {
             case Header.Decorated:
                 decoratedTitle.text = titleText;
-                titleGroup.padding.top = 0;
+                if (titleGroup != null)
+                {
+                    titleGroup.padding.top = 0;
+                }
+
                 title.gameObject.SetActive(false);
-                decoratedHeader.SetActive(true);
-                decorated2Header.SetActive(false);
-                decorated3Header.SetActive(false);
+                if (decoratedHeader != null)
+                {
+                    decoratedHeader.SetActive(true);
+                }
+
+                if (decorated2Header != null)
+                {
+                    decorated2Header.SetActive(false);
+                }
+
+                if (decorated3Header != null)
+                {
+                    decorated3Header.SetActive(false);
+                }
+
                 break;
             case Header.Decorated2:
                 decorated2Title.text = titleText;
-                titleGroup.padding.top = -33;
+                if (titleGroup != null)
+                {
+                    titleGroup.padding.top = -33;
+                }
+
                 title.gameObject.SetActive(false);
-                decoratedHeader.SetActive(false);
-                decorated2Header.SetActive(true);
-                decorated3Header.SetActive(false);
+                if (decoratedHeader != null)
+                {
+                    decoratedHeader.SetActive(false);
+                }
+
+                if (decorated2Header != null)
+                {
+                    decorated2Header.SetActive(true);
+                }
+
+                if (decorated3Header != null)
+                {
+                    decorated3Header.SetActive(false);
+                }
+
                 break;
             case Header.Decorated3:
                 decorated3Title.text = titleText;
-                titleGroup.padding.top = -33;
+                if (titleGroup != null)
+                {
+                    titleGroup.padding.top = -33;
+                }
+
                 title.gameObject.SetActive(false);
-                decoratedHeader.SetActive(false);
-                decorated2Header.SetActive(false);
-                decorated3Header.SetActive(true);
+                if (decoratedHeader != null)
+                {
+                    decoratedHeader.SetActive(false);
+                }
+
+                if (decorated2Header != null)
+                {
+                    decorated2Header.SetActive(false);
+                }
+
+                if (decorated3Header != null)
+                {
+                    decorated3Header.SetActive(true);
+                }
+
                 break;
             default:
                 title.text = titleText;
-                titleGroup.padding.top = 0;
+                if (titleGroup != null)
+                {
+                    titleGroup.padding.top = 0;
+                }
+
                 title.gameObject.SetActive(true);
-                decoratedHeader.SetActive(false);
-                decorated2Header.SetActive(false);
-                decorated3Header.SetActive(false);
+                if (decoratedHeader != null)
+                {
+                    decoratedHeader.SetActive(false);
+                }
+
+                if (decorated2Header != null)
+                {
+                    decorated2Header.SetActive(false);
+                }
+
+                if (decorated3Header != null)
+                {
+                    decorated3Header.SetActive(false);
+                }
+
                 break;
         }
     }
@@ -572,24 +636,24 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
         if (IsOpen) onCloseButton();
     }
 
-    public void OpenSimpleMessage(string message)
+    public void OpenSimpleMessage(string inMessage)
     {
         ConDebug.Log(nameof(OpenSimpleMessage));
-        Open(message, Close);
+        Open(inMessage, Close);
     }
     
-    public void OpenSimpleMessageWithClickSound(string message)
+    public void OpenSimpleMessageWithClickSound(string inMessage)
     {
         ConDebug.Log(nameof(OpenSimpleMessageWithClickSound));
         Sound.instance.PlayButtonClick();
-        Open(message, Close);
+        Open(inMessage, Close);
     }
     
-    public void OpenSimpleMessageWithClickSoundAndResumeDirector(string message)
+    public void OpenSimpleMessageWithClickSoundAndResumeDirector(string inMessage)
     {
         ConDebug.Log(nameof(OpenSimpleMessageWithClickSoundAndResumeDirector));
         Sound.instance.PlayButtonClick();
-        Open(message, () =>
+        Open(inMessage, () =>
         {
             Close();
             IntroDirector.instance.ResumeDirector();

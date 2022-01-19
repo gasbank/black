@@ -113,6 +113,12 @@ public class Sound : MonoBehaviour
     [SerializeField]
     AudioClip wipeStainFinish;
 
+    [SerializeField]
+    AudioClip microTick;
+
+    [SerializeField]
+    AudioClip popup;
+    
     static bool Verbose => false;
 
     public bool BgmAudioSourceActive
@@ -153,7 +159,6 @@ public class Sound : MonoBehaviour
         get => sfxAudioVolume;
         set => sfxAudioVolume = value;
     }
-
 
     public BgmType CurrentBgmType
     {
@@ -282,6 +287,16 @@ public class Sound : MonoBehaviour
         if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.dingaling);
     }
 
+    public void PlayMicroTick()
+    {
+        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.microTick);
+    }
+    
+    public void PlayPopup()
+    {
+        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.popup);
+    }
+
     public void PlayWhacACatBgm()
     {
         if (BgmAudioSourceActive)
@@ -337,6 +352,11 @@ public class Sound : MonoBehaviour
     public void EnableBgmVolume(bool b)
     {
         ConDebug.Log($"EnableBgmVolume {b}");
+        UpdateBgmVolume(b);
+    }
+
+    void UpdateBgmVolume(bool b)
+    {
         audioMixer.SetFloat("BgmVolume", b ? 20f * Mathf.Log10(BgmAudioVolume) : MutedVolume);
     }
 

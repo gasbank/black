@@ -63,6 +63,8 @@ public interface IPlatformConfirmPopup
 
     void OpenGemClaimPopup(string msg, string claimBtnText, Action onClaim, string titleText,
         Header header = Header.Normal, int autoCloseSec = -1);
+
+    void OpenSimpleMessage(string message);
 }
 
 public enum Header

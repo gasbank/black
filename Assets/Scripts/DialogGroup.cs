@@ -43,7 +43,9 @@ public class DialogGroup : MonoBehaviour
     {
         subcanvas.Open();
         talkTypewriter.ClearText();
+        
         dialogContentAnimator.SetTrigger(Appear);
+        Sound.instance.PlayPopup();
         
         await Task.Delay(1000);
 
@@ -65,8 +67,13 @@ public class DialogGroup : MonoBehaviour
         }
         
         dialogContentAnimator.SetTrigger(Disappear);
+        Sound.instance.PlayPopup();
         
         await Task.Delay(1000);
+        
+        Sound.instance.PlayJingleAchievement();
+
+        ConfirmPopup.instance.Open("축하합니다!\n이제부터 색칠할 곳이 격자 무늬로 강조됩니다.", ConfirmPopup.instance.Close, "새 기능");
         
         subcanvas.Close();
     }

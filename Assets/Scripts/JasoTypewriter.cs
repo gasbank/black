@@ -88,6 +88,7 @@ public class JasoTypewriter : MonoBehaviour
                     targetText.text = text + ch;
                     if (isFastforward == false)
                     {
+                        Sound.instance.PlayMicroTick();
                         yield return new WaitForSeconds(1 / 30.0f);
                     }
                 }
