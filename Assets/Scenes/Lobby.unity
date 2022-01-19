@@ -10276,6 +10276,8 @@ MonoBehaviour:
   subcanvas: {fileID: 1780776870}
   dialogContentAnimator: {fileID: 1733421416}
   talkTypewriter: {fileID: 1829222435}
+  checkHintFeatureGuideSprite: {fileID: 21300000, guid: 5b1f2cd3b9e630f42885273c12ebc48e,
+    type: 3}
 --- !u!114 &1780776875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13106,6 +13108,36 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2203589619503233761, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203589619503233761, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203589619503233761, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203589619503233761, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203589619503233761, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203589619503233761, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3600738253834969587, guid: fd43eb6f1015f874b947d5e2355f7977,
         type: 3}
       propertyPath: m_Name
@@ -13177,6 +13209,36 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5490609299795160937, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5683436054228908679, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5683436054228908679, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5683436054228908679, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5683436054228908679, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5683436054228908679, guid: fd43eb6f1015f874b947d5e2355f7977,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5683436054228908679, guid: fd43eb6f1015f874b947d5e2355f7977,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0

@@ -202,7 +202,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
         //image
         if (popupSprite != null)
         {
-            var popupImageHeight = 80;
+            var popupImageHeight = 256;
             ActivatePopupImage(popupSprite, popupImageTopOffset, popupImageHeight);
         }
         else
@@ -603,7 +603,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
         throw new NotImplementedException();
     }
 
-    void OpenYesImagePopup(string titleText, Sprite sprite, string msg, string btn1Text, Action onBtn1)
+    public void OpenYesImagePopup(string titleText, Sprite sprite, string msg, string btn1Text, Action onBtn1)
     {
         OpenConfirmPopup(msg, onBtn1, null, null, titleText, Header.Normal, btn1Text, "", "", "", "", false, sprite);
     }

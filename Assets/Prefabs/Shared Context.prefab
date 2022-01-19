@@ -492,6 +492,7 @@ MonoBehaviour:
   wipeStainFinish: {fileID: 0}
   microTick: {fileID: 8300000, guid: 3da7ab92601b81246bc89d2ee05b8b3e, type: 3}
   popup: {fileID: 8300000, guid: 08a539c3651030f41b415ae91463c8c5, type: 3}
+  inception: {fileID: 8300000, guid: bcf22c39b2e73d845b48cabf7a8646c9, type: 3}
 --- !u!82 &2425384019063371281
 AudioSource:
   m_ObjectHideFlags: 0

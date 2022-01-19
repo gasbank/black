@@ -65,6 +65,7 @@ public interface IPlatformConfirmPopup
         Header header = Header.Normal, int autoCloseSec = -1);
 
     void OpenSimpleMessage(string message);
+    void OpenYesImagePopup(string titleText, Sprite sprite, string msg, string btn1Text, Action onBtn1);
 }
 
 public enum Header

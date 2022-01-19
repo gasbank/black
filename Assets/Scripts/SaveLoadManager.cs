@@ -22,7 +22,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         BeforeStage
     }
 
-    const int LatestVersion = 3;
+    const int LatestVersion = 4;
     static readonly string localSaveFileName = "save.dat";
 
     public static SaveLoadManager instance;
@@ -573,6 +573,15 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
             blackSaveData.version++;
         }
+        
+        if (blackSaveData.version == 3) {
+            ConDebug.LogFormat("Upgrading save file version from {0} to {1}", blackSaveData.version,
+                blackSaveData.version + 1);
+
+            blackSaveData.lastClearedStageIdEvent = -1;
+
+            blackSaveData.version++;
+        }
     }
 
     static BlackSaveData LoadBlackSaveData()
@@ -729,6 +738,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.LastConsumedServiceIndex = 0;
         context.SaveFileLoaded = true;
         context.LastClearedStageId = 0;
+        context.LastClearedStageIdEvent = -1;
         context.StageClearTimeList = new List<ScFloat>();
         context.NextStagePurchased = false;
         context.CoinAmount = 0;

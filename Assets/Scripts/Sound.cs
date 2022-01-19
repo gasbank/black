@@ -118,6 +118,9 @@ public class Sound : MonoBehaviour
 
     [SerializeField]
     AudioClip popup;
+
+    [SerializeField]
+    AudioClip inception;
     
     static bool Verbose => false;
 
@@ -295,6 +298,11 @@ public class Sound : MonoBehaviour
     public void PlayPopup()
     {
         if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.popup);
+    }
+    
+    public void PlayInception()
+    {
+        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.inception);
     }
 
     public void PlayWhacACatBgm()
