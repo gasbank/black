@@ -138,6 +138,8 @@ public class MainGame : MonoBehaviour
         
         // 플레이어가 선택한 팔레트에 해당하는 모든 칸을 특정 색깔로 그리는 컴포넌트
         // 게임을 더 편-안-하게 플레이할 수 있도록 해 준다.
+        // 그러나 4 스테이지부터 켜준다.
+        singlePaletteRenderer.gameObject.SetActive(stageMetadata.StageIndex >= 3);
         singlePaletteRenderer.Initialize(stageMetadata);
 
         targetImageOutline.material = stageMetadata.SdfMaterial;
