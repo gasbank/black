@@ -20,7 +20,7 @@ public class StageProgressDot : MonoBehaviour
     public void SetAnimActive(bool active)
     {
         // OnValidate()를 통해서도 호출되기 때문에 체크!
-        if (Application.isPlaying)
+        if (Application.isPlaying && gameObject.activeInHierarchy)
         {
             animator.Play(active ? "Active" : "Inactive");
         }
