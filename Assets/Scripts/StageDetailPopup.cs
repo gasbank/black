@@ -234,10 +234,17 @@ public class StageDetailPopup : MonoBehaviour
                 GoToMain();
             }
         }
-        else
+        else if (PlatformAdMobAds.instance != null)
         {
             var adContext = new BlackAdContext(stageLocker.Unlock);
             PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
+        }
+        else
+        {
+            if (Application.isEditor)
+            {
+                ConfirmPopup.instance.OpenSimpleMessage("Ad not supported on this platform. Click the button while Left Shift key.");
+            }
         }
     }
 
