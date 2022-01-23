@@ -78,11 +78,14 @@ public class SingletonManager : MonoBehaviour
     Sound sound;
 
     [SerializeField]
+    ToastMessage toastMessage;
+
+    [SerializeField]
     TopNotchOffsetGroup[] topNotchOffsetGroupList;
-    
+
     [SerializeField]
     IntroDirector introDirector;
-    
+
     [SerializeField]
     MainGame mainGame;
 
@@ -116,6 +119,7 @@ public class SingletonManager : MonoBehaviour
         Admin.instance = admin;
         SaveLoadManager.instance = saveLoadManager;
         BackgroundTimeCompensator.instance = backgroundTimeCompensator;
+        ToastMessage.instance = toastMessage;
         IntroDirector.instance = introDirector;
         MainGame.instance = mainGame;
 

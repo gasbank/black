@@ -35,9 +35,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     PlayableDirector finaleDirector;
 
     [SerializeField]
-    public Image flickerImage;
-
-    [SerializeField]
     public ComboEffect comboEffector;
 
     [SerializeField]
@@ -208,15 +205,15 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     // 잘못된 팔레트 버튼으로 칠하려고 했을 때만 오류로 표시
                     if (fillResult == FillResult.WrongColor)
                     {
+                        // TODO: 아래 메시지 번역키로 대응 필요
+                        ToastMessage.instance.ShowWarnMessage("색을 다시 확인해주세요");
+                        
                         if (!BlackContext.instance.ComboAdminMode)
                         {
                             BlackContext.instance.StageCombo = 0;
                         }
 
                         Sound.instance.PlayFillError();
-
-                        flickerImage.enabled = true;
-                        StartCoroutine(nameof(HideFlicker));
                     }
                 }
 
@@ -289,7 +286,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         rootCanvas = GetComponentInParent<Canvas>();
         Coin = 0;
-        flickerImage.enabled = false;
     }
 
     public void LoadTexture(Texture2D inputTexture, StageData inStageData)
@@ -398,12 +394,6 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 Debug.LogError($"Island data (min point = {minPoint} cannot be found in StageData.");
             }
         }
-    }
-
-    IEnumerator HideFlicker()
-    {
-        yield return new WaitForSeconds(0.0f);
-        flickerImage.enabled = false;
     }
 
     void StartAnimateFillCoin(Vector2 localPoint)
