@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 using JetBrains.Annotations;
+#if ADDRESSABLES
 using UnityEditor.AddressableAssets.Settings;
+#endif
 using UnityEditor.Build.Reporting;
 
 internal static class BlackBuild {
@@ -45,8 +47,9 @@ internal static class BlackBuild {
     }
 
     static void PerformAndroidBuildInternal(bool il2cpp, bool appBundle, bool run = false) {
+#if ADDRESSABLES
         AddressableAssetSettings.BuildPlayerContent();
-        
+#endif        
         var isReleaseBuild = Environment.GetEnvironmentVariable("BLACK_DEV_BUILD") != "1";
         var skipArmV7 = Environment.GetEnvironmentVariable("BLACK_SKIP_ARMV7") == "1";
         BuildPlayerOptions options = new BuildPlayerOptions {
@@ -175,8 +178,9 @@ internal static class BlackBuild {
 
     static void PerformIosDistributionBuild(string teamId, string profileId, bool universal)
     {
+#if ADDRESSABLES
         AddressableAssetSettings.BuildPlayerContent();
-        
+#endif
         if (Application.isBatchMode && string.IsNullOrEmpty(teamId))
         {
             Debug.LogError($"Team ID: {teamId} is empty.");

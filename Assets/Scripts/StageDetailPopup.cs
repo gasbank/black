@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
+#if ADDRESSABLES
 using UnityEngine.AddressableAssets;
+#endif
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -71,14 +73,15 @@ public class StageDetailPopup : MonoBehaviour
 
         // 한번 깼던 판 다시 꺠려고 하는 것인가?
         replay = stageIndex + 1 <= BlackContext.instance.LastClearedStageId;
-        
+
         if (IsAllCleared && replay == false)
         {
             //Debug.LogError("lastClearedStageId exceeds Data.dataSet.StageMetadataList count.");
-            ConfirmPopup.instance.Open(@"\모든 스테이지를 깼습니다!\n진정한 미술관 재건이 시작되는 다음 업데이트를 기대 해 주세요!".Localized(), ConfirmPopup.instance.Close);
+            ConfirmPopup.instance.Open(@"\모든 스테이지를 깼습니다!\n진정한 미술관 재건이 시작되는 다음 업데이트를 기대 해 주세요!".Localized(),
+                ConfirmPopup.instance.Close);
             return;
         }
-        
+
         stageProgress.ProgressInt = stageIndex % 5;
 
         ProgressMessage.instance.Open(@"\그림을 준비하는 중...".Localized());
@@ -93,9 +96,9 @@ public class StageDetailPopup : MonoBehaviour
             Debug.LogError("Stage metadata is null");
             return;
         }
-        
+
         islandShader3DController.Initialize(stageMetadata);
-        
+
         var stageSaveData = StageSaveManager.Load(stageMetadata.name);
         if (stageSaveData != null)
         {
@@ -126,7 +129,7 @@ public class StageDetailPopup : MonoBehaviour
         {
             stageLocker.Lock();
         }
-        
+
         stageProgress.Show(replay == false);
 
         if (easelExclamationMark != null)
@@ -224,7 +227,7 @@ public class StageDetailPopup : MonoBehaviour
             {
                 var stageMetadata = stageButton.GetStageMetadata();
                 var stageTitle = Data.dataSet.StageSequenceData[stageMetadata.StageIndex].title;
-                
+
                 ConfirmPopup.instance.OpenYesNoPopup(
                     @"\'{0}' 스테이지를 시작할까요?\n\n설정 메뉴에서 언제든지 미술관으로 돌아올 수 있습니다.".Localized(stageTitle),
                     GoToMain, ConfirmPopup.instance.Close);
@@ -243,7 +246,8 @@ public class StageDetailPopup : MonoBehaviour
         {
             if (Application.isEditor)
             {
-                ConfirmPopup.instance.OpenSimpleMessage("Ad not supported on this platform. Click the button while Left Shift key.");
+                ConfirmPopup.instance.OpenSimpleMessage(
+                    "Ad not supported on this platform. Click the button while Left Shift key.");
             }
         }
     }

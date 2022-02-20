@@ -5,15 +5,18 @@ using ConditionalDebug;
 using MessagePack;
 using MessagePack.Resolvers;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Profiling;
+
+#if ADDRESSABLES
+using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.ResourceLocations;
+#endif
 
 [DisallowMultipleComponent]
 public class Data : MonoBehaviour
 {
     static bool Verbose => false;
-    
+
     public static Data instance;
 
     public static DataSet dataSet;

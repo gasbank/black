@@ -2,15 +2,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
+
+#if ADDRESSABLES
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets.Settings.GroupSchemas;
-using UnityEngine;
+#endif
 
 public class AddressablesEditorUtility
 {
     public static void SetAddressableGroupAutomatically(Object obj)
     {
+#if ADDRESSABLES
         var assetPath = AssetDatabase.GetAssetPath(obj);
 
         var parentPath = assetPath;
@@ -39,10 +43,12 @@ public class AddressablesEditorUtility
             var parentDirName = Path.GetFileNameWithoutExtension(parentPath);
             SetAddressableGroup(obj, parentDirName);
         }
+#endif
     }
 
     static void SetAddressableGroup(Object obj, string groupName = null)
     {
+#if ADDRESSABLES
         var settings = AddressableAssetSettingsDefaultObject.Settings;
 
         if (!settings)
@@ -71,5 +77,6 @@ public class AddressablesEditorUtility
 
         group.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entriesAdded, false, true);
         settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entriesAdded, true, false);
+#endif
     }
 }

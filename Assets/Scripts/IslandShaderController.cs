@@ -13,15 +13,16 @@ public class IslandShaderController : MonoBehaviour
     [Range(0, 4)]
     int islandIndex;
 
+#if ADDRESSABLES
     [SerializeField]
     AssetReferenceStageMetadata stageMetadataRef;
-
+#endif
     [SerializeField]
     bool fullRender;
-    
+
     [SerializeField]
     bool singleIsland;
-    
+
     StageData stageData;
 
     static readonly int A1Tex = Shader.PropertyToID("_A1Tex");
@@ -31,30 +32,10 @@ public class IslandShaderController : MonoBehaviour
     static readonly int FullRender = Shader.PropertyToID("_FullRender");
     static readonly int SingleIsland = Shader.PropertyToID("_SingleIsland");
 
-    // Start is called before the first frame update
+#if ADDRESSABLES
     async void Start()
     {
-//        var a1Tex = new Texture2D(2, 2, TextureFormat.Alpha8, false, false);
-//        a1Tex.SetPixel(0, 0, new Color32(0, 0, 0, 0 | 0));
-//        a1Tex.SetPixel(1, 0, new Color32(0, 0, 0, 1 | (1 << 6)));
-//        a1Tex.SetPixel(0, 1, new Color32(0, 0, 0, 2 | (2 << 6)));
-//        a1Tex.SetPixel(1, 1, new Color32(0, 0, 0, 3 | (3 << 6)));
-//        a1Tex.filterMode = FilterMode.Point;
-//        a1Tex.wrapMode = TextureWrapMode.Clamp;
-//        a1Tex.Apply();
-//        
-//        var a2Tex = new Texture2D(2, 2, TextureFormat.Alpha8, false, false);
-//        a2Tex.SetPixel(0, 0, new Color32(0,0,0,0));
-//        a2Tex.SetPixel(1, 0, new Color32(0,0,0,0));
-//        a2Tex.SetPixel(0, 1, new Color32(0,0,0,0));
-//        a2Tex.SetPixel(1, 1, new Color32(0,0,0,0));
-//        a2Tex.filterMode = FilterMode.Point;
-//        a2Tex.wrapMode = TextureWrapMode.Clamp;
-//        a2Tex.Apply();
-
-
         var stageMetadata = await stageMetadataRef.LoadAssetAsync().Task;
-
 
         var a1Tex = stageMetadata.A1Tex;
         var a2Tex = stageMetadata.A2Tex;
@@ -80,17 +61,13 @@ public class IslandShaderController : MonoBehaviour
         {
             var paletteArray = colorUintArray.Select(BlackConvert.GetColor).ToArray();
             rawImage.materialForRendering.SetColorArray(Palette, paletteArray);
-
-//            rawImage.material.SetColorArray(Palette, new List<Color>
-//            {
-//                Color.red, Color.green, Color.blue, Color.white
-//            });
         }
 
         rawImage.materialForRendering.SetInt(IslandIndex, 0);
-        
+
         InvokeRepeating(nameof(IncreaseIslandIndex), 5.0f, 0.01f);
     }
+#endif
 
     void Update()
     {

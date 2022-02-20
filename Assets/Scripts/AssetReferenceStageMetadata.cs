@@ -1,4 +1,5 @@
 ﻿using System;
+#if ADDRESSABLES
 using UnityEngine.AddressableAssets;
 
 [Serializable]
@@ -8,3 +9,4 @@ public class AssetReferenceStageMetadata : AssetReferenceT<StageMetadata>
     {
     }
 }
+#endif

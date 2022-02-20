@@ -1,4 +1,5 @@
-﻿/*
+﻿#if IMAGESHARP
+/*
  * Copyright 2012, Catlike Coding
  * http://catlikecoding.com
  */
@@ -444,3 +445,4 @@ namespace black_dev_tools
         }
     }
 }
+#endif

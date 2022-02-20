@@ -5,7 +5,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using ConditionalDebug;
 using UnityEngine;
+#if ADDRESSABLES
 using UnityEngine.AddressableAssets;
+#endif
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -57,7 +59,7 @@ public class MainGame : MonoBehaviour
 
     [SerializeField]
     IslandShader3DController islandShader3DController;
-    
+
     [SerializeField]
     SinglePaletteRenderer singlePaletteRenderer;
 
@@ -84,12 +86,14 @@ public class MainGame : MonoBehaviour
 
         if (stageMetadata == null)
         {
+#if ADDRESSABLES
             while (Data.dataSet == null || Data.dataSet.StageMetadataLocList == null)
             {
                 await Task.Yield();
             }
 
             stageMetadata = await Addressables.LoadAssetAsync<StageMetadata>(Data.dataSet.StageMetadataLocList[0]).Task;
+#endif
         }
 
         using (var stream = new MemoryStream(stageMetadata.RawStageData.bytes))
@@ -123,19 +127,19 @@ public class MainGame : MonoBehaviour
         //skipBlackMaterial.SetTexture(ColorTexture, colorTexture);
 
         gridWorld.LoadTexture(stageMetadata.A1Tex, stageData);
-        
+
         gridWorld.StageName = stageMetadata.name;
         nameplateGroup.ArtistText = stageMetadata.StageSequenceData.artist;
         nameplateGroup.TitleText = stageMetadata.StageSequenceData.title;
         nameplateGroup.DescText = stageMetadata.StageSequenceData.desc;
 
         //targetImage.SetTargetImageMaterial(skipBlackMaterial);
-        
+
         // 플레이어가 색칠한 칸을 하나씩 렌더링하는 컴포넌트
         // 화면에 보여지는 것은 색칠된 칸이 모두 누적된 형태다.
         // 이를 위해 Render Texture 이용
         islandShader3DController.Initialize(stageMetadata);
-        
+
         // 플레이어가 선택한 팔레트에 해당하는 모든 칸을 특정 색깔로 그리는 컴포넌트
         // 게임을 더 편-안-하게 플레이할 수 있도록 해 준다.
         // 그러나 4 스테이지부터 켜준다.

@@ -1,11 +1,15 @@
 using UnityEngine;
+
+#if ADDRESSABLES
 using UnityEngine.AddressableAssets;
+#endif
 
 public class StageButtonGroup : MonoBehaviour
 {
     [SerializeField]
     GameObject stageButtonPrefab;
 
+#if ADDRESSABLES
     async void Start()
     {
         var stageAssetLocList = await Addressables.LoadResourceLocationsAsync("Stage", typeof(StageMetadata)).Task;
@@ -27,4 +31,5 @@ public class StageButtonGroup : MonoBehaviour
 //            await Task.Delay(1);
 //        }
     }
+#endif
 }

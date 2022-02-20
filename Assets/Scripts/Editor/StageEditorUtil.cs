@@ -60,7 +60,7 @@ internal static class StageEditorUtil
             Debug.LogError("Asset path error");
             return;
         }
-        
+
         var stageName = Path.GetFileNameWithoutExtension(assetDirName);
 
         if (showConfirm && !EditorUtility.DisplayDialog($"Import New Stage: {stageName}",
@@ -68,7 +68,7 @@ internal static class StageEditorUtil
         {
             return;
         }
-        
+
         var stageMetadataPath = Path.Combine(assetDirName, $"{stageName}.asset");
         var stageMetadata = AssetDatabase.LoadAssetAtPath<StageMetadata>(stageMetadataPath);
         var outlineThreshold = 30;
@@ -77,10 +77,11 @@ internal static class StageEditorUtil
         {
             outlineThreshold = stageMetadata.OutlineThreshold;
         }
-        
+
         Debug.Log($"Max palette count: {maxPaletteCount}");
         Debug.Log($"Outline threshold: {outlineThreshold}");
-        
+
+#if IMAGESHARP
         Program.Main(new[]
         {
             /* 00 */ "dit",
@@ -91,6 +92,9 @@ internal static class StageEditorUtil
             /* 05 */ stageName,
             /* 06 */ outlineThreshold.ToString(),
         });
+#else
+        Debug.LogError("ImageSharp library not included.");
+#endif
 
         AssetDatabase.Refresh();
 
@@ -148,10 +152,10 @@ internal static class StageEditorUtil
 
         var fsnbTexPath = Path.Combine(stageDir, $"{metadataName}-OTB-FSNB.png");
         var fsnbTex = AssetDatabase.LoadAssetAtPath<Texture2D>(fsnbTexPath);
-        
+
         var a1TexPath = Path.Combine(stageDir, $"{metadataName}-OTB-FSNB-DIT-A1.png");
         var a1Tex = AssetDatabase.LoadAssetAtPath<Texture2D>(a1TexPath);
-        
+
         var a2TexPath = Path.Combine(stageDir, $"{metadataName}-OTB-FSNB-DIT-A2.png");
         var a2Tex = AssetDatabase.LoadAssetAtPath<Texture2D>(a2TexPath);
 
@@ -161,7 +165,7 @@ internal static class StageEditorUtil
 
         var fsnbPresetPath = "Assets/Presets/TextureImporter-FSNB.preset";
         var fsnbPreset = AssetDatabase.LoadAssetAtPath<Preset>(fsnbPresetPath);
-        
+
         var a1A2PresetPath = "Assets/Presets/TextureImporter-A1A2.preset";
         var a1A2Preset = AssetDatabase.LoadAssetAtPath<Preset>(a1A2PresetPath);
 
@@ -192,7 +196,7 @@ internal static class StageEditorUtil
         var a1Importer = AssetImporter.GetAtPath(a1TexPath);
         Debug.Log(a1Tex);
         Debug.Log(a1A2Preset.ApplyTo(a1Importer));
-        
+
         var a2Importer = AssetImporter.GetAtPath(a2TexPath);
         Debug.Log(a2Tex);
         Debug.Log(a1A2Preset.ApplyTo(a2Importer));

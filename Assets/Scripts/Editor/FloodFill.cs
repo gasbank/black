@@ -1,9 +1,11 @@
+#if IMAGESHARP
 using System.Collections.Generic;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace black_dev_tools
 {
+    
     internal class FloodFill
     {
         static readonly Rgba32 Black = Rgba32.ParseHex("000000ff");
@@ -205,3 +207,4 @@ namespace black_dev_tools
         }
     }
 }
+#endif

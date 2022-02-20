@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if IMAGESHARP
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -902,3 +903,4 @@ namespace black_dev_tools
         }
     }
 }
+#endif
