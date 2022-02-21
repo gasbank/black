@@ -41,11 +41,91 @@ public class DummyResourceLocation : IResourceLocation
     public string PrimaryKey { get; set; }
 }
 
+internal interface IAsyncOperation
+{
+    System.Threading.Tasks.Task<object> Task { get; }
+    int Version { get; }
+}
+
+public abstract class AsyncOperationBase<TObject> : IAsyncOperation
+{
+    System.Threading.Tasks.Task<object> IAsyncOperation.Task { get; }
+    public virtual int Version { get; }
+    public virtual System.Threading.Tasks.Task<TObject> Task { get; }
+}
+
+class ResourceLocationOperation : AsyncOperationBase<IList<IResourceLocation>>
+{
+    public override int Version => 1985;
+
+    public override Task<IList<IResourceLocation>> Task
+    {
+        get
+        {
+            return System.Threading.Tasks.Task.Run(() =>
+            {
+                var list = new List<IResourceLocation>();
+                return (IList<IResourceLocation>) list;
+            });
+        }
+    }
+}
+
+public struct AsyncOperationHandle<TObject> : IEnumerator, IEquatable<AsyncOperationHandle<TObject>>
+{
+    readonly int m_Version;
+    readonly AsyncOperationBase<TObject> m_InternalOp;
+    
+    internal AsyncOperationHandle(IAsyncOperation op, string locationName)
+    {
+        m_Version = 1985;
+        m_InternalOp = (AsyncOperationBase<TObject>) op;
+    }
+
+    bool IEnumerator.MoveNext()
+    {
+        throw new NotImplementedException();
+    }
+
+    void IEnumerator.Reset()
+    {
+        throw new NotImplementedException();
+    }
+
+    object IEnumerator.Current
+    {
+        get { return Result; }
+    }
+    
+    public object Result
+    {
+        get { return null; }
+    }
+    
+    AsyncOperationBase<TObject> InternalOp
+    {
+        get
+        {
+            if (m_InternalOp == null || m_InternalOp.Version != m_Version)
+                throw new Exception("Attempting to use an invalid operation handle");
+            return m_InternalOp;
+        }
+    }
+    
+    public bool Equals(AsyncOperationHandle<TObject> other)
+    {
+        return m_Version == other.m_Version && m_InternalOp == other.m_InternalOp;
+    }
+    
+    public System.Threading.Tasks.Task<TObject> Task => InternalOp.Task;
+}
+
 public static class Addressables
 {
-    public static AddressablesListTask<IResourceLocation[]> LoadResourceLocationsAsync(string stage, Type type)
+    public static AsyncOperationHandle<IList<IResourceLocation>> LoadResourceLocationsAsync(object key, Type type = null)
     {
-        var r = new AddressablesListTask<IResourceLocation[]>();
+        var op = new ResourceLocationOperation();
+        var r = new AsyncOperationHandle<IList<IResourceLocation>>(op, (string) key);
         return r;
     }
 
@@ -54,20 +134,7 @@ public static class Addressables
         var r = new AddressablesTask<T>();
         return r;
     }
-}
-
-public class AddressablesListTask<T> where T : IEnumerable
-{
-    public Task<DummyResourceLocation[]> Task;
-
-    public AddressablesListTask()
-    {
-        Task = System.Threading.Tasks.Task.Run(() =>
-        {
-            var x = new List<DummyResourceLocation>();
-            return x.ToArray();
-        });
-    }
+    
 }
 
 public class AddressablesTask<T> where T : UnityEngine.Object
