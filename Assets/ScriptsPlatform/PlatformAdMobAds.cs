@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Text;
+using UnityEngine;
 
 public class PlatformAdMobAds : MonoBehaviour
 {
@@ -13,12 +14,17 @@ public class PlatformAdMobAds : MonoBehaviour
     public void TryShowRewardedAd(object adContext)
     {
 #if GOOGLE_MOBILE_ADS
-        if (Application.internetReachability == NetworkReachability.NotReachable) {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
             PlatformInterface.instance.confirmPopup.Open(PlatformInterface.instance.text.Str_InternetRequiredForAds);
-        } else if (PlatformAdMobAdsInit.instance.rewardBasedVideo.IsLoaded()) {
+        }
+        else if (PlatformAdMobAdsInit.instance.rewardBasedVideo.IsLoaded())
+        {
             this.adContext = adContext;
             PlatformAdMobAdsInit.instance.rewardBasedVideo.Show();
-        } else {
+        }
+        else
+        {
             Debug.LogError("Ad not ready!");
             ShowAdsErrorPopup();
         }
@@ -42,6 +48,11 @@ public class PlatformAdMobAds : MonoBehaviour
 
     static void ShowAdsErrorPopup()
     {
-        PlatformInterface.instance.confirmPopup.Open(PlatformInterface.instance.text.Str_AdMobError + "\n" + lastErrorMessage);
+        var sb = new StringBuilder(PlatformInterface.instance.text.Str_AdMobError);
+        sb.AppendLine(lastErrorMessage);
+#if BLACK_ADMIN
+        sb.AppendLine("Try enabling Test Ad toggle in Admin");
+#endif
+        PlatformInterface.instance.confirmPopup.Open(sb.ToString());
     }
 }
