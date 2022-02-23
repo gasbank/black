@@ -32,21 +32,24 @@ internal static class BlackBuild {
     [UsedImplicitly]
     public static void PerformAndroidBuildMono() {
         Environment.SetEnvironmentVariable("BLACK_DEV_BUILD", "1");
-        PerformAndroidBuildInternal(false, false);
-        EditorUtility.RevealInFinder("./black.apk");
+        var locationPathName = "black-mono.apk";
+        if (PerformAndroidBuildInternal(false, false, false, locationPathName))
+        {
+            EditorUtility.RevealInFinder(Path.Combine(Environment.CurrentDirectory, locationPathName));
+        }
     }
 
     [UsedImplicitly]
     public static void PerformAndroidBuild() {
-        PerformAndroidBuildInternal(true, false);
+        PerformAndroidBuildInternal(true, false, false, "black.apk");
     }
     
     [UsedImplicitly]
     public static void PerformAndroidPlayStoreBuild() {
-        PerformAndroidBuildInternal(true, true);
+        PerformAndroidBuildInternal(true, true, false, "black.aab");
     }
 
-    static void PerformAndroidBuildInternal(bool il2cpp, bool appBundle, bool run = false) {
+    static bool PerformAndroidBuildInternal(bool il2cpp, bool appBundle, bool run, string locationPathName) {
 #if ADDRESSABLES
         AddressableAssetSettings.BuildPlayerContent();
 #endif        
@@ -55,7 +58,7 @@ internal static class BlackBuild {
         BuildPlayerOptions options = new BuildPlayerOptions {
             scenes = Scenes,
             target = BuildTarget.Android,
-            locationPathName = appBundle ? "./black.aab" : "./black.apk",
+            locationPathName = locationPathName,
         };
 
         if (run) {
@@ -95,10 +98,20 @@ internal static class BlackBuild {
         if (ProcessAndroidKeystorePassArg(cmdArgs)) {
             ProcessBuildNumber(cmdArgs);
             var buildReport = BuildPipeline.BuildPlayer(options);
-            if (buildReport.summary.result != BuildResult.Succeeded && Application.isBatchMode) {
-                EditorApplication.Exit(-1);
+            if (buildReport.summary.result != BuildResult.Succeeded) {
+                if (Application.isBatchMode) {
+                    EditorApplication.Exit(-1);
+                }
+
+                return false;
             }
+
+            // 빌드 성공!
+            return true;
         }
+        
+        // 키가 없어서 실패!
+        return false;
     }
 
     static bool ProcessAndroidKeystorePassArg(List<string> cmdArgs) {
