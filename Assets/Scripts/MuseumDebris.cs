@@ -24,6 +24,12 @@ public class MuseumDebris : MonoBehaviour
     [SerializeField]
     EaselExclamationMark exclamationMark;
 
+    [SerializeField]
+    Camera cam;
+
+    [SerializeField]
+    RectTransform rt;
+
     public bool IsExclamationMarkShown
     {
         get
@@ -107,6 +113,19 @@ public class MuseumDebris : MonoBehaviour
 
     public void UpdateExclamationMark()
     {
-        exclamationMark.gameObject.SetActive(subcanvas.IsOpen && BlackContext.instance.Gold >= clearPrice.ToUInt128());
+        if (BlackContext.instance != null)
+        {
+            exclamationMark.gameObject.SetActive(subcanvas.IsOpen &&
+                                                 BlackContext.instance.Gold >= clearPrice.ToUInt128());
+        }
+    }
+
+    public void MoveByScreenPoint(Vector2 screenPoint)
+    {
+        var parentRt = transform.parent.GetComponent<RectTransform>();
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRt, screenPoint, cam, out var localPoint))
+        {
+            rt.anchoredPosition = localPoint;
+        }
     }
 }

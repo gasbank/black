@@ -13,12 +13,18 @@ public class MuseumImage : MonoBehaviour
 
     void OnEnable()
     {
-        BlackContext.instance.OnGoldChanged += OnGoldChanged;
+        if (BlackContext.instance != null)
+        {
+            BlackContext.instance.OnGoldChanged += OnGoldChanged;
+        }
     }
 
     void OnDisable()
     {
-        BlackContext.instance.OnGoldChanged -= OnGoldChanged;
+        if (BlackContext.instance != null)
+        {
+            BlackContext.instance.OnGoldChanged -= OnGoldChanged;
+        }
     }
 
     void Start()
