@@ -3413,6 +3413,7 @@ GameObject:
   m_Component:
   - component: {fileID: 862572225}
   - component: {fileID: 862572224}
+  - component: {fileID: 862572223}
   m_Layer: 0
   m_Name: Camera (Interior)
   m_TagString: Untagged
@@ -3420,6 +3421,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &862572223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862572222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a499188233152ec4d8a4b104b7616474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 862572224}
 --- !u!20 &862572224
 Camera:
   m_ObjectHideFlags: 0
@@ -3447,7 +3461,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.9977145
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
