@@ -48,7 +48,7 @@ public class MuseumDebris : MonoBehaviour
 #endif
 
     public bool IsOpen => subcanvas.IsOpen;
-    
+
     public void Open()
     {
         subcanvas.Open();
