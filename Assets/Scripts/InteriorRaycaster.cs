@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.Serialization;
@@ -7,11 +6,10 @@ using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 [DisallowMultipleComponent]
 public class InteriorRaycaster : MonoBehaviour
 {
+    public static InteriorRaycaster Instance;
+    
     [SerializeField]
     Camera interiorCam;
-
-    [SerializeField]
-    Debris activeDebris;
 
     [FormerlySerializedAs("colliderMask")]
     [SerializeField]
@@ -29,39 +27,50 @@ public class InteriorRaycaster : MonoBehaviour
     }
 #endif
 
+    void Awake()
+    {
+        Instance = this;
+    }
+
     void Start()
     {
         raycastHitList = new RaycastHit[10];
     }
 
-    protected void OnEnable()
-    {
-        EnhancedTouchSupport.Enable();
-        TouchSimulation.Enable();
-        
-        Touch.onFingerDown += OnFingerDown;
-        Touch.onFingerMove += OnFingerMove;
-    }
-
-    protected void OnDisable()
-    {
-        EnhancedTouchSupport.Disable();
-
-        Touch.onFingerDown -= OnFingerDown;
-        Touch.onFingerMove -= OnFingerMove;
-    }
+//    protected void OnEnable()
+//    {
+//        EnhancedTouchSupport.Enable();
+//        TouchSimulation.Enable();
+//        
+//        Touch.onFingerDown += OnFingerDown;
+//        Touch.onFingerMove += OnFingerMove;
+//    }
+//
+//    protected void OnDisable()
+//    {
+//        EnhancedTouchSupport.Disable();
+//
+//        Touch.onFingerDown -= OnFingerDown;
+//        Touch.onFingerMove -= OnFingerMove;
+//    }
 
     void OnFingerDown(Finger finger)
     {
-        UpdateActiveDebrisPosition(finger);
+        UpdateActiveDebrisPosition(finger.screenPosition);
     }
 
-    void UpdateActiveDebrisPosition(Finger finger)
+    public void UpdateActiveDebrisPosition(Vector2 screenPosition)
     {
-        var ray = interiorCam.ScreenPointToRay(finger.screenPosition);
+        var activePlacedProp3D = ActivePropButtonGroup.Instance.ActiveProp3D;
+        if (activePlacedProp3D == null)
+        {
+            return;
+        }
+        
+        var ray = interiorCam.ScreenPointToRay(screenPosition);
         var fingerHitCount = Physics.RaycastNonAlloc(ray, raycastHitList, 1000.0f, fingerColliderMask);
 
-        var debrisBoxCollider = activeDebris.BoxCollider;
+        var debrisBoxCollider = activePlacedProp3D.BoxCollider;
         //debrisBoxCollider.center
         //activeDebris.BoxColliderGlobalScale
         //transform.loss
@@ -95,12 +104,12 @@ public class InteriorRaycaster : MonoBehaviour
 
         var finalPlacementPoint = wallCollider.GetClampedWorldPoint(worldSize, h.point);
             
-        activeDebris.MoveByScreenPoint(finalPlacementPoint + h.normal, finalPlacementPoint, RectTransformUtility.WorldToScreenPoint(interiorCam, finalPlacementPoint));
+        activePlacedProp3D.MoveByScreenPoint(finalPlacementPoint + h.normal, finalPlacementPoint, RectTransformUtility.WorldToScreenPoint(interiorCam, finalPlacementPoint));
         //Debug.Log(h.transform.name);
     }
 
     void OnFingerMove(Finger finger)
     {
-        UpdateActiveDebrisPosition(finger);
+        UpdateActiveDebrisPosition(finger.screenPosition);
     }
 }

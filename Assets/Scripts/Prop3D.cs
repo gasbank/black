@@ -1,11 +1,13 @@
-using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
-public class Debris : MonoBehaviour
+public class Prop3D : MonoBehaviour
 {
+    [FormerlySerializedAs("placedProp")]
+    [FormerlySerializedAs("museumDebris")]
     [SerializeField]
-    MuseumDebris museumDebris;
+    Prop prop;
 
     [SerializeField]
     BoxCollider boxCollider;
@@ -27,6 +29,7 @@ public class Debris : MonoBehaviour
         
         transform.position = worldPoint;
         transform.LookAt(forward);
-        museumDebris.MoveByScreenPoint(screenPoint);
+        prop.MoveByScreenPoint(screenPoint);
+        ActivePropButtonGroup.Instance.HideButtonGroup();
     }
 }
