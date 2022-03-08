@@ -11,13 +11,6 @@ public class InteriorRaycaster : MonoBehaviour
     [SerializeField]
     Camera interiorCam;
 
-    [FormerlySerializedAs("colliderMask")]
-    [SerializeField]
-    LayerMask fingerColliderMask;
-    
-    [SerializeField]
-    LayerMask placementColliderMask;
-
     RaycastHit[] raycastHitList;
     
 #if UNITY_EDITOR
@@ -61,23 +54,21 @@ public class InteriorRaycaster : MonoBehaviour
 
     public void UpdateActiveDebrisPosition(Vector2 screenPosition)
     {
-        var activePlacedProp3D = ActivePropButtonGroup.Instance.ActiveProp3D;
-        if (activePlacedProp3D == null)
+        var prop = ActivePropButtonGroup.Instance.ActiveProp;
+        if (prop == null)
+        {
+            return;
+        }
+
+        if (prop.Prop3D == null)
         {
             return;
         }
         
         var ray = interiorCam.ScreenPointToRay(screenPosition);
-        var fingerHitCount = Physics.RaycastNonAlloc(ray, raycastHitList, 1000.0f, fingerColliderMask);
+        var fingerHitCount = Physics.RaycastNonAlloc(ray, raycastHitList, 1000.0f, prop.Prop3D.AttachRaycastLayer);
 
-        var debrisBoxCollider = activePlacedProp3D.BoxCollider;
-        //debrisBoxCollider.center
-        //activeDebris.BoxColliderGlobalScale
-        //transform.loss
-        //debrisBoxCollider.
-        var debrisTransform = debrisBoxCollider.transform;
-        var globalCenter = debrisTransform.TransformPoint(debrisBoxCollider.center);
-        var globalExtents = Vector3.Scale(debrisBoxCollider.size, debrisTransform.lossyScale) / 2;
+        var debrisBoxCollider = prop.Prop3D.BoxCollider;
 
         if (fingerHitCount <= 0)
         {
@@ -104,7 +95,7 @@ public class InteriorRaycaster : MonoBehaviour
 
         var finalPlacementPoint = wallCollider.GetClampedWorldPoint(worldSize, h.point);
             
-        activePlacedProp3D.MoveByScreenPoint(finalPlacementPoint + h.normal, finalPlacementPoint, RectTransformUtility.WorldToScreenPoint(interiorCam, finalPlacementPoint));
+        prop.Prop3D.MoveByScreenPoint(finalPlacementPoint + h.normal, finalPlacementPoint, RectTransformUtility.WorldToScreenPoint(interiorCam, finalPlacementPoint));
         //Debug.Log(h.transform.name);
     }
 

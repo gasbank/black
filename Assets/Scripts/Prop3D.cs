@@ -12,7 +12,13 @@ public class Prop3D : MonoBehaviour
     [SerializeField]
     BoxCollider boxCollider;
 
+    [FormerlySerializedAs("attachLayer")]
+    [SerializeField]
+    LayerMask attachRaycastLayer;
+
     public BoxCollider BoxCollider => boxCollider;
+
+    public LayerMask AttachRaycastLayer => attachRaycastLayer;
 
 #if UNITY_EDITOR
     void OnValidate()
