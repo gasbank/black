@@ -15,6 +15,7 @@ public class Prop : MonoBehaviour
     Prop3D prop3D;
 
     public Prop3D Prop3D => prop3D;
+    public Vector2 ScreenPosition => RectTransformUtility.WorldToScreenPoint(cam, transform.position);
 
 #if UNITY_EDITOR
     void OnValidate()

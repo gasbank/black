@@ -49,10 +49,10 @@ public class InteriorRaycaster : MonoBehaviour
 
     void OnFingerDown(Finger finger)
     {
-        UpdateActiveDebrisPosition(finger.screenPosition);
+        UpdateActivePropPosition(finger.screenPosition);
     }
 
-    public void UpdateActiveDebrisPosition(Vector2 screenPosition)
+    public void UpdateActivePropPosition(Vector2 screenPosition)
     {
         var prop = ActivePropButtonGroup.Instance.ActiveProp;
         if (prop == null)
@@ -101,6 +101,6 @@ public class InteriorRaycaster : MonoBehaviour
 
     void OnFingerMove(Finger finger)
     {
-        UpdateActiveDebrisPosition(finger.screenPosition);
+        UpdateActivePropPosition(finger.screenPosition);
     }
 }

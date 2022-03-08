@@ -10,7 +10,7 @@ public class InterfaceCanvasRaycaster : MonoBehaviour, IPointerDownHandler, IPoi
 #endif
     public void OnPointerDown(PointerEventData eventData)
     {
-        InteriorRaycaster.Instance.UpdateActiveDebrisPosition(eventData.position);
+        //InteriorRaycaster.Instance.UpdateActiveDebrisPosition(eventData.position);
     }
 
     public void OnPointerUp(PointerEventData eventData)
