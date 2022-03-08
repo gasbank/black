@@ -773,6 +773,7 @@ MonoBehaviour:
   cam: {fileID: 641393686}
   rt: {fileID: 129020156}
   prop3D: {fileID: 2125495647}
+  flipOnNegativeForward: 0
 --- !u!114 &129020160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2908,6 +2909,7 @@ MonoBehaviour:
   cam: {fileID: 641393686}
   rt: {fileID: 943063132}
   prop3D: {fileID: 1724577955}
+  flipOnNegativeForward: 0
 --- !u!114 &943063136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4512,6 +4514,7 @@ MonoBehaviour:
   cam: {fileID: 641393686}
   rt: {fileID: 1552596531}
   prop3D: {fileID: 79411862}
+  flipOnNegativeForward: 1
 --- !u!114 &1552596535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5618,6 +5621,7 @@ MonoBehaviour:
   cam: {fileID: 641393686}
   rt: {fileID: 1946570801}
   prop3D: {fileID: 600652279}
+  flipOnNegativeForward: 1
 --- !u!114 &1946570796
 MonoBehaviour:
   m_ObjectHideFlags: 0

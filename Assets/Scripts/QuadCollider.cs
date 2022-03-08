@@ -13,12 +13,16 @@ public class QuadCollider : MonoBehaviour
     public Vector3 GetClampedWorldPoint(Vector3 worldSize, Vector3 worldPoint)
     {
         var localSize = transform.InverseTransformDirection(worldSize);
+
+        localSize.x = Mathf.Abs(localSize.x);
+        localSize.y = Mathf.Abs(localSize.y);
+        localSize.z = Mathf.Abs(localSize.z);
         
-        Debug.Log($"Quad Collider Local Size: {localSize}", this);
+        Debug.Log($"Quad Collider Local Size: {localSize.ToString("F4")}", this);
         
         var globalScale = transform.lossyScale;
         
-        Debug.Log($"Quad Collider Global Scale: {globalScale}", this);
+        Debug.Log($"Quad Collider Global Scale: {globalScale.ToString("F4")}", this);
         
         localSize.x /= globalScale.x;
         localSize.y /= globalScale.y;

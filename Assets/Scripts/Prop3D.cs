@@ -37,7 +37,7 @@ public class Prop3D : MonoBehaviour
         MoveByScreenPoint(transform.position + transform.forward, transform.position, screenPoint);
     }
     
-    public void MoveByScreenPoint(Vector3 forward, Vector3 worldPoint, Vector2 screenPoint)
+    public void MoveByScreenPoint(Vector3 forwardPoint, Vector3 worldPoint, Vector2 screenPoint)
     {
         if (transform == null)
         {
@@ -45,8 +45,13 @@ public class Prop3D : MonoBehaviour
         }
         
         transform.position = worldPoint;
-        transform.LookAt(forward);
-        prop.MoveByScreenPoint(screenPoint);
+        transform.LookAt(forwardPoint);
+        var forward = forwardPoint - worldPoint;
+        var facingDeg = Mathf.Atan2(forward.z, forward.x) * Mathf.Rad2Deg;
+        
+        Debug.Log($"Facing Angle Deg: {facingDeg}");
+        
+        prop.MoveByScreenPoint(screenPoint, facingDeg > 90 + 45 && facingDeg < 90 + 45 + 90);
         if (ActivePropButtonGroup.Instance != null)
         {
             ActivePropButtonGroup.Instance.HideButtonGroup();
