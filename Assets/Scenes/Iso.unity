@@ -451,6 +451,7 @@ GameObject:
   m_Component:
   - component: {fileID: 79411863}
   - component: {fileID: 79411862}
+  - component: {fileID: 79411864}
   m_Layer: 0
   m_Name: Prop 3D 001 (1)
   m_TagString: Untagged
@@ -491,6 +492,22 @@ Transform:
   m_Father: {fileID: 1346643311}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!54 &79411864
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79411861}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &88143799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1229,7 +1246,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153228833}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1306,6 +1323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 269475090}
   - component: {fileID: 269475089}
+  - component: {fileID: 269475091}
   m_Layer: 0
   m_Name: Prop 3D 002 (2)
   m_TagString: Untagged
@@ -1346,6 +1364,22 @@ Transform:
   m_Father: {fileID: 1346643311}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!54 &269475091
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269475088}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &314798220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1758,7 +1792,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428518855}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2034,6 +2068,7 @@ GameObject:
   m_Component:
   - component: {fileID: 455222947}
   - component: {fileID: 455222946}
+  - component: {fileID: 455222948}
   m_Layer: 0
   m_Name: Prop 3D 002 (3)
   m_TagString: Untagged
@@ -2074,6 +2109,22 @@ Transform:
   m_Father: {fileID: 1346643311}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!54 &455222948
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455222945}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &510956258
 GameObject:
   m_ObjectHideFlags: 0
@@ -2588,6 +2639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 600652278}
   - component: {fileID: 600652279}
+  - component: {fileID: 600652280}
   m_Layer: 0
   m_Name: Prop 3D 001
   m_TagString: Untagged
@@ -2628,6 +2680,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   interiorCam: {fileID: 862572224}
+--- !u!54 &600652280
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600652277}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &632545739
 GameObject:
   m_ObjectHideFlags: 0
@@ -2963,7 +3031,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698588975}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -3515,7 +3583,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792200705}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -3789,7 +3857,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907180935}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -4927,7 +4995,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1252898756}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -5684,6 +5752,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1474522881}
   - component: {fileID: 1474522880}
+  - component: {fileID: 1474522882}
   m_Layer: 0
   m_Name: Prop 3D 001 (2)
   m_TagString: Untagged
@@ -5724,6 +5793,22 @@ Transform:
   m_Father: {fileID: 1346643311}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!54 &1474522882
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474522879}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1503578818
 GameObject:
   m_ObjectHideFlags: 0
@@ -6024,6 +6109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1559265851}
   - component: {fileID: 1559265850}
+  - component: {fileID: 1559265852}
   m_Layer: 0
   m_Name: Prop 3D 002 (4)
   m_TagString: Untagged
@@ -6064,6 +6150,22 @@ Transform:
   m_Father: {fileID: 1346643311}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!54 &1559265852
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559265849}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1674572074
 GameObject:
   m_ObjectHideFlags: 0
@@ -6566,6 +6668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1724577956}
   - component: {fileID: 1724577955}
+  - component: {fileID: 1724577957}
   m_Layer: 0
   m_Name: Prop 3D 002 (1)
   m_TagString: Untagged
@@ -6606,6 +6709,22 @@ Transform:
   m_Father: {fileID: 1346643311}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!54 &1724577957
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724577954}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1785767680
 GameObject:
   m_ObjectHideFlags: 0
@@ -6696,7 +6815,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1785767680}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -7732,7 +7851,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2064417465}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -7871,6 +7990,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2125495648}
   - component: {fileID: 2125495647}
+  - component: {fileID: 2125495649}
   m_Layer: 0
   m_Name: Prop 3D 002
   m_TagString: Untagged
@@ -7911,6 +8031,22 @@ Transform:
   m_Father: {fileID: 1346643311}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!54 &2125495649
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125495646}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2139822120
 GameObject:
   m_ObjectHideFlags: 0

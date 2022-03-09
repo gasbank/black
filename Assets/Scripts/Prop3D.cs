@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
 public class Prop3D : MonoBehaviour
 {
+    static bool Verbose => false;
+    
     [FormerlySerializedAs("placedProp")]
     [FormerlySerializedAs("museumDebris")]
     [SerializeField]
@@ -19,10 +22,14 @@ public class Prop3D : MonoBehaviour
     [SerializeField]
     Camera interiorCam;
 
+    int overlappedCount;
+    
     public BoxCollider BoxCollider => boxCollider;
 
     public LayerMask AttachRaycastLayer => attachRaycastLayer;
-    
+
+    public bool Overlapped => overlappedCount > 0;
+
 #if UNITY_EDITOR
     void OnValidate()
     {
@@ -48,9 +55,12 @@ public class Prop3D : MonoBehaviour
         transform.LookAt(forwardPoint);
         var forward = forwardPoint - worldPoint;
         var facingDeg = Mathf.Atan2(forward.z, forward.x) * Mathf.Rad2Deg;
-        
-        Debug.Log($"Facing Angle Deg: {facingDeg}");
-        
+
+        if (Verbose)
+        {
+            Debug.Log($"Facing Angle Deg: {facingDeg}");
+        }
+
         prop.MoveByScreenPoint(screenPoint, facingDeg > 90 + 45 && facingDeg < 90 + 45 + 90);
         if (ActivePropButtonGroup.Instance != null)
         {
@@ -61,5 +71,26 @@ public class Prop3D : MonoBehaviour
     public void SetSiblingIndexFor2D(int index)
     {
         prop.transform.SetSiblingIndex(index);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"Collided with {other.attachedRigidbody.name}", this);
+        overlappedCount++;
+        if (overlappedCount < 0)
+        {
+            Debug.LogError("Overlapped count is negative.");
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        overlappedCount--;
+        if (overlappedCount < 0)
+        {
+            Debug.LogError("Overlapped count is negative.");
+        }
+        
+        Debug.Log($"Un-collided with {other.attachedRigidbody.name}", this);
     }
 }

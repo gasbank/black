@@ -3,6 +3,8 @@
 [DisallowMultipleComponent]
 public class QuadCollider : MonoBehaviour
 {
+    static bool Verbose => false;
+    
 #if UNITY_EDITOR
     void OnValidate()
     {
@@ -17,13 +19,19 @@ public class QuadCollider : MonoBehaviour
         localSize.x = Mathf.Abs(localSize.x);
         localSize.y = Mathf.Abs(localSize.y);
         localSize.z = Mathf.Abs(localSize.z);
-        
-        Debug.Log($"Quad Collider Local Size: {localSize.ToString("F4")}", this);
-        
+
+        if (Verbose)
+        {
+            Debug.Log($"Quad Collider Local Size: {localSize.ToString("F4")}", this);
+        }
+
         var globalScale = transform.lossyScale;
-        
-        Debug.Log($"Quad Collider Global Scale: {globalScale.ToString("F4")}", this);
-        
+
+        if (Verbose)
+        {
+            Debug.Log($"Quad Collider Global Scale: {globalScale.ToString("F4")}", this);
+        }
+
         localSize.x /= globalScale.x;
         localSize.y /= globalScale.y;
         localSize.z /= globalScale.z;

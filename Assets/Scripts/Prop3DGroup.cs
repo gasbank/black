@@ -16,7 +16,11 @@ public class Prop3DGroup : MonoBehaviour
 
     void Update()
     {
-        var sortedProp3DArray = prop3DList.OrderByDescending(e => e.transform.position.z).ToArray();
+        var sortedProp3DArray = prop3DList
+            .OrderByDescending(e => e.transform.position.z)
+            .ThenByDescending(e => e.transform.position.x)
+            .ThenBy(e => e.transform.position.y)
+            .ToArray();
         for (var i = 0; i < sortedProp3DArray.Length; i++)
         {
             sortedProp3DArray[i].SetSiblingIndexFor2D(i);

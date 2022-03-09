@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem.EnhancedTouch;
-using UnityEngine.Serialization;
-using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
+//using UnityEngine.Serialization;
+//using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 [DisallowMultipleComponent]
 public class InteriorRaycaster : MonoBehaviour
 {
     public static InteriorRaycaster Instance;
+
+    static bool Verbose => false;
     
     [SerializeField]
     Camera interiorCam;
@@ -76,17 +78,24 @@ public class InteriorRaycaster : MonoBehaviour
         }
         
         var h = raycastHitList[0];
-        
-        Debug.Log($"Hit: {h.collider.name}");
-        Debug.Log($"Hit Point: {h.point.ToString("F4")}");
+
+        if (Verbose)
+        {
+            Debug.Log($"Hit: {h.collider.name}");
+            Debug.Log($"Hit Point: {h.point.ToString("F4")}");
+        }
 
         var wallCollider = h.transform.GetComponentInChildren<QuadCollider>();
         if (wallCollider == null)
         {
             return;
         }
-        
-        Debug.Log($"propBoxCollider.size = {propBoxCollider.size.ToString("F4")}");
+
+        if (Verbose)
+        {
+            Debug.Log($"propBoxCollider.size = {propBoxCollider.size.ToString("F4")}");
+        }
+
         var colliderLocalSize = propBoxCollider.size;
         var colliderGlobalSize = Vector3.Scale(propBoxCollider.transform.lossyScale, colliderLocalSize);
 
@@ -94,13 +103,30 @@ public class InteriorRaycaster : MonoBehaviour
         worldSize.x = Mathf.Abs(worldSize.x);
         worldSize.y = Mathf.Abs(worldSize.y);
         worldSize.z = Mathf.Abs(worldSize.z);
-        
-        Debug.Log($"Prop World Size: {worldSize.ToString("F4")}");
+
+        if (Verbose)
+        {
+            Debug.Log($"Prop World Size: {worldSize.ToString("F4")}");
+        }
 
         var finalPlacementPoint = wallCollider.GetClampedWorldPoint(worldSize, h.point);
-            
-        prop.Prop3D.MoveByScreenPoint(finalPlacementPoint + h.normal, finalPlacementPoint, RectTransformUtility.WorldToScreenPoint(interiorCam, finalPlacementPoint));
-        //Debug.Log(h.transform.name);
+
+        UpdateActivePropPositionBy3D(prop, finalPlacementPoint + h.normal, finalPlacementPoint);
+    }
+
+    public void UpdateActivePropPositionBy3D(Prop prop, Vector3 forwardPoint, Vector3 worldPoint)
+    {
+        if (prop == null)
+        {
+            return;
+        }
+
+        if (prop.Prop3D == null)
+        {
+            return;
+        }
+        
+        prop.Prop3D.MoveByScreenPoint(forwardPoint, worldPoint, RectTransformUtility.WorldToScreenPoint(interiorCam, worldPoint));
     }
 
     void OnFingerMove(Finger finger)
