@@ -57,4 +57,9 @@ public class Prop3D : MonoBehaviour
             ActivePropButtonGroup.Instance.HideButtonGroup();
         }
     }
+
+    public void SetSiblingIndexFor2D(int index)
+    {
+        prop.transform.SetSiblingIndex(index);
+    }
 }
