@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -5,11 +6,15 @@ using UnityEngine;
 public class Sort3DGroup : MonoBehaviour
 {
     [SerializeField]
-    Prop3D[] prop3DList;
-    
+    List<Prop3D> prop3DList;
+
     [SerializeField]
-    Character3D[] char3DList;
-    
+    List<Character3D> char3DList;
+
+    readonly List<IWorldPosition3D> runtimeList = new List<IWorldPosition3D>();
+
+    public int RuntimeListCount => runtimeList.Count;
+
 #if UNITY_EDITOR
     void OnValidate()
     {
@@ -22,6 +27,7 @@ public class Sort3DGroup : MonoBehaviour
         var sortedProp3DArray = prop3DList
             .Cast<IWorldPosition3D>()
             .Concat(char3DList)
+            .Concat(runtimeList)
             .OrderByDescending(e => e.WorldPosition3D.z)
             .ThenByDescending(e => e.WorldPosition3D.x)
             .ThenBy(e => e.WorldPosition3D.y)
@@ -30,5 +36,10 @@ public class Sort3DGroup : MonoBehaviour
         {
             sortedProp3DArray[i].SetSiblingIndexFor2D(i);
         }
+    }
+
+    public void Add(IWorldPosition3D worldPosition3D)
+    {
+        runtimeList.Add(worldPosition3D);
     }
 }
