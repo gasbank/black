@@ -42,4 +42,9 @@ public class Sort3DGroup : MonoBehaviour
     {
         runtimeList.Add(worldPosition3D);
     }
+
+    public void Remove(IWorldPosition3D worldPosition3D)
+    {
+        runtimeList.Remove(worldPosition3D);
+    }
 }

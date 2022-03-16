@@ -67,4 +67,11 @@ public class CharacterSpawner : MonoBehaviour
         character.Sprite1 = visitorSpriteList[visitorSpriteIndex];
         character.Sprite2 = visitorSpriteList[visitorSpriteIndex + 1];
     }
+
+    public void Despawn(Character3D char3D)
+    {
+        sort3DGroup.Remove(char3D);
+        Destroy(char3D.Character.gameObject);
+        Destroy(char3D.gameObject);
+    }
 }

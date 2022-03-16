@@ -75,7 +75,13 @@ public class Prop3D : MonoBehaviour, IWorldPosition3D
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Collided with {other.attachedRigidbody.name}", this);
+        Debug.Log($"Collided with {other.name}", other);
+        var attachedRigidbody = other.attachedRigidbody;
+        if (attachedRigidbody)
+        {
+            Debug.Log($"... Attached Rigid Body Name: {attachedRigidbody.name}", attachedRigidbody);
+        }
+
         overlappedCount++;
         if (overlappedCount < 0)
         {
@@ -84,14 +90,19 @@ public class Prop3D : MonoBehaviour, IWorldPosition3D
     }
 
     void OnTriggerExit(Collider other)
-    {
+    {   
         overlappedCount--;
         if (overlappedCount < 0)
         {
             Debug.LogError("Overlapped count is negative.");
         }
         
-        Debug.Log($"Un-collided with {other.attachedRigidbody.name}", this);
+        Debug.Log($"Un-collided with {other.name}", other);
+        var attachedRigidbody = other.attachedRigidbody;
+        if (attachedRigidbody)
+        {
+            Debug.Log($"... Attached Rigid Body Name: {attachedRigidbody.name}", attachedRigidbody);
+        }
     }
 
     public Vector3 WorldPosition3D => transform.position;

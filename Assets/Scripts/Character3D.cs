@@ -18,6 +18,11 @@ public class Character3D : MonoBehaviour, IWorldPosition3D
     [SerializeField]
     Character character;
 
+    [SerializeField]
+    bool isEnterFinished;
+
+    public bool IsEnterFinished => isEnterFinished;
+
     public Vector2 ScreenPoint => cam.WorldToScreenPoint(transform.position);
 
     public Vector2 VelocityOnScreenPoint =>
@@ -67,5 +72,10 @@ public class Character3D : MonoBehaviour, IWorldPosition3D
         
         // 강제로 위치를 바꿔줬으므로 바로 갱신해준다.
         character.FollowChar3D();
+    }
+
+    public void SetEnterFinished()
+    {
+        isEnterFinished = true;
     }
 }

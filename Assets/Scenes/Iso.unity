@@ -3291,7 +3291,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &703632954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3308,6 +3308,7 @@ MonoBehaviour:
   walkRadius: 3
   cam: {fileID: 862572224}
   character: {fileID: 1545930641}
+  isEnterFinished: 0
 --- !u!4 &703632955
 Transform:
   m_ObjectHideFlags: 0
@@ -3399,7 +3400,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &705086396
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4009,7 +4010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &841771071
 Transform:
   m_ObjectHideFlags: 0
@@ -4041,6 +4042,7 @@ MonoBehaviour:
   walkRadius: 3
   cam: {fileID: 862572224}
   character: {fileID: 1003157693}
+  isEnterFinished: 0
 --- !u!195 &841771073
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4901,7 +4903,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1003157693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5535,7 +5537,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1150224671
 Transform:
   m_ObjectHideFlags: 0
@@ -5567,6 +5569,7 @@ MonoBehaviour:
   walkRadius: 3
   cam: {fileID: 862572224}
   character: {fileID: 1528398975}
+  isEnterFinished: 0
 --- !u!195 &1150224673
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -6658,9 +6661,9 @@ GameObject:
   - component: {fileID: 1445549811}
   - component: {fileID: 1445549815}
   - component: {fileID: 1445549814}
-  - component: {fileID: 1445549813}
   - component: {fileID: 1445549812}
-  m_Layer: 14
+  - component: {fileID: 1445549813}
+  m_Layer: 16
   m_Name: Quad (Visitor Spawn Point)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6693,20 +6696,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3dbc535ee9e45e792f87872ec3d4eae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!64 &1445549813
-MeshCollider:
+--- !u!65 &1445549813
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1445549810}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.0000002, z: 1}
+  m_Center: {x: 0, y: 0, z: -0.5}
 --- !u!23 &1445549814
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6949,7 +6951,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1528398975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7043,7 +7045,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1533656558
 Transform:
   m_ObjectHideFlags: 0
@@ -7075,6 +7077,7 @@ MonoBehaviour:
   walkRadius: 3
   cam: {fileID: 862572224}
   character: {fileID: 705086397}
+  isEnterFinished: 0
 --- !u!195 &1533656560
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7115,7 +7118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1545930640
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9231,8 +9234,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2066210621}
-  m_Layer: 14
-  m_Name: Enterance Pivot
+  - component: {fileID: 2066210622}
+  - component: {fileID: 2066210623}
+  m_Layer: 16
+  m_Name: Entrance Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9253,6 +9258,35 @@ Transform:
   m_Father: {fileID: 539232455}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &2066210622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066210620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92ad90623151ad84896f413612aa00c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charSpawner: {fileID: 1322699930}
+--- !u!54 &2066210623
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066210620}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2088580553
 GameObject:
   m_ObjectHideFlags: 0
@@ -9596,6 +9630,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character 3D
       objectReference: {fileID: 0}
+    - target: {fileID: 6430884003587939427, guid: 859b1eb7e67abff47801de01d95e995f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6430884003587939430, guid: 859b1eb7e67abff47801de01d95e995f,
         type: 3}
       propertyPath: cam
@@ -9606,6 +9645,11 @@ PrefabInstance:
       propertyPath: character
       value: 
       objectReference: {fileID: 45314875}
+    - target: {fileID: 6430884003587939430, guid: 859b1eb7e67abff47801de01d95e995f,
+        type: 3}
+      propertyPath: isEnterFinished
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 859b1eb7e67abff47801de01d95e995f, type: 3}
 --- !u!1001 &7569391727526595119
@@ -9739,6 +9783,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 7569391727571876118, guid: 18718309026a3b44fa47fd45471af34d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18718309026a3b44fa47fd45471af34d, type: 3}
