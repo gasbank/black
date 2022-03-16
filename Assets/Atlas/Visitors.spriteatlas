@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Visitors
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: iPhone
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 4
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 967f1d29e2f01704aa282ac92bacbf20, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 773e21100e63c2546b4b189d05ef058f, type: 3}
+  - {fileID: 21300000, guid: 7ac188f134269494b9385b03041f6cfc, type: 3}
+  - {fileID: 21300000, guid: 684daec2a4c76e24989990ab778d73e4, type: 3}
+  - {fileID: 21300000, guid: adf94a0316202324a98115dcd351793a, type: 3}
+  - {fileID: 21300000, guid: 05d53f433f5a1fd409bedc404294762e, type: 3}
+  - {fileID: 21300000, guid: 3e95f8b457039de47a0b32d289503426, type: 3}
+  - {fileID: 21300000, guid: a3563eb61311a1549a1d755f5c421a43, type: 3}
+  - {fileID: 21300000, guid: d1b9c0177da47804d9bb6c9fbd6f2ae6, type: 3}
+  - {fileID: 21300000, guid: 51bf1597d94887341b4e478e9a923bcd, type: 3}
+  - {fileID: 21300000, guid: d5a03bf752b888c43a5936e3995551e4, type: 3}
+  - {fileID: 21300000, guid: 98f60958f401a4449bc7227d7d768a3a, type: 3}
+  - {fileID: 21300000, guid: 781f224cb1d49f245ae5ae1d78d31622, type: 3}
+  - {fileID: 21300000, guid: a8a0ab5e1e6d59b438f312ef6e4c696b, type: 3}
+  - {fileID: 21300000, guid: bd9b9cbee8a03a14a88291435efc392a, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 04_01
+  - 05_00
+  - 04_00
+  - 05_01
+  - 01_00
+  - 00_00
+  - 06_00
+  - 06_01
+  - 03_00
+  - 02_00
+  - 02_01
+  - 00_01
+  - 01_01
+  - 03_01
+  m_RenderDataMap: {}
+  m_Tag: Visitors
+  m_IsVariant: 0

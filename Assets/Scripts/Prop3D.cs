@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
-public class Prop3D : MonoBehaviour
+public class Prop3D : MonoBehaviour, IWorldPosition3D
 {
     static bool Verbose => false;
     
@@ -93,4 +93,6 @@ public class Prop3D : MonoBehaviour
         
         Debug.Log($"Un-collided with {other.attachedRigidbody.name}", this);
     }
+
+    public Vector3 WorldPosition3D => transform.position;
 }
