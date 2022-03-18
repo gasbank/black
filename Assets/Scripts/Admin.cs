@@ -131,6 +131,14 @@ public class Admin : MonoBehaviour
         Splash.LoadSplashScene();
 #endif
     }
+    
+    [UsedImplicitly]
+    public void GoToIso()
+    {
+#if BLACK_ADMIN
+        SceneManager.LoadScene("Iso");
+#endif
+    }
 
     public void BackToYesterday()
     {
