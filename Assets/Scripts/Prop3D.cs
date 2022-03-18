@@ -38,10 +38,11 @@ public class Prop3D : MonoBehaviour, IWorldPosition3D
 #endif
 
     [ContextMenu("Apply To Prop")]
-    void ApplyToProp()
+    public void ApplyToProp()
     {
-        var screenPoint = RectTransformUtility.WorldToScreenPoint(interiorCam, transform.position);
-        MoveByScreenPoint(transform.position + transform.forward, transform.position, screenPoint);
+        var position = transform.position;
+        var screenPoint = RectTransformUtility.WorldToScreenPoint(interiorCam, position);
+        MoveByScreenPoint(position + transform.forward, position, screenPoint);
     }
     
     public void MoveByScreenPoint(Vector3 forwardPoint, Vector3 worldPoint, Vector2 screenPoint)
