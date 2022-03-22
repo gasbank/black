@@ -1,7 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
+
+#if UNITY_EDITOR
+#endif
 
 public class ToastMessageEx : MonoBehaviour
 {
@@ -23,5 +25,17 @@ public class ToastMessageEx : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void PlayGoodAnim()
+    {
+        Debug.Log("PlayGoodAnim");
+        animator.Play("ToastMessageGood", -1, 0f);
+    }
+
+    public void PlayWarnAnim()
+    {
+        Debug.Log("PlayWarnAnim");
+        animator.Play("ToastMessageWarn", -1, 0f);
     }
 }
