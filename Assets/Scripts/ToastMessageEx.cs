@@ -1,9 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
-
-#if UNITY_EDITOR
-#endif
 
 public class ToastMessageEx : MonoBehaviour
 {
@@ -16,26 +12,18 @@ public class ToastMessageEx : MonoBehaviour
     [SerializeField]
     public Animator animator;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    public void PlayGoodAnim()
+    public void PlayGoodAnim(string msg)
     {
         Debug.Log("PlayGoodAnim");
+        message.text = msg;
         animator.Play("ToastMessageGood", -1, 0f);
     }
 
-    public void PlayWarnAnim()
+    public void PlayWarnAnim(string msg)
     {
         Debug.Log("PlayWarnAnim");
+        message.text = msg;
         animator.Play("ToastMessageWarn", -1, 0f);
     }
 }

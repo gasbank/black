@@ -11,11 +11,11 @@ public class ToastMessageExTester : Editor
         ToastMessageEx message = (ToastMessageEx)target;
         if (GUILayout.Button("Good"))
         {
-            message.PlayGoodAnim();
+            message.PlayGoodAnim("업적달성: 10콤보");
         }
         else if (GUILayout.Button("Warning"))
         {
-            message.PlayWarnAnim();
+            message.PlayWarnAnim("다른 색을 칠하셨습니다.");
         }
     }
 }
