@@ -36,13 +36,7 @@ public class AchievementWatcher : MonoBehaviour
         var result = achievementsDict[conditionName].GetAvailableAchievement(
             (UInt128)BlackContext.instance.StageCombo.ToInt(), currentValue);
 
-        Debug.Log("currentValue: " + currentValue);
-        Debug.Log("StageCombo: " + BlackContext.instance.StageCombo);
-        Debug.Log("result: " + result);
         if (result == null) return;
-
-        Debug.Log("result.Item1: " + result.Item1);
-        Debug.Log("result.Item2: " + result.Item2);
 
         currentValue = (UInt128)BlackContext.instance.StageCombo.ToInt();
 
