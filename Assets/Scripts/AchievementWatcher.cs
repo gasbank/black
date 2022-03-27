@@ -8,16 +8,12 @@ public class AchievementWatcher : MonoBehaviour
     [SerializeField]
     string conditionName;
 
-    [SerializeField]
-    ToastMessageEx toastMessage;
-
     UInt128 currentValue;
     Dictionary<string, List<AchievementData>> achievementsDict;
 
     bool IsFine()
     {
         if (conditionName.Length == 0) return false;
-        if (toastMessage == null) return false;
 
         if (Data.dataSet == null) return false;
 
@@ -44,10 +40,11 @@ public class AchievementWatcher : MonoBehaviour
         var title = name.Localized(result.Item1.conditionOldArg.ToLong().Postfixed(),
             result.Item1.conditionNewArg.ToLong().Postfixed());
 
-        var desc = result.Item1.desc;
-        var descMsg = desc.Localized(result.Item1.conditionOldArg.ToLong().Postfixed(),
-            result.Item1.conditionNewArg.ToLong().Postfixed());
-        toastMessage.PlayGoodAnim(title);
+        //var desc = result.Item1.desc;
+        //var descMsg = desc.Localized(result.Item1.conditionOldArg.ToLong().Postfixed(),
+        //    result.Item1.conditionNewArg.ToLong().Postfixed());
+
+        ToastMessage.instance.PlayGoodAnim(title);
     }
 
     private void Start()

@@ -9240,7 +9240,7 @@ PrefabInstance:
     - target: {fileID: 6103630088786197050, guid: 2057e915fa55942f9849fe24f6637b2b,
         type: 3}
       propertyPath: m_Name
-      value: Toast Message Ex
+      value: Toast Message
       objectReference: {fileID: 0}
     - target: {fileID: 6103630088786197051, guid: 2057e915fa55942f9849fe24f6637b2b,
         type: 3}
@@ -9349,6 +9349,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2057e915fa55942f9849fe24f6637b2b, type: 3}
+--- !u!114 &1589363168 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3551652702179398427, guid: 2057e915fa55942f9849fe24f6637b2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1589363167}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 299120a8d0ba6455c916bd6048b464bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1595014199
 GameObject:
   m_ObjectHideFlags: 0
@@ -9759,18 +9771,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1589363167}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1624683256 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6103630088786197062, guid: 2057e915fa55942f9849fe24f6637b2b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1589363167}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33735c2bfec0d4859815e7797dc3e594, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1662348461
 GameObject:
   m_ObjectHideFlags: 0
@@ -13136,6 +13136,11 @@ PrefabInstance:
       objectReference: {fileID: 1428292514}
     - target: {fileID: 2425384018903423699, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
         type: 3}
+      propertyPath: toastMessage
+      value: 
+      objectReference: {fileID: 1589363168}
+    - target: {fileID: 2425384018903423699, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
+        type: 3}
       propertyPath: introDirector
       value: 
       objectReference: {fileID: 837724710}
@@ -13143,7 +13148,7 @@ PrefabInstance:
         type: 3}
       propertyPath: toastMessageEx
       value: 
-      objectReference: {fileID: 1624683256}
+      objectReference: {fileID: 0}
     - target: {fileID: 2425384018903423699, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
         type: 3}
       propertyPath: progressMessage
