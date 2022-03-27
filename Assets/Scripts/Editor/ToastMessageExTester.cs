@@ -8,14 +8,13 @@ public class ToastMessageExTester : Editor
     {
         base.OnInspectorGUI();
 
-        ToastMessageEx message = (ToastMessageEx)target;
         if (GUILayout.Button("Good"))
         {
-            message.PlayGoodAnim("업적달성: 10콤보");
+            ToastMessageEx.instance.PlayGoodAnim("업적달성: 10콤보");
         }
         else if (GUILayout.Button("Warning"))
         {
-            message.PlayWarnAnim("다른 색을 칠하셨습니다.");
+            ToastMessageEx.instance.PlayWarnAnim("색을 다시 확인해주세요");
         }
     }
 }

@@ -206,14 +206,12 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     if (fillResult == FillResult.WrongColor)
                     {
                         // TODO: 아래 메시지 번역키로 대응 필요
-                        ToastMessage.instance.ShowWarnMessage("색을 다시 확인해주세요");
+                        ToastMessageEx.instance.PlayWarnAnim("색을 다시 확인해주세요");
                         
                         if (!BlackContext.instance.ComboAdminMode)
                         {
                             BlackContext.instance.StageCombo = 0;
                         }
-
-                        Sound.instance.PlayFillError();
                     }
                 }
 
