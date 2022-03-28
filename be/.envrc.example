@@ -1,5 +1,0 @@
-export SOURCE_BUCKET="YOUR_BUCKET_NAME"
-export INPUT_KEY_PREFIX="input/"
-export TRANSFORM_KEY_PREFIX="transform/"
-export CDN_URL_PREFIX="https://cdn-url/"
-
