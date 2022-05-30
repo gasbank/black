@@ -13583,6 +13583,11 @@ PrefabInstance:
       objectReference: {fileID: 628729669}
     - target: {fileID: 2425384018903423699, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
         type: 3}
+      propertyPath: creditPopup
+      value: 
+      objectReference: {fileID: 3977864039316733526}
+    - target: {fileID: 2425384018903423699, guid: 22c09a1e55a5aad4b8aa2fdae2916a1c,
+        type: 3}
       propertyPath: stageDetail
       value: 
       objectReference: {fileID: 131375462}
@@ -14197,8 +14202,8 @@ GameObject:
   - component: {fileID: 3977864039316733545}
   - component: {fileID: 3977864039316733544}
   - component: {fileID: 3977864039316733525}
-  - component: {fileID: 3977864039316733546}
   - component: {fileID: 612608292944667735}
+  - component: {fileID: 3977864039316733526}
   m_Layer: 5
   m_Name: 'Credit Popup '
   m_TagString: Untagged
@@ -14245,6 +14250,19 @@ MonoBehaviour:
   doNotCloseOnBackButton: 0
   forceBackButtonHandler: 0
   ignoreBackButtonHandler: 0
+--- !u!114 &3977864039316733526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3977864039316733523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d2b37525e7b4aa7a7182052b41e901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subcanvas: {fileID: 3977864039316733525}
 --- !u!114 &3977864039316733544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14283,53 +14301,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3977864039316733523}
   m_CullTransparentMesh: 1
---- !u!114 &3977864039316733546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3977864039316733523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 342ea5b9250714d96a43400a87018fa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoCloseRemainSec: -1
-  autoCloseText: {fileID: 0}
-  button1: {fileID: 6127149348094606505}
-  button1Text: {fileID: 8214187200143430805}
-  button2: {fileID: 0}
-  button2Text: {fileID: 0}
-  claimButton: {fileID: 0}
-  claimButtonText: {fileID: 0}
-  claimImage: {fileID: 0}
-  closeButton: {fileID: 0}
-  contentTopRect: {fileID: 0}
-  customSpawnAtOnceButtonGroup: {fileID: 0}
-  decorated2Header: {fileID: 0}
-  decorated2Title: {fileID: 0}
-  decorated3Header: {fileID: 0}
-  decorated3Title: {fileID: 0}
-  decoratedHeader: {fileID: 0}
-  decoratedTitle: {fileID: 0}
-  gatherButtonPowerDownToggleGroup: {fileID: 0}
-  gemClaimButtonImageSprite: {fileID: 0}
-  gemClaimImageSprite: {fileID: 0}
-  inputField: {fileID: 0}
-  inputFieldPlaceholderText: {fileID: 0}
-  message: {fileID: 382910134095122817}
-  popupImage: {fileID: 2139961050857810553}
-  popupImageLayoutElement: {fileID: 2786178960092755016}
-  popupImageParentRect: {fileID: 5193720071881385255}
-  goldClaimButtonImageSprite: {fileID: 0}
-  goldClaimImageSprite: {fileID: 0}
-  skipRenderGraphic: {fileID: 0}
-  subcanvas: {fileID: 3977864039316733525}
-  title: {fileID: 1493229108082853443}
-  titleGroup: {fileID: 0}
-  topAnimator: {fileID: 0}
-  topImage: {fileID: 0}
 --- !u!1 &4020784895268501770
 GameObject:
   m_ObjectHideFlags: 0
@@ -14547,9 +14518,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3977864039316733546}
-        m_TargetAssemblyTypeName: ConfirmPopup, Black
-        m_MethodName: OnButton1
+      - m_Target: {fileID: 3977864039316733526}
+        m_TargetAssemblyTypeName: CreditPopup, Black
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

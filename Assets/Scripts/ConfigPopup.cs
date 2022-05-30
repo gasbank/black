@@ -611,4 +611,9 @@ public class ConfigPopup : MonoBehaviour
                 () => { MainGame.instance.ResetStage(); }, ConfirmPopup.instance.Close);
         }
     }
+
+    public void OpenCreditPopup()
+    {
+        CreditPopup.instance.Open();
+    }
 }

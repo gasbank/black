@@ -1161,7 +1161,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7475867359283629509}
         m_TargetAssemblyTypeName: ConfigPopup, Black
-        m_MethodName: ReportSaveData
+        m_MethodName: OpenCreditPopup
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

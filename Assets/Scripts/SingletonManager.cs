@@ -89,6 +89,9 @@ public class SingletonManager : MonoBehaviour
     [SerializeField]
     MainGame mainGame;
 
+    [SerializeField]
+    CreditPopup creditPopup;
+
     public GameObject ConfigButtonNewImage => configButtonNewImage;
     public TopNotchOffsetGroup[] TopNotchOffsetGroupList => topNotchOffsetGroupList;
     public BottomNotchOffsetGroup[] BottomNotchOffsetGroupList => bottomNotchOffsetGroupList;
@@ -122,6 +125,7 @@ public class SingletonManager : MonoBehaviour
         ToastMessage.instance = toastMessage;
         IntroDirector.instance = introDirector;
         MainGame.instance = mainGame;
+        CreditPopup.instance = creditPopup;
 
         // 아주 깔끔한 구조는 아니지만, 최대한 기존 코드 안수정하고 하려니까 이렇게 됐다.
         BlackPlatform.instance = blackPlatform;
