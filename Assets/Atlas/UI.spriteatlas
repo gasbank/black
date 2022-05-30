@@ -96,6 +96,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: f72fbe4c54a724e03a4b3088da4ac2e8, type: 3}
   - {fileID: 21300000, guid: 48a10d5c9aae049eea2c6cae11d13996, type: 3}
   - {fileID: 21300000, guid: 4d75682d2ecf36d4183b9a45b0461897, type: 3}
+  - {fileID: 21300000, guid: 5dcb6f3d6d004e54bb8e80e180d5f93b, type: 3}
   - {fileID: 21300000, guid: a7ec3a4d8390bd64d92fd5d60ef4a673, type: 3}
   - {fileID: 21300000, guid: 7216f49dd2c2641d7836040c4dad630b, type: 3}
   - {fileID: 21300000, guid: e0b69ffd4599c4bbf8653824832aba41, type: 3}
@@ -163,6 +164,7 @@ SpriteAtlas:
   - Icon_und_play
   - img_loading01
   - fairy_01
+  - popup_bg_top2
   - SideMenu_UI_slot_ Lock
   - Icon_und_home
   - white-circle-64-sliced
