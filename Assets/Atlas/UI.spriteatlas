@@ -54,6 +54,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 1d3a5de08aa0148faa52c7e60d329d43, type: 3}
   - {fileID: 21300000, guid: 64468241ef0bb4a4ca60622fb3bff002, type: 3}
   - {fileID: 21300000, guid: 65e8aa4148432495383d01e41535e6c9, type: 3}
+  - {fileID: 21300000, guid: a8006e414b3362b4084d7dc087ab6415, type: 3}
   - {fileID: 21300000, guid: 7d45f56188c3540be9179ae019796e6a, type: 3}
   - {fileID: 21300000, guid: 3b368e5284e9b4f31ab20b9a80851f88, type: 3}
   - {fileID: 21300000, guid: e5424a825680644ccb2198788f7ff2aa, type: 3}
@@ -68,6 +69,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 181f6fa5cfcd64cc38aa9d5d3e23ab16, type: 3}
   - {fileID: 21300000, guid: c94c14f5c0b1f4b73a06ff8d5f727182, type: 3}
   - {fileID: 21300000, guid: 3672ff064c5274704b505603003dc8b6, type: 3}
+  - {fileID: 21300000, guid: fad25a46e96371e4f92c1a44964e2127, type: 3}
   - {fileID: 21300000, guid: b1b74e9662f114ca9abcabddefd610b2, type: 3}
   - {fileID: 21300000, guid: 526a8ea6c8767489ab4d7c5af1b6b289, type: 3}
   - {fileID: 21300000, guid: df295dc6639854b59b8b9f117a7ebb6b, type: 3}
@@ -119,6 +121,7 @@ SpriteAtlas:
   - popup_bg_mission_btn
   - Icon_profile
   - UI_06
+  - popup_icon_credit02
   - popup_mission_gaugeBG
   - white-circle-256-sliced
   - popup_icon_Result
@@ -133,6 +136,7 @@ SpriteAtlas:
   - Icon_top_setting
   - white-circle-64
   - popup_icon_star
+  - popup_icon_credit01
   - Icon_top_gold
   - Icon_select2
   - popup_bg_mission_bg2
