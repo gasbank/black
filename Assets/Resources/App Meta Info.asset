@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ebd3e76ffa3e74abf796d8e032ea2d, type: 3}
   m_Name: App Meta Info
   m_EditorClassIdentifier: 
-  androidBundleVersionCode: 1010402
+  androidBundleVersionCode: 10402
   buildNumber: <?>
-  buildStartDateTime: 2/23/2022
+  buildStartDateTime: 2022-07-14
   iosBuildNumber: INVALID
