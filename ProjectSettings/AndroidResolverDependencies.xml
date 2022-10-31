@@ -1,7 +1,5 @@
 <dependencies>
   <packages>
-    <package>com.android.support:support-annotations:28.0.0</package>
-    <package>com.facebook.android:audience-network-sdk:6.4.0</package>
     <package>com.google.ads.mediation:facebook:6.5.1.1</package>
     <package>com.google.android.gms:play-services-ads:20.2.0</package>
     <package>com.google.games:gpgs-plugin-support:0.10.12</package>

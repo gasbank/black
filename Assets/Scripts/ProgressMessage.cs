@@ -13,9 +13,6 @@ public class ProgressMessage : MonoBehaviour, IPlatformProgressMessage
     public Text messageText;
 
     [SerializeField]
-    PlatformFacebookAdsInit platformFacebookAdsInit;
-
-    [SerializeField]
     Subcanvas subcanvas;
 
     public bool IsOpen => subcanvas.IsOpen;
@@ -45,7 +42,6 @@ public class ProgressMessage : MonoBehaviour, IPlatformProgressMessage
     public void PushCloseButton()
     {
         ConDebug.Log("ProgressMessage Force Close Push by user.");
-        platformFacebookAdsInit.IsAdCurrentlyCalled = false;
         Close();
     }
 
