@@ -134,7 +134,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.1.4
+  bundleVersion: 1.1.5
   preloadedAssets:
   - {fileID: 11400000, guid: 12718b9e9bb9e45f6ab746f5796e6342, type: 2}
   metroInputSource: 0
@@ -157,13 +157,14 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: top.plusalpha.black
+    Standalone: top.plusalpha.black
     iPhone: top.plusalpha.black
   buildNumber:
     Standalone: 0
-    iPhone: 10402
+    iPhone: 10501
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 10403
+  AndroidBundleVersionCode: 10501
   AndroidMinSdkVersion: 22
   AndroidTargetSdkVersion: 33
   AndroidPreferredInstallLocation: 1
@@ -228,7 +229,7 @@ PlayerSettings:
   iOSRenderExtraFrameOnPause: 0
   iosCopyPluginsCodeInsteadOfSymlink: 0
   appleDeveloperTeamID: TG9MHV97AH
-  iOSManualSigningProvisioningProfileID: 8ec53eb7-655a-49fa-889f-cf4c8baac2e9
+  iOSManualSigningProvisioningProfileID: 31386974-0322-4191-ade1-e8f35c02f7c6
   tvOSManualSigningProvisioningProfileID: 
   iOSManualSigningProvisioningProfileType: 1
   tvOSManualSigningProvisioningProfileType: 0
@@ -807,9 +808,9 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    Android: CONDITIONAL_DEBUG;MESSAGE_PACK;BLACK_ADMIN;GOOGLE_MOBILE_ADS;ADDRESSABLES
-    Standalone: CONDITIONAL_DEBUG;MESSAGE_PACK;NO_GPGS;BLACK_ADMIN;ADDRESSABLES
-    iPhone: CONDITIONAL_DEBUG;MESSAGE_PACK;BLACK_ADMIN;NO_GPGS;GOOGLE_MOBILE_ADS;ADDRESSABLES
+    Android: CONDITIONAL_DEBUG;MESSAGE_PACK;BLACK_ADMIN;GOOGLE_MOBILE_ADS;ADDRESSABLES;NETCOREAPP
+    Standalone: CONDITIONAL_DEBUG;MESSAGE_PACK;NO_GPGS;BLACK_ADMIN;ADDRESSABLES;NETCOREAPP
+    iPhone: CONDITIONAL_DEBUG;MESSAGE_PACK;NO_GPGS;BLACK_ADMIN;ADDRESSABLES;NETCOREAPP
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

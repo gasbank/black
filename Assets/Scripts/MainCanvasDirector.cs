@@ -9,8 +9,10 @@ public class MainCanvasDirector : MonoBehaviour
     [SerializeField]
     CanvasGroup debugGroup;
 
+#if UNITY_EDITOR
     [SerializeField]
     Mode mode = Mode.Entering;
+#endif
 
     [SerializeField]
     CanvasGroup paletteGroup;
@@ -52,6 +54,7 @@ public class MainCanvasDirector : MonoBehaviour
     }
 #endif
 
+#if UNITY_EDITOR
     enum Mode
     {
         Entering,
@@ -60,4 +63,5 @@ public class MainCanvasDirector : MonoBehaviour
         Finished,
         Debug
     }
+#endif
 }

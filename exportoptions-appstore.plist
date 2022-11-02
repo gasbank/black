@@ -9,7 +9,7 @@
     <key>provisioningProfiles</key>
     <dict>
         <key>top.plusalpha.black</key>
-        <string>Black App Store</string>
+        <string>top.plusalpha.black AppStore</string>
     </dict>
     <key>iCloudContainerEnvironment</key>
     <string>Production</string>
