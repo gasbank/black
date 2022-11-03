@@ -20,7 +20,7 @@ public class AndroidKeyLoader : IPreprocessBuildWithReport
 
         try
         {
-            var key = File.ReadAllText(".black_keystore_pass").Trim();
+            var key = File.ReadAllText(".keystore_pass").Trim();
             PlayerSettings.Android.keystorePass = key;
             PlayerSettings.Android.keyaliasPass = key;
         }
