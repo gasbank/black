@@ -161,10 +161,10 @@ PlayerSettings:
     iPhone: top.plusalpha.black
   buildNumber:
     Standalone: 0
-    iPhone: 10501
+    iPhone: 1010501
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 10501
+  AndroidBundleVersionCode: 1010501
   AndroidMinSdkVersion: 22
   AndroidTargetSdkVersion: 33
   AndroidPreferredInstallLocation: 1
