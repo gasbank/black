@@ -51,7 +51,6 @@ internal static class BlackBuild {
         AddressableAssetSettings.BuildPlayerContent();
 #endif        
         var isReleaseBuild = Environment.GetEnvironmentVariable("DEV_BUILD") != "1";
-        var skipArmV7 = Environment.GetEnvironmentVariable("SKIP_ARMV7") == "1";
         BuildPlayerOptions options = new BuildPlayerOptions {
             scenes = Scenes,
             target = BuildTarget.Android,
@@ -66,16 +65,9 @@ internal static class BlackBuild {
         if (il2cpp) {
             // 자동 빌드는 IL2CPP로 
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
-            // 개발중일때는 ARM64만 빌드하자. 빠르니까...
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
-            if (isReleaseBuild || skipArmV7 == false) {
-                PlayerSettings.Android.targetArchitectures |= AndroidArchitecture.ARMv7;
-            }
         } else {
             // 개발 기기에서 바로 보고 싶을 땐 mono로 보자
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.Mono2x);
-            // 개발중일때는 ARM64만 빌드하자. 빠르니까...
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
         }
 
         EditorUserBuildSettings.buildAppBundle = appBundle;
