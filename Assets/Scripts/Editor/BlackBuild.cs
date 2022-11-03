@@ -43,7 +43,7 @@ internal static class BlackBuild {
     public static void PerformAndroidBuild()
     {
         var appBundle = Environment.GetEnvironmentVariable("ANDROID_APP_BUNDLE") == "1";
-        PerformAndroidBuildInternal(true, appBundle, false, appBundle ? "Black.aab" : "Black.apk");
+        PerformAndroidBuildInternal(true, appBundle, false, appBundle ? "build/Black.aab" : "build/Black.apk");
     }
     
     static bool PerformAndroidBuildInternal(bool il2cpp, bool appBundle, bool run, string locationPathName) {
@@ -66,8 +66,6 @@ internal static class BlackBuild {
         if (il2cpp) {
             // 자동 빌드는 IL2CPP로 
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
-            // Split APK
-            PlayerSettings.Android.buildApkPerCpuArchitecture = true;
             // 개발중일때는 ARM64만 빌드하자. 빠르니까...
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
             if (isReleaseBuild || skipArmV7 == false) {
@@ -76,8 +74,6 @@ internal static class BlackBuild {
         } else {
             // 개발 기기에서 바로 보고 싶을 땐 mono로 보자
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.Mono2x);
-            // Split Apk 필요 없다
-            PlayerSettings.Android.buildApkPerCpuArchitecture = false;
             // 개발중일때는 ARM64만 빌드하자. 빠르니까...
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7;
         }

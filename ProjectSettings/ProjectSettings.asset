@@ -248,13 +248,13 @@ PlayerSettings:
   useCustomBaseGradleTemplate: 0
   useCustomGradlePropertiesTemplate: 1
   useCustomProguardFile: 0
-  AndroidTargetArchitectures: 3
+  AndroidTargetArchitectures: 2
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: '{inproject}: key/popsongremix.keystore'
   AndroidKeyaliasName: black
-  AndroidBuildApkPerCpuArchitecture: 1
+  AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
   AndroidEnableTango: 0
@@ -808,9 +808,9 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    Android: CONDITIONAL_DEBUG;MESSAGE_PACK;BLACK_ADMIN;GOOGLE_MOBILE_ADS;ADDRESSABLES;NETCOREAPP
-    Standalone: CONDITIONAL_DEBUG;MESSAGE_PACK;NO_GPGS;BLACK_ADMIN;ADDRESSABLES;NETCOREAPP
-    iPhone: CONDITIONAL_DEBUG;MESSAGE_PACK;NO_GPGS;BLACK_ADMIN;ADDRESSABLES;NETCOREAPP
+    Android: CONDITIONAL_DEBUG;MESSAGE_PACK;DEV_BUILD;GOOGLE_MOBILE_ADS;ADDRESSABLES;NETCOREAPP
+    Standalone: CONDITIONAL_DEBUG;MESSAGE_PACK;NO_GPGS;DEV_BUILD;ADDRESSABLES;NETCOREAPP
+    iPhone: CONDITIONAL_DEBUG;MESSAGE_PACK;NO_GPGS;DEV_BUILD;ADDRESSABLES;NETCOREAPP
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
