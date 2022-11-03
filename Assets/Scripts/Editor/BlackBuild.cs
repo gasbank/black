@@ -31,7 +31,7 @@ internal static class BlackBuild {
     [MenuItem("Black/Perform Android Build (Mono)")]
     [UsedImplicitly]
     public static void PerformAndroidBuildMono() {
-        Environment.SetEnvironmentVariable("BLACK_DEV_BUILD", "1");
+        Environment.SetEnvironmentVariable("DEV_BUILD", "1");
         var locationPathName = "black-mono.apk";
         if (PerformAndroidBuildInternal(false, false, false, locationPathName))
         {
@@ -40,21 +40,18 @@ internal static class BlackBuild {
     }
 
     [UsedImplicitly]
-    public static void PerformAndroidBuild() {
-        PerformAndroidBuildInternal(true, false, false, "black.apk");
+    public static void PerformAndroidBuild()
+    {
+        var appBundle = Environment.GetEnvironmentVariable("ANDROID_APP_BUNDLE") == "1";
+        PerformAndroidBuildInternal(true, appBundle, false, appBundle ? "Black.aab" : "Black.apk");
     }
     
-    [UsedImplicitly]
-    public static void PerformAndroidPlayStoreBuild() {
-        PerformAndroidBuildInternal(true, true, false, "black.aab");
-    }
-
     static bool PerformAndroidBuildInternal(bool il2cpp, bool appBundle, bool run, string locationPathName) {
 #if ADDRESSABLES
         AddressableAssetSettings.BuildPlayerContent();
 #endif        
-        var isReleaseBuild = Environment.GetEnvironmentVariable("BLACK_DEV_BUILD") != "1";
-        var skipArmV7 = Environment.GetEnvironmentVariable("BLACK_SKIP_ARMV7") == "1";
+        var isReleaseBuild = Environment.GetEnvironmentVariable("DEV_BUILD") != "1";
+        var skipArmV7 = Environment.GetEnvironmentVariable("SKIP_ARMV7") == "1";
         BuildPlayerOptions options = new BuildPlayerOptions {
             scenes = Scenes,
             target = BuildTarget.Android,
@@ -89,7 +86,7 @@ internal static class BlackBuild {
 
         // Pro 버전일때만 되는 기능이긴 한데, 이걸 켜고 푸시한 경우도 있을테니 여기서 꺼서 안전장치로 작동하게 한다.
         PlayerSettings.SplashScreen.show = false;
-        // BLACK_DEBUG 심볼을 빼서 디버그 메시지 나오지 않도록 한다.
+        // DEV_BUILD 심볼을 빼서 디버그 메시지 나오지 않도록 한다.
         if (isReleaseBuild) {
             RemovingBlackDebugDefine(BuildTargetGroup.Android);
         }
@@ -129,7 +126,7 @@ internal static class BlackBuild {
             PlayerSettings.Android.keyaliasPass = keystorePass;
             return true;
         } else {
-            keystorePass = Environment.GetEnvironmentVariable("BLACK_KEYSTORE_PASS");
+            keystorePass = Environment.GetEnvironmentVariable("KEYSTORE_PASS");
             if (string.IsNullOrEmpty(keystorePass)) {
                 try {
                     keystorePass = File.ReadAllText(".black_keystore_pass").Trim();
@@ -178,15 +175,15 @@ internal static class BlackBuild {
     [UsedImplicitly]
     public static void PerformIosAdHocBuild()
     {
-        PerformIosDistributionBuild(Environment.GetEnvironmentVariable("BLACK_IOS_TEAM_ID"),
-            Environment.GetEnvironmentVariable("BLACK_IOS_AD_HOC_PROFILE_ID"), false);
+        PerformIosDistributionBuild(Environment.GetEnvironmentVariable("IOS_TEAM_ID"),
+            Environment.GetEnvironmentVariable("IOS_AD_HOC_PROFILE_ID"), false);
     }
 
     [UsedImplicitly]
     public static void PerformIosAppStoreBuild()
     {
-        PerformIosDistributionBuild(Environment.GetEnvironmentVariable("BLACK_IOS_TEAM_ID"),
-            Environment.GetEnvironmentVariable("BLACK_IOS_APP_STORE_PROFILE_ID"), true);
+        PerformIosDistributionBuild(Environment.GetEnvironmentVariable("IOS_TEAM_ID"),
+            Environment.GetEnvironmentVariable("IOS_APP_STORE_PROFILE_ID"), true);
     }
 
     static void PerformIosDistributionBuild(string teamId, string profileId, bool universal)
@@ -206,8 +203,8 @@ internal static class BlackBuild {
         };
         // Pro 버전일때만 되는 기능이긴 한데, 이걸 켜고 푸시한 경우도 있을테니 여기서 꺼서 안전장치로 작동하게 한다.
         PlayerSettings.SplashScreen.show = false;
-        // BLACK_DEBUG 심볼을 빼서 디버그 메시지 나오지 않도록 한다.
-        if (Environment.GetEnvironmentVariable("BLACK_DEV_BUILD") != "1")
+        // DEV_BUILD 심볼을 빼서 디버그 메시지 나오지 않도록 한다.
+        if (Environment.GetEnvironmentVariable("DEV_BUILD") != "1")
         {
             RemovingBlackDebugDefine(BuildTargetGroup.iOS);
         }
@@ -271,7 +268,7 @@ internal static class BlackBuild {
         var scriptingDefineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
         scriptingDefineSymbols = string.Join(";",
             scriptingDefineSymbols.Split(';')
-                .Where(e => e != "BLACK_DEBUG" && e != "BLACK_ADMIN" && e != "CONDITIONAL_DEBUG"));
+                .Where(e => e != "DEV_BUILD" && e != "CONDITIONAL_DEBUG"));
         PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, scriptingDefineSymbols);
     }
 }

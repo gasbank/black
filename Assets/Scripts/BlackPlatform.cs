@@ -368,7 +368,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
 // ReSharper disable once RedundantExplicitArrayCreation
     public string[] FacebookAdsTestDeviceIdList => new string[]
     {
-#if BLACK_DEBUG
+#if DEV_BUILD
 #endif
     };
 
@@ -398,7 +398,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
 #endif
 
 // iOS에서는 지금 UnityAds가 테스트 모드로 작동 안한다. 컴파일러 프래그 조건이 이모양!
-#if BLACK_ADMIN && UNITY_ANDROID
+#if DEV_BUILD && UNITY_ANDROID
     public bool UnityAdsUseTestMode => true;
 #else
     public bool UnityAdsUseTestMode => false;

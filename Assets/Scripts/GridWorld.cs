@@ -192,7 +192,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
                     // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
                     if (IsLabelByMinPointEmpty
-#if BLACK_ADMIN
+#if DEV_BUILD
                         || (Application.isEditor && Keyboard.current[Key.LeftShift].isPressed)
 #endif
                     )

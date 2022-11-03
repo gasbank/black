@@ -50,7 +50,7 @@ public class PlatformAdMobAds : MonoBehaviour
     {
         var sb = new StringBuilder(PlatformInterface.instance.text.Str_AdMobError);
         sb.AppendLine(lastErrorMessage);
-#if BLACK_ADMIN
+#if DEV_BUILD
         sb.AppendLine("Try enabling Test Ad toggle in Admin");
 #endif
         PlatformInterface.instance.confirmPopup.Open(sb.ToString());

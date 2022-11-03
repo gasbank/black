@@ -77,7 +77,7 @@ public class Splash : MonoBehaviour
         // 편리하다.
         if (splashStartCount == 0)
         {
-#if BLACK_ADMIN
+#if DEV_BUILD
             Debug.unityLogger.logEnabled = true;
 #else
             Debug.unityLogger.logEnabled = Application.isEditor;

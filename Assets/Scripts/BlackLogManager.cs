@@ -304,10 +304,10 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
     {
         // 개발용 버전에서는 좀 더 많이 가져오자.
         // 근데 아주아주 많이 가져올 수는 없다. Firebase 데이터베이스 노드별 용량 한계가 있다.
-#if BLACK_DEBUG || BLACK_ADMIN
-        var count = 50000;
+#if DEV_BUILD
+        const int count = 50000;
 #else
-        var count = 10000;
+        const int count = 10000;
 #endif
         ConDebug.Log($"Dumping log for last {count:n0} log entries...");
         var dummyLogEntryBytes = GetLogEntryBytes(BlackLogEntry.Type.GameLoaded, 0, 0);

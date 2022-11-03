@@ -218,7 +218,7 @@ public class StageDetailPopup : MonoBehaviour
         Sound.instance.PlayButtonClick();
 
         if (stageLocker.Locked == false
-#if BLACK_ADMIN
+#if DEV_BUILD
             || Application.isEditor && Keyboard.current[Key.LeftShift].isPressed
 #endif
         )

@@ -53,21 +53,21 @@ public class Admin : MonoBehaviour
 
     public void DeleteSaveFileAndReloadScene()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         SaveLoadManager.DeleteSaveFileAndReloadScene();
 #endif
     }
 
     public void GoldToZero()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         BlackContext.instance.SetGold(0);
 #endif
     }
 
     public void GemToZero()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         BlackContext.instance.SetGemZero();
         BlackLogManager.Add(BlackLogEntry.Type.GemToZero, 0, 0);
 #endif
@@ -77,14 +77,14 @@ public class Admin : MonoBehaviour
     [UsedImplicitly]
     public void Gold(int amount)
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         BlackContext.instance.AddGoldSafe((uint) amount);
 #endif
     }
 
     public void ManyGold()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         BlackContext.instance.SetGold(UInt128.MaxValue);
         BlackLogManager.Add(BlackLogEntry.Type.GoldAddAdmin, 1, UInt128.MaxValue.ToClampedLong());
 #endif
@@ -94,7 +94,7 @@ public class Admin : MonoBehaviour
     [UsedImplicitly]
     public void Gem(int amount)
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         BlackContext.instance.AddFreeGem((uint) amount);
         BlackLogManager.Add(BlackLogEntry.Type.GemAddAdmin, 2, amount);
 #endif
@@ -103,7 +103,7 @@ public class Admin : MonoBehaviour
     [UsedImplicitly]
     public void TestVibrate()
     {
-#if BLACK_ADMIN && (UNITY_ANDROID || UNITY_IOS)
+#if DEV_BUILD && (UNITY_ANDROID || UNITY_IOS)
         // VIBRATE 속성을 AndroidManifest.xml에 들어가게 하도록 하기 위해...
         // (노티피케이션에서 필요한 권한임)
         Handheld.Vibrate();
@@ -112,14 +112,14 @@ public class Admin : MonoBehaviour
 
     public void EnableLogging(bool b)
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         Debug.unityLogger.logEnabled = b;
 #endif
     }
 
     public void GoToBlackMakeContest()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         SceneManager.LoadScene("Contest");
 #endif
     }
@@ -127,7 +127,7 @@ public class Admin : MonoBehaviour
     [UsedImplicitly]
     public void GoToMain()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         Splash.LoadSplashScene();
 #endif
     }
@@ -135,14 +135,14 @@ public class Admin : MonoBehaviour
     [UsedImplicitly]
     public void GoToIso()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         SceneManager.LoadScene("Iso");
 #endif
     }
 
     public void BackToYesterday()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         BlackContext.instance.LastDailyRewardRedeemedTicks = 0;
         BlackContext.instance.UpdateDailyRewardAllButtonStates();
         CloseAdminMenu();
@@ -151,21 +151,21 @@ public class Admin : MonoBehaviour
 
     public void Fastforward()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         Time.timeScale = 100;
 #endif
     }
 
     public void NormalTimeScale()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         Time.timeScale = 1;
 #endif
     }
 
     public void CorruptSaveFileAndLoadSplash()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         for (var i = 0; i < SaveLoadManager.maxSaveDataSlot; i++)
         {
             File.WriteAllBytes(SaveLoadManager.SaveFileName,
@@ -179,7 +179,7 @@ public class Admin : MonoBehaviour
 
     public void OpenMergeBlackShow()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         GameObject.Find("Canvas (Whac-A-Cat)").transform.Find("Merge Black Show").gameObject.SetActive(true);
         CloseAdminMenu();
 #endif
@@ -187,20 +187,20 @@ public class Admin : MonoBehaviour
 
     public void ShowSavedGameSelectUI()
     {
-        // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
+        // 유저용 응급 기능이다. DEV_BUILD으로 감싸지 말것.
         GameObject.Find("Platform After Login").GetComponent<PlatformAfterLogin>().ShowSavedGameSelectUI();
     }
 
     public void SpawnTest()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         ExecuteEvents.Execute(spawnButton, new PointerEventData(eventSystem), ExecuteEvents.pointerClickHandler);
 #endif
     }
 
     public void StartTest()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         CloseAdminMenu();
 
         // 자동 테스트 전체는 'blackTester.StartTest()'를 호출해서 시작된다.
@@ -221,7 +221,7 @@ public class Admin : MonoBehaviour
 
     public void LoadFromUserSaveCode(string domain)
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         if (Application.isEditor)
         {
             ConfirmPopup.instance.OpenInputFieldPopup($"Firestore Save Document Code (Domain:{domain})",
@@ -242,7 +242,7 @@ public class Admin : MonoBehaviour
 
     public void ChangeLanguage()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         //한국어 -> 일본어 -> 중국어 (간체) -> 중국어 (번체) -> 한국어 ... (반복)
 
         var text = changeButton.GetComponentInChildren<Text>();
@@ -271,7 +271,7 @@ public class Admin : MonoBehaviour
     // 일단 메인 플레이가 되는 상황에서 유저가 저장 데이터를 개발팀에게 제출하고 싶은 경우 쓰는 메뉴
     public async void ReportSaveDataAsync()
     {
-        // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
+        // 유저용 응급 기능이다. DEV_BUILD으로 감싸지 말것.
         // 저장 한번 하고
 
         StageSaveData stageSaveData = null;
@@ -339,7 +339,7 @@ public class Admin : MonoBehaviour
 
     public async void ReportPlayLogAsync()
     {
-        // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
+        // 유저용 응급 기능이다. DEV_BUILD으로 감싸지 말것.
         try
         {
             // 저장 한번 하고
@@ -372,13 +372,13 @@ public class Admin : MonoBehaviour
     [UsedImplicitly]
     public void ResetTimeServerListQueryStartIndex()
     {
-        // 유저용 응급 기능이다. BLACK_ADMIN으로 감싸지 말것.
+        // 유저용 응급 기능이다. DEV_BUILD으로 감싸지 말것.
         NetworkTime.ResetTimeServerListQueryStartIndex();
     }
 
     public void SetNoticeDbPostfix()
     {
-        // 유저가 쓰더라도 해가 없다. BLACK_ADMIN으로 감싸지 말것.
+        // 유저가 쓰더라도 해가 없다. DEV_BUILD으로 감싸지 말것.
         SetNoticeDbPostfixToDev();
     }
 
@@ -389,7 +389,7 @@ public class Admin : MonoBehaviour
 
     public void SetOnSavedGameOpenedAndWriteAlwaysInternalError()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         PlatformAndroid.OnSavedGameOpenedAndWriteAlwaysInternalError = true;
 #endif
     }
@@ -398,7 +398,7 @@ public class Admin : MonoBehaviour
     // 다시 보상을 처음부터 모두 받을 수 있도록 한다.
     public void ClearAchievementRedeemHistory()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         BlackContext.instance.AchievementRedeemed = new AchievementRecord1(false);
 #endif
     }
@@ -420,7 +420,7 @@ public class Admin : MonoBehaviour
 
     public void GetAllDailyRewardsAtOnceAdminToDay()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         ConfirmPopup.instance.OpenInputFieldPopup(
             $"Redeem Daily Rewards To Day ({BlackContext.instance.LastDailyRewardRedeemedIndex} ~ {Data.dataSet.DailyRewardData.Count})",
             () =>
@@ -436,14 +436,14 @@ public class Admin : MonoBehaviour
 
     public void RefillAllCoins()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         BlackContext.instance.CoinAmount = 5;
 #endif
     }
 
     public void ToggleSlowMode()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         BlackContext.instance.SlowMode = !BlackContext.instance.SlowMode;
         ShortMessage.instance.Show($"SlowMode to {BlackContext.instance.SlowMode}");
 #endif
@@ -451,7 +451,7 @@ public class Admin : MonoBehaviour
 
     public void CalculateGoldRate()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         ConfirmPopup.instance.OpenInputFieldPopup("Gold Rate", () =>
         {
             PrintGoldRate(ConfirmPopup.instance.InputFieldText);
@@ -461,7 +461,7 @@ public class Admin : MonoBehaviour
 #endif
     }
 
-#if BLACK_ADMIN
+#if DEV_BUILD
     static void PrintGoldRate(string goldRateBigIntStr)
     {
         if (BigInteger.TryParse(goldRateBigIntStr, out var n))
@@ -486,13 +486,13 @@ public class Admin : MonoBehaviour
 
     public void ToggleNoAdsCode()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         BlackContext.instance.NoAdsCode = BlackContext.instance.NoAdsCode == 0 ? 19850506 : 0;
         ShortMessage.instance.Show($"No Ads Code set to {BlackContext.instance.NoAdsCode}");
 #endif
     }
 
-#if BLACK_ADMIN
+#if DEV_BUILD
     void Update()
     {
         if (Keyboard.current[Key.F5].wasReleasedThisFrame)
@@ -504,7 +504,7 @@ public class Admin : MonoBehaviour
 
     public void TestAd()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         CloseAdminMenu();
         var adContext = new BlackAdContext(() =>
         {
@@ -518,7 +518,7 @@ public class Admin : MonoBehaviour
     
     public void SetLastClearedStageId()
     {
-#if BLACK_ADMIN
+#if DEV_BUILD
         ConfirmPopup.instance.OpenInputFieldPopup("Last Cleared Stage ID",
             () =>
             {

@@ -12,7 +12,7 @@ public class DeactivateOnLiveBuild : MonoBehaviour
 
     void Awake()
     {
-#if !BLACK_ADMIN
+#if !DEV_BUILD
         gameObject.SetActive(false);
 #endif
     }
