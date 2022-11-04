@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿#if !NO_GPGS
 using GooglePlayGames.BasicApi.SavedGame;
+#endif
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -23,6 +25,7 @@ public class PlatformSaveUtil : MonoBehaviour
     public static string RemoteSaveFileForEditor => Application.persistentDataPath + "/" + remoteSaveFileName;
 
 
+#if !NO_GPGS
     static void OnSavedGameOpenedAndWriteConflictResolve(IConflictResolver resolver, ISavedGameMetadata original,
         byte[] originalData, ISavedGameMetadata unmerged, byte[] unmergedData)
     {
@@ -34,7 +37,8 @@ public class PlatformSaveUtil : MonoBehaviour
     {
         resolver.ChooseMetadata(original);
     }
-
+#endif
+    
     public void LogCloudLoadSaveError(string message)
     {
         Debug.LogError(message);

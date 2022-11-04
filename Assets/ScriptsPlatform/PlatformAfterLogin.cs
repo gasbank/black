@@ -1,5 +1,7 @@
-﻿using GooglePlayGames;
+﻿#if !NO_GPGS
+using GooglePlayGames;
 using GooglePlayGames.BasicApi.SavedGame;
+#endif
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -46,6 +48,7 @@ public class PlatformAfterLogin : MonoBehaviour
 #endif
     }
 
+#if !NO_GPGS
     void OnSavedGameSelected(SelectUIStatus status, ISavedGameMetadata game)
     {
         if (status == SelectUIStatus.SavedGameSelected)
@@ -61,7 +64,8 @@ public class PlatformAfterLogin : MonoBehaviour
             PlatformInterface.Instance.logger.LogFormat("Save game selection canceled! - {0}", status);
         }
     }
-
+#endif
+    
     // 우측 버튼 콜백
     [UsedImplicitly]
     public void ShowLeaderboard()

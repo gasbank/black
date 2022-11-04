@@ -36,7 +36,9 @@ public class DialogGroup : MonoBehaviour
         // (광고 로딩이 오래 걸리기 때문에 아래 광고 시작 이벤트 대화보다 빨리 시작해두는 게 좋다.)
         if (BlackContext.Instance.LastClearedStageId >= 3)
         {
+#if GOOGLE_MOBILE_ADS
             PlatformAdMobAdsInit.Instance.Init();
+#endif
         }
         
         // 신규 유저 어서오고
