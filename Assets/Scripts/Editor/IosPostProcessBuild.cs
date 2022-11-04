@@ -33,7 +33,7 @@ public static class IosPostProcessBuild
             // Facebook SDK가 Bitcode 미지원하므로 이 플래그를 꺼야 빌드가 된다.
             //string target = pbxProject.TargetGuidByName("Unity-iPhone");
             var target = pbxProject.GetUnityMainTargetGuid();
-            pbxProject.SetBuildProperty(target, "ENABLE_BITCODE", "NO");
+            pbxProject.SetBuildProperty(target, "ENABLE_BITCODE", "YES");
 
             // DSYM 생성 안하도록 (빌드 시간 단축?)
             foreach (var configName in pbxProject.BuildConfigNames())
