@@ -179,7 +179,7 @@ PlayerSettings:
   keepLoadedShadersAlive: 0
   StripUnusedMeshComponents: 1
   VertexChannelCompressionMask: 4054
-  iPhoneSdkVersion: 988
+  iPhoneSdkVersion: 989
   iOSTargetOSVersionString: 11.0
   tvOSSdkVersion: 0
   tvOSRequireExtendedGameController: 0
@@ -559,7 +559,9 @@ PlayerSettings:
     m_TextureStreamingEnabled: 0
     m_TextureStreamingPriority: 0
   m_BuildTargetNormalMapEncoding: []
-  m_BuildTargetDefaultTextureCompressionFormat: []
+  m_BuildTargetDefaultTextureCompressionFormat:
+  - m_BuildTarget: iPhone
+    m_Format: 4
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
@@ -808,9 +810,9 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    Android: CONDITIONAL_DEBUG;MESSAGE_PACK;DEV_BUILD;GOOGLE_MOBILE_ADS;ADDRESSABLES;NETCOREAPP
-    Standalone: CONDITIONAL_DEBUG;MESSAGE_PACK;NO_GPGS;DEV_BUILD;ADDRESSABLES;NETCOREAPP
-    iPhone: CONDITIONAL_DEBUG;MESSAGE_PACK;NO_GPGS;DEV_BUILD;ADDRESSABLES;NETCOREAPP
+    Android: MESSAGE_PACK;GOOGLE_MOBILE_ADS;ADDRESSABLES;NETCOREAPP;CONDITIONAL_DEBUG;DEV_BUILD
+    Standalone: MESSAGE_PACK;ADDRESSABLES;NETCOREAPP;NO_GPGS;CONDITIONAL_DEBUG;DEV_BUILD
+    iPhone: MESSAGE_PACK;GOOGLE_MOBILE_ADS;NO_GPGS;ADDRESSABLES;NETCOREAPP;CONDITIONAL_DEBUG;DEV_BUILD
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

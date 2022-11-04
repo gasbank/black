@@ -244,11 +244,10 @@ public class StageDetailPopup : MonoBehaviour
         }
         else
         {
-            if (Application.isEditor)
-            {
-                ConfirmPopup.instance.OpenSimpleMessage(
-                    "Ad not supported on this platform. Click the button while Left Shift key.");
-            }
+            ConfirmPopup.instance.OpenSimpleMessage(
+                Application.isEditor
+                    ? "Ad not supported on this platform. Click the button while Left Shift key."
+                    : "Ad Mob instance not found.");
         }
     }
 

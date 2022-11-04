@@ -229,6 +229,9 @@ internal static class BlackBuild
             PlayerSettings.iOS.iOSManualProvisioningProfileType = ProvisioningProfileType.Distribution;
         }
 
+        // 자동 빌드니까 당연히 Device SDK 사용해야겠지?
+        PlayerSettings.iOS.sdkVersion = iOSSdkVersion.DeviceSDK;
+
         var cmdArgs = Environment.GetCommandLineArgs().ToList();
         ProcessBuildNumber(cmdArgs);
         var buildReport = BuildPipeline.BuildPlayer(options);

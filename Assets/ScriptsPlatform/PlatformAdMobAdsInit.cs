@@ -55,7 +55,7 @@ public class PlatformAdMobAdsInit : MonoBehaviour
         
         RequestRewardBasedVideo();
 
-#if UNITY_IOS
+#if UNITY_IOS && BLACK_FACEBOOK
         var trackingStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
         Debug.Log($"ATTrackingStatusBinding.GetAuthorizationTrackingStatus()={trackingStatus}");
         switch (trackingStatus)
