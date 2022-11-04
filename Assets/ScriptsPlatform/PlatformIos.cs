@@ -3,15 +3,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
-#if UNITY_IOS
-using System.Collections;
-using Unity.Notifications.iOS;
-#endif
 
 public class PlatformIos : MonoBehaviour, IPlatformBase
 {
-    static readonly string GAME_CENTER_LOGIN_FAILED_FLAG_PREF_KEY = "__game_center_login_failed_flag";
-    static readonly string GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY = "__game_center_login_disabled_flag";
+    const string GameCenterLoginFailedFlagPrefKey = "__game_center_login_failed_flag";
+    const string GameCenterLoginDisabledFlagPrefKey = "__game_center_login_disabled_flag";
 #if UNITY_IOS
     static bool registerForNotificationsOnce;
 #endif
@@ -23,14 +19,11 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
     [SerializeField]
     PlatformSaveUtil platformSaveUtil;
 
-    [SerializeField]
-    bool requiredDummyBoolVariable;
-
     public bool CheckLoadSavePrecondition(string progressMessage, Action onNotLoggedIn, Action onAbort)
     {
         // Game Center 로그인 시도 회수 제한(3회 연속 로그인 거절)이 있다.
         // 회수 제한을 넘어서면 아무런 응답이 오지 않기 때문에 아예 시도조차 하지 않아야 한다.
-        if (!PlatformLogin.IsAuthenticated && PlayerPrefs.GetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 0) != 0)
+        if (!PlatformLogin.IsAuthenticated && PlayerPrefs.GetInt(GameCenterLoginDisabledFlagPrefKey, 0) != 0)
         {
             // 유저가 직접 홈 -> 설정 -> Game Center 로그인을 해야 한다는 것을 알려야된다.
             PlatformInterface.Instance.confirmPopup.Open(
@@ -48,8 +41,8 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
 
         // 여기까지 왔으면 Game Center 로그인은 성공한 상태란 뜻이다.
         // Game Center 로그인을 앞으로 다시 시도하도록 한다.
-        PlayerPrefs.SetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 0);
-        PlayerPrefs.SetInt(GAME_CENTER_LOGIN_FAILED_FLAG_PREF_KEY, 0);
+        PlayerPrefs.SetInt(GameCenterLoginDisabledFlagPrefKey, 0);
+        PlayerPrefs.SetInt(GameCenterLoginFailedFlagPrefKey, 0);
 
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
@@ -108,6 +101,16 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
                 PlatformInterface.Instance.text.ConfirmMessage);
     }
 
+    public void RegisterAllNotifications(string title, string body, string largeIcon, int localHours)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RegisterSingleNotification(string title, string body, int afterMs, string largeIcon)
+    {
+        throw new NotImplementedException();
+    }
+
     public async void Login(Action<bool, string> onAuthResult)
     {
         // iOS에서는 Social.localUser.Authenticate 콜백이 호출이 되지 않을 때도 있다.
@@ -121,7 +124,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
         }), Task.Run(async () =>
         {
             var authenticateTask = new TaskCompletionSource<Tuple<bool, string>>();
-            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            await UnityMainThreadDispatcher.Instance().EnqueueAsync(() =>
             {
                 Social.localUser.Authenticate((b, reason) =>
                 {
@@ -137,10 +140,10 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
     }
 
     [SuppressMessage("ReSharper", "BitwiseOperatorOnEnumWithoutFlags")]
-    void AuthenticateCallback(Action<bool, string> onAuthResult, bool b, string reason)
+    static void AuthenticateCallback(Action<bool, string> onAuthResult, bool b, string reason)
     {
         // Game Center 로그인 성공/실패 유무에 따른 플래그 업데이트
-        PlayerPrefs.SetInt(GAME_CENTER_LOGIN_FAILED_FLAG_PREF_KEY, b ? 0 : 1);
+        PlayerPrefs.SetInt(GameCenterLoginFailedFlagPrefKey, b ? 0 : 1);
 
         PlatformInterface.Instance.logger.LogFormat("iOS Game Center Login Result: {0} / Reason: {1}", b, reason);
 
@@ -151,32 +154,21 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
         // 제대로 작동하지 않는다. (언어별로 정상 작동 여부가 달라진다.)
         // 아직은 고치지 않고 그래두 두겠다...
         if (b == false && reason.Contains("canceled") && reason.Contains("disabled"))
-            PlayerPrefs.SetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 1);
-        else if (b) PlayerPrefs.SetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 0);
+            PlayerPrefs.SetInt(GameCenterLoginDisabledFlagPrefKey, 1);
+        else if (b) PlayerPrefs.SetInt(GameCenterLoginDisabledFlagPrefKey, 0);
 
         PlayerPrefs.Save();
 
         onAuthResult(b, reason);
 
 #if UNITY_IOS
+        // 푸시 알림 관련한 기능 아직은 쓰지 않으니까 권한 요청하지 말자.
+        /*
         if (registerForNotificationsOnce == false) {
-            // 로그인 이후 알림 기능에 대한 동의 팝업을 띄우자...
-            // 여러 번 하면 FCM 푸시 왔을 때 여러 번 처리되나?
-            // 한번만 하자.
-            //
-            // 여기서 하지 말고 Firebase 초기화 완료된 후에 하자.
-#pragma warning disable 618
-            if (requiredDummyBoolVariable) {
-                UnityEngine.iOS.NotificationServices.RegisterForNotifications(
-                    UnityEngine.iOS.NotificationType.Alert
-                    | UnityEngine.iOS.NotificationType.Badge
-                    | UnityEngine.iOS.NotificationType.Sound);
-            }
-
             StartCoroutine(RequestAuthorization());
-#pragma warning restore 618
             registerForNotificationsOnce = true;
         }
+        */
 
         // 로그인 성공했다면 업적 알림 기능 켜기
         if (b) {
@@ -184,24 +176,6 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
         }
 #endif
     }
-
-#if UNITY_IOS
-    IEnumerator RequestAuthorization() {
-        const AuthorizationOption authorizationOption =
-            AuthorizationOption.Alert | AuthorizationOption.Badge | AuthorizationOption.Sound;
-        using var req = new AuthorizationRequest(authorizationOption, true);
-        while (!req.IsFinished) {
-            yield return null;
-        }
-
-        string res = "\n RequestAuthorization:";
-        res += "\n finished: " + req.IsFinished;
-        res += "\n granted :  " + req.Granted;
-        res += "\n error:  " + req.Error;
-        res += "\n deviceToken:  " + req.DeviceToken;
-        Debug.Log(res);
-    }
-#endif
 
     public bool LoginFailedLastTime()
     {
@@ -216,36 +190,6 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
 
     public void PreAuthenticate()
     {
-    }
-
-    public void RegisterAllNotifications(string title, string body, string largeIcon, int localHours)
-    {
-        if (Application.platform == RuntimePlatform.IPhonePlayer)
-        {
-#if UNITY_IOS
-            var text = $"{title}\n{body}";
-            PlatformInterface.Instance.logger.Log("Schedule Local Notification");
-#pragma warning disable 618
-            UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
-            UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
-#pragma warning restore 618
-#endif
-            ClearAllNotifications();
-
-            // 09:00
-#if UNITY_IOS
-#pragma warning disable 618            
-            UnityEngine.iOS.LocalNotification notification0900 = new UnityEngine.iOS.LocalNotification {
-                fireDate = PlatformEditor.GetNextLocalHours(localHours),
-                alertBody = text,
-                alertAction = "Action",
-                soundName = UnityEngine.iOS.LocalNotification.defaultSoundName,
-                repeatInterval = UnityEngine.iOS.CalendarUnit.Day
-            };
-            UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(notification0900);
-#pragma warning restore 618
-#endif
-        }
     }
 
     public void Report(string reportPopupTitle, string mailTo, string subject, string text, byte[] saveData)
@@ -267,6 +211,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
     public void ClearAllNotifications()
     {
 #if UNITY_IOS
+        Debug.Log("PlatformIos.ClearAllNotifications()");
         PlatformIosNative.clearAllNotifications();
 #endif
     }
@@ -321,21 +266,6 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
     public void RequestUserReview()
     {
         Application.OpenURL(PlatformInterface.Instance.config.GetUserReviewUrl());
-    }
-
-    public void RegisterSingleNotification(string title, string body, int afterMs, string largeIcon)
-    {
-#if UNITY_IOS
-#pragma warning disable 618
-        UnityEngine.iOS.LocalNotification n = new UnityEngine.iOS.LocalNotification {
-            fireDate = DateTime.Now.AddMilliseconds(afterMs),
-            alertBody = body,
-            alertAction = "Action",
-            soundName = UnityEngine.iOS.LocalNotification.defaultSoundName
-        };
-        UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(n);
-#pragma warning restore 618
-#endif
     }
 
     public string GetAccountTypeText()
