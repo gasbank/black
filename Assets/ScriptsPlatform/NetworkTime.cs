@@ -369,7 +369,7 @@ public class NetworkTime : MonoBehaviour
     public bool EstimatedNetworkTimeInBetween(DateTime begin, DateTime end)
     {
         var estimatedNetworkTime = EstimatedNetworkTime;
-        //PlatformInterface.instance.logger.Log($"*** BEGIN: {NetworkTime.ToString(begin)} / CURRENT: {NetworkTime.ToString(estimatedNetworkTime)} / END: {NetworkTime.ToString(end)}");
+        //PlatformInterface.Instance.logger.Log($"*** BEGIN: {NetworkTime.ToString(begin)} / CURRENT: {NetworkTime.ToString(estimatedNetworkTime)} / END: {NetworkTime.ToString(end)}");
         return estimatedNetworkTime >= begin && estimatedNetworkTime < end;
     }
 }

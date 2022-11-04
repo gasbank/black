@@ -6,9 +6,6 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 #endif
-#if UNITY_ANDROID
-using Unity.Notifications.Android;
-#endif
 
 public class PlatformAndroid : MonoBehaviour, IPlatformBase
 {
@@ -51,7 +48,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 #if !NO_GPGS
         if (!PlatformLogin.IsAuthenticated)
         {
-            PlatformInterface.instance.logger.LogFormat("GetCloudSavedAccountData: not authenticated");
+            PlatformInterface.Instance.logger.LogFormat("GetCloudSavedAccountData: not authenticated");
             onPeekResult(null);
             return;
         }
@@ -68,7 +65,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
                     {
                         // handle reading or writing of saved game.
 
-                        PlatformInterface.instance.logger.LogFormat(
+                        PlatformInterface.Instance.logger.LogFormat(
                             "GetCloudSavedAccountData: Save game open (read) success! Filename: {0}", game.Filename);
 
                         savedGameClient.ReadBinaryData(game, (status2, data2) =>
@@ -76,7 +73,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
                             if (status == SavedGameRequestStatus.Success)
                             {
                                 // handle processing the byte array data
-                                PlatformInterface.instance.logger.LogFormat(
+                                PlatformInterface.Instance.logger.LogFormat(
                                     "GetCloudSavedAccountData success! - Data size: {0} bytes", data2.Length);
                                 try
                                 {
@@ -84,14 +81,14 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
                                 }
                                 catch
                                 {
-                                    PlatformInterface.instance.logger.LogFormat(
+                                    PlatformInterface.Instance.logger.LogFormat(
                                         "GetCloudSavedAccountData: Exception at deserialization");
                                     onPeekResult(null);
                                 }
                             }
                             else
                             {
-                                PlatformInterface.instance.logger.LogFormat(
+                                PlatformInterface.Instance.logger.LogFormat(
                                     "GetCloudSavedAccountData: ReadBinaryData error! - {0}", status2);
                                 onPeekResult(null);
                             }
@@ -130,7 +127,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         {
             // handle error
             platformSaveUtil.ShowLoadErrorPopup("OnClick_cloudSave: savedGameClient null");
-            PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudLoadFailure, 0,
+            PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudLoadFailure, 0,
                 2);
         }
 #endif
@@ -139,7 +136,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
     public void ExecuteCloudSave()
     {
 #if !NO_GPGS
-        PlatformInterface.instance.saveLoadManager.SaveBeforeCloudSave();
+        PlatformInterface.Instance.saveLoadManager.SaveBeforeCloudSave();
         platformSaveUtil.ShowSaveProgressPopup();
 
         var savedGameClient = PlayGamesPlatform.Instance.SavedGame;
@@ -153,7 +150,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         else
         {
             platformSaveUtil.ShowSaveErrorPopup("OnClick_cloudSave: savedGameClient null");
-            PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudSaveFailure, 0,
+            PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudSaveFailure, 0,
                 1);
         }
 #endif
@@ -191,7 +188,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         PlayGamesPlatform.Activate();
 #endif
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && BLACK_NOTIFICATION
         var channel = new AndroidNotificationChannel
         {
             Id = "friends",
@@ -231,7 +228,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 
         RegisterDailyChannel();
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && BLACK_NOTIFICATION
         var notification = new AndroidNotification
         {
             Title = title,
@@ -247,7 +244,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 
     public void ClearAllNotifications()
     {
-#if UNITY_ANDROID
+#if UNITY_ANDROID && BLACK_NOTIFICATION
         AndroidNotificationCenter.CancelAllNotifications();
 #endif
     }
@@ -304,7 +301,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         bool vibrate = true, bool lights = true, string bigIcon = "", string smallIcon = "")
     {
         RegisterDailyChannel();
-#if UNITY_ANDROID
+#if UNITY_ANDROID && BLACK_NOTIFICATION
         var notification = new AndroidNotification
         {
             Title = title,
@@ -317,7 +314,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 
     static void RegisterDailyChannel()
     {
-#if UNITY_ANDROID
+#if UNITY_ANDROID && BLACK_NOTIFICATION
         var channel = new AndroidNotificationChannel
         {
             Id = "daily_channel_id",
@@ -361,7 +358,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         {
             // handle reading or writing of saved game.
 
-            PlatformInterface.instance.logger.LogFormat(
+            PlatformInterface.Instance.logger.LogFormat(
                 "OnSavedGameOpenedAndWrite: Save game open (write) success! Filename: {0}", game.Filename);
 
             SerializeAndSaveGame(game);
@@ -379,16 +376,16 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
                     $"OnSavedGameOpenedAndWrite: Save game open (write) failed! - {status}");
 
             //rootCanvasGroup.interactable = true;
-            PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudSaveFailure, 0,
+            PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudSaveFailure, 0,
                 2);
         }
     }
 
     void SerializeAndSaveGame(ISavedGameMetadata game)
     {
-        var savedData = PlatformInterface.instance.saveUtil.SerializeSaveData();
-        var played = PlatformInterface.instance.saveUtil.GetPlayed();
-        var desc = PlatformInterface.instance.saveUtil.GetDesc(savedData);
+        var savedData = PlatformInterface.Instance.saveUtil.SerializeSaveData();
+        var played = PlatformInterface.Instance.saveUtil.GetPlayed();
+        var desc = PlatformInterface.Instance.saveUtil.GetDesc(savedData);
         SaveGame(game, savedData, played, desc);
     }
 #endif
@@ -415,7 +412,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         {
             // handle error
             platformSaveUtil.ShowSaveErrorPopup($"OnSavedGameWritten: OnSavedGameWritten failed! - {status}");
-            PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudSaveFailure, 0,
+            PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudSaveFailure, 0,
                 3);
         }
 
@@ -428,7 +425,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         {
             // handle reading or writing of saved game.
 
-            PlatformInterface.instance.logger.LogFormat("Save game open (read) success! Filename: {0}", game.Filename);
+            PlatformInterface.Instance.logger.LogFormat("Save game open (read) success! Filename: {0}", game.Filename);
 
             LoadGameData(game);
         }
@@ -436,7 +433,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         {
             // handle error
             platformSaveUtil.ShowLoadErrorPopup("OnSavedGameOpenedAndRead: status != SavedGameRequestStatus.Success");
-            PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudLoadFailure, 0,
+            PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudLoadFailure, 0,
                 3);
         }
     }
@@ -454,18 +451,18 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         if (status == SavedGameRequestStatus.Success)
         {
             // handle processing the byte array data
-            PlatformInterface.instance.logger.LogFormat("OnSavedGameDataRead success! - Data size: {0} bytes",
+            PlatformInterface.Instance.logger.LogFormat("OnSavedGameDataRead success! - Data size: {0} bytes",
                 data.Length);
 
-            var remoteSaveDict = PlatformInterface.instance.saveUtil.DeserializeSaveData(data);
+            var remoteSaveDict = PlatformInterface.Instance.saveUtil.DeserializeSaveData(data);
 
-            PlatformInterface.instance.saveUtil.LoadDataAndLoadSplashScene(remoteSaveDict);
+            PlatformInterface.Instance.saveUtil.LoadDataAndLoadSplashScene(remoteSaveDict);
         }
         else
         {
             // handle error
             platformSaveUtil.ShowLoadErrorPopup("OnSavedGameDataRead: status == SavedGameRequestStatus.Success");
-            PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudLoadFailure, 0,
+            PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudLoadFailure, 0,
                 4);
         }
     }

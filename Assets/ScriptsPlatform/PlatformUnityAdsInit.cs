@@ -20,7 +20,7 @@ public class PlatformUnityAdsInit : MonoBehaviour
 
 #if UNITY_ADS
     void Start() {
-        PlatformInterface.instance.logger.Log($"PlatformUnityAdsInit.Start() - gameID={GAME_ID}, testMode={USE_TEST_MODE}");
+        PlatformInterface.Instance.logger.Log($"PlatformUnityAdsInit.Start() - gameID={GAME_ID}, testMode={USE_TEST_MODE}");
         if (USE_ADS) {
             //Advertisement.debugMode = true;
             // 개발 환경 머신에서 프록시 연결 설정 된 경우 아래 코드 처리 중 내부에서 UriFormatException 예외 발생한다.
@@ -57,8 +57,8 @@ public class PlatformUnityAdsInit : MonoBehaviour
 
     IEnumerator OnUnityAdsDidFinishCoro(string placementId, ShowResult showResult) {
         yield return null;
-        PlatformInterface.instance.logger.Log($"PlatformUnityAdsInit.OnUnityAdsDidFinish: placementId={placementId}, showResult={showResult}");
-        PlatformInterface.instance.backgroundTimeCompensator.EndBackgroundState(this);
+        PlatformInterface.Instance.logger.Log($"PlatformUnityAdsInit.OnUnityAdsDidFinish: placementId={placementId}, showResult={showResult}");
+        PlatformInterface.Instance.backgroundTimeCompensator.EndBackgroundState(this);
         PlatformUnityAds.HandleShowResult(showResult);
     }
 
@@ -68,8 +68,8 @@ public class PlatformUnityAdsInit : MonoBehaviour
 
     IEnumerator OnUnityAdsDidStartCoro(string placementId) {
         yield return null;
-        PlatformInterface.instance.logger.Log($"PlatformUnityAdsInit.OnUnityAdsDidStart: placementId={placementId}");
-        PlatformInterface.instance.backgroundTimeCompensator.BeginBackgroundState(this);
+        PlatformInterface.Instance.logger.Log($"PlatformUnityAdsInit.OnUnityAdsDidStart: placementId={placementId}");
+        PlatformInterface.Instance.backgroundTimeCompensator.BeginBackgroundState(this);
     }
 
     public void OnUnityAdsReady(string placementId) {
@@ -78,7 +78,7 @@ public class PlatformUnityAdsInit : MonoBehaviour
 
     IEnumerator OnUnityAdsReadyCoro(string placementId) {
         yield return null;
-        PlatformInterface.instance.logger.Log($"PlatformUnityAdsInit.OnUnityAdsReady: placementId={placementId}");
+        PlatformInterface.Instance.logger.Log($"PlatformUnityAdsInit.OnUnityAdsReady: placementId={placementId}");
     }
 #endif
 }

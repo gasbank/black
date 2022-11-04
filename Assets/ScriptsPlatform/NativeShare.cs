@@ -46,9 +46,9 @@ public static class NativeShare
 #elif UNITY_IOS
 		ShareIOS(body, subject, url, filePaths);
 #else
-        PlatformInterface.instance.logger.Log("No sharing set up for this platform.");
-        PlatformInterface.instance.logger.Log("Subject: " + subject);
-        PlatformInterface.instance.logger.Log("Body: " + body);
+        PlatformInterface.Instance.logger.Log("No sharing set up for this platform.");
+        PlatformInterface.Instance.logger.Log("Subject: " + subject);
+        PlatformInterface.Instance.logger.Log("Body: " + body);
 #endif
     }
 
