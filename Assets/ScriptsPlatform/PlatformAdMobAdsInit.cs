@@ -15,22 +15,21 @@ public class PlatformAdMobAdsInit : MonoBehaviour
     public static PlatformAdMobAdsInit Instance;
 
     [SerializeField]
-    PlatformInterface platformInterface;
-
-    [SerializeField]
     PlatformAdMobAds platformAdMobAds;
 
 #if GOOGLE_MOBILE_ADS
     bool shouldBeRewarded;
-    public RewardedAd rewardBasedVideo;
+    public RewardedAd RewardBasedVideo;
 
-    public void Start() {
+    public void Init()
+    {
         PlatformInterface.Instance.logger.Log("PlatformAdMobAdsInit.Start()");
 
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(status => { });
-        
-        var testDeviceList = new List<string> {
+
+        var testDeviceList = new List<string>
+        {
             //"751709a03251817c6a3d7d3f7072ec57" // iPhone 6s
         };
         var requestConfiguration = new RequestConfiguration.Builder().SetTestDeviceIds(testDeviceList).build();
@@ -42,17 +41,17 @@ public class PlatformAdMobAdsInit : MonoBehaviour
         var adUnitId = PlatformInterface.Instance.config.GetAdMobRewardVideoAdUnitId();
 
         // Get singleton reward based video ad reference.
-        rewardBasedVideo = new RewardedAd(adUnitId);
+        RewardBasedVideo = new(adUnitId);
 
-        rewardBasedVideo.OnAdLoaded += HandleOnAdLoaded;
-        rewardBasedVideo.OnAdFailedToLoad += HandleAdFailedToLoad;
-        rewardBasedVideo.OnAdOpening += HandleAdOpening;
-        rewardBasedVideo.OnAdClosed += HandleAdClosed;
-        rewardBasedVideo.OnAdFailedToShow += HandleAdFailedToShow;
-        rewardBasedVideo.OnAdDidRecordImpression += HandleAdDidRecordImpression;
-        rewardBasedVideo.OnUserEarnedReward += HandleUserEarnedReward;
-        rewardBasedVideo.OnPaidEvent += HandlePaidEvent;
-        
+        RewardBasedVideo.OnAdLoaded += HandleOnAdLoaded;
+        RewardBasedVideo.OnAdFailedToLoad += HandleAdFailedToLoad;
+        RewardBasedVideo.OnAdOpening += HandleAdOpening;
+        RewardBasedVideo.OnAdClosed += HandleAdClosed;
+        RewardBasedVideo.OnAdFailedToShow += HandleAdFailedToShow;
+        RewardBasedVideo.OnAdDidRecordImpression += HandleAdDidRecordImpression;
+        RewardBasedVideo.OnUserEarnedReward += HandleUserEarnedReward;
+        RewardBasedVideo.OnPaidEvent += HandlePaidEvent;
+
         RequestRewardBasedVideo();
 
 #if UNITY_IOS
@@ -78,25 +77,29 @@ public class PlatformAdMobAdsInit : MonoBehaviour
 #endif
     }
 
-    void HandlePaidEvent(object sender, AdValueEventArgs e) {
+    void HandlePaidEvent(object sender, AdValueEventArgs e)
+    {
         PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandlePaidEvent)}");
     }
 
-    void HandleAdDidRecordImpression(object sender, EventArgs e) {
+    void HandleAdDidRecordImpression(object sender, EventArgs e)
+    {
         PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdDidRecordImpression)}");
     }
 
-    void HandleOnAdLoaded(object sender, EventArgs args) {
+    void HandleOnAdLoaded(object sender, EventArgs args)
+    {
         PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleOnAdLoaded)}");
     }
 
-    void HandleAdFailedToLoad(object sender, AdFailedToLoadEventArgs args) {
+    void HandleAdFailedToLoad(object sender, AdFailedToLoadEventArgs args)
+    {
         var errorMessage = args.LoadAdError.GetMessage();
         PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdFailedToLoad)}");
         PlatformInterface.Instance.logger.Log($"    Message: {errorMessage}");
         UnityMainThreadDispatcher.Instance().Enqueue(() => PlatformAdMobAds.HandleFailedToLoad(errorMessage));
     }
-    
+
     void HandleAdFailedToShow(object sender, AdErrorEventArgs args)
     {
         var errorMessage = args.AdError.GetMessage();
@@ -105,22 +108,27 @@ public class PlatformAdMobAdsInit : MonoBehaviour
         UnityMainThreadDispatcher.Instance().Enqueue(() => PlatformAdMobAds.HandleFailedToLoad(errorMessage));
     }
 
-    void HandleAdOpening(object sender, EventArgs args) {
+    void HandleAdOpening(object sender, EventArgs args)
+    {
         PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdOpening)}");
         shouldBeRewarded = false;
     }
 
-    void HandleAdClosed(object sender, EventArgs args) {
+    void HandleAdClosed(object sender, EventArgs args)
+    {
         PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdClosed)}");
-        UnityMainThreadDispatcher.Instance().Enqueue(() => {
+        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+        {
             RequestRewardBasedVideo();
-            if (shouldBeRewarded) {
+            if (shouldBeRewarded)
+            {
                 platformAdMobAds.HandleRewarded();
             }
         });
     }
 
-    void HandleUserEarnedReward(object sender, Reward args) {
+    void HandleUserEarnedReward(object sender, Reward args)
+    {
         PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleUserEarnedReward)}");
         string type = args.Type;
         double amount = args.Amount;
@@ -128,14 +136,16 @@ public class PlatformAdMobAdsInit : MonoBehaviour
         shouldBeRewarded = true;
     }
 
-    void RequestRewardBasedVideo() {
+    void RequestRewardBasedVideo()
+    {
         // Create an empty ad request.
         AdRequest request = new AdRequest.Builder().Build();
         // Load the rewarded video ad with the request.
-        rewardBasedVideo.LoadAd(request);
+        RewardBasedVideo.LoadAd(request);
     }
 
-    public static void TestMediation() {
+    public static void TestMediation()
+    {
         // Google Mobile Ads 업데이트되면서 더이상 지원되지 않는건가?
     }
 #endif

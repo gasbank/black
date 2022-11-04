@@ -32,14 +32,22 @@ public class DialogGroup : MonoBehaviour
 
     async void Start()
     {
+        // 신규 유저 어서오고
         if (BlackContext.Instance.LastClearedStageId == 0 && BlackContext.Instance.LastClearedStageIdEvent < 0)
         {
             await StartWelcomeDialogInternalAsync();
         }
 
+        // 3번째 스테이지까지 하면 그 다음부터 광고 봐야 하고
         if (BlackContext.Instance.LastClearedStageId == 3 && BlackContext.Instance.LastClearedStageIdEvent < 3)
         {
             await StartFairyDialogInternalAsync();
+        }
+
+        // 광고 로딩, iOS ATT 권한 획득
+        if (BlackContext.Instance.LastClearedStageId >= 3)
+        {
+            PlatformAdMobAdsInit.Instance.Init();
         }
 
         BlackContext.Instance.LastClearedStageIdEvent = BlackContext.Instance.LastClearedStageId;

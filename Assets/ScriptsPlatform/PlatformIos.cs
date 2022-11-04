@@ -128,7 +128,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
             {
                 Social.localUser.Authenticate((b, reason) =>
                 {
-                    authenticateTask.SetResult(new Tuple<bool, string>(b, reason));
+                    authenticateTask.SetResult(new(b, reason));
                 });
             });
             return await authenticateTask.Task;

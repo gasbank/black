@@ -217,7 +217,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
             TimeSpan.FromMilliseconds(afterMs),
             title,
             body,
-            new Color32(0x7f, 0x7f, 0x7f, 255),
+            new(0x7f, 0x7f, 0x7f, 255),
             true,
             true,
             true,

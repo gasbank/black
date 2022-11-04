@@ -41,7 +41,7 @@ public class NetworkTime : MonoBehaviour
         "https://baidu.com", "https://naver.com", "https://google.com"
     };
 
-    static readonly DateTime BaseDateTime = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    static readonly DateTime BaseDateTime = new(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     static DateTime lastNetworkTime = DateTime.MinValue;
 
     static double offsetSec = 0;
@@ -84,8 +84,7 @@ public class NetworkTime : MonoBehaviour
 
     static int QueryingServerIndex { get; set; } = 0;
 
-    static List<INetworkTimeSubscriber> SubscriberList { get; set; } =
-        new List<INetworkTimeSubscriber>();
+    static List<INetworkTimeSubscriber> SubscriberList { get; set; } = new();
 
     public string QueryStateMessageLocalized =>
         PlatformInterface.Instance.text.GetNetworkTimeQueryProgressText(timeServerList.Length,
@@ -252,7 +251,7 @@ public class NetworkTime : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-        throw new Exception(
+        throw new(
             $"Time server '{timeServerAddress}' unavailable or time query failed. (Req seq = {RequestSequence})");
     }
 
@@ -267,10 +266,10 @@ public class NetworkTime : MonoBehaviour
         {
             if (getTask.Headers.Date.HasValue)
                 return getTask.Headers.Date.Value.UtcDateTime;
-            throw new Exception($"No Date available on header from {httpsServer}...");
+            throw new($"No Date available on header from {httpsServer}...");
         }
 
-        throw new Exception($"Invalid response from {httpsServer} ... Result: {getTask.ReasonPhrase}");
+        throw new($"Invalid response from {httpsServer} ... Result: {getTask.ReasonPhrase}");
 
         //throw new Exception("Should not reach here");
     }
@@ -320,7 +319,7 @@ public class NetworkTime : MonoBehaviour
                 {
                     if (receiveTask.Result.Buffer.Length == ntpData.Length)
                         return receiveTask.Result;
-                    throw new Exception(
+                    throw new(
                         $"Replied NTP packet is {receiveTask.Result.Buffer.Length} bytes! (should be {ntpData.Length})");
                 }
 

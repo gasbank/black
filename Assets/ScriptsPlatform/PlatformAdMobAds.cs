@@ -18,10 +18,10 @@ public class PlatformAdMobAds : MonoBehaviour
         {
             PlatformInterface.Instance.confirmPopup.Open(PlatformInterface.Instance.text.Str_InternetRequiredForAds);
         }
-        else if (PlatformAdMobAdsInit.Instance.rewardBasedVideo.IsLoaded())
+        else if (PlatformAdMobAdsInit.Instance.RewardBasedVideo.IsLoaded())
         {
             this.adContext = adContext;
-            PlatformAdMobAdsInit.Instance.rewardBasedVideo.Show();
+            PlatformAdMobAdsInit.Instance.RewardBasedVideo.Show();
         }
         else
         {

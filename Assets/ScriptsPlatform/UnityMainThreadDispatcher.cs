@@ -29,7 +29,7 @@ using UnityEngine;
 /// </summary>
 public class UnityMainThreadDispatcher : MonoBehaviour
 {
-    static readonly Queue<Action> _executionQueue = new Queue<Action>();
+    static readonly Queue<Action> _executionQueue = new();
 
 
     static UnityMainThreadDispatcher _instance = null;
@@ -104,7 +104,7 @@ public class UnityMainThreadDispatcher : MonoBehaviour
     public static UnityMainThreadDispatcher Instance()
     {
         if (!Exists())
-            throw new Exception(
+            throw new(
                 "UnityMainThreadDispatcher could not find the UnityMainThreadDispatcher object. Please ensure you have added the MainThreadExecutor Prefab to your scene.");
         return _instance;
     }
