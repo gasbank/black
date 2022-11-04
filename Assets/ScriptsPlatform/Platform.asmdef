@@ -2,11 +2,8 @@
     "name": "Platform",
     "rootNamespace": "",
     "references": [
-        "GUID:e2adc81748150dc4da4aec78b342f6f0",
-        "GUID:b2155aefc0786c743b2901a21b47893c",
-        "GUID:ac145e6b8c6034cdbadc8c6e26aedbcf",
-        "GUID:1e8e55397bd004beaba78a667566665f",
-        "GUID:00c479e63b1c74419820a39073267645"
+        "GUID:00c479e63b1c74419820a39073267645",
+        "GUID:1ed07ff861e5f468287b0baef844706d"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

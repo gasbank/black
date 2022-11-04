@@ -16,10 +16,12 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
     Platform platform;
 
     [SerializeField]
-    PlatformInterface platformInterface;
-
-    [SerializeField]
     PlatformSaveUtil platformSaveUtil;
+
+    public void Logout()
+    {
+        throw new NotImplementedException();
+    }
 
     public bool CheckLoadSavePrecondition(string progressMessage, Action onNotLoggedIn, Action onAbort)
     {
@@ -167,23 +169,9 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         });
     }
 
-    public void Logout()
-    {
-        PlatformInterface.Instance.logger.Log("PlatformAndroid.Logout()");
-#if !NO_GPGS
-        PlayGamesPlatform.Instance.SignOut();
-        platform.DisableLoginOnStart = true;
-#endif
-    }
-
     public void PreAuthenticate()
     {
 #if !NO_GPGS
-        var config = new PlayGamesClientConfiguration.Builder()
-            .EnableSavedGames()
-            .Build();
-
-        PlayGamesPlatform.InitializeInstance(config);
         //PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
 #endif

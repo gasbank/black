@@ -1,5 +1,5 @@
-lastUpgrade=01012
-proj.pluginVersion=0.10.12
+lastUpgrade=01101
+proj.pluginVersion=0.11.01
 proj.AppId=1085200398378
 and.BundleId=top.plusalpha.black
 proj.classDir=Assets%2fScripts

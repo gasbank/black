@@ -577,11 +577,6 @@ public class ConfigPopup : MonoBehaviour
         if (Sound.Instance != null) Sound.Instance.SfxAudioSourceVolume = v;
     }
 
-    public void Logout()
-    {
-        Platform.Instance.Logout();
-    }
-
     public void GoToLobby()
     {
         Sound.Instance.PlayButtonClick();
