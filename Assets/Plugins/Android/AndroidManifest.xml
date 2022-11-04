@@ -7,9 +7,6 @@
   
   <application android:theme="@style/UnityThemeSelector" android:icon="@mipmap/app_icon" android:label="@string/app_name" android:networkSecurityConfig="@xml/network_security_config">
     <activity android:name="com.unity3d.player.UnityPlayerActivity" android:label="@string/app_name">
-    <!-- FCM 백그라운드 상태에서 메시지 받을 수 있도록 처리한 액티비티로 교체 https://firebase.google.com/docs/cloud-messaging/unity/client -->
-    <!--<activity android:name="com.google.firebase.MessagingUnityPlayerActivity" android:label="@string/app_name">-->
-    <!--<activity android:name="top.plusalpha.player.BlackPlayerActivity" android:label="@string/app_name">-->
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
@@ -17,7 +14,5 @@
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
     </activity>
     <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-5072035175916776~8203064749" />
-    <!-- FCM 백그라운드 상태에서 메시지 받을 수 있도록 추가 https://firebase.google.com/docs/cloud-messaging/unity/client -->
-    <service android:name="com.google.firebase.messaging.MessageForwardingService" android:permission="android.permission.BIND_JOB_SERVICE" android:exported="false" />
   </application>
 </manifest>
