@@ -34,7 +34,7 @@ public static class IosPostProcessBuild
             pbxProject.SetBuildProperty(target, "ENABLE_BITCODE", "NO");
             //pbxProject.AddCapability(target, PBXCapabilityType.PushNotifications, entitlementsPath);
             //pbxProject.AddCapability(target, PBXCapabilityType.BackgroundModes, entitlementsPath);
-            pbxProject.AddCapability(target, PBXCapabilityType.GameCenter, entitlementsPath);
+            //pbxProject.AddCapability(target, PBXCapabilityType.GameCenter, entitlementsPath);
 
             target = pbxProject.TargetGuidByName(PBXProject.GetUnityTestTargetName());
             pbxProject.SetBuildProperty(target, "ENABLE_BITCODE", "NO");
