@@ -4,7 +4,7 @@ public static class BlackLeaderboard
 {
     static IBlackLeaderboard blackLeaderboard;
 
-    public static IBlackLeaderboard instance
+    public static IBlackLeaderboard Instance
     {
         get
         {

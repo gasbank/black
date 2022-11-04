@@ -4,7 +4,7 @@ using UnityEngine.Playables;
 [DisallowMultipleComponent]
 public class IntroDirector : MonoBehaviour
 {
-    public static IntroDirector instance;
+    public static IntroDirector Instance;
     
     [SerializeField]
     PlayableDirector director;

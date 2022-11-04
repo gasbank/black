@@ -17,12 +17,12 @@ public class EaselButton : MonoBehaviour
 
     void OnEnable()
     {
-        BlackContext.instance.OnGoldChanged += OnGoldChanged;
+        BlackContext.Instance.OnGoldChanged += OnGoldChanged;
     }
 
     void OnDisable()
     {
-        BlackContext.instance.OnGoldChanged -= OnGoldChanged;
+        BlackContext.Instance.OnGoldChanged -= OnGoldChanged;
     }
 
     void Start()
@@ -43,9 +43,9 @@ public class EaselButton : MonoBehaviour
 
     public async void OnClick()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
 
-        var lastClearedStageId = BlackContext.instance.LastClearedStageId;
+        var lastClearedStageId = BlackContext.Instance.LastClearedStageId;
         ConDebug.Log($"Last Cleared Stage ID: {lastClearedStageId}");
         
         await stageDetailPopup.OpenPopupAfterLoadingAsync(lastClearedStageId);

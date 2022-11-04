@@ -15,7 +15,7 @@ public static class InstantiateLocalized
             var textCollector = newPrefab.GetComponent<TextCollector>();
             if (textCollector != null)
             {
-                var curFont = FontManager.instance.GetLanguageFont(Data.instance.CurrentLanguageCode);
+                var curFont = FontManager.Instance.GetLanguageFont(Data.Instance.CurrentLanguageCode);
                 foreach (var text in textCollector.AllTextsInPrefab)
                     if (text.font != curFont)
                         text.font = curFont;
@@ -36,7 +36,7 @@ public static class InstantiateLocalized
             var textCollector = newPrefab.GetComponent<TextCollector>();
             if (textCollector != null)
             {
-                var curFont = FontManager.instance.GetLanguageFont(Data.instance.CurrentLanguageCode);
+                var curFont = FontManager.Instance.GetLanguageFont(Data.Instance.CurrentLanguageCode);
                 foreach (var text in textCollector.AllTextsInPrefab)
                     if (text.font != curFont)
                         text.font = curFont;
@@ -57,7 +57,7 @@ public static class InstantiateLocalized
             var textCollector = newPrefab.GetComponent<TextCollector>();
             if (textCollector != null)
             {
-                var curFont = FontManager.instance.GetLanguageFont(Data.instance.CurrentLanguageCode);
+                var curFont = FontManager.Instance.GetLanguageFont(Data.Instance.CurrentLanguageCode);
                 foreach (var text in textCollector.AllTextsInPrefab)
                     if (text.font != curFont)
                         text.font = curFont;
@@ -78,7 +78,7 @@ public static class InstantiateLocalized
             var textCollector = newPrefab.GetComponent<TextCollector>();
             if (textCollector != null)
             {
-                var curFont = FontManager.instance.GetLanguageFont(Data.instance.CurrentLanguageCode);
+                var curFont = FontManager.Instance.GetLanguageFont(Data.Instance.CurrentLanguageCode);
                 foreach (var text in textCollector.AllTextsInPrefab)
                     if (text.font != curFont)
                         text.font = curFont;
@@ -99,7 +99,7 @@ public static class InstantiateLocalized
             var textCollector = newPrefab.GetComponent<TextCollector>();
             if (textCollector != null)
             {
-                var curFont = FontManager.instance.GetLanguageFont(Data.instance.CurrentLanguageCode);
+                var curFont = FontManager.Instance.GetLanguageFont(Data.Instance.CurrentLanguageCode);
                 foreach (var text in textCollector.AllTextsInPrefab)
                     if (text.font != curFont)
                         text.font = curFont;
@@ -121,7 +121,7 @@ public static class InstantiateLocalized
             var textCollector = newPrefab.GetComponent<TextCollector>();
             if (textCollector != null)
             {
-                var curFont = FontManager.instance.GetLanguageFont(Data.instance.CurrentLanguageCode);
+                var curFont = FontManager.Instance.GetLanguageFont(Data.Instance.CurrentLanguageCode);
                 foreach (var text in textCollector.AllTextsInPrefab)
                     if (text.font != curFont)
                         text.font = curFont;

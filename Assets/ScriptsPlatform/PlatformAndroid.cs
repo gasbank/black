@@ -28,20 +28,20 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
     {
         if (!PlatformLogin.IsAuthenticated)
         {
-            PlatformInterface.instance.confirmPopup.OpenYesNoPopup(
+            PlatformInterface.Instance.confirmPopup.OpenYesNoPopup(
                 platform.GetText("platform_google_login_required_popup"), onNotLoggedIn, onAbort);
             return false;
         }
 
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-            PlatformInterface.instance.confirmPopup.Open(
-                PlatformInterface.instance.textHelper.GetText("platform_load_require_internet_popup"));
+            PlatformInterface.Instance.confirmPopup.Open(
+                PlatformInterface.Instance.textHelper.GetText("platform_load_require_internet_popup"));
             return false;
         }
 
         if (string.IsNullOrEmpty(progressMessage) == false)
-            PlatformInterface.instance.progressMessage.Open(progressMessage);
+            PlatformInterface.Instance.progressMessage.Open(progressMessage);
 
         return true;
     }
@@ -172,7 +172,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 
     public void Logout()
     {
-        PlatformInterface.instance.logger.Log("PlatformAndroid.Logout()");
+        PlatformInterface.Instance.logger.Log("PlatformAndroid.Logout()");
 #if !NO_GPGS
         PlayGamesPlatform.Instance.SignOut();
         platform.DisableLoginOnStart = true;
@@ -242,7 +242,7 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
         AndroidNotificationCenter.SendNotification(notification, "DailyChannel");
 #endif
 
-        PlatformInterface.instance.logger.Log("RegisterAllRepeatingNotifications");
+        PlatformInterface.Instance.logger.Log("RegisterAllRepeatingNotifications");
     }
 
     public void ClearAllNotifications()
@@ -264,12 +264,12 @@ public class PlatformAndroid : MonoBehaviour, IPlatformBase
 
     public void RequestUserReview()
     {
-        Application.OpenURL(PlatformInterface.instance.config.GetUserReviewUrl());
+        Application.OpenURL(PlatformInterface.Instance.config.GetUserReviewUrl());
     }
 
     public string GetAccountTypeText()
     {
-        return PlatformInterface.instance.textHelper.GetText("platform_account_google");
+        return PlatformInterface.Instance.textHelper.GetText("platform_account_google");
     }
 
 #if !NO_GPGS

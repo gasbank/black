@@ -10,7 +10,7 @@ using RemoteSaveDictionary = System.Collections.Generic.Dictionary<string, byte[
 
 public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IPlatformConfig
 {
-    public static BlackPlatform instance;
+    public static BlackPlatform Instance;
 
     [SerializeField]
     PlatformInterface platformInterface;
@@ -36,18 +36,18 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
 
     public static bool IsLoadRollback(CloudMetadata cloudMetadata)
     {
-        return cloudMetadata.level < ResourceManager.instance.accountLevel
-               || cloudMetadata.levelExp < ResourceManager.instance.accountLevelExp
-               || cloudMetadata.gem < ResourceManager.instance.accountGem
-               || cloudMetadata.goldRate < ResourceManager.instance.accountGoldRate;
+        return cloudMetadata.level < ResourceManager.Instance.accountLevel
+               || cloudMetadata.levelExp < ResourceManager.Instance.accountLevelExp
+               || cloudMetadata.gem < ResourceManager.Instance.accountGem
+               || cloudMetadata.goldRate < ResourceManager.Instance.accountGoldRate;
     }
 
     public static bool IsSaveRollback(CloudMetadata cloudMetadata)
     {
-        return cloudMetadata.level > ResourceManager.instance.accountLevel
-               || cloudMetadata.levelExp > ResourceManager.instance.accountLevelExp
-               || cloudMetadata.gem > ResourceManager.instance.accountGem
-               || cloudMetadata.goldRate > ResourceManager.instance.accountGoldRate;
+        return cloudMetadata.level > ResourceManager.Instance.accountLevel
+               || cloudMetadata.levelExp > ResourceManager.Instance.accountLevelExp
+               || cloudMetadata.gem > ResourceManager.Instance.accountGem
+               || cloudMetadata.goldRate > ResourceManager.Instance.accountGoldRate;
     }
 
     public static void LoadSplashScene()
@@ -58,18 +58,18 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     public byte[] SerializeSaveData()
     {
         var dict = new RemoteSaveDictionary();
-        // 직전 단계에서 PlatformInterface.instance.saveLoadManager.SaveFileName에다가 썼다.
+        // 직전 단계에서 PlatformInterface.Instance.saveLoadManager.SaveFileName에다가 썼다.
         // 쓰면서 save slot을 1 증가시켰으니까, 직전에 쓴 파일을 읽어오고 싶으면
-        // PlatformInterface.instance.saveLoadManager.LoadFileName을 써야 한다.
+        // PlatformInterface.Instance.saveLoadManager.LoadFileName을 써야 한다.
         // 저장하는 키는 'save.dat'로 고정이다. (하위호환성)
         var localSaveFileName = SaveLoadManager.GetSaveLoadFileNameOnly(0);
         ConDebug.Log($"Saving '{SaveLoadManager.LoadFileName}' to a dict key '{localSaveFileName}'");
         dict[localSaveFileName] = File.ReadAllBytes(SaveLoadManager.LoadFileName);
-        dict[ACCOUNT_LEVEL_KEY] = BitConverter.GetBytes(ResourceManager.instance.accountLevel);
-        dict[ACCOUNT_LEVEL_EXP_KEY] = BitConverter.GetBytes(ResourceManager.instance.accountLevelExp);
-        dict[ACCOUNT_GEM_KEY] = UInt128BigInteger.ToBigInteger(ResourceManager.instance.accountGem).ToByteArray();
+        dict[ACCOUNT_LEVEL_KEY] = BitConverter.GetBytes(ResourceManager.Instance.accountLevel);
+        dict[ACCOUNT_LEVEL_EXP_KEY] = BitConverter.GetBytes(ResourceManager.Instance.accountLevelExp);
+        dict[ACCOUNT_GEM_KEY] = UInt128BigInteger.ToBigInteger(ResourceManager.Instance.accountGem).ToByteArray();
         dict[ACCOUNT_GOLD_RATE_KEY] =
-            UInt128BigInteger.ToBigInteger(ResourceManager.instance.accountGoldRate).ToByteArray();
+            UInt128BigInteger.ToBigInteger(ResourceManager.Instance.accountGoldRate).ToByteArray();
         dict[SAVE_DATE_KEY] = BitConverter.GetBytes(DateTime.Now.Ticks);
         var binFormatter = new BinaryFormatter();
         var memStream = new MemoryStream();
@@ -79,15 +79,15 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
 
     public static void OpenTwoButtonPopup_Update(string msg, Action onBtn1, Action onBtn2)
     {
-        ConfirmPopup.instance.OpenTwoButtonPopup(msg, onBtn1, onBtn2, "\\확인".Localized(), "\\확인".Localized(), "Update");
+        ConfirmPopup.Instance.OpenTwoButtonPopup(msg, onBtn1, onBtn2, "\\확인".Localized(), "\\확인".Localized(), "Update");
     }
 
     public static PlatformNotificationRequest GetPlatformNotificationRequest()
     {
-        if (BlackContext.instance == null)
+        if (BlackContext.Instance == null)
         {
             Debug.LogError(
-                $"RegisterAllRepeatingNotifications(): {nameof(BlackContext)}.{nameof(BlackContext.instance)} is null. Abort.");
+                $"RegisterAllRepeatingNotifications(): {nameof(BlackContext)}.{nameof(BlackContext.Instance)} is null. Abort.");
             return null;
         }
 
@@ -98,15 +98,15 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
             return null;
         }
 
-        if (BlackContext.instance.LastDailyRewardRedeemedIndex < Data.dataSet.DailyRewardData.Count)
+        if (BlackContext.Instance.LastDailyRewardRedeemedIndex < Data.dataSet.DailyRewardData.Count)
         {
-            var data = Data.dataSet.DailyRewardData[(int) BlackContext.instance.LastDailyRewardRedeemedIndex.ToLong()];
-            var title = "\\{0}일차 이벤트".Localized(BlackContext.instance.LastDailyRewardRedeemedIndex + 1);
+            var data = Data.dataSet.DailyRewardData[(int) BlackContext.Instance.LastDailyRewardRedeemedIndex.ToLong()];
+            var title = "\\{0}일차 이벤트".Localized(BlackContext.Instance.LastDailyRewardRedeemedIndex + 1);
             // iOS는 이모지 지원이 된다!
             if (Application.platform == RuntimePlatform.IPhonePlayer) title = $"{title}";
 
             var desc = data.notificationDesc.Localized(data.amount.ToInt());
-            var largeIconIndex = Mathf.Max(0, BlackContext.instance.LastClearedStageId - 1);
+            var largeIconIndex = Mathf.Max(0, BlackContext.Instance.LastClearedStageId - 1);
 
             var currentDate = DateTime.Now;
             var localZone = TimeZoneInfo.Local;
@@ -169,7 +169,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
 
     public void SaveBeforeCloudSave()
     {
-        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
+        SaveLoadManager.Save(BlackContext.Instance, ConfigPopup.Instance, Sound.Instance, Data.Instance, null);
     }
 
     public RemoteSaveDictionary DeserializeSaveData(byte[] bytes)
@@ -226,7 +226,7 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
         }
 
         ConDebug.Log("LoadCloudDataAndSave");
-        PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudLoadEnd, 0, 0);
+        PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudLoadEnd, 0, 0);
         Splash.LoadSplashScene();
     }
 
@@ -256,12 +256,12 @@ public class BlackPlatform : MonoBehaviour, IPlatformSaveUtil, IPlatformText, IP
     public string GetEditorSaveResultText(byte[] savedData, RemoteSaveDictionary remoteSaveDict, string path)
     {
         return
-            $"세이브 완료 - age: {TimeChecker.instance.GetLastSavedTimeTotalSeconds()} sec, size: {savedData.Length} bytes, accountLevel = {GetInt32FromRemoteSaveDict(remoteSaveDict, ACCOUNT_LEVEL_KEY)}, accountLevelExp = {GetInt32FromRemoteSaveDict(remoteSaveDict, ACCOUNT_LEVEL_EXP_KEY)}, accountGem = {GetBigIntegerFromRemoteSaveDict(remoteSaveDict, ACCOUNT_GEM_KEY)}, savedDate = {GetInt64FromRemoteSaveDict(remoteSaveDict, SAVE_DATE_KEY)}, path = {path}";
+            $"세이브 완료 - age: {TimeChecker.Instance.GetLastSavedTimeTotalSeconds()} sec, size: {savedData.Length} bytes, accountLevel = {GetInt32FromRemoteSaveDict(remoteSaveDict, ACCOUNT_LEVEL_KEY)}, accountLevelExp = {GetInt32FromRemoteSaveDict(remoteSaveDict, ACCOUNT_LEVEL_EXP_KEY)}, accountGem = {GetBigIntegerFromRemoteSaveDict(remoteSaveDict, ACCOUNT_GEM_KEY)}, savedDate = {GetInt64FromRemoteSaveDict(remoteSaveDict, SAVE_DATE_KEY)}, path = {path}";
     }
 
     public TimeSpan GetPlayed()
     {
-        return TimeSpan.FromSeconds(BlackContext.instance
+        return TimeSpan.FromSeconds(BlackContext.Instance
             .PlayTimeSec);
     }
 

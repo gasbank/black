@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlatformAdMobAds : MonoBehaviour
 {
-    public static PlatformAdMobAds instance;
+    public static PlatformAdMobAds Instance;
 
 #if GOOGLE_MOBILE_ADS
     object adContext;
@@ -16,12 +16,12 @@ public class PlatformAdMobAds : MonoBehaviour
 #if GOOGLE_MOBILE_ADS
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-            PlatformInterface.instance.confirmPopup.Open(PlatformInterface.instance.text.Str_InternetRequiredForAds);
+            PlatformInterface.Instance.confirmPopup.Open(PlatformInterface.Instance.text.Str_InternetRequiredForAds);
         }
-        else if (PlatformAdMobAdsInit.instance.rewardBasedVideo.IsLoaded())
+        else if (PlatformAdMobAdsInit.Instance.rewardBasedVideo.IsLoaded())
         {
             this.adContext = adContext;
-            PlatformAdMobAdsInit.instance.rewardBasedVideo.Show();
+            PlatformAdMobAdsInit.Instance.rewardBasedVideo.Show();
         }
         else
         {
@@ -34,7 +34,7 @@ public class PlatformAdMobAds : MonoBehaviour
     public void HandleRewarded()
     {
 #if GOOGLE_MOBILE_ADS
-        PlatformInterface.instance.ads.HandleRewarded(adContext);
+        PlatformInterface.Instance.ads.HandleRewarded(adContext);
 #endif
     }
 
@@ -48,11 +48,11 @@ public class PlatformAdMobAds : MonoBehaviour
 
     static void ShowAdsErrorPopup()
     {
-        var sb = new StringBuilder(PlatformInterface.instance.text.Str_AdMobError);
+        var sb = new StringBuilder(PlatformInterface.Instance.text.Str_AdMobError);
         sb.AppendLine(lastErrorMessage);
 #if DEV_BUILD
         sb.AppendLine("Try enabling Test Ad toggle in Admin");
 #endif
-        PlatformInterface.instance.confirmPopup.Open(sb.ToString());
+        PlatformInterface.Instance.confirmPopup.Open(sb.ToString());
     }
 }

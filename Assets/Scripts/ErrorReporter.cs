@@ -16,7 +16,7 @@ using Random = System.Random;
 
 public class ErrorReporter : MonoBehaviour
 {
-    public static ErrorReporter instance;
+    public static ErrorReporter Instance;
 
     // https://stackoverflow.com/questions/1344221/how-can-i-generate-random-alphanumeric-strings
     static readonly Random RandomInstance = new Random();
@@ -47,7 +47,7 @@ public class ErrorReporter : MonoBehaviour
     public async Task UploadSaveFileIncidentAsync(List<Exception> exceptionList, string st, bool notCriticalError)
     {
         var uploadSaveFileDbUrl = ConfigPopup.BaseUrl + "/save";
-        ProgressMessage.instance.Open("\\저장 파일 문제 업로드 중...".Localized());
+        ProgressMessage.Instance.Open("\\저장 파일 문제 업로드 중...".Localized());
 
         var errorDeviceId = GetOrCreateErrorDeviceId();
         var url = $"{uploadSaveFileDbUrl}/{errorDeviceId}";
@@ -96,13 +96,13 @@ public class ErrorReporter : MonoBehaviour
         catch (Exception e)
         {
             // 문제가 있는 파일을 업로드하는 것 조차 실패했다. 이건 수가 없네...
-            ProgressMessage.instance.Close();
-            ConfirmPopup.instance.Open($"SAVE FILE UPLOAD FAILED: {e}", () =>
+            ProgressMessage.Instance.Close();
+            ConfirmPopup.Instance.Open($"SAVE FILE UPLOAD FAILED: {e}", () =>
             {
                 if (notCriticalError == false)
                     Application.Quit();
                 else
-                    ConfirmPopup.instance.Close();
+                    ConfirmPopup.Instance.Close();
             });
             return;
         }
@@ -125,39 +125,39 @@ public class ErrorReporter : MonoBehaviour
                     @"\$저장 데이터 개발팀으로 제출 결과$"
                         .Localized(errorDeviceId, patchData.Length, saveFile.fields.uploadDate.timestampValue);
                 if (notCriticalError == false)
-                    ConfirmPopup.instance.OpenTwoButtonPopup(msg, () => ConfigPopup.instance.OpenCommunity(),
+                    ConfirmPopup.Instance.OpenTwoButtonPopup(msg, () => ConfigPopup.Instance.OpenCommunity(),
                         () => SaveLoadManager.EnterRecoveryCode(exceptionList, st, false),
                         "\\업로드 완료".Localized(), "\\공식 카페 이동".Localized(), "\\복구 코드 입력".Localized());
                 else
-                    ConfirmPopup.instance.OpenTwoButtonPopup(msg, () => ConfirmPopup.instance.Close(),
+                    ConfirmPopup.Instance.OpenTwoButtonPopup(msg, () => ConfirmPopup.Instance.Close(),
                         () => SaveLoadManager.EnterRecoveryCode(exceptionList, st, true),
                         "\\업로드 완료".Localized(), "\\닫기".Localized(), "\\복구 코드 입력".Localized());
             }
             else
             {
-                ShortMessage.instance.Show($"{patchTask.ReasonPhrase}");
+                ShortMessage.Instance.Show($"{patchTask.ReasonPhrase}");
                 if (notCriticalError == false) // 다시 안내 팝업 보여주도록 한다.
                     SaveLoadManager.ProcessCriticalLoadError(exceptionList, st);
                 else
-                    ConfirmPopup.instance.Open($"SAVE FILE UPLOAD FAILED: {patchTask.ReasonPhrase}");
+                    ConfirmPopup.Instance.Open($"SAVE FILE UPLOAD FAILED: {patchTask.ReasonPhrase}");
             }
         }
         catch (Exception e)
         {
             if (Debug.isDebugBuild) Debug.LogException(e);
 
-            ConfirmPopup.instance.Open(e.Message, () =>
+            ConfirmPopup.Instance.Open(e.Message, () =>
             {
                 if (notCriticalError == false) // 다시 안내 팝업 보여주도록 한다.
                     SaveLoadManager.ProcessCriticalLoadError(exceptionList, st);
                 else
-                    ConfirmPopup.instance.Close();
+                    ConfirmPopup.Instance.Close();
             });
         }
         finally
         {
             // 어떤 경우가 됐든지 마지막으로는 진행 상황 창을 닫아야 한다.
-            ProgressMessage.instance.Close();
+            ProgressMessage.Instance.Close();
         }
     }
 
@@ -182,7 +182,7 @@ public class ErrorReporter : MonoBehaviour
     IEnumerator ProcessRecoveryCodeCoro(List<Exception> exceptionList, string st, string recoveryCode)
     {
         var recoveryDbUrl = ConfigPopup.BaseUrl + "/recovery";
-        ProgressMessage.instance.Open("\\복구 코드 확인중...".Localized());
+        ProgressMessage.Instance.Open("\\복구 코드 확인중...".Localized());
         recoveryCode = recoveryCode.Trim();
         // 복구 코드를 특별히 입력하지 않았을 경우에는 Error Device ID가 기본으로 쓰인다.
         if (string.IsNullOrEmpty(recoveryCode))
@@ -200,10 +200,10 @@ public class ErrorReporter : MonoBehaviour
         var url = $"{recoveryDbUrl}/{recoveryCode}";
         using var request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
-        ProgressMessage.instance.Close();
+        ProgressMessage.Instance.Close();
         if (request.result == UnityWebRequest.Result.ConnectionError)
         {
-            ShortMessage.instance.Show("\\복구 정보 수신에 실패했습니다.".Localized(), true);
+            ShortMessage.Instance.Show("\\복구 정보 수신에 실패했습니다.".Localized(), true);
         }
         else
         {
@@ -271,7 +271,7 @@ public class ErrorReporter : MonoBehaviour
             }
 
             // 여기까지 왔으면 복구가 제대로 안됐다는 뜻이다.
-            ConfirmPopup.instance.Open(@"\$복구 코드 오류$".Localized(),
+            ConfirmPopup.Instance.Open(@"\$복구 코드 오류$".Localized(),
                 () => SaveLoadManager.ProcessCriticalLoadError(exceptionList, st));
         }
     }
@@ -286,16 +286,16 @@ public class ErrorReporter : MonoBehaviour
     IEnumerator ProcessUserSaveCodeCoro(string userSaveCode, string domain)
     {
         var saveDbUrl = ConfigPopup.BaseUrl + "/" + domain;
-        ProgressMessage.instance.Open("\\유저 세이브 코드 확인중...".Localized());
+        ProgressMessage.Instance.Open("\\유저 세이브 코드 확인중...".Localized());
         userSaveCode = userSaveCode.Trim();
         var url = $"{saveDbUrl}/{userSaveCode}";
         ConDebug.LogFormat("URL: {0}", url);
         using var request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
-        ProgressMessage.instance.Close();
+        ProgressMessage.Instance.Close();
         if (request.result == UnityWebRequest.Result.ConnectionError)
         {
-            ShortMessage.instance.Show("\\복구 정보 수신에 실패했습니다.".Localized(), true);
+            ShortMessage.Instance.Show("\\복구 정보 수신에 실패했습니다.".Localized(), true);
         }
         else
         {
@@ -347,7 +347,7 @@ public class ErrorReporter : MonoBehaviour
             }
 
             // 여기까지 왔으면 복구가 제대로 안됐다는 뜻이다.
-            ConfirmPopup.instance.Open(
+            ConfirmPopup.Instance.Open(
                 "\\유저 세이브 코드가 잘못됐거나, 복구 데이터가 존재하지 않습니다.\\n\\n확인을 눌러 처음 화면으로 돌아갑니다.".Localized());
         }
     }

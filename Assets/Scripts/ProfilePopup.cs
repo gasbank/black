@@ -31,14 +31,14 @@ public class ProfilePopup : MonoBehaviour
     [UsedImplicitly]
     async void OpenPopup()
     {
-        if (cachedLastClearedStageId == BlackContext.instance.LastClearedStageId)
+        if (cachedLastClearedStageId == BlackContext.Instance.LastClearedStageId)
         {
             return;
         }
         
         stageImageParent.DestroyImmediateAllChildren();
 
-        for (var i = 1; i <= BlackContext.instance.LastClearedStageId; i++)
+        for (var i = 1; i <= BlackContext.Instance.LastClearedStageId; i++)
         {
             var fullStageImageButton = Instantiate(fullStageImageButtonPrefab, stageImageParent)
                 .GetComponent<FullStageImageButton>();
@@ -53,7 +53,7 @@ public class ProfilePopup : MonoBehaviour
             fullStageImageButton.Initialize(stageMetadata, stageDetailPopupForReplay);
         }
 
-        cachedLastClearedStageId = BlackContext.instance.LastClearedStageId;
+        cachedLastClearedStageId = BlackContext.Instance.LastClearedStageId;
     }
 
     [UsedImplicitly]

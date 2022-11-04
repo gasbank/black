@@ -18,7 +18,7 @@ public class PlatformAfterLogin : MonoBehaviour
     {
         if (Application.isEditor || Application.platform != RuntimePlatform.Android)
         {
-            PlatformInterface.instance.shortMessage.Show("Saved Game Select UI not supported!", true);
+            PlatformInterface.Instance.shortMessage.Show("Saved Game Select UI not supported!", true);
             return;
         }
 #if !NO_GPGS
@@ -51,14 +51,14 @@ public class PlatformAfterLogin : MonoBehaviour
         if (status == SelectUIStatus.SavedGameSelected)
         {
             // handle selected game save
-            PlatformInterface.instance.logger.LogFormat("Save game selection selected! Selected save filename: {0}",
+            PlatformInterface.Instance.logger.LogFormat("Save game selection selected! Selected save filename: {0}",
                 game.Filename);
-            PlatformInterface.instance.shortMessage.Show("ERROR: Not supported", true);
+            PlatformInterface.Instance.shortMessage.Show("ERROR: Not supported", true);
         }
         else
         {
             // handle cancel or error
-            PlatformInterface.instance.logger.LogFormat("Save game selection canceled! - {0}", status);
+            PlatformInterface.Instance.logger.LogFormat("Save game selection canceled! - {0}", status);
         }
     }
 
@@ -66,55 +66,55 @@ public class PlatformAfterLogin : MonoBehaviour
     [UsedImplicitly]
     public void ShowLeaderboard()
     {
-        if (Platform.instance.CheckLoadSavePrecondition(
-                PlatformInterface.instance.textHelper.GetText("platform_logging_in"),
+        if (Platform.Instance.CheckLoadSavePrecondition(
+                PlatformInterface.Instance.textHelper.GetText("platform_logging_in"),
                 () => platformSaveUtil.StartLoginAndDoSomething(() =>
                 {
-                    PlatformInterface.instance.confirmPopup.Close();
+                    PlatformInterface.Instance.confirmPopup.Close();
                     ExecuteShowLeaderboard();
                 }), ShowLoginFailed) == false)
             return;
 
         ExecuteShowLeaderboard();
-        PlatformInterface.instance.progressMessage.Close();
+        PlatformInterface.Instance.progressMessage.Close();
     }
 
     void ExecuteShowLeaderboard()
     {
-        PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameOpenLeaderboard, 0, 0);
+        PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameOpenLeaderboard, 0, 0);
         if (Application.isEditor)
-            PlatformInterface.instance.shortMessage.Show("Leaderboard not supported in Editor", true);
+            PlatformInterface.Instance.shortMessage.Show("Leaderboard not supported in Editor", true);
         else
             Social.ShowLeaderboardUI();
     }
 
     void ShowLoginFailed()
     {
-        PlatformInterface.instance.confirmPopup.Open(
-            PlatformInterface.instance.textHelper.GetText("platform_login_failed_popup"));
+        PlatformInterface.Instance.confirmPopup.Open(
+            PlatformInterface.Instance.textHelper.GetText("platform_login_failed_popup"));
     }
 
     // 우측 버튼 콜백
     public void ShowAchievements()
     {
-        if (Platform.instance.CheckLoadSavePrecondition(
-                PlatformInterface.instance.textHelper.GetText("platform_logging_in"),
+        if (Platform.Instance.CheckLoadSavePrecondition(
+                PlatformInterface.Instance.textHelper.GetText("platform_logging_in"),
                 () => platformSaveUtil.StartLoginAndDoSomething(() =>
                 {
-                    PlatformInterface.instance.confirmPopup.Close();
+                    PlatformInterface.Instance.confirmPopup.Close();
                     ExecuteShowAchievements();
                 }), ShowLoginFailed) == false)
             return;
 
         ExecuteShowAchievements();
-        PlatformInterface.instance.progressMessage.Close();
+        PlatformInterface.Instance.progressMessage.Close();
     }
 
     void ExecuteShowAchievements()
     {
-        PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameOpenAchievements, 0, 0);
+        PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameOpenAchievements, 0, 0);
         if (Application.isEditor)
-            PlatformInterface.instance.shortMessage.Show("Achievements not supported in Editor", true);
+            PlatformInterface.Instance.shortMessage.Show("Achievements not supported in Editor", true);
         else
             Social.ShowAchievementsUI();
     }

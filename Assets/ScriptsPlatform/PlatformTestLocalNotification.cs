@@ -20,11 +20,11 @@ public class PlatformTestLocalNotification : MonoBehaviour
 
     void ScheduleNotification(int id, int afterMs, string largeIcon)
     {
-        Platform.instance.RegisterSingleNotification("Test", $"ID: {id}, {afterMs} ms after", afterMs, largeIcon);
+        Platform.Instance.RegisterSingleNotification("Test", $"ID: {id}, {afterMs} ms after", afterMs, largeIcon);
     }
 
     public void ClearNotification()
     {
-        Platform.instance.ClearAllNotifications();
+        Platform.Instance.ClearAllNotifications();
     }
 }

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class AchievementPopup : MonoBehaviour
 {
-    public static AchievementPopup instance;
+    public static AchievementPopup Instance;
 
     // 표시 순서 때문에 순서를 정할 목적으로 만든 배열
     static readonly string[] groupKeyArray =
@@ -56,17 +56,17 @@ public class AchievementPopup : MonoBehaviour
 
         OpenAchievementTab();
 
-        if (BlackContext.instance.IsBigPopupOpened == false) bigPopupAnimator.Play("Big Popup Appear", -1, 0);
+        if (BlackContext.Instance.IsBigPopupOpened == false) bigPopupAnimator.Play("Big Popup Appear", -1, 0);
 
-        BlackContext.instance.OpenBigPopup(canvasGroup);
-        BackButtonHandler.instance.PushAction(gameObjectToggle.Toggle);
+        BlackContext.Instance.OpenBigPopup(canvasGroup);
+        BackButtonHandler.Instance.PushAction(gameObjectToggle.Toggle);
     }
 
     void OnClosePopup()
     {
         StopScrolling();
-        BlackContext.instance.CloseBigPopup(canvasGroup);
-        BackButtonHandler.instance.PopAction();
+        BlackContext.Instance.CloseBigPopup(canvasGroup);
+        BackButtonHandler.Instance.PopAction();
     }
 
     // 스크롤뷰에 관성이 있기 때문에 창이 닫힌 후에도
@@ -104,13 +104,13 @@ public class AchievementPopup : MonoBehaviour
     {
         if (lastTabIndex != 0) return;
 
-        if (BlackContext.instance == null) return;
+        if (BlackContext.Instance == null) return;
 
         if (Data.dataSet == null) return;
 
         // short names
-        var gathered = BlackContext.instance.AchievementGathered;
-        var redeemed = BlackContext.instance.AchievementRedeemed;
+        var gathered = BlackContext.Instance.AchievementGathered;
+        var redeemed = BlackContext.Instance.AchievementRedeemed;
         var group = Data.achievementOrderedGroup;
 
         if (gathered == null || redeemed == null) return;
@@ -136,8 +136,8 @@ public class AchievementPopup : MonoBehaviour
             addCanBeRedeemedAchievementFuncMap[updateGroupKey]();
 
             // 켜져 있는 것을 끌 수는 없다. 안켜져있을 때만 켜질 가능성이 있다.
-            if (BlackContext.instance.AchievementNewImage.activeSelf == false)
-                BlackContext.instance.AchievementNewImage.SetActive(
+            if (BlackContext.Instance.AchievementNewImage.activeSelf == false)
+                BlackContext.Instance.AchievementNewImage.SetActive(
                     canBeRedeemedAchievements.Count > 0);
 
             // 그리고 이 다음부터는 아무것도 할 필요 없다. 창이 안열려있는걸~~
@@ -148,7 +148,7 @@ public class AchievementPopup : MonoBehaviour
         foreach (var groupKey in groupKeyArray) addCanBeRedeemedAchievementFuncMap[groupKey]();
 
         // 빨간색 아이콘 상태 갱신
-        BlackContext.instance.AchievementNewImage.SetActive(canBeRedeemedAchievements.Count > 0);
+        BlackContext.Instance.AchievementNewImage.SetActive(canBeRedeemedAchievements.Count > 0);
 
         // 모든 업적에 대해서 체크는 했지만, 역시 창이 안열려있으면 이 이후는 처리가 필요없다.
         if (canvasGroup.alpha == 0)
@@ -223,8 +223,8 @@ public class AchievementPopup : MonoBehaviour
 
     public void OnNewImage()
     {
-        if (!BlackContext.instance.AchievementNewImage.activeSelf)
-            BlackContext.instance.AchievementNewImage.SetActive(true);
+        if (!BlackContext.Instance.AchievementNewImage.activeSelf)
+            BlackContext.Instance.AchievementNewImage.SetActive(true);
     }
 
     static void AddCanBeRedeemedAchievement(List<Tuple<AchievementData, UInt128>> canBeRedeemedAchievements,

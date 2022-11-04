@@ -25,12 +25,12 @@ public class AchievementRecord1
         set
         {
             maxBlackLevel = value;
-            // AchievementPopup.instance.UpdateAchievementTab("maxBlackLevel");
-            AchievePopup.instance.UpdateAchievementProgress("maxBlackLevel");
+            // AchievementPopup.Instance.UpdateAchievementTab("maxBlackLevel");
+            AchievePopup.Instance.UpdateAchievementProgress("maxBlackLevel");
             if (leaderboard)
                 try
                 {
-                    BlackLeaderboard.instance.UpdateLeaderboard_LastClearedStageId(value.ToClampedLong());
+                    BlackLeaderboard.Instance.UpdateLeaderboard_LastClearedStageId(value.ToClampedLong());
                 }
                 catch (Exception e)
                 {
@@ -45,7 +45,7 @@ public class AchievementRecord1
         set
         {
             maxColoringCombo = value;
-            AchievePopup.instance.UpdateAchievementProgress("maxColoringCombo");
+            AchievePopup.Instance.UpdateAchievementProgress("maxColoringCombo");
         }
     }
 

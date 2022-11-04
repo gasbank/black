@@ -17,9 +17,9 @@ public class AchievementWatcher : MonoBehaviour
 
         if (Data.dataSet == null) return false;
 
-        if (BlackContext.instance == null) return false;
-        if (BlackContext.instance.AchievementGathered == null) return false;
-        if (BlackContext.instance.AchievementRedeemed == null) return false;
+        if (BlackContext.Instance == null) return false;
+        if (BlackContext.Instance.AchievementGathered == null) return false;
+        if (BlackContext.Instance.AchievementRedeemed == null) return false;
 
         return true;
     }
@@ -30,11 +30,11 @@ public class AchievementWatcher : MonoBehaviour
         if (!achievementsDict.ContainsKey(conditionName)) return;
 
         var result = achievementsDict[conditionName].GetAvailableAchievement(
-            (UInt128)BlackContext.instance.StageCombo.ToInt(), currentValue);
+            (UInt128)BlackContext.Instance.StageCombo.ToInt(), currentValue);
 
         if (result == null) return;
 
-        currentValue = (UInt128)BlackContext.instance.StageCombo.ToInt();
+        currentValue = (UInt128)BlackContext.Instance.StageCombo.ToInt();
 
         var name = result.Item1.name;
         var title = name.Localized(result.Item1.conditionOldArg.ToLong().Postfixed(),
@@ -44,7 +44,7 @@ public class AchievementWatcher : MonoBehaviour
         //var descMsg = desc.Localized(result.Item1.conditionOldArg.ToLong().Postfixed(),
         //    result.Item1.conditionNewArg.ToLong().Postfixed());
 
-        ToastMessage.instance.PlayGoodAnim(title);
+        ToastMessage.Instance.PlayGoodAnim(title);
     }
 
     private void Start()
@@ -52,10 +52,10 @@ public class AchievementWatcher : MonoBehaviour
         switch (conditionName)
         {
             case "MaxBlackLevel":
-                currentValue = BlackContext.instance.AchievementGathered.MaxBlackLevel;
+                currentValue = BlackContext.Instance.AchievementGathered.MaxBlackLevel;
                 break;
             case "MaxColoringCombo":
-                currentValue = BlackContext.instance.AchievementGathered.MaxColoringCombo;
+                currentValue = BlackContext.Instance.AchievementGathered.MaxColoringCombo;
                 break;
             default:
                 break;

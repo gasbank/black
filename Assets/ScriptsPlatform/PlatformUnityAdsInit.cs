@@ -14,9 +14,9 @@ public class PlatformUnityAdsInit : MonoBehaviour
 
     public static readonly string PLACEMENT_ID = "rewardedVideo";
 
-    string GAME_ID => PlatformInterface.instance.config.UnityAdsGameId;
-    bool USE_TEST_MODE => PlatformInterface.instance.config.UnityAdsUseTestMode;
-    bool USE_ADS => PlatformInterface.instance.config.UnityAdsUseAds;
+    string GAME_ID => PlatformInterface.Instance.config.UnityAdsGameId;
+    bool USE_TEST_MODE => PlatformInterface.Instance.config.UnityAdsUseTestMode;
+    bool USE_ADS => PlatformInterface.Instance.config.UnityAdsUseAds;
 
 #if UNITY_ADS
     void Start() {

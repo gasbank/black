@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SocialScoreReporter : MonoBehaviour
 {
-    public static SocialScoreReporter instance;
+    public static SocialScoreReporter Instance;
     static bool notifyCheatModeOnlyOnce;
     readonly Dictionary<string, long> queuedScoreDict = new Dictionary<string, long>();
     readonly Dictionary<string, long> successfullyReportedScoreDict = new Dictionary<string, long>();
@@ -55,7 +55,7 @@ public class SocialScoreReporter : MonoBehaviour
         }
         else
         {
-            if (BlackContext.instance.CheatMode)
+            if (BlackContext.Instance.CheatMode)
             {
                 if (notifyCheatModeOnlyOnce == false)
                 {

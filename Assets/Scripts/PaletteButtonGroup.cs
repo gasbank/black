@@ -131,7 +131,7 @@ public class PaletteButtonGroup : MonoBehaviour
         poofTransform.position = paletteButton.transform.position;
         poofTransform.localScale = Vector3.one;
 
-        Sound.instance.PlayCorrectlyFinishedMild();
+        Sound.Instance.PlayCorrectlyFinishedMild();
     }
 
     void EnsurePaletteCheck(int paletteIndex)

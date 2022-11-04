@@ -19,7 +19,7 @@ public class FullStageImageButton : MonoBehaviour
 
     public async void OnClick()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
 
         var stageIndex = transform.GetSiblingIndex();
         

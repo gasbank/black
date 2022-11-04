@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class ShortMessage : MonoBehaviour, IPlatformShortMessage
 {
-    public static IPlatformShortMessage instance;
+    public static IPlatformShortMessage Instance;
     public Image image;
 
     [SerializeField]
@@ -31,7 +31,7 @@ public class ShortMessage : MonoBehaviour, IPlatformShortMessage
         playingAnimation = ShowAnimation(message);
         StartCoroutine(playingAnimation);
 
-        Sound.instance.PlayError();
+        Sound.Instance.PlayError();
     }
 
     void Awake()

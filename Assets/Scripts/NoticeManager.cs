@@ -9,7 +9,7 @@ using Dict = System.Collections.Generic.Dictionary<string, object>;
 [DisallowMultipleComponent]
 public class NoticeManager : MonoBehaviour
 {
-    public static NoticeManager instance;
+    public static NoticeManager Instance;
 
     public static readonly string noticeUrlQueryStartIndexKey = "noticeUrlQueryStartIndexKey";
 
@@ -27,10 +27,10 @@ public class NoticeManager : MonoBehaviour
     public void CheckNoticeSilently()
     {
         // StopAllCoroutines();
-        StartCoroutine(CheckNoticeCoro(true, BlackContext.instance.NoticeData.title,
-            BlackContext.instance.NoticeData.text, BlackContext.instance.NoticeData.detailUrl));
-        StopCoroutine(CheckNoticeCoro(true, BlackContext.instance.NoticeData.title,
-            BlackContext.instance.NoticeData.text, BlackContext.instance.NoticeData.detailUrl));
+        StartCoroutine(CheckNoticeCoro(true, BlackContext.Instance.NoticeData.title,
+            BlackContext.Instance.NoticeData.text, BlackContext.Instance.NoticeData.detailUrl));
+        StopCoroutine(CheckNoticeCoro(true, BlackContext.Instance.NoticeData.title,
+            BlackContext.Instance.NoticeData.text, BlackContext.Instance.NoticeData.detailUrl));
     }
 
     IEnumerator DownloadAndGetSpriteCoro(string imageUrl, Action<Sprite> callback)
@@ -53,7 +53,7 @@ public class NoticeManager : MonoBehaviour
 
     IEnumerator CheckNoticeCoro(bool silent, string oldTitle, string oldText, string oldDetailUrl)
     {
-        if (silent == false) ProgressMessage.instance.Open("\\공지사항 항목 확인중...".Localized());
+        if (silent == false) ProgressMessage.Instance.Open("\\공지사항 항목 확인중...".Localized());
 
         var urlList = new[]
         {
@@ -83,8 +83,8 @@ public class NoticeManager : MonoBehaviour
         {
             if (silent == false)
             {
-                ShortMessage.instance.Show("\\공지사항 정보 수신에 실패했습니다.".Localized(), true);
-                ProgressMessage.instance.Close();
+                ShortMessage.Instance.Show("\\공지사항 정보 수신에 실패했습니다.".Localized(), true);
+                ProgressMessage.Instance.Close();
             }
         }
     }
@@ -103,7 +103,7 @@ public class NoticeManager : MonoBehaviour
             }
             else
             {
-                ProgressMessage.instance.Close();
+                ProgressMessage.Instance.Close();
                 var title = "";
                 var text = "";
                 var detailUrl = "";
@@ -147,7 +147,7 @@ public class NoticeManager : MonoBehaviour
                 catch (Exception e)
                 {
                     Debug.LogErrorFormat("Notice exception: {0}", e);
-                    if (silent == false) ConfirmPopup.instance.Open("\\공지사항 항목이 없습니다.".Localized());
+                    if (silent == false) ConfirmPopup.Instance.Open("\\공지사항 항목이 없습니다.".Localized());
                 }
 
                 if (webRequestCompleted == false)
@@ -163,7 +163,7 @@ public class NoticeManager : MonoBehaviour
                     if (silent)
                     {
                         // 몰래 체크해서 새 공지가 있으니까 느낌표 보여준다.
-                        ConfigPopup.instance.ActivateNoticeNewImage(true);
+                        ConfigPopup.Instance.ActivateNoticeNewImage(true);
                     }
                     else
                     {
@@ -171,52 +171,52 @@ public class NoticeManager : MonoBehaviour
                         // 직접 바꿔주자.
                         var textNewlined = text.Replace("\\n", "\n").Replace("\\r", "");
                         if (string.IsNullOrEmpty(detailUrl))
-                            //ConfirmPopup.instance.Open(textNewlined, ConfirmPopup.instance.Close, title);
-                            ConfirmPopup.instance.OpenConfirmPopup(textNewlined, ConfirmPopup.instance.Close, null,
+                            //ConfirmPopup.Instance.Open(textNewlined, ConfirmPopup.Instance.Close, title);
+                            ConfirmPopup.Instance.OpenConfirmPopup(textNewlined, ConfirmPopup.Instance.Close, null,
                                 null,
                                 title, Header.Normal, "\\확인".Localized(), null, null, "", "", false, null,
                                 null, WidthType.Normal, 0, ShowPosition.Center,
-                                ConfirmPopup.instance.Close, false, -1);
+                                ConfirmPopup.Instance.Close, false, -1);
                         else
-                            //ConfirmPopup.instance.OpenGeneralPopup(textNewlined, ConfirmPopup.instance.Close, () => Application.OpenURL(detailUrl), null, title, ConfirmPopup.Header.Normal, "\\확인".Localized(), "\\자세히 보기".Localized(), "");
-                            ConfirmPopup.instance.OpenConfirmPopup(textNewlined, ConfirmPopup.instance.Close,
+                            //ConfirmPopup.Instance.OpenGeneralPopup(textNewlined, ConfirmPopup.Instance.Close, () => Application.OpenURL(detailUrl), null, title, ConfirmPopup.Header.Normal, "\\확인".Localized(), "\\자세히 보기".Localized(), "");
+                            ConfirmPopup.Instance.OpenConfirmPopup(textNewlined, ConfirmPopup.Instance.Close,
                                 () => Application.OpenURL(detailUrl), null, title, Header.Normal,
                                 "\\확인".Localized(), "\\자세히 보기".Localized(), null, "", "", false, null, null,
                                 WidthType.Normal, 0, ShowPosition.Center,
-                                ConfirmPopup.instance.Close, false, -1);
+                                ConfirmPopup.Instance.Close, false, -1);
 
                         // 공지사항용 상단 이미지가 지정되어 있다면 다운로드해서 보여준다.
                         if (string.IsNullOrEmpty(topImageUrl) == false)
                         {
-                            ProgressMessage.instance.Open("\\공지사항 항목 확인중...".Localized());
+                            ProgressMessage.Instance.Open("\\공지사항 항목 확인중...".Localized());
                             yield return DownloadAndGetSpriteCoro(topImageUrl,
-                                sprite => ConfirmPopup.instance.ActivateTopImage(sprite));
-                            ProgressMessage.instance.Close();
+                                sprite => ConfirmPopup.Instance.ActivateTopImage(sprite));
+                            ProgressMessage.Instance.Close();
                         }
 
                         // 공지사항용 본문 이미지가 지정되어 있다면 다운로드해서 보여준다.
                         if (string.IsNullOrEmpty(popupImageUrl) == false && popupImageHeight > 0)
                         {
-                            ProgressMessage.instance.Open("\\공지사항 항목 확인중...".Localized());
+                            ProgressMessage.Instance.Open("\\공지사항 항목 확인중...".Localized());
                             yield return DownloadAndGetSpriteCoro(popupImageUrl,
-                                sprite => ConfirmPopup.instance.ActivatePopupImage(sprite, 0, popupImageHeight));
-                            ProgressMessage.instance.Close();
+                                sprite => ConfirmPopup.Instance.ActivatePopupImage(sprite, 0, popupImageHeight));
+                            ProgressMessage.Instance.Close();
                         }
 
                         // 마지막 본 공지 내용으로 갱신
-                        BlackContext.instance.NoticeData.title = title;
-                        BlackContext.instance.NoticeData.text = text;
-                        BlackContext.instance.NoticeData.detailUrl = detailUrl;
+                        BlackContext.Instance.NoticeData.title = title;
+                        BlackContext.Instance.NoticeData.text = text;
+                        BlackContext.Instance.NoticeData.detailUrl = detailUrl;
 
 
                         // 새 공지든 아니든 한번 열었으니까 느낌표 숨긴다.
-                        ConfigPopup.instance.ActivateNoticeNewImage(false);
+                        ConfigPopup.Instance.ActivateNoticeNewImage(false);
                     }
                 }
                 else
                 {
                     // 마지막 확인 이후 공지가 바뀌지 않았다. 느낌표 숨긴다.
-                    ConfigPopup.instance.ActivateNoticeNewImage(false);
+                    ConfigPopup.Instance.ActivateNoticeNewImage(false);
                 }
             }
         }

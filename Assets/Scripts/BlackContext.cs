@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 
 public class BlackContext : MonoBehaviour, IBlackContext
 {
-    public static IBlackContext instance;
+    public static IBlackContext Instance;
 
     [SerializeField]
     ScUInt128 freeGem;
@@ -385,7 +385,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
 
     void OnApplicationQuit()
     {
-        SaveLoadManager.Save(this, ConfigPopup.instance, Sound.instance, Data.instance, null);
+        SaveLoadManager.Save(this, ConfigPopup.Instance, Sound.Instance, Data.Instance, null);
     }
 
     void OnApplicationPause(bool pause)
@@ -402,12 +402,12 @@ public class BlackContext : MonoBehaviour, IBlackContext
         if (pause)
         {
             // 백그라운드 상태가 되기 시작할 때 호출된다.
-            SaveLoadManager.Save(this, ConfigPopup.instance, Sound.instance, Data.instance, null);
+            SaveLoadManager.Save(this, ConfigPopup.Instance, Sound.Instance, Data.Instance, null);
 
             PlatformLocalNotification.RegisterAllRepeatingNotifications();
 
             // 게임이 제대로 시작한 이후부터만 백그라운드 처리 보상이 작동해도 된다.
-            if (LoadedAtLeastOnce) BackgroundTimeCompensator.instance.BeginBackgroundState(this);
+            if (LoadedAtLeastOnce) BackgroundTimeCompensator.Instance.BeginBackgroundState(this);
         }
         else
         {
@@ -416,7 +416,7 @@ public class BlackContext : MonoBehaviour, IBlackContext
             PlatformLocalNotification.RemoveAllRepeatingNotifications();
 
             // 게임이 제대로 시작한 이후부터만 백그라운드 처리 보상이 작동해도 된다.
-            if (LoadedAtLeastOnce) BackgroundTimeCompensator.instance.EndBackgroundState(this);
+            if (LoadedAtLeastOnce) BackgroundTimeCompensator.Instance.EndBackgroundState(this);
         }
     }
 }

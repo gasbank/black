@@ -88,7 +88,7 @@ public class NetworkTime : MonoBehaviour
         new List<INetworkTimeSubscriber>();
 
     public string QueryStateMessageLocalized =>
-        PlatformInterface.instance.text.GetNetworkTimeQueryProgressText(timeServerList.Length,
+        PlatformInterface.Instance.text.GetNetworkTimeQueryProgressText(timeServerList.Length,
             QueryingServerIndex + 1);
 
     async void Awake()
@@ -131,18 +131,18 @@ public class NetworkTime : MonoBehaviour
 
     public void Register(INetworkTimeSubscriber sub)
     {
-        PlatformInterface.instance.logger.Log(
+        PlatformInterface.Instance.logger.Log(
             $"Registering {sub.gameObject.name} to NetworkTime event subscription...");
         SubscriberList.Add(sub);
-        PlatformInterface.instance.logger.Log($"{SubscriberList.Count} subscriber(s).");
+        PlatformInterface.Instance.logger.Log($"{SubscriberList.Count} subscriber(s).");
     }
 
     public void Unregister(INetworkTimeSubscriber sub)
     {
-        PlatformInterface.instance.logger.Log(
+        PlatformInterface.Instance.logger.Log(
             $"Unregistering {sub.gameObject.name} to NetworkTime event subscription...");
         SubscriberList.Remove(sub);
-        PlatformInterface.instance.logger.Log($"{SubscriberList.Count} subscriber(s).");
+        PlatformInterface.Instance.logger.Log($"{SubscriberList.Count} subscriber(s).");
     }
 
     public async Task Query(bool willRetry)
@@ -150,13 +150,13 @@ public class NetworkTime : MonoBehaviour
         // 시간 조회 결론이 나기 전까진 중복 요청할 수 없다.
         if (State == QueryState.Querying)
         {
-            PlatformInterface.instance.logger.Log("Another query is in progress. This Query() call will be aborted.");
+            PlatformInterface.Instance.logger.Log("Another query is in progress. This Query() call will be aborted.");
             return;
         }
 
         // 새로운 시간 조회 싸이클을 시작한다.
         timeServerListQueryStartIndex = PlayerPrefs.GetInt(TimeServerListQueryStartIndexKey, 0);
-        PlatformInterface.instance.logger.Log(
+        PlatformInterface.Instance.logger.Log(
             $"ntpServerListQueryStartIndex = {timeServerListQueryStartIndex} [{timeServerList[timeServerListQueryStartIndex % timeServerList.Length]}]");
 
         for (QueryingServerIndex = 0; QueryingServerIndex < timeServerList.Length; QueryingServerIndex++)
@@ -178,7 +178,7 @@ public class NetworkTime : MonoBehaviour
                     {
                         var discrepancyRatio = TimeDotTimeDiff / NetworkTimeDiff.TotalSeconds;
                         var discrepancy = TimeDotTimeDiff - NetworkTimeDiff.TotalSeconds;
-                        PlatformInterface.instance.logger.LogFormat(
+                        PlatformInterface.Instance.logger.LogFormat(
                             "Time discrepancy between Time.time and network time: {0:F3} seconds (ratio={1:F1}%)",
                             discrepancy, discrepancyRatio * 100);
                         if (Mathf.Abs((float) discrepancyRatio) > 2.0f) TimeDiscrepancyDetected = true;
@@ -220,7 +220,7 @@ public class NetworkTime : MonoBehaviour
         RequestSequence++;
         var index = timeServerListQueryStartIndex % timeServerList.Length;
         var timeServerAddress = timeServerList[index];
-        PlatformInterface.instance.logger.Log(
+        PlatformInterface.Instance.logger.Log(
             $"GetNetworkTimeAsync() called. Querying from '{timeServerAddress}'... (Req seq = {RequestSequence})");
         try
         {
@@ -235,7 +235,7 @@ public class NetworkTime : MonoBehaviour
             // await Task.Delay(TimeSpan.FromSeconds(20));
 
             // 여기까지 왔으면 조회 안전하게 성공했다는 뜻
-            PlatformInterface.instance.logger.Log(
+            PlatformInterface.Instance.logger.Log(
                 $"Network time '{dt}' queried from '{timeServerAddress}' successfully. (Req seq = {RequestSequence})");
             return dt;
         }
@@ -258,11 +258,11 @@ public class NetworkTime : MonoBehaviour
 
     async Task<DateTime> GetNetworkTimeHttpsServerAsync(string httpsServer)
     {
-        PlatformInterface.instance.logger.LogFormat("[HTTPS] Querying network time from {0}...", httpsServer);
+        PlatformInterface.Instance.logger.LogFormat("[HTTPS] Querying network time from {0}...", httpsServer);
         using var httpClient = new HttpClient {Timeout = TimeSpan.FromSeconds(2)};
-        PlatformInterface.instance.logger.Log("[HTTPS] Before GetAsync...");
+        PlatformInterface.Instance.logger.Log("[HTTPS] Before GetAsync...");
         var getTask = await httpClient.GetAsync(httpsServer, HttpCompletionOption.ResponseHeadersRead);
-        PlatformInterface.instance.logger.Log("[HTTPS] After GetAsync...");
+        PlatformInterface.Instance.logger.Log("[HTTPS] After GetAsync...");
         if (getTask.IsSuccessStatusCode)
         {
             if (getTask.Headers.Date.HasValue)
@@ -286,7 +286,7 @@ public class NetworkTime : MonoBehaviour
 
     async Task<DateTime> GetNetworkTimeNtpServerAsync(string ntpServer)
     {
-        PlatformInterface.instance.logger.LogFormat("[NTP] Querying network time from {0}...", ntpServer);
+        PlatformInterface.Instance.logger.LogFormat("[NTP] Querying network time from {0}...", ntpServer);
 
         // NTP message size - 16 bytes of the digest (RFC 2030)
         var ntpData = new byte[48];

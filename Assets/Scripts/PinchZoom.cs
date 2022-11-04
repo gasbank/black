@@ -91,11 +91,11 @@ public class PinchZoom : MonoBehaviour
     public void OpenSensitivityPopup()
     {
         adminButtonGroup.Close();
-        ConfirmPopup.instance.OpenInputFieldPopup("Pinch Zoom Sensitivity", () =>
+        ConfirmPopup.Instance.OpenInputFieldPopup("Pinch Zoom Sensitivity", () =>
             {
-                float.TryParse(ConfirmPopup.instance.InputFieldText, out sensitivity);
-                ConfirmPopup.instance.Close();
-            }, ConfirmPopup.instance.Close, "Configure", Header.Normal,
+                float.TryParse(ConfirmPopup.Instance.InputFieldText, out sensitivity);
+                ConfirmPopup.Instance.Close();
+            }, ConfirmPopup.Instance.Close, "Configure", Header.Normal,
             sensitivity.ToString(CultureInfo.InvariantCulture),
             string.Empty);
     }

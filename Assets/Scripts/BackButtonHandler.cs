@@ -12,7 +12,7 @@ public class BackButtonHandler : MonoBehaviour
 {
     static bool Verbose => false;
     
-    public static BackButtonHandler instance;
+    public static BackButtonHandler Instance;
 
     readonly Stack<Action> stack = new Stack<Action>();
 
@@ -54,7 +54,7 @@ public class BackButtonHandler : MonoBehaviour
     static void SuspendByQuitIfAndroid()
     {
 #if UNITY_ANDROID
-        ConfirmPopup.instance.OpenYesNoPopup("\\컬러뮤지엄를 종료하시겠습니까?".Localized(), () =>
+        ConfirmPopup.Instance.OpenYesNoPopup("\\컬러뮤지엄를 종료하시겠습니까?".Localized(), () =>
         {
             // 실제로 앱 종료한다.
 #if UNITY_EDITOR
@@ -62,7 +62,7 @@ public class BackButtonHandler : MonoBehaviour
 #else
             Application.Quit();
 #endif
-        }, ConfirmPopup.instance.Close);
+        }, ConfirmPopup.Instance.Close);
 #endif
     }
 

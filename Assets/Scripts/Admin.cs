@@ -17,7 +17,7 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class Admin : MonoBehaviour
 {
-    public static Admin instance;
+    public static Admin Instance;
 
     [SerializeField]
     Subcanvas adminMenuSubcanvas;
@@ -39,9 +39,9 @@ public class Admin : MonoBehaviour
 
     void OnEnable()
     {
-        if (BlackContext.instance != null)
+        if (BlackContext.Instance != null)
         {
-            BlackContext.instance.CheatMode = true;
+            BlackContext.Instance.CheatMode = true;
             BlackLogManager.Add(BlackLogEntry.Type.GameCheatEnabled, 0, 0);
         }
     }
@@ -61,14 +61,14 @@ public class Admin : MonoBehaviour
     public void GoldToZero()
     {
 #if DEV_BUILD
-        BlackContext.instance.SetGold(0);
+        BlackContext.Instance.SetGold(0);
 #endif
     }
 
     public void GemToZero()
     {
 #if DEV_BUILD
-        BlackContext.instance.SetGemZero();
+        BlackContext.Instance.SetGemZero();
         BlackLogManager.Add(BlackLogEntry.Type.GemToZero, 0, 0);
 #endif
     }
@@ -78,14 +78,14 @@ public class Admin : MonoBehaviour
     public void Gold(int amount)
     {
 #if DEV_BUILD
-        BlackContext.instance.AddGoldSafe((uint) amount);
+        BlackContext.Instance.AddGoldSafe((uint) amount);
 #endif
     }
 
     public void ManyGold()
     {
 #if DEV_BUILD
-        BlackContext.instance.SetGold(UInt128.MaxValue);
+        BlackContext.Instance.SetGold(UInt128.MaxValue);
         BlackLogManager.Add(BlackLogEntry.Type.GoldAddAdmin, 1, UInt128.MaxValue.ToClampedLong());
 #endif
     }
@@ -95,7 +95,7 @@ public class Admin : MonoBehaviour
     public void Gem(int amount)
     {
 #if DEV_BUILD
-        BlackContext.instance.AddFreeGem((uint) amount);
+        BlackContext.Instance.AddFreeGem((uint) amount);
         BlackLogManager.Add(BlackLogEntry.Type.GemAddAdmin, 2, amount);
 #endif
     }
@@ -143,8 +143,8 @@ public class Admin : MonoBehaviour
     public void BackToYesterday()
     {
 #if DEV_BUILD
-        BlackContext.instance.LastDailyRewardRedeemedTicks = 0;
-        BlackContext.instance.UpdateDailyRewardAllButtonStates();
+        BlackContext.Instance.LastDailyRewardRedeemedTicks = 0;
+        BlackContext.Instance.UpdateDailyRewardAllButtonStates();
         CloseAdminMenu();
 #endif
     }
@@ -224,9 +224,9 @@ public class Admin : MonoBehaviour
 #if DEV_BUILD
         if (Application.isEditor)
         {
-            ConfirmPopup.instance.OpenInputFieldPopup($"Firestore Save Document Code (Domain:{domain})",
-                () => { ErrorReporter.instance.ProcessUserSaveCode(ConfirmPopup.instance.InputFieldText, domain); },
-                ConfirmPopup.instance.Close, "ADMIN", Header.Normal, "", "");
+            ConfirmPopup.Instance.OpenInputFieldPopup($"Firestore Save Document Code (Domain:{domain})",
+                () => { ErrorReporter.Instance.ProcessUserSaveCode(ConfirmPopup.Instance.InputFieldText, domain); },
+                ConfirmPopup.Instance.Close, "ADMIN", Header.Normal, "", "");
             CloseAdminMenu();
         }
         else
@@ -235,7 +235,7 @@ public class Admin : MonoBehaviour
             // 플레이하게 되는 것으로써, 리더보드/업적 등 진행 상황이 개발자 실기기 연동 계정에
             // 반영이 되게 된다. 이에 대한 방지책을 마련하기 전까지는 이 기능은 개발 컴퓨터에서만
             // 작동되도록 한다.
-            ShortMessage.instance.Show("Only supported in Editor", true);
+            ShortMessage.Instance.Show("Only supported in Editor", true);
         }
 #endif
     }
@@ -246,22 +246,22 @@ public class Admin : MonoBehaviour
         //한국어 -> 일본어 -> 중국어 (간체) -> 중국어 (번체) -> 한국어 ... (반복)
 
         var text = changeButton.GetComponentInChildren<Text>();
-        switch (Data.instance.CurrentLanguageCode)
+        switch (Data.Instance.CurrentLanguageCode)
         {
             case BlackLanguageCode.Ko:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Ja);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Ja);
                 text.text = "현재: 한국어\n일본어로 바꾼다";
                 break;
             case BlackLanguageCode.Ja:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Ch);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Ch);
                 text.text = "현재: 일본어\n중국어(간체)로 바꾼다";
                 break;
             case BlackLanguageCode.Ch:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Tw);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Tw);
                 text.text = "현재: 중국어(간체)\n중국어(번체)로 바꾼다";
                 break;
             case BlackLanguageCode.Tw:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Ko);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Ko);
                 text.text = "현재: 중국어(번체)\n한국어로 바꾼다";
                 break;
         }
@@ -277,8 +277,8 @@ public class Admin : MonoBehaviour
         StageSaveData stageSaveData = null;
 
         ConDebug.Log($"=== {nameof(ReportSaveDataAsync)} ===");
-        ConDebug.Log($"LastClearedStageId: {BlackContext.instance.LastClearedStageId}");
-        var currentStageMetadata = await StageDetailPopup.LoadStageMetadataByZeroBasedIndexAsync(BlackContext.instance.LastClearedStageId);
+        ConDebug.Log($"LastClearedStageId: {BlackContext.Instance.LastClearedStageId}");
+        var currentStageMetadata = await StageDetailPopup.LoadStageMetadataByZeroBasedIndexAsync(BlackContext.Instance.LastClearedStageId);
         if (currentStageMetadata != null)
         {
             ConDebug.Log($"WIP Stage Metadata: {currentStageMetadata.name}");
@@ -331,9 +331,9 @@ public class Admin : MonoBehaviour
             ConDebug.Log($"Current Stage Metadata: ??? Empty ???");
         }
         
-        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, stageSaveData);
+        SaveLoadManager.Save(BlackContext.Instance, ConfigPopup.Instance, Sound.Instance, Data.Instance, stageSaveData);
         // 제출 시작한다.
-        await ErrorReporter.instance.UploadSaveFileIncidentAsync(new List<Exception>(), "NO CRITICAL ERROR",
+        await ErrorReporter.Instance.UploadSaveFileIncidentAsync(new List<Exception>(), "NO CRITICAL ERROR",
             true);
     }
 
@@ -343,14 +343,14 @@ public class Admin : MonoBehaviour
         try
         {
             // 저장 한번 하고
-            SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
+            SaveLoadManager.Save(BlackContext.Instance, ConfigPopup.Instance, Sound.Instance, Data.Instance, null);
             // 제출 시작한다.
             var reasonPhrase = await BlackLogManager.DumpAndUploadPlayLog("\\플레이 로그 업로드 중...".Localized(), "", "", "");
             if (string.IsNullOrEmpty(reasonPhrase))
             {
-                var errorDeviceId = ErrorReporter.instance.GetOrCreateErrorDeviceId();
+                var errorDeviceId = ErrorReporter.Instance.GetOrCreateErrorDeviceId();
                 var msg = "\\플레이 로그 업로드가 성공적으로 완료됐습니다.\\n\\n업로드 코드: {0}".Localized(errorDeviceId);
-                ConfirmPopup.instance.Open(msg);
+                ConfirmPopup.Instance.Open(msg);
             }
             else
             {
@@ -361,11 +361,11 @@ public class Admin : MonoBehaviour
         {
             var msg = "\\플레이 로그 업로드 중 오류가 발생했습니다.\\n\\n{0}".Localized(e.Message);
             Debug.LogException(e);
-            ConfirmPopup.instance.Open(msg);
+            ConfirmPopup.Instance.Open(msg);
         }
         finally
         {
-            ProgressMessage.instance.Close();
+            ProgressMessage.Instance.Close();
         }
     }
 
@@ -399,7 +399,7 @@ public class Admin : MonoBehaviour
     public void ClearAchievementRedeemHistory()
     {
 #if DEV_BUILD
-        BlackContext.instance.AchievementRedeemed = new AchievementRecord1(false);
+        BlackContext.Instance.AchievementRedeemed = new AchievementRecord1(false);
 #endif
     }
 
@@ -411,25 +411,25 @@ public class Admin : MonoBehaviour
     public async void ShowDummyProgressMessage()
     {
         CloseAdminMenu();
-        ShortMessage.instance.Show("5초 후 테스트용 Progress Message창이 열립니다.");
+        ShortMessage.Instance.Show("5초 후 테스트용 Progress Message창이 열립니다.");
         await Task.Delay(TimeSpan.FromSeconds(5));
-        ProgressMessage.instance.Open("테스트 중... 10초 후 닫힙니다.");
+        ProgressMessage.Instance.Open("테스트 중... 10초 후 닫힙니다.");
         await Task.Delay(TimeSpan.FromSeconds(10));
-        ProgressMessage.instance.Close();
+        ProgressMessage.Instance.Close();
     }
 
     public void GetAllDailyRewardsAtOnceAdminToDay()
     {
 #if DEV_BUILD
-        ConfirmPopup.instance.OpenInputFieldPopup(
-            $"Redeem Daily Rewards To Day ({BlackContext.instance.LastDailyRewardRedeemedIndex} ~ {Data.dataSet.DailyRewardData.Count})",
+        ConfirmPopup.Instance.OpenInputFieldPopup(
+            $"Redeem Daily Rewards To Day ({BlackContext.Instance.LastDailyRewardRedeemedIndex} ~ {Data.dataSet.DailyRewardData.Count})",
             () =>
             {
-                if (int.TryParse(ConfirmPopup.instance.InputFieldText, out var toDay))
-                    BlackContext.instance.GetAllDailyRewardsAtOnceAdminToDay(toDay);
+                if (int.TryParse(ConfirmPopup.Instance.InputFieldText, out var toDay))
+                    BlackContext.Instance.GetAllDailyRewardsAtOnceAdminToDay(toDay);
 
-                ConfirmPopup.instance.Close();
-            }, ConfirmPopup.instance.Close, "Admin", Header.Normal, "", "");
+                ConfirmPopup.Instance.Close();
+            }, ConfirmPopup.Instance.Close, "Admin", Header.Normal, "", "");
         CloseAdminMenu();
 #endif
     }
@@ -437,26 +437,26 @@ public class Admin : MonoBehaviour
     public void RefillAllCoins()
     {
 #if DEV_BUILD
-        BlackContext.instance.CoinAmount = 5;
+        BlackContext.Instance.CoinAmount = 5;
 #endif
     }
 
     public void ToggleSlowMode()
     {
 #if DEV_BUILD
-        BlackContext.instance.SlowMode = !BlackContext.instance.SlowMode;
-        ShortMessage.instance.Show($"SlowMode to {BlackContext.instance.SlowMode}");
+        BlackContext.Instance.SlowMode = !BlackContext.Instance.SlowMode;
+        ShortMessage.Instance.Show($"SlowMode to {BlackContext.Instance.SlowMode}");
 #endif
     }
 
     public void CalculateGoldRate()
     {
 #if DEV_BUILD
-        ConfirmPopup.instance.OpenInputFieldPopup("Gold Rate", () =>
+        ConfirmPopup.Instance.OpenInputFieldPopup("Gold Rate", () =>
         {
-            PrintGoldRate(ConfirmPopup.instance.InputFieldText);
-            ConfirmPopup.instance.Close();
-        }, ConfirmPopup.instance.Close, "Admin", Header.Normal, "", "");
+            PrintGoldRate(ConfirmPopup.Instance.InputFieldText);
+            ConfirmPopup.Instance.Close();
+        }, ConfirmPopup.Instance.Close, "Admin", Header.Normal, "", "");
         CloseAdminMenu();
 #endif
     }
@@ -487,8 +487,8 @@ public class Admin : MonoBehaviour
     public void ToggleNoAdsCode()
     {
 #if DEV_BUILD
-        BlackContext.instance.NoAdsCode = BlackContext.instance.NoAdsCode == 0 ? 19850506 : 0;
-        ShortMessage.instance.Show($"No Ads Code set to {BlackContext.instance.NoAdsCode}");
+        BlackContext.Instance.NoAdsCode = BlackContext.Instance.NoAdsCode == 0 ? 19850506 : 0;
+        ShortMessage.Instance.Show($"No Ads Code set to {BlackContext.Instance.NoAdsCode}");
 #endif
     }
 
@@ -509,26 +509,26 @@ public class Admin : MonoBehaviour
         var adContext = new BlackAdContext(() =>
         {
             ScUInt128 goldAmount = 1;
-            BlackContext.instance.AddGoldSafe(goldAmount);
-            ConfirmPopup.instance.Open(@"\광고 시청 보상으로 {0}골드를 받았습니다.".Localized(goldAmount));
+            BlackContext.Instance.AddGoldSafe(goldAmount);
+            ConfirmPopup.Instance.Open(@"\광고 시청 보상으로 {0}골드를 받았습니다.".Localized(goldAmount));
         });
-        PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
+        PlatformAdMobAds.Instance.TryShowRewardedAd(adContext);
 #endif
     }
     
     public void SetLastClearedStageId()
     {
 #if DEV_BUILD
-        ConfirmPopup.instance.OpenInputFieldPopup("Last Cleared Stage ID",
+        ConfirmPopup.Instance.OpenInputFieldPopup("Last Cleared Stage ID",
             () =>
             {
-                if (int.TryParse(ConfirmPopup.instance.InputFieldText, out var stageId))
+                if (int.TryParse(ConfirmPopup.Instance.InputFieldText, out var stageId))
                 {
-                    BlackContext.instance.LastClearedStageId = stageId;
+                    BlackContext.Instance.LastClearedStageId = stageId;
                 }
-                ConfirmPopup.instance.Close();
+                ConfirmPopup.Instance.Close();
             },
-            ConfirmPopup.instance.Close, "ADMIN", Header.Normal, BlackContext.instance.LastClearedStageId.ToString(), "");
+            ConfirmPopup.Instance.Close, "ADMIN", Header.Normal, BlackContext.Instance.LastClearedStageId.ToString(), "");
         CloseAdminMenu();
 #endif
     }

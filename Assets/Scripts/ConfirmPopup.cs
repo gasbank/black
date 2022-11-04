@@ -9,7 +9,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Subcanvas), typeof(RectTransform))]
 public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
 {
-    public static IPlatformConfirmPopup instance;
+    public static IPlatformConfirmPopup Instance;
 
     static readonly int Appear = Animator.StringToHash("Appear");
 
@@ -196,7 +196,7 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
             if (titleMessageFont != null)
                 title.font = message.font = titleMessageFont;
             else
-                title.font = message.font = FontManager.instance.GetLanguageFont(Data.instance.CurrentLanguageCode);
+                title.font = message.font = FontManager.Instance.GetLanguageFont(Data.Instance.CurrentLanguageCode);
         }
 
         //image
@@ -610,28 +610,28 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
 
     public void OnButton1()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
         
         if (IsOpen) onButton1();
     }
 
     public void OnButton2()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
         
         if (IsOpen) onButton2();
     }
 
     public void OnClaimButton()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
         
         if (IsOpen) onClaimButton();
     }
 
     public void OnCloseButton()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
         
         if (IsOpen) onCloseButton();
     }
@@ -645,18 +645,18 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
     public void OpenSimpleMessageWithClickSound(string inMessage)
     {
         ConDebug.Log(nameof(OpenSimpleMessageWithClickSound));
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
         Open(inMessage, Close);
     }
     
     public void OpenSimpleMessageWithClickSoundAndResumeDirector(string inMessage)
     {
         ConDebug.Log(nameof(OpenSimpleMessageWithClickSoundAndResumeDirector));
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
         Open(inMessage, () =>
         {
             Close();
-            IntroDirector.instance.ResumeDirector();
+            IntroDirector.Instance.ResumeDirector();
         });
     }
 }

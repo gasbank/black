@@ -3,7 +3,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class CreditPopup : MonoBehaviour
 {
-  public static CreditPopup instance;
+  public static CreditPopup Instance;
 
   [SerializeField]
   Subcanvas subcanvas;

@@ -43,7 +43,7 @@ public class PaletteButton : MonoBehaviour
 
     void NotifyPaletteChange()
     {
-        MainGame.instance.OnPaletteChange(int.Parse(colorNumberText.text) - 1);
+        MainGame.Instance.OnPaletteChange(int.Parse(colorNumberText.text) - 1);
     }
 
     public float ColoredRatio
@@ -75,6 +75,6 @@ public class PaletteButton : MonoBehaviour
 
     public void PlayCheckSound()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
     }
 }

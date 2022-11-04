@@ -17,7 +17,7 @@ public class PlatformLocalNotification : MonoBehaviour
 
     public static void RemoveAllRepeatingNotifications()
     {
-        Platform.instance.ClearAllNotifications();
-        PlatformInterface.instance.logger.Log(nameof(RemoveAllRepeatingNotifications));
+        Platform.Instance.ClearAllNotifications();
+        PlatformInterface.Instance.logger.Log(nameof(RemoveAllRepeatingNotifications));
     }
 }

@@ -12,7 +12,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class PlatformAdMobAdsInit : MonoBehaviour
 {
-    public static PlatformAdMobAdsInit instance;
+    public static PlatformAdMobAdsInit Instance;
 
     [SerializeField]
     PlatformInterface platformInterface;
@@ -25,7 +25,7 @@ public class PlatformAdMobAdsInit : MonoBehaviour
     public RewardedAd rewardBasedVideo;
 
     public void Start() {
-        PlatformInterface.instance.logger.Log("PlatformAdMobAdsInit.Start()");
+        PlatformInterface.Instance.logger.Log("PlatformAdMobAdsInit.Start()");
 
         // Initialize the Google Mobile Ads SDK.
         MobileAds.Initialize(status => { });
@@ -39,7 +39,7 @@ public class PlatformAdMobAdsInit : MonoBehaviour
         // 광고 사운드 끄기
         MobileAds.SetApplicationMuted(true);
 
-        var adUnitId = PlatformInterface.instance.config.GetAdMobRewardVideoAdUnitId();
+        var adUnitId = PlatformInterface.Instance.config.GetAdMobRewardVideoAdUnitId();
 
         // Get singleton reward based video ad reference.
         rewardBasedVideo = new RewardedAd(adUnitId);
@@ -55,7 +55,7 @@ public class PlatformAdMobAdsInit : MonoBehaviour
         
         RequestRewardBasedVideo();
 
-#if UNITY_IOS && BLACK_FACEBOOK
+#if UNITY_IOS
         var trackingStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
         Debug.Log($"ATTrackingStatusBinding.GetAuthorizationTrackingStatus()={trackingStatus}");
         switch (trackingStatus)
@@ -64,50 +64,54 @@ public class PlatformAdMobAdsInit : MonoBehaviour
                 ATTrackingStatusBinding.RequestAuthorizationTracking();
                 break;
             case ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED:
+#if BLACK_FACEBOOK
                 AudienceNetwork.AdSettings.SetAdvertiserTrackingEnabled(true);
+#endif
                 break;
             case ATTrackingStatusBinding.AuthorizationTrackingStatus.RESTRICTED:
             case ATTrackingStatusBinding.AuthorizationTrackingStatus.DENIED:
+#if BLACK_FACEBOOK
                 AudienceNetwork.AdSettings.SetAdvertiserTrackingEnabled(false);
+#endif
                 break;
         }
 #endif
     }
 
     void HandlePaidEvent(object sender, AdValueEventArgs e) {
-        PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandlePaidEvent)}");
+        PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandlePaidEvent)}");
     }
 
     void HandleAdDidRecordImpression(object sender, EventArgs e) {
-        PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdDidRecordImpression)}");
+        PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdDidRecordImpression)}");
     }
 
     void HandleOnAdLoaded(object sender, EventArgs args) {
-        PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleOnAdLoaded)}");
+        PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleOnAdLoaded)}");
     }
 
     void HandleAdFailedToLoad(object sender, AdFailedToLoadEventArgs args) {
         var errorMessage = args.LoadAdError.GetMessage();
-        PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdFailedToLoad)}");
-        PlatformInterface.instance.logger.Log($"    Message: {errorMessage}");
+        PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdFailedToLoad)}");
+        PlatformInterface.Instance.logger.Log($"    Message: {errorMessage}");
         UnityMainThreadDispatcher.Instance().Enqueue(() => PlatformAdMobAds.HandleFailedToLoad(errorMessage));
     }
     
     void HandleAdFailedToShow(object sender, AdErrorEventArgs args)
     {
         var errorMessage = args.AdError.GetMessage();
-        PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdFailedToShow)}");
-        PlatformInterface.instance.logger.Log($"    Message: {errorMessage}");
+        PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdFailedToShow)}");
+        PlatformInterface.Instance.logger.Log($"    Message: {errorMessage}");
         UnityMainThreadDispatcher.Instance().Enqueue(() => PlatformAdMobAds.HandleFailedToLoad(errorMessage));
     }
 
     void HandleAdOpening(object sender, EventArgs args) {
-        PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdOpening)}");
+        PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdOpening)}");
         shouldBeRewarded = false;
     }
 
     void HandleAdClosed(object sender, EventArgs args) {
-        PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdClosed)}");
+        PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleAdClosed)}");
         UnityMainThreadDispatcher.Instance().Enqueue(() => {
             RequestRewardBasedVideo();
             if (shouldBeRewarded) {
@@ -117,10 +121,10 @@ public class PlatformAdMobAdsInit : MonoBehaviour
     }
 
     void HandleUserEarnedReward(object sender, Reward args) {
-        PlatformInterface.instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleUserEarnedReward)}");
+        PlatformInterface.Instance.logger.Log($"{nameof(PlatformAdMobAdsInit)}.{nameof(HandleUserEarnedReward)}");
         string type = args.Type;
         double amount = args.Amount;
-        PlatformInterface.instance.logger.Log($"HandleRewardBasedVideoRewarded event received for {amount} {type}");
+        PlatformInterface.Instance.logger.Log($"HandleRewardBasedVideoRewarded event received for {amount} {type}");
         shouldBeRewarded = true;
     }
 

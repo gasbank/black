@@ -22,14 +22,14 @@ public class Platform : MonoBehaviour
     [SerializeField]
     PlatformSaveUtil platformSaveUtil;
 
-    public static IPlatformBase instance => platform;
+    public static IPlatformBase Instance => platform;
 
     public bool DisableLoginOnStart
     {
         get => PlayerPrefs.GetInt(DISABLE_LOGIN_ON_START_KEY, 0) == 1;
         set
         {
-            PlatformInterface.instance.logger.Log($"Platform.DisableLoginOnStart set to {value}");
+            PlatformInterface.Instance.logger.Log($"Platform.DisableLoginOnStart set to {value}");
             PlayerPrefs.SetInt(DISABLE_LOGIN_ON_START_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
         }
@@ -60,13 +60,13 @@ public class Platform : MonoBehaviour
 
     internal string GetText(string v)
     {
-        return string.Format(PlatformInterface.instance.textHelper.GetText(v), instance.GetAccountTypeText());
+        return string.Format(PlatformInterface.Instance.textHelper.GetText(v), Instance.GetAccountTypeText());
     }
 
     public void StartAuthAsync(Action<bool, string> onAuthResult)
     {
-        instance.PreAuthenticate();
-        instance.Login((result, reason) =>
+        Instance.PreAuthenticate();
+        Instance.Login((result, reason) =>
         {
             // StartAuthAsync() 호출한 쪽에서 원하는 처리를 먼저 해 준다.
             onAuthResult(result, reason);
@@ -80,40 +80,40 @@ public class Platform : MonoBehaviour
 
     public void CloudLoad()
     {
-        PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudLoadBegin, 0, 0);
-        if (instance.CheckLoadSavePrecondition(PlatformInterface.instance.textHelper.GetText("platform_loading"),
+        PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudLoadBegin, 0, 0);
+        if (Instance.CheckLoadSavePrecondition(PlatformInterface.Instance.textHelper.GetText("platform_loading"),
                 platformSaveUtil.StartLoginAndLoad, platformSaveUtil.CancelStartLoginForLoad) == false)
             return;
 
-        instance.GetCloudLastSavedMetadataAsync(bytes =>
+        Instance.GetCloudLastSavedMetadataAsync(bytes =>
         {
-            PlatformInterface.instance.progressMessage.Close();
+            PlatformInterface.Instance.progressMessage.Close();
 
-            PlatformInterface.instance.saveUtil.DebugPrintCloudMetadata(bytes);
+            PlatformInterface.Instance.saveUtil.DebugPrintCloudMetadata(bytes);
 
-            if (PlatformInterface.instance.saveUtil.IsValidCloudMetadata(bytes))
+            if (PlatformInterface.Instance.saveUtil.IsValidCloudMetadata(bytes))
             {
                 var overwriteConfirmMsg =
-                    PlatformInterface.instance.saveLoadManager.GetLoadOverwriteConfirmMessage(bytes);
+                    PlatformInterface.Instance.saveLoadManager.GetLoadOverwriteConfirmMessage(bytes);
 
-                PlatformInterface.instance.confirmPopup.OpenYesNoPopup(overwriteConfirmMsg, () =>
+                PlatformInterface.Instance.confirmPopup.OpenYesNoPopup(overwriteConfirmMsg, () =>
                 {
                     // 로드하려는 데이터가 현재 플레이하는 것보다 진행이 "덜" 된 것인가?
                     // 경고 한번 더 보여줘야 한다.
-                    var rollback = PlatformInterface.instance.saveLoadManager.IsLoadRollback(bytes);
+                    var rollback = PlatformInterface.Instance.saveLoadManager.IsLoadRollback(bytes);
 
                     if (rollback)
                     {
                         var msgAgain =
-                            PlatformInterface.instance.textHelper.GetText(
+                            PlatformInterface.Instance.textHelper.GetText(
                                 "platform_load_confirm_popup_rollback_alert") +
                             "\n\n" + overwriteConfirmMsg;
-                        PlatformInterface.instance.confirmPopup.OpenYesNoPopup(msgAgain, instance.ExecuteCloudLoad,
+                        PlatformInterface.Instance.confirmPopup.OpenYesNoPopup(msgAgain, Instance.ExecuteCloudLoad,
                             platformSaveUtil.CancelStartLoginForLoad);
                     }
                     else
                     {
-                        instance.ExecuteCloudLoad();
+                        Instance.ExecuteCloudLoad();
                     }
                 }, platformSaveUtil.CancelStartLoginForLoad);
             }
@@ -126,46 +126,46 @@ public class Platform : MonoBehaviour
 
     public void CloudSave()
     {
-        PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudSaveBegin, 0, 0);
-        if (instance.CheckLoadSavePrecondition(PlatformInterface.instance.textHelper.GetText("platform_saving"),
+        PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudSaveBegin, 0, 0);
+        if (Instance.CheckLoadSavePrecondition(PlatformInterface.Instance.textHelper.GetText("platform_saving"),
                 platformSaveUtil.StartLoginAndSave, platformSaveUtil.CancelStartLoginForSave) == false)
             return;
 
-        instance.GetCloudLastSavedMetadataAsync(bytes =>
+        Instance.GetCloudLastSavedMetadataAsync(bytes =>
         {
-            PlatformInterface.instance.progressMessage.Close();
+            PlatformInterface.Instance.progressMessage.Close();
 
-            PlatformInterface.instance.saveUtil.DebugPrintCloudMetadata(bytes);
+            PlatformInterface.Instance.saveUtil.DebugPrintCloudMetadata(bytes);
 
-            if (PlatformInterface.instance.saveUtil.IsValidCloudMetadata(bytes))
+            if (PlatformInterface.Instance.saveUtil.IsValidCloudMetadata(bytes))
             {
                 var overwriteConfirmMsg =
-                    PlatformInterface.instance.saveLoadManager.GetSaveOverwriteConfirmMessage(bytes);
+                    PlatformInterface.Instance.saveLoadManager.GetSaveOverwriteConfirmMessage(bytes);
 
-                PlatformInterface.instance.confirmPopup.OpenYesNoPopup(overwriteConfirmMsg, () =>
+                PlatformInterface.Instance.confirmPopup.OpenYesNoPopup(overwriteConfirmMsg, () =>
                 {
                     // 현재 플레이 상황이 덮어쓰려는 저장 데이터보다 진행이 "덜" 된 것인가?
                     // 경고 한번 더 보여줘야 한다.
-                    var rollback = PlatformInterface.instance.saveLoadManager.IsSaveRollback(bytes);
+                    var rollback = PlatformInterface.Instance.saveLoadManager.IsSaveRollback(bytes);
 
                     if (rollback)
                     {
                         var msgAgain =
-                            PlatformInterface.instance.textHelper.GetText(
+                            PlatformInterface.Instance.textHelper.GetText(
                                 "platform_save_confirm_popup_rollback_alert") +
                             "\n\n" + overwriteConfirmMsg;
-                        PlatformInterface.instance.confirmPopup.OpenYesNoPopup(msgAgain, instance.ExecuteCloudSave,
+                        PlatformInterface.Instance.confirmPopup.OpenYesNoPopup(msgAgain, Instance.ExecuteCloudSave,
                             platformSaveUtil.CancelStartLoginForSave);
                     }
                     else
                     {
-                        instance.ExecuteCloudSave();
+                        Instance.ExecuteCloudSave();
                     }
                 }, platformSaveUtil.CancelStartLoginForSave);
             }
             else
             {
-                instance.ExecuteCloudSave();
+                Instance.ExecuteCloudSave();
             }
         });
     }

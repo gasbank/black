@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Subcanvas : MonoBehaviour
 {
     // 초기 구동 단계에서 Close()를 부르고 시작하는 경우가 있다. (OrderPlateRect)
-    // 이 때 BackButtonHandler.instance.PopAction()를 호출하면
+    // 이 때 BackButtonHandler.Instance.PopAction()를 호출하면
     // 스택이 비어 있어서 오류가 난다. 이걸 처리하기 위한 플래그 변수.
     [SerializeField]
     bool backButtonHandlerPushed;
@@ -112,11 +112,11 @@ public class Subcanvas : MonoBehaviour
                 {
                     // 뒤로 가기를 처리할 수 없는 상태 (네트워크 확인 중, 클라우드 저장 중 등)
                     // 인 경우에는 그냥 바로 홈 화면으로 보내자.
-                    BackButtonHandler.instance.PushAction(BackButtonHandler.SuspendByMoveTaskToBackIfAndroid);
+                    BackButtonHandler.Instance.PushAction(BackButtonHandler.SuspendByMoveTaskToBackIfAndroid);
                 }
                 else
                 {
-                    BackButtonHandler.instance.PushAction(CloseWithDefaultAction);
+                    BackButtonHandler.Instance.PushAction(CloseWithDefaultAction);
                 }
 
                 backButtonHandlerPushed = true;
@@ -127,7 +127,7 @@ public class Subcanvas : MonoBehaviour
     public void OpenWithClickSound()
     {
         // 실제로 열렸는지와 상관 없이 유저 인터랙션이 있었으니 소리는 낸다.
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
 
         Open();
     }
@@ -140,7 +140,7 @@ public class Subcanvas : MonoBehaviour
             SendPopupEventMessage();
             if (backButtonHandlerPushed)
             {
-                BackButtonHandler.instance.PopAction();
+                BackButtonHandler.Instance.PopAction();
                 backButtonHandlerPushed = false;
             }
         }
@@ -151,7 +151,7 @@ public class Subcanvas : MonoBehaviour
     public void CloseWithClickSound()
     {
         // 실제로 닫혔는지와 상관 없이 유저 인터랙션이 있었으니 소리는 낸다.
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
 
         Close();
     }

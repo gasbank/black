@@ -42,77 +42,77 @@ public class PlatformSaveUtil : MonoBehaviour
 
     public void CancelStartLoginForSave()
     {
-        PlatformInterface.instance.confirmPopup.Open(
-            PlatformInterface.instance.textHelper.GetText("platform_save_cancelled_popup"));
-        PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudSaveFailure, 0, 0);
+        PlatformInterface.Instance.confirmPopup.Open(
+            PlatformInterface.Instance.textHelper.GetText("platform_save_cancelled_popup"));
+        PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudSaveFailure, 0, 0);
     }
 
     public void ShowSaveProgressPopup()
     {
-        PlatformInterface.instance.progressMessage.Open(
-            PlatformInterface.instance.textHelper.GetText("platform_saving"));
+        PlatformInterface.Instance.progressMessage.Open(
+            PlatformInterface.Instance.textHelper.GetText("platform_saving"));
     }
 
     public void ShowLoadProgressPopup()
     {
-        PlatformInterface.instance.progressMessage.Open(
-            PlatformInterface.instance.textHelper.GetText("platform_loading"));
+        PlatformInterface.Instance.progressMessage.Open(
+            PlatformInterface.Instance.textHelper.GetText("platform_loading"));
     }
 
     public void ShowSaveErrorPopup(string text)
     {
         LogCloudLoadSaveError(text);
 
-        PlatformInterface.instance.progressMessage.Close();
-        PlatformInterface.instance.confirmPopup.Open(text);
+        PlatformInterface.Instance.progressMessage.Close();
+        PlatformInterface.Instance.confirmPopup.Open(text);
     }
 
     public void ShowSaveErrorPopupWithGooglePlayGamesUpdateButton(string text)
     {
         LogCloudLoadSaveError(text);
 
-        PlatformInterface.instance.progressMessage.Close();
-        PlatformInterface.instance.confirmPopup.OpenTwoButtonPopup_Update(text,
-            PlatformInterface.instance.confirmPopup.Close,
+        PlatformInterface.Instance.progressMessage.Close();
+        PlatformInterface.Instance.confirmPopup.OpenTwoButtonPopup_Update(text,
+            PlatformInterface.Instance.confirmPopup.Close,
             () => { Application.OpenURL("market://details?id=com.google.android.play.games"); });
     }
 
     public void CancelStartLoginForLoad()
     {
-        PlatformInterface.instance.confirmPopup.Open(
-            PlatformInterface.instance.textHelper.GetText("platform_load_cancelled_popup"));
-        PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudLoadFailure, 0, 0);
+        PlatformInterface.Instance.confirmPopup.Open(
+            PlatformInterface.Instance.textHelper.GetText("platform_load_cancelled_popup"));
+        PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudLoadFailure, 0, 0);
     }
 
     public void NoDataToLoad()
     {
-        PlatformInterface.instance.confirmPopup.Open(
-            PlatformInterface.instance.textHelper.GetText("platform_cloud_load_fail"));
-        PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudLoadFailure, 0, 1);
+        PlatformInterface.Instance.confirmPopup.Open(
+            PlatformInterface.Instance.textHelper.GetText("platform_cloud_load_fail"));
+        PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudLoadFailure, 0, 1);
     }
 
     public void ShowLoadErrorPopup(string text)
     {
         LogCloudLoadSaveError(text);
 
-        PlatformInterface.instance.progressMessage.Close();
-        PlatformInterface.instance.confirmPopup.Open(text);
+        PlatformInterface.Instance.progressMessage.Close();
+        PlatformInterface.Instance.confirmPopup.Open(text);
     }
 
     public void ShowPeekProgressPopup()
     {
-        PlatformInterface.instance.progressMessage.Open(
-            PlatformInterface.instance.textHelper.GetText("platform_check_last_saved"));
+        PlatformInterface.Instance.progressMessage.Open(
+            PlatformInterface.Instance.textHelper.GetText("platform_check_last_saved"));
     }
 
     public void StartLoginAndDoSomething(Action something)
     {
         // 유저가 직접 로그인 시도한 것이기 때문에 과거의 로그인 실패 여부는 따지지 않는다.
-        PlatformInterface.instance.progressMessage.Open(
-            PlatformInterface.instance.textHelper.GetText("platform_logging_in"));
+        PlatformInterface.Instance.progressMessage.Open(
+            PlatformInterface.Instance.textHelper.GetText("platform_logging_in"));
         platform.StartAuthAsync((b, reason) =>
         {
-            PlatformInterface.instance.progressMessage.Close();
+            PlatformInterface.Instance.progressMessage.Close();
             if (b)
             {
                 something();
@@ -121,7 +121,7 @@ public class PlatformSaveUtil : MonoBehaviour
             {
                 Debug.LogErrorFormat("Login failed - reason: {0}", reason);
 
-                PlatformInterface.instance.confirmPopup.Open(
+                PlatformInterface.Instance.confirmPopup.Open(
                     platform.GetText("platform_login_failed_popup") + "\n\n" + reason);
             }
         });
@@ -135,11 +135,11 @@ public class PlatformSaveUtil : MonoBehaviour
     public void StartLoginAndSave()
     {
         // 유저가 직접 로그인 시도한 것이기 때문에 과거의 로그인 실패 여부는 따지지 않는다.
-        PlatformInterface.instance.progressMessage.Open(
-            PlatformInterface.instance.textHelper.GetText("platform_logging_in"));
+        PlatformInterface.Instance.progressMessage.Open(
+            PlatformInterface.Instance.textHelper.GetText("platform_logging_in"));
         platform.StartAuthAsync((b, reason) =>
         {
-            PlatformInterface.instance.progressMessage.Close();
+            PlatformInterface.Instance.progressMessage.Close();
             if (b)
             {
                 platform.CloudSave();
@@ -148,7 +148,7 @@ public class PlatformSaveUtil : MonoBehaviour
             {
                 Debug.LogErrorFormat("Login failed - reason: {0}", reason);
 
-                PlatformInterface.instance.confirmPopup.Open(
+                PlatformInterface.Instance.confirmPopup.Open(
                     platform.GetText("platform_login_failed_popup") + "\n\n" + reason);
             }
         });
@@ -156,10 +156,10 @@ public class PlatformSaveUtil : MonoBehaviour
 
     public void ShowSaveResultPopup()
     {
-        PlatformInterface.instance.progressMessage.Close();
-        PlatformInterface.instance.confirmPopup.Open(
-            PlatformInterface.instance.textHelper.GetText("platform_saved_popup"));
-        PlatformInterface.instance.logManager.Add(PlatformInterface.instance.logEntryType.GameCloudSaveEnd, 0, 0);
+        PlatformInterface.Instance.progressMessage.Close();
+        PlatformInterface.Instance.confirmPopup.Open(
+            PlatformInterface.Instance.textHelper.GetText("platform_saved_popup"));
+        PlatformInterface.Instance.logManager.Add(PlatformInterface.Instance.logEntryType.GameCloudSaveEnd, 0, 0);
     }
 
     public IEnumerator ReportCorruptSaveFileSendCoroutine(string guid, string reportJsonStr)
@@ -169,6 +169,6 @@ public class PlatformSaveUtil : MonoBehaviour
             yield return request.SendWebRequest();
         }
 
-        PlatformInterface.instance.logger.LogFormat("ReportCorruptSaveFile report finished. GUID {0}", guid);
+        PlatformInterface.Instance.logger.LogFormat("ReportCorruptSaveFile report finished. GUID {0}", guid);
     }
 }

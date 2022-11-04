@@ -6,7 +6,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, IPlatformBackgroundTimeCompensator
 {
-    internal static BackgroundTimeCompensator instance;
+    internal static BackgroundTimeCompensator Instance;
 
     readonly HashSet<MonoBehaviour> backgrounderSet = new HashSet<MonoBehaviour>();
     DateTime backgroundBeginNetworkTime = DateTime.MinValue;
@@ -75,7 +75,7 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
 
         onApplicationPauseCalled = false;
 
-        Sound.instance.StopTimeAndMuteAudioMixer();
+        Sound.Instance.StopTimeAndMuteAudioMixer();
 
         // 포커스 잃기 시작한 시간 기록
         // 네트워크 시각을 조회할 수 있을 때만 유효한 기록이다.
@@ -96,7 +96,7 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
     {
         ConDebug.Log($"Last backgrounder removed. Finishing background mode: {backgrounder.name}");
 
-        Sound.instance.ResumeToNormalTimeAndResumeAudioMixer();
+        Sound.Instance.ResumeToNormalTimeAndResumeAudioMixer();
 
         // 잠깐 백그라운드에 갔다가 돌아오는 경우 지나간 시간만큼 보상을 해 준다. (게임을 켜 놓은 것 처럼)
         if (focusLost)
@@ -187,7 +187,7 @@ public class BackgroundTimeCompensator : MonoBehaviour, INetworkTimeSubscriber, 
         ConDebug.Log($"ExecuteBackgroundTimeCompensation() {(float) usec / 1e6:f1} sec ({usec} usec) elapsed.");
         if (usec > 0)
         {
-            if (BlackContext.instance != null)
+            if (BlackContext.Instance != null)
             {
                 // TODO Background Compensation
             }

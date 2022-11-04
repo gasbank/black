@@ -15,7 +15,7 @@ using Dict = System.Collections.Generic.Dictionary<string, object>;
 [DisallowMultipleComponent]
 public class ConfigPopup : MonoBehaviour
 {
-    public static ConfigPopup instance;
+    public static ConfigPopup Instance;
 
     public static readonly string BaseUrl =
         "https://firestore.googleapis.com/v1/projects/api-project-52999068/databases/(default)/documents";
@@ -102,8 +102,8 @@ public class ConfigPopup : MonoBehaviour
     [FormerlySerializedAs("VibrationGroup")]
     GameObject vibrationGroup; //진동 옵션 그룹
 
-    static TopNotchOffsetGroup[] TopNotchOffsetGroupList => SingletonManager.instance.TopNotchOffsetGroupList;
-    static BottomNotchOffsetGroup[] BottomNotchOffsetGroupList => SingletonManager.instance.BottomNotchOffsetGroupList;
+    static TopNotchOffsetGroup[] TopNotchOffsetGroupList => SingletonManager.Instance.TopNotchOffsetGroupList;
+    static BottomNotchOffsetGroup[] BottomNotchOffsetGroupList => SingletonManager.Instance.BottomNotchOffsetGroupList;
 
     public bool IsNotchOn
     {
@@ -137,13 +137,13 @@ public class ConfigPopup : MonoBehaviour
 
 
     public static string ServiceId =>
-        $"{BlackContext.instance.UserPseudoId / 1000000:D3}-{BlackContext.instance.UserPseudoId / 1000 % 1000:D3}-{BlackContext.instance.UserPseudoId % 1000:D3}";
+        $"{BlackContext.Instance.UserPseudoId / 1000000:D3}-{BlackContext.Instance.UserPseudoId / 1000 % 1000:D3}-{BlackContext.Instance.UserPseudoId % 1000:D3}";
 
     public static string NoticeDbUrl => BaseUrl + "/notice" + noticeDbPostfix;
-    static GameObject ConfigButtonNewImage => SingletonManager.instance.ConfigButtonNewImage;
+    static GameObject ConfigButtonNewImage => SingletonManager.Instance.ConfigButtonNewImage;
 
     static bool EtcGroupVisible =>
-        Application.systemLanguage == SystemLanguage.Korean || BlackContext.instance.CheatMode;
+        Application.systemLanguage == SystemLanguage.Korean || BlackContext.Instance.CheatMode;
 
     bool IsOpen => subcanvas.IsOpen;
 
@@ -158,7 +158,7 @@ public class ConfigPopup : MonoBehaviour
     {
         topAnimator = GetComponentInParent<Animator>();
 
-        if (BlackContext.instance.LoadedAtLeastOnce == false)
+        if (BlackContext.Instance.LoadedAtLeastOnce == false)
             // 고성능 모드 기본값은 OFF다. 저장 데이터 복원 이전에 호출되어 있어야 저장 데이터가 우선순위를 가진다.
             SetPerformanceMode(false);
         else
@@ -230,15 +230,15 @@ public class ConfigPopup : MonoBehaviour
 
             return
                 $"v{Application.version}#{appMetaInfo.buildNumber} {appMetaInfo.buildStartDateTime} [{platformVersionCode}]" +
-                (BlackContext.instance.CheatMode ? "/ADM" : "");
+                (BlackContext.Instance.CheatMode ? "/ADM" : "");
         }
 
-        return $"v{Application.version} [{platformVersionCode}]" + (BlackContext.instance.CheatMode ? "/ADM" : "");
+        return $"v{Application.version} [{platformVersionCode}]" + (BlackContext.Instance.CheatMode ? "/ADM" : "");
     }
 
     public static string GetUserId()
     {
-        return $"ID: {ServiceId}-{BlackContext.instance.LastConsumedServiceIndex.ToInt():D3}";
+        return $"ID: {ServiceId}-{BlackContext.Instance.LastConsumedServiceIndex.ToInt():D3}";
     }
 
     void UpdateServiceText()
@@ -250,14 +250,14 @@ public class ConfigPopup : MonoBehaviour
 
     public void UpdateSoundToggleStates()
     {
-        bgmToggle.isOn = Sound.instance.BgmAudioSourceActive;
-        sfxToggle.isOn = Sound.instance.SfxAudioSourceActive;
+        bgmToggle.isOn = Sound.Instance.BgmAudioSourceActive;
+        sfxToggle.isOn = Sound.Instance.SfxAudioSourceActive;
     }
 
     void UpdateSoundSliderStates()
     {
-        if (bgmSlider) bgmSlider.value = Sound.instance.BgmAudioSourceVolume;
-        if (sfxSlider) sfxSlider.value = Sound.instance.SfxAudioSourceVolume;
+        if (bgmSlider) bgmSlider.value = Sound.Instance.BgmAudioSourceVolume;
+        if (sfxSlider) sfxSlider.value = Sound.Instance.SfxAudioSourceVolume;
     }
 
     public void StartCloudSave()
@@ -272,15 +272,15 @@ public class ConfigPopup : MonoBehaviour
 
     static IEnumerator CheckAndReceiveServiceCoro()
     {
-        ProgressMessage.instance.Open("\\서비스 항목 확인중...".Localized());
+        ProgressMessage.Instance.Open("\\서비스 항목 확인중...".Localized());
         var url = $"{ServiceDbUrl}/{ServiceId}";
         ConDebug.Log($"Querying {url}...");
         using var request = UnityWebRequest.Get(url);
         request.timeout = 5;
         yield return request.SendWebRequest();
-        ProgressMessage.instance.Close();
+        ProgressMessage.Instance.Close();
         if (request.result == UnityWebRequest.Result.ConnectionError)
-            ShortMessage.instance.Show("\\서비스 정보 수신에 실패했습니다.".Localized(), true);
+            ShortMessage.Instance.Show("\\서비스 정보 수신에 실패했습니다.".Localized(), true);
         else
             try
             {
@@ -302,7 +302,7 @@ public class ConfigPopup : MonoBehaviour
                     var serviceIndexParsed = int.TryParse(service.Key, out var serviceIndex);
                     // 이미 받았거나 이상한 항목은 스킵
                     if (serviceIndexParsed == false
-                        || serviceIndex <= BlackContext.instance.LastConsumedServiceIndex)
+                        || serviceIndex <= BlackContext.Instance.LastConsumedServiceIndex)
                         continue;
 
                     var fields = (Dict) ((Dict) ((Dict) service.Value)["mapValue"])["fields"];
@@ -319,17 +319,17 @@ public class ConfigPopup : MonoBehaviour
                     serviceIndexList.Add(serviceIndex);
                 }
 
-                if (serviceIndexList.Count > 0) BlackContext.instance.LastConsumedServiceIndex = serviceIndexList.Max();
+                if (serviceIndexList.Count > 0) BlackContext.Instance.LastConsumedServiceIndex = serviceIndexList.Max();
 
                 if (received.Count > 0)
-                    ConfirmPopup.instance.Open(string.Format("\\다음 항목을 받았습니다.".Localized() + "\n\n{0}",
+                    ConfirmPopup.Instance.Open(string.Format("\\다음 항목을 받았습니다.".Localized() + "\n\n{0}",
                         string.Join("\n", received.ToArray())));
                 else
-                    ShortMessage.instance.Show("\\모든 서비스 항목이 처리됐습니다.".Localized());
+                    ShortMessage.Instance.Show("\\모든 서비스 항목이 처리됐습니다.".Localized());
             }
             catch (Exception e)
             {
-                ConfirmPopup.instance.Open("\\받은 서비스 항목이 없습니다.".Localized());
+                ConfirmPopup.Instance.Open("\\받은 서비스 항목이 없습니다.".Localized());
                 Debug.LogWarning(e.ToString());
             }
     }
@@ -359,7 +359,7 @@ public class ConfigPopup : MonoBehaviour
     // should only called by Toggle component event callback
     public void EnableGatherStoredMaxSfx(bool b)
     {
-        if (Sound.instance != null) Sound.instance.GatherStoredMaxSfxEnabled = b;
+        if (Sound.Instance != null) Sound.Instance.GatherStoredMaxSfxEnabled = b;
     }
 
     // should only called by Toggle component event callback
@@ -430,21 +430,21 @@ public class ConfigPopup : MonoBehaviour
     public void OnLanguageValueChanged(int languageIndex)
     {
         ConDebug.Log($"Language selected: {languageIndex}");
-        BlackContext.instance.RefreshGoldText();
-        BlackContext.instance.RefreshGemText();
+        BlackContext.Instance.RefreshGoldText();
+        BlackContext.Instance.RefreshGemText();
         languageDropdown.RefreshShownValue();
         ChangeLanguage(gameObject.scene, languageDropdownValueArray[languageIndex]);
     }
 
     public static void ChangeLanguage(Scene scene, BlackLanguageCode languageCode)
     {
-        ConDebug.Log($"ChangeLanguage: from {Data.instance.CurrentLanguageCode} to {languageCode}...");
-        if (Data.instance.CurrentLanguageCode != languageCode)
+        ConDebug.Log($"ChangeLanguage: from {Data.Instance.CurrentLanguageCode} to {languageCode}...");
+        if (Data.Instance.CurrentLanguageCode != languageCode)
         {
-            Data.instance.CurrentLanguageCode = languageCode;
+            Data.Instance.CurrentLanguageCode = languageCode;
             UpdateAllTexts(scene);
             UpdateLanguageDropdownText();
-            ConDebug.Log($"ChangeLanguage: changed to {Data.instance.CurrentLanguageCode}");
+            ConDebug.Log($"ChangeLanguage: changed to {Data.Instance.CurrentLanguageCode}");
         }
         else
         {
@@ -454,9 +454,9 @@ public class ConfigPopup : MonoBehaviour
 
     static void UpdateLanguageDropdownText()
     {
-        if (instance.languageDropdown == null) return;
+        if (Instance.languageDropdown == null) return;
 
-        if (instance != null)
+        if (Instance != null)
         {
             var languageOptions = new List<string>
             {
@@ -467,9 +467,9 @@ public class ConfigPopup : MonoBehaviour
                 "\\영어".Localized()
             };
             for (var i = 0; i < languageOptions.Count; i++)
-                instance.languageDropdown.options[i].text = languageOptions[i];
+                Instance.languageDropdown.options[i].text = languageOptions[i];
 
-            instance.languageDropdown.RefreshShownValue();
+            Instance.languageDropdown.RefreshShownValue();
         }
     }
 
@@ -478,7 +478,7 @@ public class ConfigPopup : MonoBehaviour
         // Debug.LogError("not expected to be called");
         foreach (var root in scene.GetRootGameObjects())
         {
-            var languageFont = FontManager.instance.GetLanguageFont(Data.instance.CurrentLanguageCode);
+            var languageFont = FontManager.Instance.GetLanguageFont(Data.Instance.CurrentLanguageCode);
             foreach (var textCollector in root.GetComponentsInChildren<TextCollector>(true))
             {
                 foreach (var text in textCollector.AllTextsInPrefab) text.font = languageFont;
@@ -496,10 +496,10 @@ public class ConfigPopup : MonoBehaviour
                 fitter.enabled = true;
             }
 
-            if (BlackContext.instance != null)
+            if (BlackContext.Instance != null)
             {
-                BlackContext.instance.RefreshGoldText();
-                BlackContext.instance.RefreshGemText();
+                BlackContext.Instance.RefreshGoldText();
+                BlackContext.Instance.RefreshGemText();
             }
         }
     }
@@ -517,22 +517,22 @@ public class ConfigPopup : MonoBehaviour
 
     public void RequestUserReview()
     {
-        Platform.instance.RequestUserReview();
+        Platform.Instance.RequestUserReview();
     }
 
     public void OpenNotice()
     {
-        if (NoticeManager.instance != null) NoticeManager.instance.Open();
+        if (NoticeManager.Instance != null) NoticeManager.Instance.Open();
     }
 
     public void ReportSaveData()
     {
-        if (Admin.instance != null) Admin.instance.ReportSaveDataAsync();
+        if (Admin.Instance != null) Admin.Instance.ReportSaveDataAsync();
     }
 
     public void ReportPlayLog()
     {
-        if (Admin.instance != null) Admin.instance.ReportPlayLogAsync();
+        if (Admin.Instance != null) Admin.Instance.ReportPlayLogAsync();
     }
 
     public void OpenPrivacyPolicy()
@@ -552,68 +552,68 @@ public class ConfigPopup : MonoBehaviour
 
     public void PlayButtonClickOnlyIfTrue(bool b)
     {
-        if (b && Sound.instance != null) Sound.instance.PlayButtonClick();
+        if (b && Sound.Instance != null) Sound.Instance.PlayButtonClick();
     }
 
     public void BgmAudioSourceActive(bool b)
     {
-        if (Sound.instance != null) Sound.instance.BgmAudioSourceActive = b;
+        if (Sound.Instance != null) Sound.Instance.BgmAudioSourceActive = b;
     }
 
     public void SfxAudioSourceActive(bool b)
     {
-        if (Sound.instance != null) Sound.instance.SfxAudioSourceActive = b;
+        if (Sound.Instance != null) Sound.Instance.SfxAudioSourceActive = b;
     }
 
     [UsedImplicitly]
     public void BgmAudioSourceVolume(float v)
     {
-        if (Sound.instance != null) Sound.instance.BgmAudioSourceVolume = v;
+        if (Sound.Instance != null) Sound.Instance.BgmAudioSourceVolume = v;
     }
 
     [UsedImplicitly]
     public void SfxAudioSourceVolume(float v)
     {
-        if (Sound.instance != null) Sound.instance.SfxAudioSourceVolume = v;
+        if (Sound.Instance != null) Sound.Instance.SfxAudioSourceVolume = v;
     }
 
     public void Logout()
     {
-        Platform.instance.Logout();
+        Platform.Instance.Logout();
     }
 
     public void GoToLobby()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
 
         if (SceneManager.GetActiveScene().name == "Lobby")
         {
-            ConfirmPopup.instance.Open("여기가 미술관 화면입니다.");
+            ConfirmPopup.Instance.Open("여기가 미술관 화면입니다.");
         }
         else
         {
-            ConfirmPopup.instance.OpenYesNoPopup("미술관 화면으로 돌아가시겠습니까?\n스테이지 진행 상태는 저장됩니다.",
-                () => { MainGame.instance.GoToLobby(); }, ConfirmPopup.instance.Close);
+            ConfirmPopup.Instance.OpenYesNoPopup("미술관 화면으로 돌아가시겠습니까?\n스테이지 진행 상태는 저장됩니다.",
+                () => { MainGame.Instance.GoToLobby(); }, ConfirmPopup.Instance.Close);
         }
     }
 
     public void ResetStage()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
         
         if (SceneManager.GetActiveScene().name == "Lobby")
         {
-            ConfirmPopup.instance.Open("스테이지 진행 중이 아닙니다.");
+            ConfirmPopup.Instance.Open("스테이지 진행 중이 아닙니다.");
         }
         else
         {
-            ConfirmPopup.instance.OpenYesNoPopup("현재 스테이지를 다시 시작하겠습니까?\n제한 시간도 초기화됩니다.",
-                () => { MainGame.instance.ResetStage(); }, ConfirmPopup.instance.Close);
+            ConfirmPopup.Instance.OpenYesNoPopup("현재 스테이지를 다시 시작하겠습니까?\n제한 시간도 초기화됩니다.",
+                () => { MainGame.Instance.ResetStage(); }, ConfirmPopup.Instance.Close);
         }
     }
 
     public void OpenCreditPopup()
     {
-        CreditPopup.instance.Open();
+        CreditPopup.Instance.Open();
     }
 }

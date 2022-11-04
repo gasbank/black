@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 public class FontManager : MonoBehaviour
 {
-    public static FontManager instance;
+    public static FontManager Instance;
 
     static readonly BlackCustomFormatter blackCustomFormatter = new BlackCustomFormatter();
 
@@ -58,17 +58,17 @@ public class FontManager : MonoBehaviour
 
     public string ToLocalizedCurrent(string strRef)
     {
-        return ToLocalized(strRef, Data.instance.CurrentLanguageCode, null);
+        return ToLocalized(strRef, Data.Instance.CurrentLanguageCode, null);
     }
 
     public string ToLocalizedCurrent(Object context, string strRef)
     {
-        return ToLocalized(strRef, Data.instance.CurrentLanguageCode, context);
+        return ToLocalized(strRef, Data.Instance.CurrentLanguageCode, context);
     }
 
     public string ToLocalizedCurrent(string strRef, params object[] args)
     {
-        return ToLocalized(strRef, Data.instance.CurrentLanguageCode, null, args);
+        return ToLocalized(strRef, Data.Instance.CurrentLanguageCode, null, args);
     }
 
     string ToLocalized(string strRef, BlackLanguageCode languageCode, Object context, params object[] args)

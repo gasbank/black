@@ -32,17 +32,17 @@ public class DialogGroup : MonoBehaviour
 
     async void Start()
     {
-        if (BlackContext.instance.LastClearedStageId == 0 && BlackContext.instance.LastClearedStageIdEvent < 0)
+        if (BlackContext.Instance.LastClearedStageId == 0 && BlackContext.Instance.LastClearedStageIdEvent < 0)
         {
             await StartWelcomeDialogInternalAsync();
         }
 
-        if (BlackContext.instance.LastClearedStageId == 3 && BlackContext.instance.LastClearedStageIdEvent < 3)
+        if (BlackContext.Instance.LastClearedStageId == 3 && BlackContext.Instance.LastClearedStageIdEvent < 3)
         {
             await StartFairyDialogInternalAsync();
         }
 
-        BlackContext.instance.LastClearedStageIdEvent = BlackContext.instance.LastClearedStageId;
+        BlackContext.Instance.LastClearedStageIdEvent = BlackContext.Instance.LastClearedStageId;
     }
 
     public async void StartFairyDialogAsync() => await StartFairyDialogInternalAsync();
@@ -62,15 +62,15 @@ public class DialogGroup : MonoBehaviour
         {
             var tsc = new TaskCompletionSource<bool>();
             var notLast = i < talkList.Length - 1;
-            ConfirmPopup.instance.OpenYesImagePopup($"당신의 스토리 ({talkList.Length} 중 {i + 1})", null, talk,
+            ConfirmPopup.Instance.OpenYesImagePopup($"당신의 스토리 ({talkList.Length} 중 {i + 1})", null, talk,
                 notLast ? "다음" : "시작하기",
                 () =>
                 {
-                    Sound.instance.PlayButtonClick();
+                    Sound.Instance.PlayButtonClick();
 
                     if (notLast == false)
                     {
-                        Sound.instance.PlayInception();
+                        Sound.Instance.PlayInception();
                     }
 
                     tsc.SetResult(true);
@@ -79,7 +79,7 @@ public class DialogGroup : MonoBehaviour
             i++;
         }
 
-        ConfirmPopup.instance.Close();
+        ConfirmPopup.Instance.Close();
     }
 
     async Task StartFairyDialogInternalAsync()
@@ -88,7 +88,7 @@ public class DialogGroup : MonoBehaviour
         talkTypewriter.ClearText();
 
         dialogContentAnimator.SetTrigger(Appear);
-        Sound.instance.PlayPopup();
+        Sound.Instance.PlayPopup();
 
         await Task.Delay(1000);
 
@@ -110,14 +110,14 @@ public class DialogGroup : MonoBehaviour
         }
 
         dialogContentAnimator.SetTrigger(Disappear);
-        Sound.instance.PlayPopup();
+        Sound.Instance.PlayPopup();
 
         await Task.Delay(1000);
 
-        Sound.instance.PlayJingleAchievement();
+        Sound.Instance.PlayJingleAchievement();
 
-        ConfirmPopup.instance.OpenYesImagePopup("새 기능", checkHintFeatureGuideSprite,
-            "축하합니다!\n이제부터 색칠할 곳이 격자 무늬로 강조됩니다.", "좋았어!", ConfirmPopup.instance.Close);
+        ConfirmPopup.Instance.OpenYesImagePopup("새 기능", checkHintFeatureGuideSprite,
+            "축하합니다!\n이제부터 색칠할 곳이 격자 무늬로 강조됩니다.", "좋았어!", ConfirmPopup.Instance.Close);
 
         subcanvas.Close();
     }

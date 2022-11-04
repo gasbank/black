@@ -55,25 +55,25 @@ public static class LocalizedTextUtil
 
     public static string Localized(this string str)
     {
-        return FontManager.instance != null ? FontManager.instance.ToLocalizedCurrent(str) : str;
+        return FontManager.Instance != null ? FontManager.Instance.ToLocalizedCurrent(str) : str;
     }
 
     public static string Localized(this string str, params object[] args)
     {
-        return FontManager.instance != null
-            ? FontManager.instance.ToLocalizedCurrent(str, args)
+        return FontManager.Instance != null
+            ? FontManager.Instance.ToLocalizedCurrent(str, args)
             : string.Format(str, args);
     }
 
     public static string Localized(this ScString str)
     {
-        return FontManager.instance != null ? FontManager.instance.ToLocalizedCurrent(str) : str.ToString();
+        return FontManager.Instance != null ? FontManager.Instance.ToLocalizedCurrent(str) : str.ToString();
     }
 
     public static string Localized(this ScString str, params object[] args)
     {
-        return FontManager.instance != null
-            ? FontManager.instance.ToLocalizedCurrent(str, args)
+        return FontManager.Instance != null
+            ? FontManager.Instance.ToLocalizedCurrent(str, args)
             : string.Format(str.ToString(), args);
     }
 

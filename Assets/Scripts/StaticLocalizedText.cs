@@ -24,7 +24,7 @@ public class StaticLocalizedText : MonoBehaviour
 
     public void UpdateText()
     {
-        text.text = Data.dataSet != null ? FontManager.instance.ToLocalizedCurrent(this, "\\" + strRef) : strRef;
+        text.text = Data.dataSet != null ? FontManager.Instance.ToLocalizedCurrent(this, "\\" + strRef) : strRef;
     }
 
 #if UNITY_EDITOR

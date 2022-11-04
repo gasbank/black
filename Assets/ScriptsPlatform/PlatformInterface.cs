@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlatformInterface : MonoBehaviour
 {
-    public static PlatformInterface instance;
+    public static PlatformInterface Instance;
     public IPlatformAds ads;
     public IPlatformConfig config;
     public IPlatformConfirmPopup confirmPopup;

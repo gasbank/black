@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class AchievePopup : MonoBehaviour
 {
-    public static AchievePopup instance;
+    public static AchievePopup Instance;
 
     // 표시 순서 때문에 순서를 정할 목적으로 만든 배열
     static readonly string [] priority =
@@ -43,8 +43,8 @@ public class AchievePopup : MonoBehaviour
 
     void UpdateAchievementUI(List<Tuple<AchievementData, bool>> achievements)
     {
-        if (BlackContext.instance.AchievementNewImage)
-            BlackContext.instance.AchievementNewImage.GetComponent<Image>().enabled = achievements.Any(e => e.Item2);
+        if (BlackContext.Instance.AchievementNewImage)
+            BlackContext.Instance.AchievementNewImage.GetComponent<Image>().enabled = achievements.Any(e => e.Item2);
 
         if (subcanvas.IsOpen == false) return;
 
@@ -84,11 +84,11 @@ public class AchievePopup : MonoBehaviour
 
     public void UpdateAchievementProgress(string updateGroupKey = "")
     {
-        var gathered = BlackContext.instance.AchievementGathered;
-        var redeemed = BlackContext.instance.AchievementRedeemed;
+        var gathered = BlackContext.Instance.AchievementGathered;
+        var redeemed = BlackContext.Instance.AchievementRedeemed;
         if (gathered == null || redeemed == null) return;
 
-        if (BlackContext.instance == null) return;
+        if (BlackContext.Instance == null) return;
         if (Data.dataSet == null) return;
 
         var achievementsDict = new Dictionary<string, List<AchievementData>>

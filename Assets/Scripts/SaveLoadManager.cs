@@ -25,7 +25,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     const int LatestVersion = 4;
     static readonly string localSaveFileName = "save.dat";
 
-    public static SaveLoadManager instance;
+    public static SaveLoadManager Instance;
 
     // 총 maxSaveDataSlot개의 저장 슬롯이 있고, 이를 돌려가며 쓴다.
     public static readonly int maxSaveDataSlot = 9;
@@ -45,27 +45,27 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
     string IPlatformSaveLoadManager.GetLoadOverwriteConfirmMessage(byte[] bytes)
     {
-        return BlackPlatform.GetLoadOverwriteConfirmMessage(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
+        return BlackPlatform.GetLoadOverwriteConfirmMessage(BlackPlatform.Instance.GetCloudMetadataFromBytes(bytes));
     }
 
     string IPlatformSaveLoadManager.GetSaveOverwriteConfirmMessage(byte[] bytes)
     {
-        return BlackPlatform.GetSaveOverwriteConfirmMessage(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
+        return BlackPlatform.GetSaveOverwriteConfirmMessage(BlackPlatform.Instance.GetCloudMetadataFromBytes(bytes));
     }
 
     bool IPlatformSaveLoadManager.IsLoadRollback(byte[] bytes)
     {
-        return BlackPlatform.IsLoadRollback(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
+        return BlackPlatform.IsLoadRollback(BlackPlatform.Instance.GetCloudMetadataFromBytes(bytes));
     }
 
     bool IPlatformSaveLoadManager.IsSaveRollback(byte[] bytes)
     {
-        return BlackPlatform.IsSaveRollback(BlackPlatform.instance.GetCloudMetadataFromBytes(bytes));
+        return BlackPlatform.IsSaveRollback(BlackPlatform.Instance.GetCloudMetadataFromBytes(bytes));
     }
 
     void IPlatformSaveLoadManager.SaveBeforeCloudSave()
     {
-        BlackPlatform.instance.SaveBeforeCloudSave();
+        BlackPlatform.Instance.SaveBeforeCloudSave();
     }
 
     static int PositiveMod(int x, int m)
@@ -165,22 +165,22 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         var blackSaveData = new BlackSaveData
         {
             version = LatestVersion,
-            lastClearedStageId = BlackContext.instance.LastClearedStageId,
-            lastClearedStageIdEvent = BlackContext.instance.LastClearedStageIdEvent,
-            goldScUInt128 = BlackContext.instance.Gold,
-            clearedDebrisIndexList = BlackContext.instance.GetDebrisState(),
-            pendingGoldScUInt128 = BlackContext.instance.PendingGold,
+            lastClearedStageId = BlackContext.Instance.LastClearedStageId,
+            lastClearedStageIdEvent = BlackContext.Instance.LastClearedStageIdEvent,
+            goldScUInt128 = BlackContext.Instance.Gold,
+            clearedDebrisIndexList = BlackContext.Instance.GetDebrisState(),
+            pendingGoldScUInt128 = BlackContext.Instance.PendingGold,
             bgmAudioVolume = 1.0f,
             sfxAudioVolume = 1.0f,
-            muteBgmAudioSource = Sound.instance.BgmAudioSourceActive == false,
-            muteSfxAudioSource = Sound.instance.SfxAudioSourceActive == false,
-            maxBlackLevelGathered = BlackContext.instance.AchievementGathered.MaxBlackLevel,
-            maxBlackLevelRedeemed = BlackContext.instance.AchievementRedeemed.MaxBlackLevel,
-            maxColoringComboGathered = BlackContext.instance.AchievementGathered.MaxColoringCombo,
-            maxColoringComboRedeemed = BlackContext.instance.AchievementRedeemed.MaxColoringCombo,
-            //stageLockRemainTime = StageDetail.instance.StageLockDetailTime,
+            muteBgmAudioSource = Sound.Instance.BgmAudioSourceActive == false,
+            muteSfxAudioSource = Sound.Instance.SfxAudioSourceActive == false,
+            maxBlackLevelGathered = BlackContext.Instance.AchievementGathered.MaxBlackLevel,
+            maxBlackLevelRedeemed = BlackContext.Instance.AchievementRedeemed.MaxBlackLevel,
+            maxColoringComboGathered = BlackContext.Instance.AchievementGathered.MaxColoringCombo,
+            maxColoringComboRedeemed = BlackContext.Instance.AchievementRedeemed.MaxColoringCombo,
+            //stageLockRemainTime = StageDetail.Instance.StageLockDetailTime,
             wipStageSaveData = wipStageSaveData,
-            performanceMode = ConfigPopup.instance.IsPerformanceModeOn,
+            performanceMode = ConfigPopup.Instance.IsPerformanceModeOn,
         };
 
         return SaveBlackSaveData(blackSaveData);
@@ -241,7 +241,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             {
                 Debug.LogException(e);
                 Debug.LogError("Writing to disk failed!!!");
-                ConfirmPopup.instance.Open("Writing to disk failed!!!");
+                ConfirmPopup.Instance.Open("Writing to disk failed!!!");
                 BlackLogManager.Add(BlackLogEntry.Type.GameSaveFailure, 0, 0);
                 return false;
             }
@@ -466,44 +466,44 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.AchievementGathered.MaxColoringCombo = blackSaveData.maxColoringComboGathered;
         context.AchievementRedeemed.MaxColoringCombo = blackSaveData.maxColoringComboRedeemed;
 
-        AchievePopup.instance.UpdateAchievementProgress();
+        AchievePopup.Instance.UpdateAchievementProgress();
 
         // === Config ===
-        Sound.instance.BgmAudioSourceActive = blackSaveData.muteBgmAudioSource == false;
-        Sound.instance.SfxAudioSourceActive = blackSaveData.muteSfxAudioSource == false;
-        Sound.instance.BgmAudioSourceVolume = blackSaveData.bgmAudioVolume;
-        Sound.instance.SfxAudioSourceVolume = blackSaveData.sfxAudioVolume;
+        Sound.Instance.BgmAudioSourceActive = blackSaveData.muteBgmAudioSource == false;
+        Sound.Instance.SfxAudioSourceActive = blackSaveData.muteSfxAudioSource == false;
+        Sound.Instance.BgmAudioSourceVolume = blackSaveData.bgmAudioVolume;
+        Sound.Instance.SfxAudioSourceVolume = blackSaveData.sfxAudioVolume;
 
-        Sound.instance.BgmAudioVolume = blackSaveData.bgmAudioVolume;
-        Sound.instance.SfxAudioVolume = blackSaveData.sfxAudioVolume;
+        Sound.Instance.BgmAudioVolume = blackSaveData.bgmAudioVolume;
+        Sound.Instance.SfxAudioVolume = blackSaveData.sfxAudioVolume;
 
-        ConfigPopup.instance.IsNotchOn = blackSaveData.notchSupport;
-        ConfigPopup.instance.IsBottomNotchOn = blackSaveData.bottomNotchSupport;
-        ConfigPopup.instance.IsPerformanceModeOn = blackSaveData.performanceMode;
-        ConfigPopup.instance.IsAlwaysOnOn = blackSaveData.alwaysOn;
-        ConfigPopup.instance.IsBigScreenOn = blackSaveData.bigScreen;
+        ConfigPopup.Instance.IsNotchOn = blackSaveData.notchSupport;
+        ConfigPopup.Instance.IsBottomNotchOn = blackSaveData.bottomNotchSupport;
+        ConfigPopup.Instance.IsPerformanceModeOn = blackSaveData.performanceMode;
+        ConfigPopup.Instance.IsAlwaysOnOn = blackSaveData.alwaysOn;
+        ConfigPopup.Instance.IsBigScreenOn = blackSaveData.bigScreen;
 
         // 토글 콜백은 값이 변경됐을 때만 호출되므로, 강제로 한번 호출해준다.
-        ConfigPopup.SetPerformanceMode(ConfigPopup.instance.IsPerformanceModeOn);
+        ConfigPopup.SetPerformanceMode(ConfigPopup.Instance.IsPerformanceModeOn);
 
         if (context.CheatMode) BlackLogManager.Add(BlackLogEntry.Type.GameCheatEnabled, 0, 0);
 
         switch (blackSaveData.languageCode)
         {
             case BlackLanguageCode.Tw:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Tw);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Tw);
                 break;
             case BlackLanguageCode.Ch:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Ch);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Ch);
                 break;
             case BlackLanguageCode.Ja:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Ja);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Ja);
                 break;
             case BlackLanguageCode.En:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.En);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.En);
                 break;
             default:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Ko);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Ko);
                 break;
         }
 
@@ -512,7 +512,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
         if (Application.isEditor) Admin.SetNoticeDbPostfixToDev();
 
-        NoticeManager.instance.CheckNoticeSilently();
+        NoticeManager.Instance.CheckNoticeSilently();
 
         // 인앱 상품 구매 내역 디버그 정보
         ConDebug.Log("=== Purchased Begin ===");
@@ -609,8 +609,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         var t = new StackTrace();
         Debug.LogErrorFormat(t.ToString());
         // 메인 게임 UI 요소를 모두 숨긴다. (아주 심각한 상황. 이 상태로는 무조건 게임 진행은 불가하다.)
-        if (BlackContext.instance.CriticalErrorHiddenCanvasList != null)
-            foreach (var canvas in BlackContext.instance.CriticalErrorHiddenCanvasList)
+        if (BlackContext.Instance.CriticalErrorHiddenCanvasList != null)
+            foreach (var canvas in BlackContext.Instance.CriticalErrorHiddenCanvasList)
                 canvas.enabled = false;
 
         return t.ToString();
@@ -620,7 +620,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     {
         BlackLogManager.Add(BlackLogEntry.Type.GameCriticalError, 0, 0);
         ChangeLanguageBySystemLanguage();
-        ConfirmPopup.instance.OpenTwoButtonPopup(
+        ConfirmPopup.Instance.OpenTwoButtonPopup(
             @"\$중대한 오류 안내$"
                 .Localized(), () => UploadSaveFileAsync(exceptionList, st, false),
             () => AskAgainToReportSaveData(exceptionList, st), @"\중대한 오류 발생".Localized(), "\\예".Localized(),
@@ -630,12 +630,12 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
     static void ProcessUpdateNeededError(int saveFileVersion)
     {
         ChangeLanguageBySystemLanguage();
-        ConfirmPopup.instance.Open(
+        ConfirmPopup.Instance.Open(
             @"\$강제 업데이트 안내$".Localized(saveFileVersion,
                 LatestVersion), () =>
             {
                 // 컬러뮤지엄 앱 상세 페이지로 보낸다.
-                Platform.instance.RequestUserReview();
+                Platform.Instance.RequestUserReview();
             });
     }
 
@@ -644,49 +644,49 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         switch (Application.systemLanguage)
         {
             case SystemLanguage.Korean:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Ko);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Ko);
                 break;
             case SystemLanguage.Chinese:
             case SystemLanguage.ChineseSimplified:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Ch);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Ch);
                 break;
             case SystemLanguage.ChineseTraditional:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Tw);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Tw);
                 break;
             case SystemLanguage.Japanese:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.Ja);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.Ja);
                 break;
             case SystemLanguage.English:
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.En);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.En);
                 break;
             default:
                 ConDebug.Log($"Not supported system language {Application.systemLanguage}. Fallback to English...");
-                ConfigPopup.instance.EnableLanguage(BlackLanguageCode.En);
+                ConfigPopup.Instance.EnableLanguage(BlackLanguageCode.En);
                 break;
         }
     }
 
     public static void EnterRecoveryCode(List<Exception> exceptionList, string st, bool notCriticalError)
     {
-        ConfirmPopup.instance.OpenInputFieldPopup("\\안내 받은 복구 코드를 입력해 주십시오.".Localized(), () =>
+        ConfirmPopup.Instance.OpenInputFieldPopup("\\안내 받은 복구 코드를 입력해 주십시오.".Localized(), () =>
         {
-            ConfirmPopup.instance.Close();
-            ErrorReporter.instance.ProcessRecoveryCode(exceptionList, st, ConfirmPopup.instance.InputFieldText);
+            ConfirmPopup.Instance.Close();
+            ErrorReporter.Instance.ProcessRecoveryCode(exceptionList, st, ConfirmPopup.Instance.InputFieldText);
         }, () =>
         {
             if (notCriticalError == false)
                 ProcessCriticalLoadError(exceptionList, st);
             else
-                ConfirmPopup.instance.Close();
+                ConfirmPopup.Instance.Close();
         }, "\\복구 코드".Localized(), Header.Normal, "", "");
     }
 
     static void AskAgainToReportSaveData(List<Exception> exceptionList, string st)
     {
-        ConfirmPopup.instance.OpenTwoButtonPopup(
+        ConfirmPopup.Instance.OpenTwoButtonPopup(
             @"\$업로드 불가 시 게임 진행 불가 안내$".Localized(), () =>
             {
-                ConfigPopup.instance.OpenCommunity();
+                ConfigPopup.Instance.OpenCommunity();
                 ProcessCriticalLoadError(exceptionList, st);
             }, () => EnterRecoveryCode(exceptionList, st, false), "\\중대한 오류 발생".Localized(), "\\공식 카페 이동".Localized(),
             "\\복구 코드 입력".Localized());
@@ -694,8 +694,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
     static async void UploadSaveFileAsync(List<Exception> exceptionList, string st, bool notCriticalError)
     {
-        ConfirmPopup.instance.Close();
-        await ErrorReporter.instance.UploadSaveFileIncidentAsync(exceptionList, st, notCriticalError);
+        ConfirmPopup.Instance.Close();
+        await ErrorReporter.Instance.UploadSaveFileIncidentAsync(exceptionList, st, notCriticalError);
     }
 
     static void ProcessNewUser(IBlackContext context, Exception e)
@@ -711,8 +711,8 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
 
     static void CloseConfirmPopupAndCheckNoticeSilently()
     {
-        ConfirmPopup.instance.Close();
-        NoticeManager.instance.CheckNoticeSilently();
+        ConfirmPopup.Instance.Close();
+        NoticeManager.Instance.CheckNoticeSilently();
     }
 
     static void ShowFirstInstallWelcomePopup()
@@ -754,24 +754,24 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         {
             var screenRatio = 1.0 * Screen.height / (1.0 * Screen.width);
             if (2.1 < screenRatio && screenRatio < 2.2)
-                ConfigPopup.instance.IsNotchOn = true;
+                ConfigPopup.Instance.IsNotchOn = true;
             else
-                ConfigPopup.instance.IsNotchOn = false;
+                ConfigPopup.Instance.IsNotchOn = false;
         }
         else
         {
-            ConfigPopup.instance.IsNotchOn = false;
+            ConfigPopup.Instance.IsNotchOn = false;
         }
 
-        Sound.instance.BgmAudioSourceActive = true;
-        Sound.instance.SfxAudioSourceActive = true;
+        Sound.Instance.BgmAudioSourceActive = true;
+        Sound.Instance.SfxAudioSourceActive = true;
 
         // 아마 상단 노치가 필요한 모델은 하단도 필요하겠지...?
-        ConfigPopup.instance.IsBottomNotchOn = ConfigPopup.instance.IsNotchOn;
+        ConfigPopup.Instance.IsBottomNotchOn = ConfigPopup.Instance.IsNotchOn;
 
         if (Application.isMobilePlatform == false)
         {
-            ConfigPopup.instance.IsPerformanceModeOn = true;
+            ConfigPopup.Instance.IsPerformanceModeOn = true;
         }
 
         BlackLogManager.Add(BlackLogEntry.Type.GameReset, 0, 0);

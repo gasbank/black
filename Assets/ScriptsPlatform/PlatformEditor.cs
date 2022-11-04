@@ -18,7 +18,7 @@ public class PlatformEditor : MonoBehaviour, IPlatformBase
     public bool CheckLoadSavePrecondition(string progressMessage, Action onNotLoggedIn, Action onAbort)
     {
         if (string.IsNullOrEmpty(progressMessage) == false)
-            PlatformInterface.instance.progressMessage.Open(progressMessage);
+            PlatformInterface.Instance.progressMessage.Open(progressMessage);
         return true;
     }
 
@@ -27,24 +27,24 @@ public class PlatformEditor : MonoBehaviour, IPlatformBase
         platformSaveUtil.ShowLoadProgressPopup();
 
         var remoteSaveDict =
-            PlatformInterface.instance.saveUtil.DeserializeSaveData(File.ReadAllBytes(RemoteSaveFileForEditor));
+            PlatformInterface.Instance.saveUtil.DeserializeSaveData(File.ReadAllBytes(RemoteSaveFileForEditor));
 
-        PlatformInterface.instance.saveUtil.LoadDataAndLoadSplashScene(remoteSaveDict);
+        PlatformInterface.Instance.saveUtil.LoadDataAndLoadSplashScene(remoteSaveDict);
     }
 
     public void ExecuteCloudSave()
     {
-        PlatformInterface.instance.saveLoadManager.SaveBeforeCloudSave();
+        PlatformInterface.Instance.saveLoadManager.SaveBeforeCloudSave();
         platformSaveUtil.ShowSaveProgressPopup();
 
-        var savedData = PlatformInterface.instance.saveUtil.SerializeSaveData();
+        var savedData = PlatformInterface.Instance.saveUtil.SerializeSaveData();
 
         using (var f = File.Create(RemoteSaveFileForEditor))
         {
             f.Write(savedData, 0, savedData.Length);
         }
 
-        var remoteSaveDict = PlatformInterface.instance.saveUtil.DeserializeSaveData(savedData);
+        var remoteSaveDict = PlatformInterface.Instance.saveUtil.DeserializeSaveData(savedData);
         ShowSaveResultPopup(savedData, remoteSaveDict, RemoteSaveFileForEditor);
     }
 
@@ -55,7 +55,7 @@ public class PlatformEditor : MonoBehaviour, IPlatformBase
 
     public void Logout()
     {
-        PlatformInterface.instance.logger.Log("PlatformEditor.Logout()");
+        PlatformInterface.Instance.logger.Log("PlatformEditor.Logout()");
     }
 
     public void GetCloudLastSavedMetadataAsync(Action<byte[]> onPeekResult)
@@ -76,14 +76,14 @@ public class PlatformEditor : MonoBehaviour, IPlatformBase
 
     public void RegisterAllNotifications(string title, string body, string largeIcon, int localHours)
     {
-        PlatformInterface.instance.logger.LogFormat(
+        PlatformInterface.Instance.logger.LogFormat(
             "RegisterAllNotifications: title={0}, body={1}, largeIcon={2}, localHours={3}", title, body, largeIcon,
             localHours);
     }
 
     public void ClearAllNotifications()
     {
-        PlatformInterface.instance.logger.LogFormat("ClearAllNotifications");
+        PlatformInterface.Instance.logger.LogFormat("ClearAllNotifications");
     }
 
     public void OnCloudSaveResult(string result)
@@ -98,29 +98,29 @@ public class PlatformEditor : MonoBehaviour, IPlatformBase
 
     public void RequestUserReview()
     {
-        Application.OpenURL(PlatformInterface.instance.config.GetUserReviewUrl());
+        Application.OpenURL(PlatformInterface.Instance.config.GetUserReviewUrl());
     }
 
     public void RegisterSingleNotification(string title, string body, int afterMs, string largeIcon)
     {
-        PlatformInterface.instance.logger.LogFormat("RegisterSingleNotification: title={0}, body={1}, afterMs={2}",
+        PlatformInterface.Instance.logger.LogFormat("RegisterSingleNotification: title={0}, body={1}, afterMs={2}",
             title, body, afterMs);
     }
 
     public string GetAccountTypeText()
     {
-        return PlatformInterface.instance.textHelper.GetText("platform_account_editor");
+        return PlatformInterface.Instance.textHelper.GetText("platform_account_editor");
     }
 
     public void Report(string reportPopupTitle, string mailTo, string subject, string text, byte[] saveData)
     {
         var str = $"버그 메일을 보냅니다. 수신자: {mailTo}, 제목: {subject}, 본문: {text}, 세이브데이터크기: {saveData.Length} bytes";
-        PlatformInterface.instance.confirmPopup.Open(str);
+        PlatformInterface.Instance.confirmPopup.Open(str);
     }
 
     public void ShareScreenshot(byte[] pngData)
     {
-        PlatformInterface.instance.logger.LogFormat("ShareScreenshot: pngData length {0} bytes", pngData.Length);
+        PlatformInterface.Instance.logger.LogFormat("ShareScreenshot: pngData length {0} bytes", pngData.Length);
 
         var screenshotFileName = "screenshot.png";
         if (Application.isEditor)
@@ -130,14 +130,14 @@ public class PlatformEditor : MonoBehaviour, IPlatformBase
         }
 
         File.WriteAllBytes(screenshotFileName, pngData);
-        PlatformInterface.instance.logger.Log($"ShareScreenshot: successfully written to {screenshotFileName}");
+        PlatformInterface.Instance.logger.Log($"ShareScreenshot: successfully written to {screenshotFileName}");
     }
 
     void ShowSaveResultPopup(byte[] savedData, RemoteSaveDictionary remoteSaveDict, string path)
     {
-        PlatformInterface.instance.progressMessage.Close();
-        var text = PlatformInterface.instance.saveUtil.GetEditorSaveResultText(savedData, remoteSaveDict, path);
-        PlatformInterface.instance.confirmPopup.Open(text);
+        PlatformInterface.Instance.progressMessage.Close();
+        var text = PlatformInterface.Instance.saveUtil.GetEditorSaveResultText(savedData, remoteSaveDict, path);
+        PlatformInterface.Instance.confirmPopup.Open(text);
     }
 
     // 가장 가까운 'localHours시'를 나타내는 DateTime을 반환한다.

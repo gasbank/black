@@ -15,7 +15,7 @@ public class Sound : MonoBehaviour
 
     const float MutedVolume = -80.0f;
 
-    public static Sound instance;
+    public static Sound Instance;
 
     [SerializeField]
     AudioMixer audioMixer;
@@ -141,14 +141,14 @@ public class Sound : MonoBehaviour
     //슬라이더 값 간접 참조 (SaveFile IO)
     public float BgmAudioSourceVolume
     {
-        get => instance.bgmAudioSource.volume;
-        set => instance.bgmAudioSource.volume = value;
+        get => Instance.bgmAudioSource.volume;
+        set => Instance.bgmAudioSource.volume = value;
     }
 
     public float SfxAudioSourceVolume
     {
-        get => instance.sfxAudioSource.volume;
-        set => instance.sfxAudioSource.volume = value;
+        get => Instance.sfxAudioSource.volume;
+        set => Instance.sfxAudioSource.volume = value;
     }
 
     public float BgmAudioVolume
@@ -194,123 +194,123 @@ public class Sound : MonoBehaviour
         if (Verbose) ConDebug.Log(nameof(PlayButtonClick));
 
         // 게임 처음 로딩 중에 들어오는 건 재생하지 말자
-        if (BlackContext.instance != null && BlackContext.instance.LoadedAtLeastOnce == false) return;
+        if (BlackContext.Instance != null && BlackContext.Instance.LoadedAtLeastOnce == false) return;
 
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.buttonClick);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.buttonClick);
     }
 
     public void PlayBlackNew()
     {
         if (SfxAudioSourceActive) //ConDebug.Log("SpawnNewBlack PlayBlackNew");
-            instance.sfxAudioSource.PlayOneShot(instance.blackNew);
+            Instance.sfxAudioSource.PlayOneShot(Instance.blackNew);
     }
 
     public void PlayWipeStain()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.wipeStain);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.wipeStain);
     }
 
     public void PlayWipeStainFinish()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.wipeStainFinish);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.wipeStainFinish);
     }
 
     public void PlayTadaA()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.tadaA);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.tadaA);
     }
 
     public void PlayTadaF()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.tadaF);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.tadaF);
     }
 
     public void PlayTadaG()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.tadaG);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.tadaG);
     }
 
     public void PlaySoftTada()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.softTada);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.softTada);
     }
 
     public void PlayError()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.error);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.error);
     }
 
     public void PlaySnap()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.snap);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.snap);
     }
 
     public void PlayRubberImpact()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.rubberImpact);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.rubberImpact);
     }
 
     public void PlayCorrectlyFinished()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.correctlyFinished);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.correctlyFinished);
     }
 
     public void PlayCorrectlyFinishedMild()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.correctlyFinishedMild);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.correctlyFinishedMild);
     }
 
     public void PlayWhooshAir()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.whooshAir);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.whooshAir);
     }
 
     public void PlayJingleAchievement()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.jingleAchievement);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.jingleAchievement);
     }
 
     public void PlayErrorBuzzer()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.errorBuzzer);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.errorBuzzer);
     }
 
     public void PlayGatherStoredMax()
     {
-        if (GatherStoredMaxSfxEnabled) instance.gatherStoredMaxSfxAudioSource.PlayOneShot(instance.gatherStoredMax);
+        if (GatherStoredMaxSfxEnabled) Instance.gatherStoredMaxSfxAudioSource.PlayOneShot(Instance.gatherStoredMax);
     }
 
     public void PlayLongTada()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.longTada);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.longTada);
     }
 
     public void PlayDingaling()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.dingaling);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.dingaling);
     }
 
     public void PlayMicroTick()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.microTick);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.microTick);
     }
     
     public void PlayPopup()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.popup);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.popup);
     }
     
     public void PlayInception()
     {
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.inception);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.inception);
     }
 
     public void PlayWhacACatBgm()
     {
         if (BgmAudioSourceActive)
         {
-            instance.bgmAudioSource.Stop();
-            instance.bgmAudioSource.PlayOneShot(instance.whacACatBgm);
+            Instance.bgmAudioSource.Stop();
+            Instance.bgmAudioSource.PlayOneShot(Instance.whacACatBgm);
             CurrentBgmType = BgmType.WhacACat;
         }
     }
@@ -330,15 +330,15 @@ public class Sound : MonoBehaviour
     {
         if (BgmAudioSourceActive)
         {
-            instance.bgmAudioSource.Stop();
-            instance.bgmAudioSource.PlayOneShot(instance.feverBgm);
+            Instance.bgmAudioSource.Stop();
+            Instance.bgmAudioSource.PlayOneShot(Instance.feverBgm);
             CurrentBgmType = BgmType.Fever;
         }
     }
 
     public void StopCurrentBgm()
     {
-        instance.bgmAudioSource.Stop();
+        Instance.bgmAudioSource.Stop();
     }
 
 
@@ -379,9 +379,9 @@ public class Sound : MonoBehaviour
         if (Verbose) ConDebug.Log(nameof(PlayFillOkay));
 
         // 게임 처음 로딩 중에 들어오는 건 재생하지 말자
-        if (BlackContext.instance != null && BlackContext.instance.LoadedAtLeastOnce == false) return;
+        if (BlackContext.Instance != null && BlackContext.Instance.LoadedAtLeastOnce == false) return;
 
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.fillOkay);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.fillOkay);
     }
     
     public void PlayFillError()
@@ -389,8 +389,8 @@ public class Sound : MonoBehaviour
         if (Verbose) ConDebug.Log(nameof(PlayFillError));
 
         // 게임 처음 로딩 중에 들어오는 건 재생하지 말자
-        if (BlackContext.instance != null && BlackContext.instance.LoadedAtLeastOnce == false) return;
+        if (BlackContext.Instance != null && BlackContext.Instance.LoadedAtLeastOnce == false) return;
 
-        if (SfxAudioSourceActive) instance.sfxAudioSource.PlayOneShot(instance.fillError);
+        if (SfxAudioSourceActive) Instance.sfxAudioSource.PlayOneShot(Instance.fillError);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class ProgressMessage : MonoBehaviour, IPlatformProgressMessage
 {
-    public static IPlatformProgressMessage instance;
+    public static IPlatformProgressMessage Instance;
 
     [SerializeField]
     GameObject closeButton;
@@ -55,7 +55,7 @@ public class ProgressMessage : MonoBehaviour, IPlatformProgressMessage
     public void CloseButtonPopup()
     {
         ConDebug.Log("ProgressMessage Close button popup");
-        BackButtonHandler.instance.PushAction(instance.PushCloseButton);
+        BackButtonHandler.Instance.PushAction(Instance.PushCloseButton);
         closeButton.SetActive(true);
     }
 

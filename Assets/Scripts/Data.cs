@@ -17,7 +17,7 @@ public class Data : MonoBehaviour
 {
     static bool Verbose => false;
 
-    public static Data instance;
+    public static Data Instance;
 
     public static DataSet dataSet;
 

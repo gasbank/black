@@ -21,16 +21,16 @@ public class GoldGroup : MonoBehaviour
 
     void OnEnable()
     {
-        BlackContext.instance.OnGoldChanged += UpdateGold;
+        BlackContext.Instance.OnGoldChanged += UpdateGold;
     }
 
     void OnDisable()
     {
-        BlackContext.instance.OnGoldChanged -= UpdateGold;
+        BlackContext.Instance.OnGoldChanged -= UpdateGold;
     }
 
     void UpdateGold()
     {
-        goldText.text = BlackContext.instance.Gold.ToString();
+        goldText.text = BlackContext.Instance.Gold.ToString();
     }
 }

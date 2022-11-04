@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlatformReceiptVerifier : MonoBehaviour
 {
-    public static PlatformReceiptVerifier instance;
+    public static PlatformReceiptVerifier Instance;
 
     static readonly string VERIFIER_URL =
         "https://hdsrvmrilf.execute-api.ap-northeast-2.amazonaws.com/default/verifyGoogleReceipt";
@@ -27,16 +27,16 @@ public class PlatformReceiptVerifier : MonoBehaviour
         try
         {
             using var httpClient = new HttpClient();
-            PlatformInterface.instance.logger.Log($"HttpClient GET TO {VERIFIER_URL}...");
+            PlatformInterface.Instance.logger.Log($"HttpClient GET TO {VERIFIER_URL}...");
             httpClient.DefaultRequestHeaders.Add("x-api-key", VERIFIER_API_KEY);
             httpClient.DefaultRequestHeaders.Add("receipt-to-be-verified", Base64Encode(receipt));
             var getTask = await httpClient.GetAsync(new Uri(VERIFIER_URL));
 
-            PlatformInterface.instance.logger.Log($"HttpClient Result: {getTask.ReasonPhrase}");
+            PlatformInterface.Instance.logger.Log($"HttpClient Result: {getTask.ReasonPhrase}");
 
             if (getTask.IsSuccessStatusCode)
             {
-                PlatformInterface.instance.logger.Log("Receipt verification result - success.");
+                PlatformInterface.Instance.logger.Log("Receipt verification result - success.");
                 return true;
             }
 

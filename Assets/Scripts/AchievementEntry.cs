@@ -41,26 +41,26 @@ public class AchievementEntry : MonoBehaviour
         // add reward
         // TODO 애니메이션은 다음 빌드에 넣는다
         // var clonedGameObject = InstantiateLocalized.InstantiateLocalize(rewardGemImage.gameObject,
-        //     BlackContext.instance.AnimatedIncrementParent, true);
-        BlackContext.instance.AddGoldSafe((ulong) achievementData.rewardGem.ToLong());
+        //     BlackContext.Instance.AnimatedIncrementParent, true);
+        BlackContext.Instance.AddGoldSafe((ulong) achievementData.rewardGem.ToLong());
         ConDebug.Log((ulong) achievementData.rewardGem.ToLong());
 
-        // BlackContext.instance.IncreaseGemAnimated(achievementData.rewardGem, clonedGameObject,
+        // BlackContext.Instance.IncreaseGemAnimated(achievementData.rewardGem, clonedGameObject,
         //     BlackLogEntry.Type.GemAddAchievement, achievementData.id);
-        Sound.instance.PlaySoftTada();
+        Sound.Instance.PlaySoftTada();
 
         // update redeemed stat
         if (achievementData.condition == "maxBlackLevel")
-            BlackContext.instance.AchievementRedeemed.MaxBlackLevel = (ulong) achievementData.conditionNewArg.ToLong();
+            BlackContext.Instance.AchievementRedeemed.MaxBlackLevel = (ulong) achievementData.conditionNewArg.ToLong();
         else if (achievementData.condition == "maxColoringCombo")
-            BlackContext.instance.AchievementRedeemed.MaxColoringCombo = (ulong) achievementData.conditionNewArg.ToLong();
+            BlackContext.Instance.AchievementRedeemed.MaxColoringCombo = (ulong) achievementData.conditionNewArg.ToLong();
         else
             Debug.LogErrorFormat("Unknown achievement condition: {0}", achievementData.condition);
 
         // refresh achievement popup
-        // *** 여기서 다시 갱신할 필요는 없다. BlackContext.instance.achievementRedeemed의 프로퍼티가 변경될 때
+        // *** 여기서 다시 갱신할 필요는 없다. BlackContext.Instance.achievementRedeemed의 프로퍼티가 변경될 때
         // *** 암묵적으로 갱신이 된다. 여기서 하면 같은 일을 두 번 하는 것이다.
         // GetComponentInParent<AchievementPopup>().UpdateAchievementTab();
-        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
+        SaveLoadManager.Save(BlackContext.Instance, ConfigPopup.Instance, Sound.Instance, Data.Instance, null);
     }
 }

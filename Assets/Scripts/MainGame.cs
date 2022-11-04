@@ -17,7 +17,7 @@ public class MainGame : MonoBehaviour
 
     static readonly int ColorTexture = Shader.PropertyToID("ColorTexture");
 
-    public static MainGame instance;
+    public static MainGame Instance;
 
     [SerializeField]
     GridWorld gridWorld;
@@ -195,16 +195,16 @@ public class MainGame : MonoBehaviour
 
     public void OnFinishConfirmButton()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
 
         if (gridWorld != null) gridWorld.WriteStageSaveData();
 
         if (gridWorld.RewardGoldAmount > 0)
         {
-            ConfirmPopup.instance.Open(@"\클리어를 축하합니다. {0}골드를 받았습니다.".Localized(gridWorld.RewardGoldAmount),
+            ConfirmPopup.Instance.Open(@"\클리어를 축하합니다. {0}골드를 받았습니다.".Localized(gridWorld.RewardGoldAmount),
                 () => SceneManager.LoadScene("Lobby"));
 
-            Sound.instance.PlaySoftTada();
+            Sound.Instance.PlaySoftTada();
         }
         else
         {
@@ -214,7 +214,7 @@ public class MainGame : MonoBehaviour
 
     public void ToggleComboAdminMode()
     {
-        BlackContext.instance.ComboAdminMode = !BlackContext.instance.ComboAdminMode;
+        BlackContext.Instance.ComboAdminMode = !BlackContext.Instance.ComboAdminMode;
     }
 
     public void LoadMuseumScene()
@@ -244,7 +244,7 @@ public class MainGame : MonoBehaviour
             {
                 DeactivateTime();
                 gridWorld.DeleteSaveFile();
-                ConfirmPopup.instance.Open("제한 시간이 지났습니다. 처음부터 다시 시작해야합니다.",
+                ConfirmPopup.Instance.Open("제한 시간이 지났습니다. 처음부터 다시 시작해야합니다.",
                     () => SceneManager.LoadScene("Lobby"));
             }
         }
@@ -278,9 +278,9 @@ public class MainGame : MonoBehaviour
 
     public void OpenResetStageConfirmPopup()
     {
-        ConfirmPopup.instance.OpenYesNoPopup(@"\이 스테이지를 처음부터 새로 시작하겠습니까?".Localized(),
+        ConfirmPopup.Instance.OpenYesNoPopup(@"\이 스테이지를 처음부터 새로 시작하겠습니까?".Localized(),
             ResetStage,
-            ConfirmPopup.instance.Close);
+            ConfirmPopup.Instance.Close);
     }
 
     public void OnPaletteChange(int paletteButtonIndex)

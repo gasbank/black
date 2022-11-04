@@ -33,14 +33,14 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
         if (!PlatformLogin.IsAuthenticated && PlayerPrefs.GetInt(GAME_CENTER_LOGIN_DISABLED_FLAG_PREF_KEY, 0) != 0)
         {
             // 유저가 직접 홈 -> 설정 -> Game Center 로그인을 해야 한다는 것을 알려야된다.
-            PlatformInterface.instance.confirmPopup.Open(
-                PlatformInterface.instance.textHelper.GetText("platform_game_center_login_required_popup"));
+            PlatformInterface.Instance.confirmPopup.Open(
+                PlatformInterface.Instance.textHelper.GetText("platform_game_center_login_required_popup"));
             return false;
         }
 
         if (!PlatformLogin.IsAuthenticated)
         {
-            PlatformInterface.instance.confirmPopup.OpenYesNoPopup(
+            PlatformInterface.Instance.confirmPopup.OpenYesNoPopup(
                 platform.GetText("platform_game_center_login_required_popup"),
                 onNotLoggedIn, onAbort);
             return false;
@@ -53,13 +53,13 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
 
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-            PlatformInterface.instance.confirmPopup.Open(
-                PlatformInterface.instance.textHelper.GetText("platform_load_require_internet_popup"));
+            PlatformInterface.Instance.confirmPopup.Open(
+                PlatformInterface.Instance.textHelper.GetText("platform_load_require_internet_popup"));
             return false;
         }
 
         if (string.IsNullOrEmpty(progressMessage) == false)
-            PlatformInterface.instance.progressMessage.Open(progressMessage);
+            PlatformInterface.Instance.progressMessage.Open(progressMessage);
 
         return true;
     }
@@ -68,7 +68,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
     {
         if (!PlatformLogin.IsAuthenticated)
         {
-            PlatformInterface.instance.logger.LogFormat("GetCloudSavedAccountData: not authenticated");
+            PlatformInterface.Instance.logger.LogFormat("GetCloudSavedAccountData: not authenticated");
             onPeekResult?.Invoke(null);
 
             return;
@@ -79,9 +79,9 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
         // 이를 위해 onPeekResult를 챙겨둔다.
         onPeekResultSave = onPeekResult;
         if (Application.platform == RuntimePlatform.IPhonePlayer)
-            PlatformIosNative.loadFromCloudPrivate(Social.localUser.id, PlatformInterface.instance.text.LoginErrorTitle,
-                PlatformInterface.instance.text.LoginErrorMessage,
-                PlatformInterface.instance.text.ConfirmMessage);
+            PlatformIosNative.loadFromCloudPrivate(Social.localUser.id, PlatformInterface.Instance.text.LoginErrorTitle,
+                PlatformInterface.Instance.text.LoginErrorMessage,
+                PlatformInterface.Instance.text.ConfirmMessage);
     }
 
     public void ExecuteCloudLoad()
@@ -95,17 +95,17 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
 
     public void ExecuteCloudSave()
     {
-        PlatformInterface.instance.saveLoadManager.SaveBeforeCloudSave();
+        PlatformInterface.Instance.saveLoadManager.SaveBeforeCloudSave();
         platformSaveUtil.ShowSaveProgressPopup();
 #pragma warning disable 219
-        var savedData = PlatformInterface.instance.saveUtil.SerializeSaveData();
+        var savedData = PlatformInterface.Instance.saveUtil.SerializeSaveData();
 #pragma warning restore 219
         // 아래 함수의 호출 결과는 결과는 PlatformCallbackHandler GameObject의
         // PlatformCallbackHandler.OnIosSaveResult()로 비동기적으로 호출되는 것으로 처리한다.
         if (Application.platform == RuntimePlatform.IPhonePlayer)
             PlatformIosNative.saveToCloudPrivate(Social.localUser.id, Convert.ToBase64String(savedData),
-                PlatformInterface.instance.text.LoginErrorTitle, PlatformInterface.instance.text.LoginErrorMessage,
-                PlatformInterface.instance.text.ConfirmMessage);
+                PlatformInterface.Instance.text.LoginErrorTitle, PlatformInterface.Instance.text.LoginErrorMessage,
+                PlatformInterface.Instance.text.ConfirmMessage);
     }
 
     public async void Login(Action<bool, string> onAuthResult)
@@ -142,7 +142,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
         // Game Center 로그인 성공/실패 유무에 따른 플래그 업데이트
         PlayerPrefs.SetInt(GAME_CENTER_LOGIN_FAILED_FLAG_PREF_KEY, b ? 0 : 1);
 
-        PlatformInterface.instance.logger.LogFormat("iOS Game Center Login Result: {0} / Reason: {1}", b, reason);
+        PlatformInterface.Instance.logger.LogFormat("iOS Game Center Login Result: {0} / Reason: {1}", b, reason);
 
         // 회수 제한 마지막 기회임을 체크해서 다시는 시도하지 않도록 한다.
         // 그런데... reason은 유저가 읽을 수 있도록 시스템 언어 설정에 따라
@@ -211,7 +211,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
 
     public void Logout()
     {
-        PlatformInterface.instance.logger.Log("PlatformIos.Logout()");
+        PlatformInterface.Instance.logger.Log("PlatformIos.Logout()");
     }
 
     public void PreAuthenticate()
@@ -224,7 +224,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
         {
 #if UNITY_IOS
             var text = $"{title}\n{body}";
-            PlatformInterface.instance.logger.Log("Schedule Local Notification");
+            PlatformInterface.Instance.logger.Log("Schedule Local Notification");
 #pragma warning disable 618
             UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
             UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
@@ -277,7 +277,7 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
             platformSaveUtil.ShowSaveResultPopup();
         else // handle error
             platformSaveUtil.ShowSaveErrorPopup(
-                PlatformInterface.instance.textHelper.GetText("platform_cloud_save_fail") +
+                PlatformInterface.Instance.textHelper.GetText("platform_cloud_save_fail") +
                 "\n\n" + result);
     }
 
@@ -285,42 +285,42 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
     {
         if (result == "OK")
         {
-            PlatformInterface.instance.logger.LogFormat("OnCloudLoadResult: data length {0} bytes",
+            PlatformInterface.Instance.logger.LogFormat("OnCloudLoadResult: data length {0} bytes",
                 data?.Length ?? 0);
             // 메타데이터 조회의 경우와 실제 세이브 데이터 로딩의 경우를 나눠서 처리
             if (onPeekResultSave != null)
             {
-                PlatformInterface.instance.logger.Log("OnCloudLoadResult: onPeekResultSave valid");
+                PlatformInterface.Instance.logger.Log("OnCloudLoadResult: onPeekResultSave valid");
                 onPeekResultSave(data);
                 onPeekResultSave = null;
             }
             else
             {
-                PlatformInterface.instance.logger.Log("OnCloudLoadResult: onPeekResultSave empty. data load...");
+                PlatformInterface.Instance.logger.Log("OnCloudLoadResult: onPeekResultSave empty. data load...");
                 if (data == null || data.Length == 0)
                 {
                     platformSaveUtil.ShowLoadErrorPopup("OnCloudLoadResult: Cloud save data corrupted");
                 }
                 else
                 {
-                    PlatformInterface.instance.logger.LogFormat("OnCloudLoadResult: success! - Data size: {0} bytes",
+                    PlatformInterface.Instance.logger.LogFormat("OnCloudLoadResult: success! - Data size: {0} bytes",
                         data.Length);
-                    var remoteSaveDict = PlatformInterface.instance.saveUtil.DeserializeSaveData(data);
-                    PlatformInterface.instance.saveUtil.LoadDataAndLoadSplashScene(remoteSaveDict);
+                    var remoteSaveDict = PlatformInterface.Instance.saveUtil.DeserializeSaveData(data);
+                    PlatformInterface.Instance.saveUtil.LoadDataAndLoadSplashScene(remoteSaveDict);
                 }
             }
         }
         else
         {
             platformSaveUtil.ShowSaveErrorPopup(
-                PlatformInterface.instance.textHelper.GetText("platform_cloud_load_fail") +
+                PlatformInterface.Instance.textHelper.GetText("platform_cloud_load_fail") +
                 "\n\n" + result);
         }
     }
 
     public void RequestUserReview()
     {
-        Application.OpenURL(PlatformInterface.instance.config.GetUserReviewUrl());
+        Application.OpenURL(PlatformInterface.Instance.config.GetUserReviewUrl());
     }
 
     public void RegisterSingleNotification(string title, string body, int afterMs, string largeIcon)
@@ -340,6 +340,6 @@ public class PlatformIos : MonoBehaviour, IPlatformBase
 
     public string GetAccountTypeText()
     {
-        return PlatformInterface.instance.textHelper.GetText("platform_account_game_center");
+        return PlatformInterface.Instance.textHelper.GetText("platform_account_game_center");
     }
 }

@@ -43,9 +43,9 @@ public class BlackLogViewer : MonoBehaviour
 
     void OnEnable()
     {
-        logSource = BlackLogManager.instance;
+        logSource = BlackLogManager.Instance;
         UpdateToPage(0);
-        loadRemoteLogButton.SetActive(BlackContext.instance.CheatMode);
+        loadRemoteLogButton.SetActive(BlackContext.Instance.CheatMode);
     }
 
     void UpdateToPage(int page)
@@ -123,11 +123,11 @@ public class BlackLogViewer : MonoBehaviour
 
     public void LoadRemoteLog()
     {
-        ConfirmPopup.instance.OpenInputFieldPopup("Play Log Error Device ID", async () =>
+        ConfirmPopup.Instance.OpenInputFieldPopup("Play Log Error Device ID", async () =>
         {
-            ConfirmPopup.instance.Close();
+            ConfirmPopup.Instance.Close();
             var remoteLogSource = new BlackRemoteLogSource();
-            await remoteLogSource.LoadPlayLogAsync(ConfirmPopup.instance.InputFieldText);
+            await remoteLogSource.LoadPlayLogAsync(ConfirmPopup.Instance.InputFieldText);
             logSource = remoteLogSource;
 
             var allEntries = logSource.Read(LogFileReadOffset, 0, (int) logSource.Count());
@@ -139,7 +139,7 @@ public class BlackLogViewer : MonoBehaviour
             foreach (var logEntry in allEntries) sb.AppendLine(logEntry.ToTabbedString());
 
             File.WriteAllText("remotelog.txt", sb.ToString());
-        }, () => { ConfirmPopup.instance.Close(); }, "Remote Log", Header.Normal, "", "");
+        }, () => { ConfirmPopup.Instance.Close(); }, "Remote Log", Header.Normal, "", "");
     }
 
     public interface IBlackLogSource
@@ -189,7 +189,7 @@ public class BlackLogViewer : MonoBehaviour
         public async Task LoadPlayLogAsync(string playLogCode)
         {
             var saveDbUrl = ConfigPopup.BaseUrl + "/playLog";
-            ProgressMessage.instance.Open("Loading play log");
+            ProgressMessage.Instance.Open("Loading play log");
             playLogCode = playLogCode.Trim();
             var url = string.Format("{0}/{1}", saveDbUrl, playLogCode);
             ConDebug.LogFormat("URL: {0}", url);
@@ -237,7 +237,7 @@ public class BlackLogViewer : MonoBehaviour
             finally
             {
                 // 어떤 경우가 됐든지 마지막으로는 진행 상황 창을 닫아야 한다.
-                ProgressMessage.instance.Close();
+                ProgressMessage.Instance.Close();
             }
         }
     }

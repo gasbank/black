@@ -40,7 +40,7 @@ public class StageDetailPopup : MonoBehaviour
     [SerializeField]
     bool replay;
 
-    public static bool IsAllCleared => BlackContext.instance.LastClearedStageId >= Data.dataSet.StageSequenceData.Count;
+    public static bool IsAllCleared => BlackContext.Instance.LastClearedStageId >= Data.dataSet.StageSequenceData.Count;
 
     public float StageLockDetailTime
     {
@@ -72,19 +72,19 @@ public class StageDetailPopup : MonoBehaviour
         if (stageIndex < 0) stageIndex = 0;
 
         // 한번 깼던 판 다시 꺠려고 하는 것인가?
-        replay = stageIndex + 1 <= BlackContext.instance.LastClearedStageId;
+        replay = stageIndex + 1 <= BlackContext.Instance.LastClearedStageId;
 
         if (IsAllCleared && replay == false)
         {
             //Debug.LogError("lastClearedStageId exceeds Data.dataSet.StageMetadataList count.");
-            ConfirmPopup.instance.Open(@"\모든 스테이지를 깼습니다!\n진정한 미술관 재건이 시작되는 다음 업데이트를 기대 해 주세요!".Localized(),
-                ConfirmPopup.instance.Close);
+            ConfirmPopup.Instance.Open(@"\모든 스테이지를 깼습니다!\n진정한 미술관 재건이 시작되는 다음 업데이트를 기대 해 주세요!".Localized(),
+                ConfirmPopup.Instance.Close);
             return;
         }
 
         stageProgress.ProgressInt = stageIndex % 5;
 
-        ProgressMessage.instance.Open(@"\그림을 준비하는 중...".Localized());
+        ProgressMessage.Instance.Open(@"\그림을 준비하는 중...".Localized());
 
         // 마지막 클리어한 ID는 1-based이고, 아래 함수는 0-based로 작동하므로
         // 다음으로 플레이할 스테이지를 가져올 때는 그대로 ID를 넘기면 된다.
@@ -115,7 +115,7 @@ public class StageDetailPopup : MonoBehaviour
             }
         }
 
-        ProgressMessage.instance.Close();
+        ProgressMessage.Instance.Close();
         var resumed = stageButton.SetStageMetadata(stageMetadata);
         subcanvas.Open();
 
@@ -139,17 +139,17 @@ public class StageDetailPopup : MonoBehaviour
 
         if (bottomTip != null)
         {
-            if (BlackContext.instance.LastClearedStageId == 0)
+            if (BlackContext.Instance.LastClearedStageId == 0)
             {
                 bottomTip.SetMessage("\\시작하기를 눌러 색칠을 시작하세요~!".Localized());
                 bottomTip.OpenSubcanvas();
             }
-            else if (BlackContext.instance.LastClearedStageId == 1)
+            else if (BlackContext.Instance.LastClearedStageId == 1)
             {
                 bottomTip.SetMessage("\\잘 했어요! 다음 스테이지도 어서어서 색칠합시다.".Localized());
                 bottomTip.OpenSubcanvas();
             }
-            else if (BlackContext.instance.LastClearedStageId == 4)
+            else if (BlackContext.Instance.LastClearedStageId == 4)
             {
                 bottomTip.SetMessage("\\이번 스테이지는 시간제한이 있는 '관문 스테이지'예요! 파이팅!!!".Localized());
                 bottomTip.OpenSubcanvas();
@@ -203,7 +203,7 @@ public class StageDetailPopup : MonoBehaviour
     {
         if (bottomTip == null) return;
 
-        if (BlackContext.instance.LastClearedStageId == 0)
+        if (BlackContext.Instance.LastClearedStageId == 0)
         {
             bottomTip.SetMessage("\\이젤을 터치해서 색칠할 그림을 확인해봐요.".Localized());
         }
@@ -215,7 +215,7 @@ public class StageDetailPopup : MonoBehaviour
 
     public void OnStageStartButton()
     {
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
 
         if (stageLocker.Locked == false
 #if DEV_BUILD
@@ -228,23 +228,23 @@ public class StageDetailPopup : MonoBehaviour
                 var stageMetadata = stageButton.GetStageMetadata();
                 var stageTitle = Data.dataSet.StageSequenceData[stageMetadata.StageIndex].title;
 
-                ConfirmPopup.instance.OpenYesNoPopup(
+                ConfirmPopup.Instance.OpenYesNoPopup(
                     @"\'{0}' 스테이지를 시작할까요?\n\n설정 메뉴에서 언제든지 미술관으로 돌아올 수 있습니다.".Localized(stageTitle),
-                    GoToMain, ConfirmPopup.instance.Close);
+                    GoToMain, ConfirmPopup.Instance.Close);
             }
             else
             {
                 GoToMain();
             }
         }
-        else if (PlatformAdMobAds.instance != null)
+        else if (PlatformAdMobAds.Instance != null)
         {
             var adContext = new BlackAdContext(stageLocker.Unlock);
-            PlatformAdMobAds.instance.TryShowRewardedAd(adContext);
+            PlatformAdMobAds.Instance.TryShowRewardedAd(adContext);
         }
         else
         {
-            ConfirmPopup.instance.OpenSimpleMessage(
+            ConfirmPopup.Instance.OpenSimpleMessage(
                 Application.isEditor
                     ? "Ad not supported on this platform. Click the button while Left Shift key."
                     : "Ad Mob instance not found.");
@@ -254,7 +254,7 @@ public class StageDetailPopup : MonoBehaviour
     void GoToMain()
     {
         stageButton.SetStageMetadataToCurrent(replay);
-        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance,
+        SaveLoadManager.Save(BlackContext.Instance, ConfigPopup.Instance, Sound.Instance, Data.Instance,
             null);
         SceneManager.LoadScene("Main");
     }

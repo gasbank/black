@@ -58,27 +58,27 @@ public class MuseumDebris : MonoBehaviour
     {
         if (toBeClosed) return;
         
-        Sound.instance.PlayButtonClick();
+        Sound.Instance.PlayButtonClick();
 
-        ConfirmPopup.instance.OpenYesNoPopup(
+        ConfirmPopup.Instance.OpenYesNoPopup(
             @"\잔해를 치울까요? {0}골드가 필요합니다.".Localized(clearPrice),
             TryClearDebris,
-            ConfirmPopup.instance.Close);
+            ConfirmPopup.Instance.Close);
     }
 
     void TryClearDebris()
     {
-        if (BlackContext.instance.Gold < clearPrice.ToUInt128())
+        if (BlackContext.Instance.Gold < clearPrice.ToUInt128())
         {
-            ConfirmPopup.instance.Open(
+            ConfirmPopup.Instance.Open(
                 @"\골드가 부족합니다.".Localized(),
-                ConfirmPopup.instance.Close);
+                ConfirmPopup.Instance.Close);
             
-            Sound.instance.PlayErrorBuzzer();
+            Sound.Instance.PlayErrorBuzzer();
         }
         else
         {
-            BlackContext.instance.SubtractGold(clearPrice);
+            BlackContext.Instance.SubtractGold(clearPrice);
             toBeClosed = true;
 
             var poof = Instantiate(poofPrefab, transform.parent).GetComponent<Poof>();
@@ -87,11 +87,11 @@ public class MuseumDebris : MonoBehaviour
             poofTransform.localPosition = transform.localPosition;
             poofTransform.localScale = Vector3.one;
 
-            Sound.instance.PlayWhooshAir();
+            Sound.Instance.PlayWhooshAir();
             
             Close();
             
-            ConfirmPopup.instance.Close();
+            ConfirmPopup.Instance.Close();
         }
     }
 
@@ -107,10 +107,10 @@ public class MuseumDebris : MonoBehaviour
 
     public void UpdateExclamationMark()
     {
-        if (BlackContext.instance != null)
+        if (BlackContext.Instance != null)
         {
             exclamationMark.gameObject.SetActive(subcanvas.IsOpen &&
-                                                 BlackContext.instance.Gold >= clearPrice.ToUInt128());
+                                                 BlackContext.Instance.Gold >= clearPrice.ToUInt128());
         }
     }
 }

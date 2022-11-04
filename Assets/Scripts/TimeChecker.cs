@@ -3,7 +3,7 @@
 [DisallowMultipleComponent]
 public class TimeChecker : MonoBehaviour
 {
-    public static TimeChecker instance;
+    public static TimeChecker Instance;
 
     public int GetLastSavedTimeTotalSeconds()
     {

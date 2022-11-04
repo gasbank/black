@@ -185,10 +185,10 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     // 특별 코인 획득 연출 - 아직 완성되지 않은 기능이므로 런칭스펙에서는 빼자.
                     //StartAnimateFillCoin(localPoint);
 
-                    Sound.instance.PlayFillOkay();
+                    Sound.Instance.PlayFillOkay();
 
-                    BlackContext.instance.StageCombo++;
-                    comboEffector.Play(BlackContext.instance.StageCombo);
+                    BlackContext.Instance.StageCombo++;
+                    comboEffector.Play(BlackContext.Instance.StageCombo);
 
                     // 이번에 칠한 칸이 마지막 칸인가? (모두 칠했는가?)
                     if (IsLabelByMinPointEmpty
@@ -206,11 +206,11 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     if (fillResult == FillResult.WrongColor)
                     {
                         // TODO: 아래 메시지 번역키로 대응 필요
-                        ToastMessage.instance.PlayWarnAnim("색을 다시 확인해주세요");
+                        ToastMessage.Instance.PlayWarnAnim("색을 다시 확인해주세요");
                         
-                        if (!BlackContext.instance.ComboAdminMode)
+                        if (!BlackContext.Instance.ComboAdminMode)
                         {
-                            BlackContext.instance.StageCombo = 0;
+                            BlackContext.Instance.StageCombo = 0;
                         }
                     }
                 }
@@ -244,31 +244,31 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             if (Data.dataSet.StageSequenceData[i].stageName == stageName)
             {
-                var oldClearedStageId = BlackContext.instance.LastClearedStageId;
+                var oldClearedStageId = BlackContext.Instance.LastClearedStageId;
                 var newClearedStageId = i + 1;
 
-                BlackContext.instance.LastClearedStageId = Mathf.Max(oldClearedStageId, newClearedStageId);
+                BlackContext.Instance.LastClearedStageId = Mathf.Max(oldClearedStageId, newClearedStageId);
 
                 // 스테이지 클리어에 진전이 있었다. 보상을 준다.
                 if (newClearedStageId > oldClearedStageId)
                 {
                     // 관문 스테이지는 추가 골드를 더 준다.
                     RewardGoldAmount = new UInt128(newClearedStageId % 5 == 0 ? 3 : 1);
-                    BlackContext.instance.AddPendingGold(RewardGoldAmount);
+                    BlackContext.Instance.AddPendingGold(RewardGoldAmount);
 
-                    BlackContext.instance.AchievementGathered.MaxBlackLevel =
-                        (UInt128) BlackContext.instance.LastClearedStageId.ToInt();
+                    BlackContext.Instance.AchievementGathered.MaxBlackLevel =
+                        (UInt128) BlackContext.Instance.LastClearedStageId.ToInt();
                 }
             }
         }
 
-        var combo = (UInt128) BlackContext.instance.StageCombo.ToInt();
-        if (BlackContext.instance.AchievementGathered.MaxColoringCombo < combo)
+        var combo = (UInt128) BlackContext.Instance.StageCombo.ToInt();
+        if (BlackContext.Instance.AchievementGathered.MaxColoringCombo < combo)
         {
-            BlackContext.instance.AchievementGathered.MaxColoringCombo = combo;
+            BlackContext.Instance.AchievementGathered.MaxColoringCombo = combo;
         }
 
-        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
+        SaveLoadManager.Save(BlackContext.Instance, ConfigPopup.Instance, Sound.Instance, Data.Instance, null);
     }
 
     public UInt128 RewardGoldAmount { get; private set; }
@@ -420,7 +420,7 @@ public class GridWorld : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         stageSaveManager.Save(StageName, coloredMinPoints, mainGame.GetRemainTime());
 
         // 전체 저장 데이터
-        SaveLoadManager.Save(BlackContext.instance, ConfigPopup.instance, Sound.instance, Data.instance, null);
+        SaveLoadManager.Save(BlackContext.Instance, ConfigPopup.Instance, Sound.Instance, Data.Instance, null);
     }
 
     void OnApplicationQuit()

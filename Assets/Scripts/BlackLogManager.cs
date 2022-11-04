@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IPlatformLogManager
 {
-    public static BlackLogManager instance;
+    public static BlackLogManager Instance;
 
     [SerializeField]
     BlackLogViewer logViewer;
@@ -66,7 +66,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
 
     void Awake()
     {
-        instance = this;
+        Instance = this;
         writeLogStream = File.Open(LogFilePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
     }
 
@@ -117,12 +117,12 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
     {
         try
         {
-            if (instance != null && instance.writeLogStream != null)
+            if (Instance != null && Instance.writeLogStream != null)
             {
                 var logBytes = GetLogEntryBytes(type, arg1, arg2);
-                instance.writeLogStream.Write(logBytes, 0, logBytes.Length);
+                Instance.writeLogStream.Write(logBytes, 0, logBytes.Length);
                 // 로그 항목이 생길 때마다 UI를 업데이트하는 것은 일반적인 유저에게는 불필요한 일이다.
-                if (Application.isEditor && instance.logViewer != null) instance.logViewer.Refresh();
+                if (Application.isEditor && Instance.logViewer != null) Instance.logViewer.Refresh();
             }
         }
         catch
@@ -140,7 +140,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
 
     FileStream OpenReadLogStream()
     {
-        return File.Open(instance.LogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        return File.Open(Instance.LogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
     }
 
     public async Task<string> UploadPlayLogAsync(byte[] playLogBytes, int uncompressedBytesLength,
@@ -150,9 +150,9 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
                          string.IsNullOrEmpty(receipt) == false;
         var uploadPlayLogFileOrReceiptDbUrl = ConfigPopup.BaseUrl + "/" + (hasReceipt ? receiptDomain : "playLog");
         var ownProgressMessage = string.IsNullOrEmpty(progressMessage) == false;
-        if (ownProgressMessage) ProgressMessage.instance.Open(progressMessage);
+        if (ownProgressMessage) ProgressMessage.Instance.Open(progressMessage);
 
-        var errorDeviceId = ErrorReporter.instance.GetOrCreateErrorDeviceId();
+        var errorDeviceId = ErrorReporter.Instance.GetOrCreateErrorDeviceId();
         var url = string.Format("{0}/{1}", uploadPlayLogFileOrReceiptDbUrl, hasReceipt ? receiptId : errorDeviceId);
         var saveFile = new PlayLogFile();
         var uploadDate = DateTime.UtcNow;
@@ -213,7 +213,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
 
         try
         {
-            saveFile.fields.gemStr.stringValue = BlackContext.instance.Gem.ToString("n0");
+            saveFile.fields.gemStr.stringValue = BlackContext.Instance.Gem.ToString("n0");
         }
         catch
         {
@@ -275,7 +275,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
                     {
                         ConDebug.Log("Play log uploaded successfully.");
                         //var msg = string.Format("\\업로드가 성공적으로 완료됐습니다.\\n\\n업로드 코드: {0}\\n용량: {1:n0}바이트\\nTS: {2}\\n\\n<color=brown>본 화면의 스크린샷을 찍어 공식 카페에 버그 신고를 부탁 드립니다.</color>\\n\\n업로드된 데이터를 분석 후, 카페를 통해 이후 진행을 안내드리겠습니다.\\n\\n공식 카페로 이동하거나, 안내 받은 복구 코드를 입력하세요.".Localized(), errorDeviceId, patchData.Length, saveFile.fields.uploadDate.timestampValue);
-                        //ConfirmPopup.instance.OpenTwoButtonPopup(msg, () => ConfigPopup.instance.OpenCommunity(), () => SaveLoadManager.EnterRecoveryCode(exceptionList, st), "\\업로드 완료".Localized(), "\\공식 카페 이동".Localized(), "\\복구 코드 입력".Localized());
+                        //ConfirmPopup.Instance.OpenTwoButtonPopup(msg, () => ConfigPopup.Instance.OpenCommunity(), () => SaveLoadManager.EnterRecoveryCode(exceptionList, st), "\\업로드 완료".Localized(), "\\공식 카페 이동".Localized(), "\\복구 코드 입력".Localized());
                     }
                     else
                     {
@@ -293,7 +293,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
         {
             if (ownProgressMessage)
                 // 어떤 경우가 됐든지 마지막으로는 진행 상황 창을 닫아야 한다.
-                ProgressMessage.instance.Close();
+                ProgressMessage.Instance.Close();
         }
 
         return reasonPhrase;
@@ -311,7 +311,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
 #endif
         ConDebug.Log($"Dumping log for last {count:n0} log entries...");
         var dummyLogEntryBytes = GetLogEntryBytes(BlackLogEntry.Type.GameLoaded, 0, 0);
-        using (var readLogStream = instance.OpenReadLogStream())
+        using (var readLogStream = Instance.OpenReadLogStream())
         {
             readLogStream.Seek(Math.Max(0, readLogStream.Length - count * dummyLogEntryBytes.Length), SeekOrigin.Begin);
             var bytes = new byte[count * dummyLogEntryBytes.Length];
@@ -332,7 +332,7 @@ public class BlackLogManager : MonoBehaviour, BlackLogViewer.IBlackLogSource, IP
             var outBytesLength = LZ4Codec.Encode(bytes, 0, readByteCount, outBytes, 0, outBytes.Length);
             ConDebug.Log($"Compressed log size: {outBytesLength:n0} bytes");
             outBytes = outBytes.Take(outBytesLength).ToArray();
-            return await instance.UploadPlayLogAsync(outBytes, readByteCount, progressMessage, receiptDomain, receiptId,
+            return await Instance.UploadPlayLogAsync(outBytes, readByteCount, progressMessage, receiptDomain, receiptId,
                 receipt);
         }
     }

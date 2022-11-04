@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ToastMessage : MonoBehaviour
 {
-    public static ToastMessage instance;
+    public static ToastMessage Instance;
 
     [SerializeField]
     public Image background;
@@ -22,7 +22,7 @@ public class ToastMessage : MonoBehaviour
         message.text = msg;
 
         animator.Play("ToastMessageGood", -1, 0f);
-        Sound.instance.PlayJingleAchievement();
+        Sound.Instance.PlayJingleAchievement();
     }
 
     public void PlayWarnAnim(string msg)
@@ -31,6 +31,6 @@ public class ToastMessage : MonoBehaviour
 
         message.text = msg;
         animator.Play("ToastMessageWarn", -1, 0f);
-        Sound.instance.PlayFillError();
+        Sound.Instance.PlayFillError();
     }
 }

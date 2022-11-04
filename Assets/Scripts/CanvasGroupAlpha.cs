@@ -160,11 +160,11 @@ public class CanvasGroupAlpha : MonoBehaviour
     {
 //        if (gameObject.IsBlocksRaycasts())
 //        {
-//            SceneVisibilityManager.instance.EnablePicking(gameObject, true);
+//            SceneVisibilityManager.Instance.EnablePicking(gameObject, true);
 //        }
 //        else
 //        {
-//            SceneVisibilityManager.instance.DisablePicking(gameObject, true);
+//            SceneVisibilityManager.Instance.DisablePicking(gameObject, true);
 //        }
 //
 //        EditorUtility.SetDirty(SceneVisibilityManager.instance);
