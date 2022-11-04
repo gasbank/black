@@ -32,6 +32,13 @@ public class DialogGroup : MonoBehaviour
 
     async void Start()
     {
+        // 광고 로딩, iOS ATT 권한 획득
+        // (광고 로딩이 오래 걸리기 때문에 아래 광고 시작 이벤트 대화보다 빨리 시작해두는 게 좋다.)
+        if (BlackContext.Instance.LastClearedStageId >= 3)
+        {
+            PlatformAdMobAdsInit.Instance.Init();
+        }
+        
         // 신규 유저 어서오고
         if (BlackContext.Instance.LastClearedStageId == 0 && BlackContext.Instance.LastClearedStageIdEvent < 0)
         {
@@ -42,12 +49,6 @@ public class DialogGroup : MonoBehaviour
         if (BlackContext.Instance.LastClearedStageId == 3 && BlackContext.Instance.LastClearedStageIdEvent < 3)
         {
             await StartFairyDialogInternalAsync();
-        }
-
-        // 광고 로딩, iOS ATT 권한 획득
-        if (BlackContext.Instance.LastClearedStageId >= 3)
-        {
-            PlatformAdMobAdsInit.Instance.Init();
         }
 
         BlackContext.Instance.LastClearedStageIdEvent = BlackContext.Instance.LastClearedStageId;
