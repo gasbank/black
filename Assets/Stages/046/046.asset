@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b23da9edfa09124e9e96153e459fd51, type: 3}
+  m_Name: 046
+  m_EditorClassIdentifier: 
+  rawStageData: {fileID: 4900000, guid: f1cd49e14625c4e91a81c197b6514007, type: 3}
+  sdfMaterial: {fileID: 2100000, guid: 3cfef1687849f4522bdc836ce7a200b0, type: 2}
+  a1Tex: {fileID: 2800000, guid: cd58339a2c1d343629dac607cdbafdc7, type: 3}
+  a2Tex: {fileID: 2800000, guid: 68311b942ed004802a15d578c863ac88, type: 3}
+  outlineThreshold: 30

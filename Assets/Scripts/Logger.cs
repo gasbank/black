@@ -5,7 +5,7 @@ public static class Logger
 {
     public static void WriteLine(string s)
     {
-#if UNITY_2020
+#if UNITY_2020_1_OR_NEWER
         ConDebug.Log(s);
 #else
         Logger.WriteLine(s);
@@ -14,7 +14,7 @@ public static class Logger
 
     public static void WriteErrorLine(string s)
     {
-#if UNITY_2020
+#if UNITY_2020_1_OR_NEWER
         Debug.LogError(s);
 #else
         Logger.WriteLine(s);

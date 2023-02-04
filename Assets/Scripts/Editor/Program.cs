@@ -14,7 +14,7 @@ using SixLabors.ImageSharp.Processing.Processors.Quantization;
 using SixLabors.ImageSharp.Processing.Processors.Transforms;
 using Color = SixLabors.ImageSharp.Color;
 using Vector4 = System.Numerics.Vector4;
-#if UNITY_2020
+#if UNITY_2020_1_OR_NEWER
 using Math = UnityEngine.Mathf;
 
 #endif

@@ -712,6 +712,7 @@ PlayerSettings:
   switchNetworkInterfaceManagerInitializeEnabled: 1
   switchPlayerConnectionEnabled: 1
   switchUseNewStyleFilepaths: 0
+  switchUseLegacyFmodPriorities: 1
   switchUseMicroSleepForYield: 1
   switchEnableRamDiskSupport: 0
   switchMicroSleepForYieldTime: 25
@@ -813,7 +814,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: MESSAGE_PACK;ADDRESSABLES;GOOGLE_MOBILE_ADS;NETCOREAPP;CONDITIONAL_DEBUG;DEV_BUILD
+    Android: MESSAGE_PACK;ADDRESSABLES;GOOGLE_MOBILE_ADS;NETCOREAPP;CONDITIONAL_DEBUG;DEV_BUILD;IMAGESHARP
     Standalone: MESSAGE_PACK;ADDRESSABLES;NETCOREAPP;NO_GPGS;CONDITIONAL_DEBUG;DEV_BUILD
     iPhone: MESSAGE_PACK;GOOGLE_MOBILE_ADS;NO_GPGS;ADDRESSABLES;NETCOREAPP;CONDITIONAL_DEBUG;DEV_BUILD
   additionalCompilerArguments: {}

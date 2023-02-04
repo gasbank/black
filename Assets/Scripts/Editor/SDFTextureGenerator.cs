@@ -36,7 +36,7 @@
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
-#if UNITY_2020
+#if UNITY_2020_1_OR_NEWER
 using Math = UnityEngine.Mathf;
 
 #endif

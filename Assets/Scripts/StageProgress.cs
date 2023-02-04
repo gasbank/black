@@ -39,6 +39,7 @@ public class StageProgress : MonoBehaviour
     void OnValidate()
     {
         AutoBindUtil.BindAll(this);
+
     }
 #endif
 
