@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: eaf0c953001814e98a30c064049a990b
-MonoImporter:
-  externalObjects: {}
-  serializedVersion: 2
-  defaultReferences: []
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+guid: 685dda80cd994008bf8bb721870d8118
+labels:
+- gvh
+- gvh_version-7.4.0
+- gvhp_exportpath-GoogleMobileAds/Editor/BuildPreProcessor.cs
+timeCreated: 1480838400
+DefaultImporter:
+  userData:
+  assetBundleName:
+  assetBundleVariant:
