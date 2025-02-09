@@ -615,3 +615,7 @@ GoogleService-Info.plist.meta
 /Assets/AddressableAssetsData/link.xml
 /Assets/AddressableAssetsData/link.xml.meta
 /.*keystore_pass
+
+
+!BlackDevTools/*.sln
+!BlackDevTools/BlackDevTools/*.csproj
