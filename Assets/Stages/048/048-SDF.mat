@@ -70,7 +70,7 @@ Material:
     m_Ints: []
     m_Floats:
     - ColorCount: 2
-    - DistanceOffset: 0.05
+    - DistanceOffset: 0.1
     - EdgeDistance: 1
     - StripeCount: 1
     - _BumpScale: 1
