@@ -91,7 +91,12 @@ public static class IosPostProcessBuild
             plist.WriteToFile(plistPath);
 
             // Copy entitlements file
-            File.Copy("black.entitlements", path + "/black.entitlements", true);
+            File.Copy("black.entitlements", Path.Combine(path, "black.entitlements"), true);
+            
+            // 생성된 Xcode 프로젝트 파일에서 Black.entitlements 파일을 아래 위치에서 찾는 것 같은데, 왜 찾는지 모르겠다.
+            // 모르겠지만 일단 그 위치에 대령 해 둬 보자.
+            Directory.CreateDirectory(Path.Combine(path, "build"));
+            File.Copy("black.entitlements", Path.Combine(path, "build", "Black.entitlements"), true);
 #endif
 
             // https://stackoverflow.com/questions/55419956/how-to-fix-pod-does-not-support-provisioning-profiles-in-azure-devops-build
