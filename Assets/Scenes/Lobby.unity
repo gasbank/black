@@ -5455,11 +5455,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1397155104}
     m_Modifications:
-    - target: {fileID: 1696434438258454978, guid: d206a0c5470a01a4a85d273e7c7ed246,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2099431032885015562, guid: d206a0c5470a01a4a85d273e7c7ed246,
         type: 3}
       propertyPath: miniroom
@@ -5568,21 +5563,6 @@ PrefabInstance:
     - target: {fileID: 5727798903500150614, guid: d206a0c5470a01a4a85d273e7c7ed246,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8964420888334231835, guid: d206a0c5470a01a4a85d273e7c7ed246,
-        type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8964420888334231835, guid: d206a0c5470a01a4a85d273e7c7ed246,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8964420888334231835, guid: d206a0c5470a01a4a85d273e7c7ed246,
-        type: 3}
-      propertyPath: m_BlocksRaycasts
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -58,6 +58,7 @@ public class MuseumImage : MonoBehaviour
     RectTransform rootCanvasRectTransform;
     CanvasGroup museumLevel0CanvasGroup;
     CanvasGroup museumLevel1CanvasGroup;
+    CanvasGroupAlpha museumLevel1CanvasGroupAlpha;
     readonly List<Transform> museumLevel1StartVisibleRoots = new();
     readonly List<Transform> museumLevel1FadeRoots = new();
     readonly List<Transform> museumLevel1SecondFloorRoots = new();
@@ -344,6 +345,7 @@ public class MuseumImage : MonoBehaviour
     {
         museumLevel0CanvasGroup = EnsureCanvasGroup(museumLevel0);
         museumLevel1CanvasGroup = EnsureCanvasGroup(museumLevel1);
+        museumLevel1CanvasGroupAlpha = museumLevel1 != null ? museumLevel1.GetComponent<CanvasGroupAlpha>() : null;
         EnsureCanvasGroup(museumLevel1RoomBase);
         EnsureCanvasGroup(museumLevel1RoomTop);
         EnsureCanvasGroup(museumLevel1RoomSecondFloor);
@@ -458,9 +460,12 @@ public class MuseumImage : MonoBehaviour
             {
                 RelativePath = relativePath,
                 Transform = leafTransform,
-                CanvasGroup = EnsureCanvasGroup(leafTransform),
                 CanvasGroupAlpha = leafTransform.GetComponent<CanvasGroupAlpha>()
             };
+
+            leafTarget.CanvasGroup = leafTarget.CanvasGroupAlpha == null
+                ? EnsureCanvasGroup(leafTransform)
+                : null;
 
             museumLevel1LeafTargets.Add(leafTarget);
             museumLevel1LeafTargetsByPath[relativePath] = leafTarget;
@@ -592,9 +597,7 @@ public class MuseumImage : MonoBehaviour
 
         if (museumLevel1CanvasGroup != null)
         {
-            museumLevel1CanvasGroup.alpha = 1.0f;
-            museumLevel1CanvasGroup.interactable = showLevel1;
-            museumLevel1CanvasGroup.blocksRaycasts = showLevel1;
+            SetMuseumLevel1RootAlpha(1.0f, showLevel1);
         }
 
         ResetMuseumLevel1RootVisibility();
@@ -646,12 +649,41 @@ public class MuseumImage : MonoBehaviour
 
     static void SetMuseumLevel1LeafAlpha(MuseumLevel1LeafTarget leafTarget, float alpha, bool canRaycast)
     {
-        SetCanvasGroupAlpha(leafTarget.CanvasGroup, alpha, canRaycast);
-
         if (leafTarget.CanvasGroupAlpha != null)
         {
             SetCanvasGroupAlpha(leafTarget.CanvasGroupAlpha, alpha, canRaycast);
+            return;
         }
+
+        SetCanvasGroupAlpha(leafTarget.CanvasGroup, alpha, canRaycast);
+    }
+
+    void SetMuseumLevel1TargetAlpha(Transform target, float alpha, bool canRaycast)
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        var canvasGroupAlpha = target.GetComponent<CanvasGroupAlpha>();
+        if (canvasGroupAlpha != null)
+        {
+            SetCanvasGroupAlpha(canvasGroupAlpha, alpha, canRaycast);
+            return;
+        }
+
+        SetCanvasGroupAlpha(EnsureCanvasGroup(target), alpha, canRaycast);
+    }
+
+    void SetMuseumLevel1RootAlpha(float alpha, bool canRaycast)
+    {
+        if (museumLevel1CanvasGroupAlpha != null)
+        {
+            SetCanvasGroupAlpha(museumLevel1CanvasGroupAlpha, alpha, canRaycast);
+            return;
+        }
+
+        SetCanvasGroupAlpha(museumLevel1CanvasGroup, alpha, canRaycast);
     }
 
     void ResetMuseumLevel1RootVisibility()
@@ -668,13 +700,7 @@ public class MuseumImage : MonoBehaviour
                 continue;
             }
 
-            SetCanvasGroupAlpha(EnsureCanvasGroup(rootChild), 1.0f, false);
-
-            var canvasGroupAlpha = rootChild.GetComponent<CanvasGroupAlpha>();
-            if (canvasGroupAlpha != null)
-            {
-                SetCanvasGroupAlpha(canvasGroupAlpha, 1.0f, false);
-            }
+            SetMuseumLevel1TargetAlpha(rootChild, 1.0f, false);
         }
     }
 
@@ -700,10 +726,15 @@ public class MuseumImage : MonoBehaviour
                 continue;
             }
 
-            SetCanvasGroupAlpha(EnsureCanvasGroup(root), rootAlpha, canRaycast);
+            SetMuseumLevel1TargetAlpha(root, rootAlpha, canRaycast);
 
             foreach (var canvasGroupAlpha in root.GetComponentsInChildren<CanvasGroupAlpha>(true))
             {
+                if (canvasGroupAlpha.transform == root)
+                {
+                    continue;
+                }
+
                 SetCanvasGroupAlpha(canvasGroupAlpha, childAlpha, canRaycast && rootAlpha > 0.0f);
             }
         }
@@ -718,10 +749,15 @@ public class MuseumImage : MonoBehaviour
                 continue;
             }
 
-            SetCanvasGroupAlpha(EnsureCanvasGroup(root), 0.0f, false);
+            SetMuseumLevel1TargetAlpha(root, 0.0f, false);
 
             foreach (var canvasGroupAlpha in root.GetComponentsInChildren<CanvasGroupAlpha>(true))
             {
+                if (canvasGroupAlpha.transform == root)
+                {
+                    continue;
+                }
+
                 SetCanvasGroupAlpha(canvasGroupAlpha, 1.0f, false);
             }
         }
@@ -736,10 +772,15 @@ public class MuseumImage : MonoBehaviour
                 continue;
             }
 
-            SetCanvasGroupAlpha(EnsureCanvasGroup(root), blend, canRaycast);
+            SetMuseumLevel1TargetAlpha(root, blend, canRaycast);
 
             foreach (var canvasGroupAlpha in root.GetComponentsInChildren<CanvasGroupAlpha>(true))
             {
+                if (canvasGroupAlpha.transform == root)
+                {
+                    continue;
+                }
+
                 SetCanvasGroupAlpha(canvasGroupAlpha, 1.0f, canRaycast && blend > 0.0f);
             }
         }
@@ -877,11 +918,9 @@ public class MuseumImage : MonoBehaviour
         museumLevel0.gameObject.SetActive(true);
         museumLevel1.gameObject.SetActive(true);
         museumLevel0CanvasGroup.alpha = 1.0f;
-        museumLevel1CanvasGroup.alpha = 1.0f;
         museumLevel0CanvasGroup.interactable = false;
         museumLevel0CanvasGroup.blocksRaycasts = false;
-        museumLevel1CanvasGroup.interactable = false;
-        museumLevel1CanvasGroup.blocksRaycasts = false;
+        SetMuseumLevel1RootAlpha(1.0f, false);
         ResetMuseumLevel1RootVisibility();
         SetMuseumLevel1TransitionLeafBlend(0.0f);
     }
@@ -901,13 +940,11 @@ public class MuseumImage : MonoBehaviour
         }
 
         museumLevel0CanvasGroup.alpha = 0.0f;
-        museumLevel1CanvasGroup.alpha = 1.0f;
         museumLevel0.gameObject.SetActive(false);
         museumLevel1.gameObject.SetActive(true);
         museumLevel0CanvasGroup.interactable = false;
         museumLevel0CanvasGroup.blocksRaycasts = false;
-        museumLevel1CanvasGroup.interactable = true;
-        museumLevel1CanvasGroup.blocksRaycasts = true;
+        SetMuseumLevel1RootAlpha(1.0f, true);
         ResetMuseumLevel1RootVisibility();
         SetMuseumLevel1TransitionLeafBlend(1.0f);
     }
