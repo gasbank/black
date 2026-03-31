@@ -355,7 +355,7 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(39);
+            writer.WriteArrayHeader(40);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.version, options);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastClearedStageId, options);
             formatterResolver.GetFormatterWithVerify<global::ScUInt128>().Serialize(ref writer, value.goldScUInt128, options);
@@ -395,6 +395,7 @@ namespace MessagePack.Formatters
             writer.Write(value.stageLockRemainTime);
             formatterResolver.GetFormatterWithVerify<global::StageSaveData>().Serialize(ref writer, value.wipStageSaveData, options);
             formatterResolver.GetFormatterWithVerify<global::ScInt>().Serialize(ref writer, value.lastClearedStageIdEvent, options);
+            writer.Write(value.hasPlayedMuseumLevel1Transition);
         }
 
         public global::BlackSaveData Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -446,6 +447,7 @@ namespace MessagePack.Formatters
             var __stageLockRemainTime__ = default(float);
             var __wipStageSaveData__ = default(global::StageSaveData);
             var __lastClearedStageIdEvent__ = default(global::ScInt);
+            var __hasPlayedMuseumLevel1Transition__ = default(bool);
 
             for (int i = 0; i < length; i++)
             {
@@ -570,6 +572,9 @@ namespace MessagePack.Formatters
                     case 38:
                         __lastClearedStageIdEvent__ = formatterResolver.GetFormatterWithVerify<global::ScInt>().Deserialize(ref reader, options);
                         break;
+                    case 39:
+                        __hasPlayedMuseumLevel1Transition__ = reader.ReadBoolean();
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -616,6 +621,7 @@ namespace MessagePack.Formatters
             ____result.stageLockRemainTime = __stageLockRemainTime__;
             ____result.wipStageSaveData = __wipStageSaveData__;
             ____result.lastClearedStageIdEvent = __lastClearedStageIdEvent__;
+            ____result.hasPlayedMuseumLevel1Transition = __hasPlayedMuseumLevel1Transition__;
             reader.Depth--;
             return ____result;
         }

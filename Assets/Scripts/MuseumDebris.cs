@@ -1,7 +1,7 @@
+using System;
 using Dirichlet.Numerics;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
@@ -23,6 +23,8 @@ public class MuseumDebris : MonoBehaviour
 
     [SerializeField]
     EaselExclamationMark exclamationMark;
+
+    public event Action Cleared;
 
     public bool IsExclamationMarkShown
     {
@@ -78,21 +80,45 @@ public class MuseumDebris : MonoBehaviour
         }
         else
         {
+            ClearDebrisInternal(true, true);
+        }
+    }
+
+    public void ClearForAdmin()
+    {
+#if DEV_BUILD
+        if (IsOpen)
+        {
+            ClearDebrisInternal(false, false);
+        }
+#endif
+    }
+
+    void ClearDebrisInternal(bool spendGold, bool closeConfirmPopup)
+    {
+        if (spendGold)
+        {
             BlackContext.Instance.SubtractGold(clearPrice);
-            toBeClosed = true;
+        }
 
-            var poof = Instantiate(poofPrefab, transform.parent).GetComponent<Poof>();
+        toBeClosed = true;
 
-            var poofTransform = poof.transform;
-            poofTransform.localPosition = transform.localPosition;
-            poofTransform.localScale = Vector3.one;
+        var poof = Instantiate(poofPrefab, transform.parent).GetComponent<Poof>();
 
-            Sound.Instance.PlayWhooshAir();
-            
-            Close();
-            
+        var poofTransform = poof.transform;
+        poofTransform.localPosition = transform.localPosition;
+        poofTransform.localScale = Vector3.one;
+
+        Sound.Instance.PlayWhooshAir();
+
+        Close();
+
+        if (closeConfirmPopup)
+        {
             ConfirmPopup.Instance.Close();
         }
+
+        Cleared?.Invoke();
     }
 
     [UsedImplicitly]

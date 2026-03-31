@@ -22,7 +22,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         BeforeStage
     }
 
-    const int LatestVersion = 4;
+    const int LatestVersion = 5;
     static readonly string localSaveFileName = "save.dat";
 
     public static SaveLoadManager Instance;
@@ -167,6 +167,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
             version = LatestVersion,
             lastClearedStageId = BlackContext.Instance.LastClearedStageId,
             lastClearedStageIdEvent = BlackContext.Instance.LastClearedStageIdEvent,
+            hasPlayedMuseumLevel1Transition = BlackContext.Instance.HasPlayedMuseumLevel1Transition,
             goldScUInt128 = BlackContext.Instance.Gold,
             clearedDebrisIndexList = BlackContext.Instance.GetDebrisState(),
             pendingGoldScUInt128 = BlackContext.Instance.PendingGold,
@@ -401,6 +402,7 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
         context.LastConsumedServiceIndex = blackSaveData.lastConsumedServiceIndex;
         context.LastClearedStageId = blackSaveData.lastClearedStageId;
         context.LastClearedStageIdEvent = blackSaveData.lastClearedStageIdEvent;
+        context.HasPlayedMuseumLevel1Transition = blackSaveData.hasPlayedMuseumLevel1Transition;
         context.SetGold(blackSaveData.goldScUInt128);
         context.SetDebrisState(blackSaveData.clearedDebrisIndexList);
         context.SetStageLockRemainTime(blackSaveData.stageLockRemainTime);
@@ -579,6 +581,15 @@ public class SaveLoadManager : MonoBehaviour, IPlatformSaveLoadManager
                 blackSaveData.version + 1);
 
             blackSaveData.lastClearedStageIdEvent = -1;
+
+            blackSaveData.version++;
+        }
+
+        if (blackSaveData.version == 4) {
+            ConDebug.LogFormat("Upgrading save file version from {0} to {1}", blackSaveData.version,
+                blackSaveData.version + 1);
+
+            blackSaveData.hasPlayedMuseumLevel1Transition = false;
 
             blackSaveData.version++;
         }

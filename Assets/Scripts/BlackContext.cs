@@ -19,6 +19,9 @@ public class BlackContext : MonoBehaviour, IBlackContext
     ScInt lastClearedStageIdEvent;
 
     [SerializeField]
+    bool hasPlayedMuseumLevel1Transition;
+
+    [SerializeField]
     ScUInt128 paidGem;
 
     [SerializeField]
@@ -309,6 +312,12 @@ public class BlackContext : MonoBehaviour, IBlackContext
     {
         get => lastClearedStageIdEvent;
         set => lastClearedStageIdEvent = value;
+    }
+
+    public bool HasPlayedMuseumLevel1Transition
+    {
+        get => hasPlayedMuseumLevel1Transition;
+        set => hasPlayedMuseumLevel1Transition = value;
     }
 
     public List<ScFloat> StageClearTimeList { get; set; }

@@ -34,6 +34,7 @@ public interface IBlackContext
 
     ScInt LastClearedStageId { get; set; }
     ScInt LastClearedStageIdEvent { get; set; }
+    bool HasPlayedMuseumLevel1Transition { get; set; }
     List<ScFloat> StageClearTimeList { get; set; }
     bool NextStagePurchased { get; set; }
     ScInt CoinAmount { get; set; }

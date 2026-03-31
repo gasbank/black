@@ -532,6 +532,22 @@ public class Admin : MonoBehaviour
         CloseAdminMenu();
 #endif
     }
+
+    public void ClearAllLevel0Debris()
+    {
+#if DEV_BUILD
+        var targetMuseumImage = FindObjectOfType<MuseumImage>();
+        if (targetMuseumImage == null)
+        {
+            Debug.LogWarning("MuseumImage not found.");
+            return;
+        }
+
+        CloseAdminMenu();
+        targetMuseumImage.ClearAllLevel0DebrisForAdmin();
+        SaveLoadManager.Save(BlackContext.Instance, ConfigPopup.Instance, Sound.Instance, Data.Instance, null);
+#endif
+    }
     
     public static bool IsAdUnitIdModeTest => PlayerPrefs.GetInt("AD_UNIT_ID_MODE", 0) != 0;
 

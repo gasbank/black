@@ -26,6 +26,9 @@ public class PinchZoom : MonoBehaviour
     [SerializeField]
     AdminButtonGroup adminButtonGroup;
 
+    [SerializeField]
+    MuseumImage museumImage;
+
     float lastMultiTouchDistance;
 
     public static bool PinchZooming => Touch.activeTouches.Count == 2;
@@ -43,6 +46,16 @@ public class PinchZoom : MonoBehaviour
 
     void Update()
     {
+        if (museumImage == null)
+        {
+            museumImage = GetComponent<MuseumImage>();
+        }
+
+        if (museumImage != null && museumImage.CanInteract == false)
+        {
+            return;
+        }
+
         if (Touch.activeFingers.Count == 2)
         {
             ZoomCamera(Touch.activeTouches[0], Touch.activeTouches[1]);
@@ -99,4 +112,11 @@ public class PinchZoom : MonoBehaviour
             sensitivity.ToString(CultureInfo.InvariantCulture),
             string.Empty);
     }
+
+#if UNITY_EDITOR
+    void OnValidate()
+    {
+        museumImage = GetComponent<MuseumImage>();
+    }
+#endif
 }

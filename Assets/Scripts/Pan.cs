@@ -22,9 +22,25 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
     [SerializeField]
     RectTransform targetImage;
 
+    [SerializeField]
+    MuseumImage museumImage;
+
+    bool CanInteract
+    {
+        get
+        {
+            if (museumImage == null)
+            {
+                museumImage = GetComponent<MuseumImage>();
+            }
+
+            return museumImage == null || museumImage.CanInteract;
+        }
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (PinchZoom.PinchZooming == false)
+        if (PinchZoom.PinchZooming == false && CanInteract)
         {
             panning = true;
             RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main,
@@ -43,7 +59,7 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
             }
         }
 
-        if (panning && (mainGame == null || mainGame.CanInteractPanAndZoom))
+        if (panning && CanInteract && (mainGame == null || mainGame.CanInteractPanAndZoom))
         {
             RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, Camera.main,
                 out var dragWorldPosition);
@@ -69,6 +85,7 @@ public class Pan : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
     void OnValidate()
     {
         rt = GetComponent<RectTransform>();
+        museumImage = GetComponent<MuseumImage>();
     }
 #endif
 }

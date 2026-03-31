@@ -124,4 +124,7 @@ public class BlackSaveData
     
     [Key(38)]
     public ScInt lastClearedStageIdEvent;
+
+    [Key(39)]
+    public bool hasPlayedMuseumLevel1Transition;
 }
