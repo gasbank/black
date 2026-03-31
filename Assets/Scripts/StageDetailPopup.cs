@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -10,6 +12,9 @@ using UnityEngine.UI;
 
 public class StageDetailPopup : MonoBehaviour
 {
+    static readonly Dictionary<int, Task<StageMetadata>> StageMetadataTaskCache =
+        new Dictionary<int, Task<StageMetadata>>();
+
     // 본 컴포넌트는 리플레이용과 새 스테이지 언락용 별개로 쓰고 있으므로 싱글턴 패턴 쓰지 않는다.
     //public static StageDetailPopup instance;
 
@@ -157,30 +162,55 @@ public class StageDetailPopup : MonoBehaviour
         }
     }
 
-    public static async Task<StageMetadata> LoadStageMetadataByZeroBasedIndexAsync(ScInt zeroBasedIndex)
+    public static void ClearStageMetadataCache()
+    {
+        StageMetadataTaskCache.Clear();
+    }
+
+    public static Task<StageMetadata> LoadStageMetadataByZeroBasedIndexAsync(ScInt zeroBasedIndex)
     {
         if (zeroBasedIndex < 0 || zeroBasedIndex >= Data.dataSet.StageMetadataLocList.Count)
         {
             Debug.LogError($"Stage index {zeroBasedIndex} (zero-based) is out of range");
-            return null;
-        }
-        
-        var stageMetadataLoc = Data.dataSet.StageMetadataLocList[zeroBasedIndex];
-        if (stageMetadataLoc == null)
-        {
-            Debug.LogError($"Stage metadata at index {zeroBasedIndex} (zero-based) is null");
-            return null;
+            return Task.FromResult<StageMetadata>(null);
         }
 
-        var stageMetadata = await Addressables.LoadAssetAsync<StageMetadata>(stageMetadataLoc).Task;
-        if (stageMetadata == null)
+        if (StageMetadataTaskCache.TryGetValue(zeroBasedIndex, out var cachedTask))
         {
-            Debug.LogError($"Stage metadata with zero based index {zeroBasedIndex} is null");
-            return null;
+            return cachedTask;
         }
 
-        stageMetadata.StageIndex = zeroBasedIndex;
-        return stageMetadata;
+        var loadTask = LoadStageMetadataInternalAsync(zeroBasedIndex);
+        StageMetadataTaskCache[zeroBasedIndex] = loadTask;
+        return loadTask;
+    }
+
+    static async Task<StageMetadata> LoadStageMetadataInternalAsync(ScInt zeroBasedIndex)
+    {
+        try
+        {
+            var stageMetadataLoc = Data.dataSet.StageMetadataLocList[zeroBasedIndex];
+            if (stageMetadataLoc == null)
+            {
+                Debug.LogError($"Stage metadata at index {zeroBasedIndex} (zero-based) is null");
+                return null;
+            }
+
+            var stageMetadata = await Addressables.LoadAssetAsync<StageMetadata>(stageMetadataLoc).Task;
+            if (stageMetadata == null)
+            {
+                Debug.LogError($"Stage metadata with zero based index {zeroBasedIndex} is null");
+                return null;
+            }
+
+            stageMetadata.StageIndex = zeroBasedIndex;
+            return stageMetadata;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+            return null;
+        }
     }
 
     [UsedImplicitly]
