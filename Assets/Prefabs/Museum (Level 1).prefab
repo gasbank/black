@@ -2945,7 +2945,7 @@ GameObject:
   - component: {fileID: 8756407581128330487}
   - component: {fileID: 7707810598466658344}
   m_Layer: 5
-  m_Name: Miniroom (2D)
+  m_Name: Museum (Level 1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
