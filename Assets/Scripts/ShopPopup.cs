@@ -29,4 +29,14 @@ public class ShopPopup : MonoBehaviour
     {
         AddAllProps();
     }
+
+    void OpenPopup()
+    {
+        
+    }
+
+    void ClosePopup()
+    {
+        
+    }
 }

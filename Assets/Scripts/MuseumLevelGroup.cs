@@ -34,7 +34,7 @@ public class MuseumLevelGroup : MonoBehaviour
 
     void Update()
     {
-        var isLevel1 = IsMuseumLevel1();
+        var isLevel1 = IsMuseumLevel1Unlocked();
         if (lastLevel1State != isLevel1)
         {
             Refresh(isLevel1);
@@ -44,7 +44,7 @@ public class MuseumLevelGroup : MonoBehaviour
     public static string ResolveMessage(string message)
     {
         // Existing scenes still pass the level 0 help text directly through button bindings.
-        return IsMuseumLevel1() && IsMuseumLevelMessage(message) ? Level1Message : message;
+        return IsMuseumLevel1Unlocked() && IsMuseumLevelMessage(message) ? Level1Message : message;
     }
 
     static bool IsMuseumLevelMessage(string message)
@@ -52,7 +52,7 @@ public class MuseumLevelGroup : MonoBehaviour
         return message == Level0Message || message == LegacyLevel0Message;
     }
 
-    static bool IsMuseumLevel1()
+    public static bool IsMuseumLevel1Unlocked()
     {
         return BlackContext.Instance != null &&
                BlackContext.Instance.LoadedAtLeastOnce &&
@@ -61,7 +61,7 @@ public class MuseumLevelGroup : MonoBehaviour
 
     void Refresh()
     {
-        Refresh(IsMuseumLevel1());
+        Refresh(IsMuseumLevel1Unlocked());
     }
 
     void Refresh(bool isLevel1)
