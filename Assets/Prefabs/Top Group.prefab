@@ -1144,6 +1144,7 @@ GameObject:
   - component: {fileID: 8659993156876880512}
   - component: {fileID: 4314196379742922575}
   - component: {fileID: 5194782236775864819}
+  - component: {fileID: 8659993156876880511}
   m_Layer: 5
   m_Name: Level Group
   m_TagString: Untagged
@@ -1301,6 +1302,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &8659993156876880511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8659993156876880542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c224aa4867e42e984e27c6422dcbfd0, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  levelText: {fileID: 8659993157411971219}
 --- !u!1 &8659993156901501953
 GameObject:
   m_ObjectHideFlags: 0
@@ -2127,7 +2141,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: --
+  m_Text: ---
 --- !u!1 &8659993157854806471
 GameObject:
   m_ObjectHideFlags: 0

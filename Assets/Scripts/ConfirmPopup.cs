@@ -639,14 +639,14 @@ public class ConfirmPopup : MonoBehaviour, IPlatformConfirmPopup
     public void OpenSimpleMessage(string inMessage)
     {
         ConDebug.Log(nameof(OpenSimpleMessage));
-        Open(inMessage, Close);
+        Open(MuseumLevelGroup.ResolveMessage(inMessage), Close);
     }
     
     public void OpenSimpleMessageWithClickSound(string inMessage)
     {
         ConDebug.Log(nameof(OpenSimpleMessageWithClickSound));
         Sound.Instance.PlayButtonClick();
-        Open(inMessage, Close);
+        Open(MuseumLevelGroup.ResolveMessage(inMessage), Close);
     }
     
     public void OpenSimpleMessageWithClickSoundAndResumeDirector(string inMessage)
