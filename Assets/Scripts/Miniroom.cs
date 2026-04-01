@@ -372,9 +372,10 @@ public class Miniroom : MonoBehaviour
             return;
         }
 
+        var isVisible = alpha > 0.0f;
         canvasGroup.alpha = alpha;
-        canvasGroup.interactable = canRaycast && alpha > 0.0f;
-        canvasGroup.blocksRaycasts = canRaycast && alpha > 0.0f;
+        canvasGroup.interactable = isVisible;
+        canvasGroup.blocksRaycasts = isVisible;
     }
 
     static void SetCanvasGroupAlpha(CanvasGroupAlpha canvasGroupAlpha, float alpha, bool canRaycast)
@@ -384,7 +385,7 @@ public class Miniroom : MonoBehaviour
             return;
         }
 
-        canvasGroupAlpha.DisableRaycasts = canRaycast == false || alpha <= 0.0f;
+        canvasGroupAlpha.DisableRaycasts = alpha <= 0.0f;
         canvasGroupAlpha.SetAlphaImmediately(alpha);
     }
 
