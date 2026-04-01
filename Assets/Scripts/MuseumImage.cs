@@ -46,29 +46,12 @@ public class MuseumImage : MonoBehaviour
         public bool BlocksRaycasts;
     }
 
-    struct MuseumLevel1LeafTarget
-    {
-        public string RelativePath;
-        public Transform Transform;
-        public CanvasGroup CanvasGroup;
-        public CanvasGroupAlpha CanvasGroupAlpha;
-    }
-
     Transform museumStageRoot;
     RectTransform rootCanvasRectTransform;
     CanvasGroup museumLevel0CanvasGroup;
     CanvasGroup museumLevel1CanvasGroup;
     CanvasGroupAlpha museumLevel1CanvasGroupAlpha;
-    readonly List<Transform> museumLevel1StartVisibleRoots = new();
-    readonly List<Transform> museumLevel1FadeRoots = new();
-    readonly List<Transform> museumLevel1SecondFloorRoots = new();
-    readonly List<MuseumLevel1LeafTarget> museumLevel1LeafTargets = new();
-    readonly Dictionary<string, MuseumLevel1LeafTarget> museumLevel1LeafTargetsByPath = new(StringComparer.Ordinal);
-    readonly HashSet<string> museumLevel1TransitionVisibleLeafPathSet = new(StringComparer.Ordinal)
-    {
-        "Room (Base)",
-        "Room (Top)"
-    };
+    Miniroom museumLevel1Miniroom;
     readonly List<CanvasGroupState> hiddenUiRootStates = new();
     int transitionBlackoutOriginalSiblingIndex = -1;
     bool initialized;
@@ -220,51 +203,30 @@ public class MuseumImage : MonoBehaviour
 
     public List<string> GetMuseumLevel1LeafPathList()
     {
-        RefreshMuseumLevel1LeafTargets();
-        return museumLevel1LeafTargets.Select(e => e.RelativePath).ToList();
+        return museumLevel1Miniroom != null
+            ? museumLevel1Miniroom.GetLeafPathList()
+            : new List<string>();
     }
 
     public bool TrySetMuseumLevel1LeafVisibility(string relativePath, float alpha, bool canRaycast = false)
     {
-        RefreshMuseumLevel1LeafTargets();
-
-        if (museumLevel1LeafTargetsByPath.TryGetValue(relativePath, out var leafTarget) == false)
-        {
-            return false;
-        }
-
-        SetMuseumLevel1LeafAlpha(leafTarget, alpha, canRaycast);
-        return true;
+        return museumLevel1Miniroom != null &&
+               museumLevel1Miniroom.TrySetLeafVisibility(relativePath, alpha, canRaycast);
     }
 
     public void SetMuseumLevel1LeafVisibility(IEnumerable<string> relativePathList, float alpha, bool canRaycast = false)
     {
-        if (relativePathList == null)
+        if (museumLevel1Miniroom != null)
         {
-            return;
-        }
-
-        RefreshMuseumLevel1LeafTargets();
-        foreach (var relativePath in relativePathList)
-        {
-            if (string.IsNullOrEmpty(relativePath))
-            {
-                continue;
-            }
-
-            if (museumLevel1LeafTargetsByPath.TryGetValue(relativePath, out var leafTarget))
-            {
-                SetMuseumLevel1LeafAlpha(leafTarget, alpha, canRaycast);
-            }
+            museumLevel1Miniroom.SetLeafVisibility(relativePathList, alpha, canRaycast);
         }
     }
 
     public void SetAllMuseumLevel1LeafVisibility(float alpha, bool canRaycast = false)
     {
-        RefreshMuseumLevel1LeafTargets();
-        foreach (var leafTarget in museumLevel1LeafTargets)
+        if (museumLevel1Miniroom != null)
         {
-            SetMuseumLevel1LeafAlpha(leafTarget, alpha, canRaycast);
+            museumLevel1Miniroom.SetAllLeafVisibility(alpha, canRaycast);
         }
     }
 
@@ -346,11 +308,7 @@ public class MuseumImage : MonoBehaviour
         museumLevel0CanvasGroup = EnsureCanvasGroup(museumLevel0);
         museumLevel1CanvasGroup = EnsureCanvasGroup(museumLevel1);
         museumLevel1CanvasGroupAlpha = museumLevel1 != null ? museumLevel1.GetComponent<CanvasGroupAlpha>() : null;
-        EnsureCanvasGroup(museumLevel1RoomBase);
-        EnsureCanvasGroup(museumLevel1RoomTop);
-        EnsureCanvasGroup(museumLevel1RoomSecondFloor);
-        RefreshMuseumLevel1FadeTargets();
-        RefreshMuseumLevel1LeafTargets();
+        museumLevel1Miniroom = museumLevel1 != null ? museumLevel1.GetComponent<Miniroom>() : null;
     }
 
     static CanvasGroup EnsureCanvasGroup(Transform target)
@@ -396,138 +354,6 @@ public class MuseumImage : MonoBehaviour
         transitionBlackoutOverlay.gameObject.SetActive(true);
         transitionBlackoutOriginalSiblingIndex = transitionBlackoutOverlay.rectTransform.GetSiblingIndex();
         RestoreTransitionBlackoutSibling();
-    }
-
-    void RefreshMuseumLevel1FadeTargets()
-    {
-        museumLevel1StartVisibleRoots.Clear();
-        museumLevel1FadeRoots.Clear();
-        museumLevel1SecondFloorRoots.Clear();
-
-        if (museumLevel1 == null)
-        {
-            return;
-        }
-
-        foreach (Transform rootChild in museumLevel1)
-        {
-            if (rootChild == null)
-            {
-                continue;
-            }
-
-            EnsureCanvasGroup(rootChild);
-            if (rootChild == museumLevel1RoomBase || rootChild == museumLevel1RoomTop)
-            {
-                museumLevel1StartVisibleRoots.Add(rootChild);
-                continue;
-            }
-
-            if (IsMuseumLevel1SecondFloorRoot(rootChild))
-            {
-                museumLevel1SecondFloorRoots.Add(rootChild);
-                continue;
-            }
-
-            museumLevel1FadeRoots.Add(rootChild);
-        }
-    }
-
-    void RefreshMuseumLevel1LeafTargets()
-    {
-        museumLevel1LeafTargets.Clear();
-        museumLevel1LeafTargetsByPath.Clear();
-
-        if (museumLevel1 == null)
-        {
-            return;
-        }
-
-        foreach (var leafTransform in EnumerateLeafTransforms(museumLevel1))
-        {
-            if (leafTransform == null)
-            {
-                continue;
-            }
-
-            var relativePath = GetMuseumLevel1RelativePath(leafTransform);
-            if (string.IsNullOrEmpty(relativePath))
-            {
-                continue;
-            }
-
-            var leafTarget = new MuseumLevel1LeafTarget
-            {
-                RelativePath = relativePath,
-                Transform = leafTransform,
-                CanvasGroupAlpha = leafTransform.GetComponent<CanvasGroupAlpha>()
-            };
-
-            leafTarget.CanvasGroup = leafTarget.CanvasGroupAlpha == null
-                ? EnsureCanvasGroup(leafTransform)
-                : null;
-
-            museumLevel1LeafTargets.Add(leafTarget);
-            museumLevel1LeafTargetsByPath[relativePath] = leafTarget;
-        }
-    }
-
-    static IEnumerable<Transform> EnumerateLeafTransforms(Transform root)
-    {
-        if (root == null)
-        {
-            yield break;
-        }
-
-        foreach (Transform child in root)
-        {
-            if (child == null)
-            {
-                continue;
-            }
-
-            if (child.childCount == 0)
-            {
-                yield return child;
-                continue;
-            }
-
-            foreach (var descendantLeaf in EnumerateLeafTransforms(child))
-            {
-                yield return descendantLeaf;
-            }
-        }
-    }
-
-    string GetMuseumLevel1RelativePath(Transform target)
-    {
-        if (museumLevel1 == null || target == null)
-        {
-            return null;
-        }
-
-        var pathPartList = new List<string>();
-        var current = target;
-        while (current != null && current != museumLevel1)
-        {
-            pathPartList.Add(current.name);
-            current = current.parent;
-        }
-
-        if (current != museumLevel1)
-        {
-            return null;
-        }
-
-        pathPartList.Reverse();
-        return string.Join("/", pathPartList);
-    }
-
-    bool IsMuseumLevel1SecondFloorRoot(Transform rootChild)
-    {
-        return rootChild != null &&
-               (rootChild == museumLevel1RoomSecondFloor ||
-                rootChild.name.IndexOf("Second Floor", StringComparison.Ordinal) >= 0);
     }
 
     void EnsureTransitionInputBlocker()
@@ -611,17 +437,26 @@ public class MuseumImage : MonoBehaviour
 
     void SetMuseumLevel1StartVisibleAlpha(float alpha)
     {
-        SetMuseumLevel1RootsAlpha(museumLevel1StartVisibleRoots, alpha, alpha > 0.0f ? 1.0f : 0.0f, false);
+        if (museumLevel1Miniroom != null)
+        {
+            museumLevel1Miniroom.SetStartVisibleAlpha(alpha);
+        }
     }
 
     void SetMuseumLevel1FadeAlpha(float alpha, bool canRaycast)
     {
-        SetMuseumLevel1RootsAlpha(museumLevel1FadeRoots, alpha, alpha > 0.0f ? 1.0f : 0.0f, canRaycast);
+        if (museumLevel1Miniroom != null)
+        {
+            museumLevel1Miniroom.SetFadeAlpha(alpha, canRaycast);
+        }
     }
 
     void SetMuseumLevel1SecondFloorAlpha(float alpha)
     {
-        SetMuseumLevel1RootsAlpha(museumLevel1SecondFloorRoots, alpha, alpha > 0.0f ? 1.0f : 0.0f, false);
+        if (museumLevel1Miniroom != null)
+        {
+            museumLevel1Miniroom.SetSecondFloorAlpha(alpha);
+        }
     }
 
     static void SetCanvasGroupAlpha(CanvasGroup canvasGroup, float alpha, bool canRaycast)
@@ -647,34 +482,6 @@ public class MuseumImage : MonoBehaviour
         canvasGroupAlpha.SetAlphaImmediately(alpha);
     }
 
-    static void SetMuseumLevel1LeafAlpha(MuseumLevel1LeafTarget leafTarget, float alpha, bool canRaycast)
-    {
-        if (leafTarget.CanvasGroupAlpha != null)
-        {
-            SetCanvasGroupAlpha(leafTarget.CanvasGroupAlpha, alpha, canRaycast);
-            return;
-        }
-
-        SetCanvasGroupAlpha(leafTarget.CanvasGroup, alpha, canRaycast);
-    }
-
-    void SetMuseumLevel1TargetAlpha(Transform target, float alpha, bool canRaycast)
-    {
-        if (target == null)
-        {
-            return;
-        }
-
-        var canvasGroupAlpha = target.GetComponent<CanvasGroupAlpha>();
-        if (canvasGroupAlpha != null)
-        {
-            SetCanvasGroupAlpha(canvasGroupAlpha, alpha, canRaycast);
-            return;
-        }
-
-        SetCanvasGroupAlpha(EnsureCanvasGroup(target), alpha, canRaycast);
-    }
-
     void SetMuseumLevel1RootAlpha(float alpha, bool canRaycast)
     {
         if (museumLevel1CanvasGroupAlpha != null)
@@ -688,101 +495,33 @@ public class MuseumImage : MonoBehaviour
 
     void ResetMuseumLevel1RootVisibility()
     {
-        if (museumLevel1 == null)
+        if (museumLevel1Miniroom != null)
         {
-            return;
-        }
-
-        foreach (Transform rootChild in museumLevel1)
-        {
-            if (rootChild == null)
-            {
-                continue;
-            }
-
-            SetMuseumLevel1TargetAlpha(rootChild, 1.0f, false);
+            museumLevel1Miniroom.ResetRootVisibility();
         }
     }
 
     void SetMuseumLevel1TransitionLeafBlend(float blend)
     {
-        RefreshMuseumLevel1LeafTargets();
-
-        foreach (var leafTarget in museumLevel1LeafTargets)
+        if (museumLevel1Miniroom != null)
         {
-            var alpha = museumLevel1TransitionVisibleLeafPathSet.Contains(leafTarget.RelativePath)
-                ? blend
-                : 0.0f;
-            SetMuseumLevel1LeafAlpha(leafTarget, alpha, false);
-        }
-    }
-
-    void SetMuseumLevel1RootsAlpha(IEnumerable<Transform> roots, float rootAlpha, float childAlpha, bool canRaycast)
-    {
-        foreach (var root in roots)
-        {
-            if (root == null)
-            {
-                continue;
-            }
-
-            SetMuseumLevel1TargetAlpha(root, rootAlpha, canRaycast);
-
-            foreach (var canvasGroupAlpha in root.GetComponentsInChildren<CanvasGroupAlpha>(true))
-            {
-                if (canvasGroupAlpha.transform == root)
-                {
-                    continue;
-                }
-
-                SetCanvasGroupAlpha(canvasGroupAlpha, childAlpha, canRaycast && rootAlpha > 0.0f);
-            }
+            museumLevel1Miniroom.SetTransitionLeafBlend(blend);
         }
     }
 
     void PrepareMuseumLevel1FadeRootsForCrossfade()
     {
-        foreach (var root in museumLevel1FadeRoots)
+        if (museumLevel1Miniroom != null)
         {
-            if (root == null)
-            {
-                continue;
-            }
-
-            SetMuseumLevel1TargetAlpha(root, 0.0f, false);
-
-            foreach (var canvasGroupAlpha in root.GetComponentsInChildren<CanvasGroupAlpha>(true))
-            {
-                if (canvasGroupAlpha.transform == root)
-                {
-                    continue;
-                }
-
-                SetCanvasGroupAlpha(canvasGroupAlpha, 1.0f, false);
-            }
+            museumLevel1Miniroom.PrepareFadeRootsForCrossfade();
         }
     }
 
     void SetMuseumLevel1FadeBlend(float blend, bool canRaycast)
     {
-        foreach (var root in museumLevel1FadeRoots)
+        if (museumLevel1Miniroom != null)
         {
-            if (root == null)
-            {
-                continue;
-            }
-
-            SetMuseumLevel1TargetAlpha(root, blend, canRaycast);
-
-            foreach (var canvasGroupAlpha in root.GetComponentsInChildren<CanvasGroupAlpha>(true))
-            {
-                if (canvasGroupAlpha.transform == root)
-                {
-                    continue;
-                }
-
-                SetCanvasGroupAlpha(canvasGroupAlpha, 1.0f, canRaycast && blend > 0.0f);
-            }
+            museumLevel1Miniroom.SetFadeBlend(blend, canRaycast);
         }
     }
 
@@ -984,7 +723,8 @@ public class MuseumImage : MonoBehaviour
         BlackContext.Instance.HasPlayedMuseumLevel1Transition = true;
         SaveLoadManager.Save(BlackContext.Instance, ConfigPopup.Instance, Sound.Instance, Data.Instance, null);
 
-        if (museumLevel0 == null || museumLevel1 == null || museumLevel0CanvasGroup == null || museumLevel1CanvasGroup == null)
+        if (museumLevel0 == null || museumLevel1 == null || museumLevel0CanvasGroup == null ||
+            museumLevel1CanvasGroup == null || museumLevel1Miniroom == null)
         {
             Debug.LogError("Museum level transition targets are not configured.");
             transitionPlaying = false;

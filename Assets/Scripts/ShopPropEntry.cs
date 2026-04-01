@@ -10,12 +10,23 @@ public class ShopPropEntry : MonoBehaviour
     Text propPgold;
 
     [field: SerializeField]
-    public GameObject PropTarget { get; set; }
+    public GameObject PropTarget { get; private set; }
+
+    Miniroom miniroom;
+    string propRelativePath;
 
     public bool PropTargetActive
     {
-        get => PropTarget.GetComponent<CanvasGroupAlpha>().TargetAlpha > 0;
-        set => PropTarget.GetComponent<CanvasGroupAlpha>().SetAlphaImmediately(value ? 1.0f : 0.0f);
+        get => miniroom != null && miniroom.IsLeafVisible(propRelativePath);
+        set
+        {
+            if (miniroom == null || string.IsNullOrEmpty(propRelativePath))
+            {
+                return;
+            }
+
+            miniroom.TrySetLeafVisibility(propRelativePath, value ? 1.0f : 0.0f);
+        }
     }
 
     public string PropName
@@ -28,5 +39,12 @@ public class ShopPropEntry : MonoBehaviour
     {
         get => propPgold.text;
         set => propPgold.text = value;
+    }
+
+    public void Bind(Miniroom targetMiniroom, string targetRelativePath)
+    {
+        miniroom = targetMiniroom;
+        propRelativePath = targetRelativePath;
+        PropTarget = null;
     }
 }
