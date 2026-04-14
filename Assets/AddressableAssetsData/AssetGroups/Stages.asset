@@ -207,6 +207,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Stage
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a15d963aeba84824686b77f3bf2f44cf
+    m_Address: 049
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Stage
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a244f9368eef04a9f891fb36f06d082d
     m_Address: 018
     m_ReadOnly: 0

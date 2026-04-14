@@ -619,3 +619,4 @@ GoogleService-Info.plist.meta
 
 !BlackDevTools/*.sln
 !BlackDevTools/BlackDevTools/*.csproj
+*.~lock.*
