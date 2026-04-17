@@ -271,7 +271,7 @@ PlayerSettings:
   AndroidAllowedArchitectures: -1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{inproject}: key/black-upload-key.jks'
+  AndroidKeystoreName: '{inproject}: key/black-upload-key-2026.keystore'
   AndroidKeyaliasName: upload
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidEnableArm64MTE: 0
